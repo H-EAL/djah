@@ -248,7 +248,7 @@ int main(int argc, char *argv[])
 
 	while( device->run() )
 	{
-		view *= math::make_rotation(math::deg_to_rad(0.4f), math::vector3f::z_axis);
+		view *= math::make_rotation(math::deg_to_rad(clk.getElapsedTimeSec()*100.0f/2.5f), math::vector3f::z_axis);
 		driver->setViewMatrix(view);
 
 		clk.restart();
