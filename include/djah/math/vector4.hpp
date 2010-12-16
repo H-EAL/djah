@@ -6,7 +6,8 @@
 namespace djah { namespace math {
 	
 	template<typename T>
-	class vector4 : public basic_vector<4,T>
+	class vector4
+		: public basic_vector<4,T>
 	{
 	public:
 

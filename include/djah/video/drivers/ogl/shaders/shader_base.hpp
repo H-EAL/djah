@@ -1,20 +1,13 @@
 #ifndef DJAH_VIDEO_DRIVERS_OGL_SHADER_BASE_HPP
 #define DJAH_VIDEO_DRIVERS_OGL_SHADER_BASE_HPP
 
-#include <string>
-#include <fstream>
-
-#include <boost/smart_ptr/scoped_array.hpp>
-#include <GL/glew.h>
-
 #include "../resource.hpp"
-#include "../../../../log/logger.hpp"
-#include "../../../../fs/filesystem.hpp"
 
 namespace djah { namespace video { namespace drivers { namespace ogl {
 
 	template<int ShaderType>
-	class shader_base : public resource
+	class shader_base
+		: public resource
 	{
 	public:
 
@@ -37,7 +30,5 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 	};
 
 } /*ogl*/ } /*drivers*/ } /*video*/ } /*djah*/
-
-#include "shader_base.inl"
 
 #endif /* DJAH_VIDEO_DRIVERS_OGL_SHADER_BASE_HPP */

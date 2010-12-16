@@ -7,7 +7,10 @@ namespace djah { namespace log {
 	html_logger::html_logger(const std::string &url)
 		: log_stream_(fs::filesystem::get_instance().openWriteStream(url))
 	{
-		write("<html><head><title>djah Log File</title><link rel=\"stylesheet\" type=\"text/css\" href=\"log_style.css\"/></head><body><table>");
+		write("<html><head><title>djah Log File</title>\
+				<link rel=\"stylesheet\" type=\"text/css\" href=\"log_style.css\"/>\
+				<script type=\"text/javascript\" src=\"log_script.js\"></script>\
+				</head><body><table>");
 	}
 	//--------------------------------------------------------------------------
 
@@ -45,7 +48,7 @@ namespace djah { namespace log {
 			n = parsed_msg.find("\n", n);
 		}
 
-		log_stream_->write(parsed_msg.c_str(), parsed_msg.size());
+		log_stream_->write(parsed_msg);
 	}
 	//--------------------------------------------------------------------------
 	

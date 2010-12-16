@@ -91,10 +91,10 @@ submesh::submesh(const mesh &m, const triangles &tris, const skin &skn)
 
 	const input *inputs[] =
 	{
-		get_input_by_semantic(ESS_VERTEX,			tris.inputs_),
-		get_input_by_semantic(ESS_NORMAL,			tris.inputs_),
-		get_input_by_semantic(ESS_TEXCOORD, 		tris.inputs_),
-		get_input_by_semantic(ESS_WEIGHT,			skn.vertex_weights_->inputs_)
+		get_input_by_semantic(ESS_VERTEX,	tris.inputs_),
+		get_input_by_semantic(ESS_NORMAL,	tris.inputs_),
+		get_input_by_semantic(ESS_TEXCOORD, tris.inputs_),
+		get_input_by_semantic(ESS_WEIGHT,	skn.vertex_weights_->inputs_)
 	};
 
 	std::string pos_src_id = get_source_id_by_semantic(ESS_POSITION, m.vertices_->inputs_);
@@ -102,8 +102,8 @@ submesh::submesh(const mesh &m, const triangles &tris, const skin &skn)
 	const source *srcs[] =
 	{
 		get_source_by_id(pos_src_id, m.sources_),
-		inputs[++ipt] ? get_source_by_id(inputs[ipt]->source_, m.sources_)		: 0,
-		inputs[++ipt] ? get_source_by_id(inputs[ipt]->source_, m.sources_)		: 0
+		inputs[++ipt] ? get_source_by_id(inputs[ipt]->source_, m.sources_)	: 0,
+		inputs[++ipt] ? get_source_by_id(inputs[ipt]->source_, m.sources_)	: 0
 	};
 
 	// Retrieve weights source
@@ -137,8 +137,6 @@ submesh::submesh(const mesh &m, const triangles &tris, const skin &skn)
 				const unsigned int index = attrib_stride * tris.indices_[i + attrib_offset] + s;
 				buffer_.push_back( srcs[v]->float_array_->data_[index] );
 			}
-
-
 		}
 	}
 

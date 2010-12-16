@@ -1,3 +1,11 @@
+#include <string>
+#include <GL/glew.h>
+#include <boost/smart_ptr/scoped_array.hpp>
+
+#include "video/drivers/ogl/shaders/shader_base.hpp"
+#include "log/logger.hpp"
+#include "fs/filesystem.hpp"
+
 namespace djah { namespace video { namespace drivers { namespace ogl {
 
 	//----------------------------------------------------------------------------------------------
@@ -110,7 +118,7 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 		glGetShaderInfoLog(id_, log_size, &log_size, log_str.get());
 
 		// TODO : throw some exception
-		log::logger::log(log::logger::EWL_CRITICAL)
+		log::logger::log(log::EWL_CRITICAL)
 			<< "====================================================================\n"
 			<< "                    SHADER COMPILATION ERROR(S)                     \n"
 			<< "--------------------------------------------------------------------\n"

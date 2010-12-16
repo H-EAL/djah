@@ -13,7 +13,7 @@ namespace djah { namespace math { namespace detail {
 	template<size_t SIZE, typename T>
 	vector_base<SIZE,T>::vector_base(const T (&array)[SIZE])
 	{
-		std::copy(begin(), end(), data_);
+		std::copy(array, array + SIZE, data_);
 	}
 	//------------------------------------------------------------------------------
 

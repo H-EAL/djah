@@ -29,9 +29,9 @@ namespace djah { namespace resources {
 
 
 	//----------------------------------------------------------------------------------------------
-	template<typename ExtraTypes = utils::nulltype>
+	template<typename ExtraTypes_ = utils::nulltype, typename DefaultTypes_ = DefaultTypes>
 	class media_manager
-		: public utils::gen_scatter_hierarchy<typename utils::tl::append<DefaultTypes,ExtraTypes>::Result, media_holder>
+		: public utils::gen_scatter_hierarchy<typename utils::tl::append<DefaultTypes_,ExtraTypes_>::Result, media_holder>
 	{
 	public:
 

@@ -5,8 +5,8 @@
 namespace djah { namespace log {
 
 	//--------------------------------------------------------------------------
-	logger::E_WARNING_LEVEL logger::level_ = logger::EWL_MEDIUM;
-	logger *logger::instance_ = 0;
+	E_WARNING_LEVEL logger_impl::level_ = EWL_MEDIUM;
+	logger_impl *logger::instance_ = 0;
 	//--------------------------------------------------------------------------
 
 
@@ -20,14 +20,14 @@ namespace djah { namespace log {
 	//--------------------------------------------------------------------------
 	logger::~logger()
 	{
-		//if( instance_ )
-		//	delete instance_;
+		if( instance_ )
+			delete instance_;
 	}
 	//--------------------------------------------------------------------------
 	
 	
 	//--------------------------------------------------------------------------
-	void logger::setLogger(logger *l)
+	void logger::setLogger(logger_impl *l)
 	{
 		if( instance_ )
 			delete instance_;
@@ -39,8 +39,9 @@ namespace djah { namespace log {
 	//--------------------------------------------------------------------------
 	void logger::setLevel(E_WARNING_LEVEL level)
 	{
+		assert(instance_ != 0);
 		if(level < EWL_COUNT)
-			level_ = level;
+			instance_->level_ = level;
 	}
 	//--------------------------------------------------------------------------
 	
@@ -48,6 +49,8 @@ namespace djah { namespace log {
 	//--------------------------------------------------------------------------
 	void logger::log(const char *format, ...)
 	{
+		assert(instance_ != 0);
+
 		char buffer[512];
 		va_list params;
 		va_start(params, format);
@@ -62,7 +65,7 @@ namespace djah { namespace log {
 	
 	
 	//--------------------------------------------------------------------------
-	logger& logger::log(E_WARNING_LEVEL level)
+	logger_impl& logger::log(E_WARNING_LEVEL level)
 	{
 		assert(instance_ != 0);
 		if(level != EWL_USELAST)

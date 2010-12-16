@@ -11,7 +11,8 @@ namespace djah { namespace math {
 	using namespace detail;
 
 	template<size_t SIZE, typename T>
-	class basic_vector : public vector_base<SIZE,T>
+	class basic_vector
+		: public vector_base<SIZE,T>
 	{
 	public:
 

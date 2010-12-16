@@ -41,7 +41,7 @@ void printInfosAux()
 	for(;it != itEnd; ++it)
 		extensions += "| " + (*it) + "\n";
 
-	log::logger::log(log::logger::EWL_NOTIFICATION)
+	log::logger::log(log::EWL_NOTIFICATION)
 		<< "===========================================================================\n"
 		<< "| Renderer                 | " << ogl::capabilities::renderer()        << "\n"
 		<< "| Vendor                   | " << ogl::capabilities::vendor()          << "\n"

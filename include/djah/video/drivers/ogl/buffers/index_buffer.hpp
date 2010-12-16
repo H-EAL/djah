@@ -12,7 +12,8 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 		EDM_TRIANGLE_STRIP	= GL_TRIANGLE_STRIP
 	};
 
-	class index_buffer : public buffer_base<GL_ELEMENT_ARRAY_BUFFER>
+	class index_buffer
+		: public buffer_base<GL_ELEMENT_ARRAY_BUFFER>
 	{
 	public:
 		index_buffer(size_t size, E_BUFFER_USAGE usage, E_DRAWING_MODE mode = EDM_TRIANGLES, bool auto_alloc = true)

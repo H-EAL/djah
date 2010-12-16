@@ -8,7 +8,7 @@
 namespace djah { namespace log {
 	
 	class html_logger
-		: public logger
+		: public logger_impl
 	{
 	public:
 

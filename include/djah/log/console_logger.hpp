@@ -6,7 +6,7 @@
 namespace djah { namespace log {
 	
 	class console_logger
-		: public logger
+		: public logger_impl
 	{
 	private:
 

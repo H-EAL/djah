@@ -37,12 +37,12 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 		if(error == GL_NO_ERROR)
 			return;
 
-		log::logger::log(log::logger::EWL_CRITICAL)	<< get_error_str(error)	<< " "
-										<< call					<< " "
-										<< file					<< " "
-										<< function				<< " "
-										<< line-1
-										<< log::logger::endl();
+		log::logger::log(log::EWL_CRITICAL)	<< get_error_str(error)	<< " "
+											<< call					<< " "
+											<< file					<< " "
+											<< function				<< " "
+											<< line-1
+											<< log::logger::endl();
 	}
 	//----------------------------------------------------------------------------------------------
 

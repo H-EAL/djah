@@ -5,7 +5,8 @@
 
 namespace djah { namespace video { namespace drivers { namespace ogl {
 
-	class uniform_buffer : public buffer_base<GL_UNIFORM_BUFFER>
+	class uniform_buffer
+		: public buffer_base<GL_UNIFORM_BUFFER>
 	{
 	public:
 		uniform_buffer(size_t size, E_BUFFER_USAGE usage, bool auto_alloc = true)

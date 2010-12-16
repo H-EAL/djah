@@ -25,13 +25,11 @@ namespace djah { namespace math {
 		return basic_matrix<4,T>(m);
 	}
 	//------------------------------------------------------------------------------
-	//------------------------------------------------------------------------------
 	template<typename T>
 	inline basic_matrix<4,T> make_translation(const vector3<T> &v)
 	{
 		return make_translation(v.x(), v.y(), v.z());
 	}
-	//------------------------------------------------------------------------------
 	//------------------------------------------------------------------------------
 	template<typename T>
 	inline basic_matrix<4,T> make_translation(const vector4<T> &v)
@@ -55,13 +53,11 @@ namespace djah { namespace math {
 		return basic_matrix<4,T>(m);
 	}
 	//------------------------------------------------------------------------------
-	//------------------------------------------------------------------------------
 	template<typename T>
 	inline basic_matrix<4,T> make_scale(const vector3<T> &v)
 	{
 		return make_scale(v.x(), v.y(), v.z());
 	}
-	//------------------------------------------------------------------------------
 	//------------------------------------------------------------------------------
 	template<typename T>
 	inline basic_matrix<4,T> make_scale(const vector4<T> &v)
@@ -105,13 +101,11 @@ namespace djah { namespace math {
 		return R;
 	}
 	//------------------------------------------------------------------------------
-	//------------------------------------------------------------------------------
 	template<typename A, typename T>
 	inline basic_matrix<4,T> make_rotation(A angle, const vector4<T> &axis)
 	{
 		return make_rotation(angle, vector3<T>(axis.x(), axis.y(), axis.z()));
 	}
-	//------------------------------------------------------------------------------
 	//------------------------------------------------------------------------------
 	template<typename A, typename T>
 	inline basic_matrix<4,T> make_rotation(A angle, T t_x, T t_y, T t_z)

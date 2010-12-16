@@ -1,10 +1,7 @@
 #ifndef DJAH_VIDEO_DRIVERS_OGL_BUFFER_BASE_HPP
 #define DJAH_VIDEO_DRIVERS_OGL_BUFFER_BASE_HPP
 
-#include <cassert>
-#include <GL/glew.h>
 #include "../resource.hpp"
-#include "../errors.hpp"
 
 namespace djah { namespace video { namespace drivers { namespace ogl {
 

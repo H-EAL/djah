@@ -250,7 +250,6 @@ namespace djah { namespace math {
 				out << basic_matrix<SIZE,T>::data_[i + j*SIZE] << " ";
 			out << "]\n";
 		}
-		out << "\n";
 	}
 	//------------------------------------------------------------------------------
 
