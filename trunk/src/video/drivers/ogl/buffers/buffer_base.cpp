@@ -1,98 +1,107 @@
-#include "fs/file_stream.hpp"
+#include <cassert>
+#include <GL/glew.h>
 
-namespace djah { namespace fs {
+#include "video/drivers/ogl/buffers/buffer_base.hpp"
+#include "video/drivers/ogl/errors.hpp"
+
+namespace djah { namespace video { namespace drivers { namespace ogl {
 
 	//----------------------------------------------------------------------------------------------
-	file_stream::file_stream(const std::string &file_name, bool overwrite)
-		: file_name_(file_name)
-		, overwrite_(overwrite)
+	template<int Target>
+	buffer_base<Target>::buffer_base(size_t size, E_BUFFER_USAGE usage, bool auto_alloc)
+		: usage_(usage)
+		, size_(size)
+		, bytes_per_elem_(0)
+		, allocated_(false)
 	{
-		std::ios::openmode mode = std::ios::in | std::ios::binary;
+		aquire();
+		if( auto_alloc )
+			allocMemory();
+	}
+	//----------------------------------------------------------------------------------------------
+	
 
-		if (overwrite_)
-			mode |= std::ios::trunc | std::ios::out;
-
-		stream_.open (file_name_.c_str(), mode);
-		is_open_ = stream_.good();
+	//----------------------------------------------------------------------------------------------
+	template<int Target>
+	buffer_base<Target>::~buffer_base()
+	{
+		release();
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	file_stream::~file_stream()
+	template<int Target>
+	void buffer_base<Target>::aquire()
 	{
-		if(is_open_)
-			close();
+		DJAH_TEST_FOR_OPENGL_ERRORS
+		(
+			glGenBuffers(1, &id_)
+		);
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	size_t file_stream::size()
+	template<int Target>
+	void buffer_base<Target>::release()
 	{
-		stream_.seekg(0, std::ios::end);
-		std::istream::pos_type length = stream_.tellg();
-		stream_.seekg(0, std::ios::beg);
-
-		return static_cast<size_t>(length);
+		glDeleteBuffers(1, &id_);
+		id_ = INVALID_ID;
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	bool file_stream::eof()
+	template<int Target>
+	void buffer_base<Target>::bind() const
 	{
-		return is_open_ ? stream_.eof() : true;
+		assert(id_ != INVALID_ID);
+		glBindBuffer(Target, id_);
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	void file_stream::close()
+	template<int Target>
+	void buffer_base<Target>::unbind()
 	{
-		if(is_open_)
-		{
-			stream_.flush();
-			stream_.close();
-		}
+		glBindBuffer(Target, 0);
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	void file_stream::seek(size_t offset, E_SEEK_DIR dir)
+	template<int Target>
+	size_t buffer_base<Target>::size() const
 	{
-		stream_.seekg(static_cast<std::streamoff>(offset), dir);
+		return size_;
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	size_t file_stream::readImpl(char* buff, size_t size)
+	template<int Target>
+	size_t buffer_base<Target>::count() const
 	{
-		size_t count = 0;
-		if(is_open_)
-		{
-			stream_.read(buff, static_cast<std::streamsize>(size));
-			count = (size_t)stream_.gcount();
-		}
-		return count;
+		return size_ / bytes_per_elem_;
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	size_t file_stream::writeImpl(const char* buff, size_t size)
+	template<int Target>
+	void buffer_base<Target>::allocMemory()
 	{
-		size_t count = 0;
-		if (is_open_)
-		{
-			size_t before = (size_t)stream_.tellp();
-			stream_.write(buff, static_cast<std::streamsize>(size));
-			count = (size_t)stream_.tellp() - before;
-		}
-		return count;
+		if( allocated_ )
+			return;
+
+		bind();
+		glBufferData(Target, size_, 0, usage_);
+		unbind();
+
+		allocated_ = true;
 	}
 	//----------------------------------------------------------------------------------------------
 
-} /*fs*/ } /*djah*/
+} /*ogl*/ } /*drivers*/ } /*video*/ } /*djah*/

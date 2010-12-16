@@ -1,9 +1,9 @@
 namespace djah { namespace resources {
 
 	//----------------------------------------------------------------------------------------------
-	template<typename ExtraTypes>
+	template<typename ExtraTypes_, typename DefaultTypes_>
 	template<typename T>
-	void media_manager<ExtraTypes>::registerLoader(loader<T> *loader, const std::string &ext)
+	void media_manager<ExtraTypes_, DefaultTypes_>::registerLoader(loader<T> *loader, const std::string &ext)
 	{
 		std::vector<std::string> extensions;
 		utils::split_string(ext, extensions, " /\\*.,;|-_\t\n'\"");
@@ -21,9 +21,9 @@ namespace djah { namespace resources {
 
 
 	//----------------------------------------------------------------------------------------------
-	template<typename ExtraTypes>
+	template<typename ExtraTypes_, typename DefaultTypes_>
 	template<typename T>
-	T* media_manager<ExtraTypes>::loadFromUrl(const std::string &url)
+	T* media_manager<ExtraTypes_, DefaultTypes_>::loadFromUrl(const std::string &url)
 	{
 		T *res = 0;
 		media_holder<T>::loader_t_ptr ldr = findLoader<T>(url);
@@ -39,9 +39,9 @@ namespace djah { namespace resources {
 
 
 	//----------------------------------------------------------------------------------------------
-	template<typename ExtraTypes>
+	template<typename ExtraTypes_, typename DefaultTypes_>
 	template<typename T>
-	void media_manager<ExtraTypes>::saveToUrl(const T &obj, const std::string &url)
+	void media_manager<ExtraTypes_, DefaultTypes_>::saveToUrl(const T &obj, const std::string &url)
 	{
 		media_holder<T>::loader_t_ptr ldr = findLoader<T>(url);
 		if(ldr)
@@ -55,9 +55,10 @@ namespace djah { namespace resources {
 
 
 	//----------------------------------------------------------------------------------------------
-	template<typename ExtraTypes>
+	template<typename ExtraTypes_, typename DefaultTypes_>
 	template<typename T>
-	typename media_holder<T>::loader_t_ptr media_manager<ExtraTypes>::findLoader(const std::string &url)
+	typename media_holder<T>::loader_t_ptr
+	media_manager<ExtraTypes_, DefaultTypes_>::findLoader(const std::string &url)
 	{
 		std::string extension = utils::get_file_extension(url);
 		extension = utils::to_lower_case(extension);

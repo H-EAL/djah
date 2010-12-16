@@ -16,17 +16,19 @@ namespace djah { namespace fs {
 
 		size_t size();
 		bool   eof();
+		void   seek(size_t offset, E_SEEK_DIR dir);
 		void   close();
 
 	private:
 
-		size_t readImpl(byte* buff, size_t size);
-		size_t writeImpl(const byte* buff, size_t size);
+		size_t readImpl(char* buff, size_t size);
+		size_t writeImpl(const char* buff, size_t size);
 
 		std::string		file_name_;
 		bool			overwrite_;
 		std::fstream	stream_;
 		bool			is_open_;
+		std::size_t		file_size_;
 	};
 
 } /*fs*/ } /*djah*/

@@ -1,3 +1,5 @@
+#include <stack>
+
 #include "video/drivers/ogl/buffers/vertex_array.hpp"
 
 #include "video/drivers/ogl/buffers/vertex_format.hpp"

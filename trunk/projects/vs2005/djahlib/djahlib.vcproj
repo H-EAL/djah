@@ -199,6 +199,10 @@
 							Name="buffers"
 							>
 							<File
+								RelativePath="..\..\..\src\video\drivers\ogl\buffers\buffer_base.cpp"
+								>
+							</File>
+							<File
 								RelativePath="..\..\..\src\video\drivers\ogl\buffers\frame_buffer.cpp"
 								>
 							</File>
@@ -220,6 +224,10 @@
 							>
 							<File
 								RelativePath="..\..\..\src\video\drivers\ogl\shaders\shader.cpp"
+								>
+							</File>
+							<File
+								RelativePath="..\..\..\src\video\drivers\ogl\shaders\shader_base.cpp"
 								>
 							</File>
 						</Filter>
@@ -285,6 +293,10 @@
 			<Filter
 				Name="fs"
 				>
+				<File
+					RelativePath="..\..\..\src\fs\compressed_source.cpp"
+					>
+				</File>
 				<File
 					RelativePath="..\..\..\src\fs\directory_source.cpp"
 					>
@@ -674,10 +686,6 @@
 							</File>
 							<File
 								RelativePath="..\..\..\include\djah\video\drivers\ogl\shaders\shader_base.hpp"
-								>
-							</File>
-							<File
-								RelativePath="..\..\..\include\djah\video\drivers\ogl\shaders\shader_base.inl"
 								>
 							</File>
 							<File

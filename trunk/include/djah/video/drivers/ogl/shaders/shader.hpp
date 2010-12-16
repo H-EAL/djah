@@ -10,7 +10,8 @@
 
 namespace djah { namespace video { namespace drivers { namespace ogl {
 
-	class shader : public resource
+	class shader
+		: public resource
 	{
 	public:
 

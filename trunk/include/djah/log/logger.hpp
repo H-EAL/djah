@@ -16,35 +16,36 @@
 #endif
 //------------------------------------------------------------------------------
 // Macro to ease the logging
-#define DJAH_BEGIN_LOG(level)	djah::log::logger::log(djah::log::logger::##level)
+#define DJAH_BEGIN_LOG(level)	djah::log::logger::log(djah::log::level)
 #define DJAH_END_LOG()			djah::log::logger::endl()
 //------------------------------------------------------------------------------
 
 
 namespace djah { namespace log {
 
+	enum E_WARNING_LEVEL
+	{
+		EWL_NOTIFICATION,
+		EWL_LOW,
+		EWL_MEDIUM,
+		EWL_HIGH,
+		EWL_CRITICAL,
+		EWL_COUNT,
+
+		EWL_USELAST
+	};
+
+	class logger_impl;
 	class logger
 	{
 	public:
-
-		enum E_WARNING_LEVEL
-		{
-			EWL_NOTIFICATION,
-			EWL_LOW,
-			EWL_MEDIUM,
-			EWL_HIGH,
-			EWL_CRITICAL,
-			EWL_COUNT,
-
-			EWL_USELAST
-		};
 
 		logger();
 		// Abstract class
 		virtual ~logger();
 
 		// Change the current logger
-		static void setLogger(logger *l);
+		static void setLogger(logger_impl *l);
 		static void setLevel(E_WARNING_LEVEL level);
 
 		// C style logging
@@ -52,13 +53,7 @@ namespace djah { namespace log {
 		static std::string endl();
 
 		// C++ style logging
-		static logger& log(E_WARNING_LEVEL level = EWL_USELAST);
-		template<typename T>
-		logger& operator <<(const T &msg);
-
-	protected:
-
-		static E_WARNING_LEVEL level_;
+		static logger_impl& log(E_WARNING_LEVEL level = EWL_USELAST);
 
 	private:
 
@@ -67,7 +62,24 @@ namespace djah { namespace log {
 		virtual std::string endLog() const = 0;
 
 		// Current logger
-		static logger *instance_;
+		static logger_impl *instance_;
+	};
+
+	class logger_impl
+	{
+		friend class logger;
+
+	public:
+		template<typename T>
+		logger_impl& operator <<(const T &msg);
+
+	protected:
+		static E_WARNING_LEVEL level_;
+
+	private:
+		virtual void beginLog() = 0;
+		virtual void write(const std::string &msg) = 0;
+		virtual std::string endLog() const = 0;
 	};
 
 } /*log*/ } /*djah*/

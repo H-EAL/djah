@@ -4,7 +4,7 @@
 
 namespace djah { namespace log {
 
-	namespace priv
+	namespace
 	{
 		//----------------------------------------------------------------------
 		enum
@@ -60,22 +60,22 @@ namespace djah { namespace log {
 	//--------------------------------------------------------------------------
 	void console_logger::setConsoleColor(bool resetColor) const
 	{
-		typedef std::pair<priv::color_type,priv::color_type> color;
+		typedef std::pair<color_type, color_type> color;
 
 		static const color color_levels[EWL_COUNT] =
 		{
 			//           Text color,              Background color,      Warning level
-			color(priv::COLORS[priv::CYAN],    priv::COLORS[priv::BLACK]),	//NOTIFICATION
-			color(priv::COLORS[priv::GREEN],   priv::COLORS[priv::BLACK]),	//LOW
-			color(priv::COLORS[priv::YELLOW],  priv::COLORS[priv::BLACK]),	//MEDIUM
-			color(priv::COLORS[priv::MAGENTA], priv::COLORS[priv::BLACK]),	//HIGH
-			color(priv::COLORS[priv::RED],     priv::COLORS[priv::BLACK])	//CRITICAL
+			color(COLORS[CYAN],    COLORS[BLACK]),	//NOTIFICATION
+			color(COLORS[GREEN],   COLORS[BLACK]),	//LOW
+			color(COLORS[YELLOW],  COLORS[BLACK]),	//MEDIUM
+			color(COLORS[MAGENTA], COLORS[BLACK]),	//HIGH
+			color(COLORS[RED],     COLORS[BLACK])	//CRITICAL
 		};
 
 		if(resetColor)
-			priv::_setConsoleColor(priv::COLORS[priv::GRAY], priv::COLORS[priv::BLACK]);
+			_setConsoleColor(COLORS[GRAY], COLORS[BLACK]);
 		else
-			priv::_setConsoleColor(color_levels[level_].first, color_levels[level_].second);
+			_setConsoleColor(color_levels[level_].first, color_levels[level_].second);
 	}
 	//--------------------------------------------------------------------------
 

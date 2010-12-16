@@ -6,7 +6,8 @@
 namespace djah { namespace math {
 
 	template<typename T>
-	class quaternion : public detail::vector_base<4,T>
+	class quaternion
+		: public detail::vector_base<4,T>
 	{
 	public:
 

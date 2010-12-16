@@ -41,11 +41,11 @@ namespace djah { namespace math { namespace detail {
 		iterator_to_const end()   const;
 
 		// Comparison operators
-		bool operator ==(const vector_base<SIZE,T> &rhs)
+		bool operator ==(const vector_base<SIZE,T> &rhs) const
 		{
 			return std::equal(begin(), end(), rhs.data_);
 		}
-		bool operator !=(const vector_base<SIZE,T> &rhs)
+		bool operator !=(const vector_base<SIZE,T> &rhs) const
 		{
 			return !(*this == rhs);
 		}

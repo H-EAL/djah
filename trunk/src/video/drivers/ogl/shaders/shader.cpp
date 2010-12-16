@@ -1,4 +1,5 @@
 #include <GL/glew.h>
+#include <boost/smart_ptr/scoped_array.hpp>
 
 #include "video/drivers/ogl/shaders/shader.hpp"
 #include "video/drivers/ogl/errors.hpp"
@@ -39,6 +40,24 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 	{
 		glDeleteProgram(id_);
 		id_ = INVALID_ID;
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	template<int ShaderType>
+	void shader::attach(const shader_base<ShaderType> &s) const
+	{
+		glAttachShader(id_, s.id());
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	template<int ShaderType>
+	void shader::detach(const shader_base<ShaderType> &s) const
+	{
+		glDetachShader(id_, s.id());
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -100,7 +119,7 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 		glGetProgramInfoLog(id_, log_size, &log_size, log_str.get());
 
 		// TODO : let the error policy handle this
-		log::logger::log(log::logger::EWL_CRITICAL)
+		log::logger::log(log::EWL_CRITICAL)
 			<< "====================================================================\n"
 			<< "                      SHADER LINKING ERROR(S)                       \n"
 			<< "--------------------------------------------------------------------\n"
@@ -175,6 +194,31 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 	{
 		unsigned int location = getUniformLocation(name);
 		glUniform4i(location, u1, u2, u3, u4);
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	template<size_t SIZE>
+	void shader::sendUniformMatrix(const std::string &name, const float *data, int count, bool transpose) const
+	{
+		static const PFNGLUNIFORMMATRIX2FVPROC uniformMatrixFuncTab[] = 
+		{
+			glUniformMatrix2fv,
+			glUniformMatrix3fv,
+			glUniformMatrix4fv
+		};
+
+		static const PFNGLUNIFORMMATRIX2FVPROC uniformMatrix = uniformMatrixFuncTab[SIZE-2];
+
+		unsigned int location = getUniformLocation(name);
+		uniformMatrix(location, count, transpose, data);
+	}
+	//----------------------------------------------------------------------------------------------
+	template<size_t SIZE>
+	void shader::sendUniformMatrix(const std::string &name, const math::basic_matrix<SIZE,float> &mat, bool transpose) const
+	{
+		sendUniformMatrix<SIZE>(name, mat.data(), 1, transpose);
 	}
 	//----------------------------------------------------------------------------------------------
 

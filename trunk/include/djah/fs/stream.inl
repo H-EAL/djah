@@ -16,7 +16,7 @@ namespace djah { namespace fs {
 	template<typename T>
 	inline size_t stream::read(T *data_ptr, size_t count)
 	{
-		return readImpl(reinterpret_cast<byte*>(data_ptr), count * sizeof(T));
+		return readImpl(reinterpret_cast<char*>(data_ptr), count * sizeof(T));
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -37,7 +37,13 @@ namespace djah { namespace fs {
 	template<typename T>
 	inline size_t stream::write(const T *data_ptr, size_t count)
 	{
-		return writeImpl(reinterpret_cast<const byte*>(data_ptr), count * sizeof(T));
+		return writeImpl(reinterpret_cast<const char*>(data_ptr), count * sizeof(T));
+	}
+	//----------------------------------------------------------------------------------------------
+	template<typename Char_T>
+	inline size_t stream::write(const std::basic_string<Char_T> &str)
+	{
+		return write(str.c_str(), str.size());
 	}
 	//----------------------------------------------------------------------------------------------
 

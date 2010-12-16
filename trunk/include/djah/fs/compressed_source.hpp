@@ -1,7 +1,9 @@
 #ifndef DJAH_FS_COMPRESSED_SOURCE_HPP
 #define DJAH_FS_COMPRESSED_SOURCE_HPP
 
+#include <map>
 #include "source.hpp"
+#include "stream.hpp"
 
 namespace djah { namespace fs {
 
@@ -10,7 +12,7 @@ namespace djah { namespace fs {
 		: public source
 	{ 
 	public:
-		compressed_source(unsigned int priority = 0);
+		compressed_source(const std::string &url, unsigned int priority = 0);
 		~compressed_source();
 
 		stream_ptr loadStream(const std::string &url);
@@ -22,8 +24,14 @@ namespace djah { namespace fs {
 	private:
 		void populateFileRegistry();
 
-		typedef std::map<std::string, > file_registry_t;
+		struct file_struct {
+			size_t offset_;
+			size_t size_;
+		};
+
+		typedef std::map<std::string, file_struct> file_registry_t;
 		file_registry_t file_registry_;
+		stream_ptr		compressed_stream_;
 	};
 
 } /*fs*/ } /*djah*/

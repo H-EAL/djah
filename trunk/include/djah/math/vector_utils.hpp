@@ -54,7 +54,7 @@ namespace djah { namespace math {
 	template<size_t SIZE, typename T>
 	inline T distance_sq(const basic_vector<SIZE,T> &from, const basic_vector<SIZE,T> &to)
 	{
-		return (to - from).lengthSq();
+		return create_vector(from, to).lengthSq();
 	}
 	//--------------------------------------------------------------------------
 
@@ -63,7 +63,7 @@ namespace djah { namespace math {
 	template<size_t SIZE, typename T>
 	inline float distance(const basic_vector<SIZE,T> &from, const basic_vector<SIZE,T> &to)
 	{
-		return (to - from).length();
+		return create_vector(from, to).length();
 	}
 	//--------------------------------------------------------------------------
 
@@ -72,7 +72,7 @@ namespace djah { namespace math {
 	template<size_t SIZE, typename T>
 	inline basic_vector<SIZE,T> direction(const basic_vector<SIZE,T> &from, const basic_vector<SIZE,T> &to)
 	{
-		return (to - from).normalize();
+		return create_vector(from, to).normalize();
 	}
 	//--------------------------------------------------------------------------
 

@@ -1,8 +1,6 @@
 #ifndef DJAH_VIDEO_DRIVERS_OGL_VERTEX_ARRAY_HPP
 #define DJAH_VIDEO_DRIVERS_OGL_VERTEX_ARRAY_HPP
 
-#include <stack>
-
 #include "../resource.hpp"
 
 namespace djah { namespace video { namespace drivers { namespace ogl {
@@ -13,7 +11,8 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 	class vertex_format;
 	class shader;
 
-	class vertex_array : public resource
+	class vertex_array
+		: public resource
 	{
 	public:
 

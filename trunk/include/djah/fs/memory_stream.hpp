@@ -11,7 +11,7 @@ namespace djah { namespace fs {
 		: public stream
 	{
 	public:
-		memory_stream(void *buffer, u32 size);
+		memory_stream(void *buffer, size_t size);
 
 		size_t size();
 		bool eof();
@@ -22,7 +22,7 @@ namespace djah { namespace fs {
 		size_t writeImpl(const byte* buff, size_t size);
 
 		boost::scoped_array<byte>	buffer_;
-		u32							buffer_size_;
+		size_t						buffer_size_;
 		byte						*cursor_;
 	};
 
