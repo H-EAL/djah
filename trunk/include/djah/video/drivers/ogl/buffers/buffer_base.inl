@@ -39,6 +39,7 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 		unbind();
 
 		bytes_per_elem_ = sizeof(T);
+		data_type_ = get_gl_type<T>();
 
 		return count;
 	}
@@ -94,6 +95,9 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 		*reinterpret_cast<T*>(cursor_) = toWrite;
 		cursor_ += sizeof(T);
 		cursor_count_ += sizeof(T);
+
+		bytes_per_elem_ = sizeof(T);
+		data_type_ = get_gl_type<T>();
 
 		return *this;
 	}

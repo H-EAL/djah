@@ -23,7 +23,6 @@ namespace djah { namespace video {
 		virtual ~x11device();
 
 		virtual void show();
-		virtual void resize(int width, int height);
 		virtual bool isWindowActive();
 		virtual bool hasWindowFocus();
 		virtual void shutDown();

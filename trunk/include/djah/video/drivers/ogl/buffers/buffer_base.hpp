@@ -1,6 +1,7 @@
 #ifndef DJAH_VIDEO_DRIVERS_OGL_BUFFER_BASE_HPP
 #define DJAH_VIDEO_DRIVERS_OGL_BUFFER_BASE_HPP
 
+#include "../../../../types.hpp"
 #include "../resource.hpp"
 
 namespace djah { namespace video { namespace drivers { namespace ogl {
@@ -31,6 +32,7 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 
 		size_t size() const;
 		size_t count() const;
+		u32	   dataType() const;	
 
 		void allocMemory();
 
@@ -59,15 +61,14 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 		void aquire();
 		void release();
 
-		typedef char byte;
-
-		E_BUFFER_USAGE usage_;
-		const size_t   size_;
-		size_t         bytes_per_elem_;
-		bool           allocated_;
-		bool           locked_;
-		byte           *cursor_;
-		unsigned int   cursor_count_;
+		E_BUFFER_USAGE	usage_;
+		const size_t	size_;
+		size_t			bytes_per_elem_;
+		u32				data_type_;
+		bool			allocated_;
+		bool			locked_;
+		byte			*cursor_;
+		u32				cursor_count_;
 	};
 
 

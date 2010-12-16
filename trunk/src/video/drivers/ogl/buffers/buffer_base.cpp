@@ -12,6 +12,7 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 		: usage_(usage)
 		, size_(size)
 		, bytes_per_elem_(0)
+		, data_type_(0)
 		, allocated_(false)
 	{
 		aquire();
@@ -85,6 +86,15 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 	size_t buffer_base<Target>::count() const
 	{
 		return size_ / bytes_per_elem_;
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	template<int Target>
+	size_t buffer_base<Target>::dataType() const
+	{
+		return dataType();
 	}
 	//----------------------------------------------------------------------------------------------
 
