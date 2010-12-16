@@ -26,7 +26,8 @@ namespace djah { namespace fs {
 
 		struct file_struct {
 			size_t offset_;
-			size_t size_;
+			size_t real_size_;
+			size_t compressed_size_;
 		};
 
 		typedef std::map<std::string, file_struct> file_registry_t;

@@ -1,4 +1,4 @@
-#include <fs/compressed_source.hpp>
+#include "fs/compressed_source.hpp"
 
 namespace djah { namespace fs {
 
@@ -22,11 +22,11 @@ namespace djah { namespace fs {
 		if(it != file_registry_.end())
 		{
 			const file_struct &fstruct = *it;
-			boost::scoped_array<byte> buffer( new byte[fstruct.size_] );
+			boost::scoped_array<byte> buffer( new byte[fstruct.compressed_size_] );
 			compressed_stream_->seek(fstruct.offset_);
-			compressed_stream_->read(buffer.get(), fstruct.size_);
+			compressed_stream_->read(buffer.get(), fstruct.compressed_size_);
 			// Decompress here
-			strm = stream_ptr(new memory_stream(buffer.get(), fstruct.size_));
+			strm = stream_ptr(new memory_stream(buffer.get(), fstruct.real_size_));
 		}
 		return strm;
 	}

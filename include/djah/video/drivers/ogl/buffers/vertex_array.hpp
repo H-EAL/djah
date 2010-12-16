@@ -23,7 +23,7 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 		static void unbind();
 
 		void init(const shader &sp) const;
-		void draw(unsigned int type) const;
+		void draw() const;
 
 	private:
 

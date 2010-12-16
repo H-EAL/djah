@@ -117,13 +117,13 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 
 
 	//----------------------------------------------------------------------------------------------
-	void vertex_array::draw(unsigned int type) const
+	void vertex_array::draw() const
 	{
-		DJAH_LOG_TODO("Put indices value type into index buffer attributes");
 		if( initialized_ )
 		{
 			bind();
-			glDrawElements(index_buffer_.drawingMode(), static_cast<GLsizei>(index_buffer_.count()), type, 0);
+			GLsizei count = static_cast<GLsizei>(index_buffer_.count());
+			glDrawElements(index_buffer_.drawingMode(), count, index_buffer_.dataType(), 0);
 			//unbind();
 		}
 	}
