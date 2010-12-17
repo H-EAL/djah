@@ -1,4 +1,4 @@
-#include "fs/compressed_source.hpp"
+
 
 namespace djah { namespace fs {
 
@@ -8,7 +8,15 @@ namespace djah { namespace fs {
 		: source(priority)
 		, compressed_stream_(filesystem::get_instance().openReadStream(url))
 	{
-		CompressionTechnique::populate_file_registry();
+		CompressionTechnique::populate_file_registry(compressed_stream_, file_registry_);
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	template<typename CompressionTechnique>
+	compressed_source<CompressionTechnique>::~compressed_source()
+	{
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -21,12 +29,8 @@ namespace djah { namespace fs {
 		file_registry_t::const_iterator it = file_registry_.find(url);
 		if(it != file_registry_.end())
 		{
-			const file_struct &fstruct = *it;
-			boost::scoped_array<byte> buffer( new byte[fstruct.compressed_size_] );
-			compressed_stream_->seek(fstruct.offset_);
-			compressed_stream_->read(buffer.get(), fstruct.compressed_size_);
-			// Decompress here
-			strm = stream_ptr(new memory_stream(buffer.get(), fstruct.real_size_));
+			const file_struct &fstruct = it->second;
+			strm = CompressionTechnique::decompress(compressed_stream_, fstruct);
 		}
 		return strm;
 	}
@@ -37,7 +41,8 @@ namespace djah { namespace fs {
 	template<typename CompressionTechnique>
 	stream_ptr compressed_source<CompressionTechnique>::saveStream(const std::string &url)
 	{
-		return 0;
+		stream_ptr s;
+		return s;
 	}
 	//----------------------------------------------------------------------------------------------
 

@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8,00"
-	Name="collada_converter"
-	ProjectGUID="{EA4512E9-7F2E-4AFC-91E5-01B5D9CC11E5}"
-	RootNamespace="collada_converter"
+	Name="pak_compressor"
+	ProjectGUID="{D6B62FD0-AB33-4023-B09E-004DEF43E339}"
+	RootNamespace="pak_compressor"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
@@ -61,11 +61,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="tinyxml.lib opengl32.lib"
 				OutputFile="$(OutDir)\$(ProjectName)_debug.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\..\..\..\extlibs\lib\win32\;..\..\..\lib\win32\"
-				IgnoreDefaultLibraryNames="LIBCMT.lib"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"
@@ -139,7 +137,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="djah_s.lib tinyxml.lib opengl32.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\..\..\..\extlibs\lib\win32\;..\..\..\lib\win32\"
 				GenerateDebugInformation="true"
@@ -178,121 +175,35 @@
 	</References>
 	<Files>
 		<Filter
-			Name="collada"
+			Name="Source Files"
+			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
+			>
+			<File
+				RelativePath="..\..\..\pak_compressor\main.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\pak_compressor\pak_compressor.cpp"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Header Files"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+			>
+			<File
+				RelativePath="..\..\..\pak_compressor\pak_compressor.hpp"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Resource Files"
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
-			<File
-				RelativePath="..\..\..\collada_converter\collada\database.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\collada_converter\collada\database.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\collada_converter\collada\fwd_decl.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\collada_converter\collada\proxy.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\collada_converter\collada\proxy.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\collada_converter\collada\utils.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\collada_converter\collada\utils.hpp"
-				>
-			</File>
-			<Filter
-				Name="library"
-				Filter="h;hpp;hxx;hm;inl;inc;xsd"
-				UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
-				>
-				<File
-					RelativePath="..\..\..\collada_converter\collada\library\animations.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\collada_converter\collada\library\animations.hpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\collada_converter\collada\library\common.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\collada_converter\collada\library\common.hpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\collada_converter\collada\library\controllers.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\collada_converter\collada\library\controllers.hpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\collada_converter\collada\library\effects.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\collada_converter\collada\library\effects.hpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\collada_converter\collada\library\geometries.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\collada_converter\collada\library\geometries.hpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\collada_converter\collada\library\images.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\collada_converter\collada\library\images.hpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\collada_converter\collada\library\materials.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\collada_converter\collada\library\materials.hpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\collada_converter\collada\library\visual_scenes.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\collada_converter\collada\library\visual_scenes.hpp"
-					>
-				</File>
-			</Filter>
 		</Filter>
-		<File
-			RelativePath="..\..\..\collada_converter\main.cpp"
-			>
-		</File>
-		<File
-			RelativePath="..\..\..\collada_converter\mesh_builder.cpp"
-			>
-		</File>
-		<File
-			RelativePath="..\..\..\collada_converter\mesh_builder.hpp"
-			>
-		</File>
 	</Files>
 	<Globals>
 	</Globals>
