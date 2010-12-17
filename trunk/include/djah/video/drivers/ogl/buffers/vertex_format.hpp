@@ -19,6 +19,9 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 			EPT_INTERLEAVED
 		};
 
+		// Constructor
+		vertex_format(E_PACKING_TYPE pack_type = EPT_INTERLEAVED);
+
 		// Begin the definition of the vertex format
 		vertex_format& record(E_PACKING_TYPE pack_type = EPT_INTERLEAVED);
 

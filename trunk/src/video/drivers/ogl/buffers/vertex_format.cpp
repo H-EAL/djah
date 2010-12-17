@@ -1,7 +1,16 @@
 #include "video/drivers/ogl/buffers/vertex_format.hpp"
 
 namespace djah { namespace video { namespace drivers { namespace ogl {
-	
+
+	//----------------------------------------------------------------------------------------------
+	vertex_format::vertex_format(E_PACKING_TYPE pack_type)
+		: packing_type_(pack_type)
+		, vertex_size_(0)
+	{
+	}
+	//----------------------------------------------------------------------------------------------
+
+
 	//----------------------------------------------------------------------------------------------
 	vertex_format& vertex_format::record(E_PACKING_TYPE pack_type)
 	{

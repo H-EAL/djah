@@ -294,7 +294,7 @@
 				Name="fs"
 				>
 				<File
-					RelativePath="..\..\..\src\fs\compressed_source.cpp"
+					RelativePath="..\..\..\src\fs\compression_techniques.cpp"
 					>
 				</File>
 				<File
@@ -307,6 +307,10 @@
 				</File>
 				<File
 					RelativePath="..\..\..\src\fs\filesystem.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\fs\memory_stream.cpp"
 					>
 				</File>
 			</Filter>
@@ -745,6 +749,14 @@
 				>
 				<File
 					RelativePath="..\..\..\include\djah\fs\compressed_source.hpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\include\djah\fs\compressed_source.inl"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\include\djah\fs\compression_techniques.hpp"
 					>
 				</File>
 				<File

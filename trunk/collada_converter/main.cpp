@@ -12,6 +12,8 @@
 
 #include <djah/fs/filesystem.hpp>
 #include <djah/fs/directory_source.hpp>
+#include <djah/fs/memory_stream.hpp>
+#include <djah/fs/compression_techniques.hpp>
 
 #include <djah/resources/media_manager.hpp>
 #include <djah/resources/resource_manager.hpp>
@@ -162,6 +164,12 @@ int main(int argc, char *argv[])
 	djah::fs::filesystem::get_instance().addLoadingChannel(new djah::fs::directory_source("../data"));
 	djah::fs::filesystem::get_instance().addLoadingChannel(new djah::fs::directory_source("../data/3d"));
 	djah::fs::filesystem::get_instance().addLoadingChannel(new djah::fs::directory_source("../data/textures"));
+	djah::fs::filesystem::get_instance().addLoadingChannel(new djah::fs::pak_source("2pak.pak"));
+
+	fs::memory_stream fff(fs::filesystem::get_instance().openReadStream("test.frag"));
+	fs::memory_stream vvv(fs::filesystem::get_instance().openReadStream("test.vert"));
+	std::cout << fff.toString() << std::endl << std::endl << std::endl;
+	std::cout << vvv.toString() << std::endl;
 
 	// Logger
 	djah::log::logger::setLogger(new djah::log::console_logger);
@@ -196,6 +204,9 @@ int main(int argc, char *argv[])
 
 	DJAH_BEGIN_LOG(EWL_NOTIFICATION) << "Loading time : " << msL << " ms" << DJAH_END_LOG();
 	DJAH_BEGIN_LOG(EWL_NOTIFICATION) << "Building time : " << msB << " ms" << DJAH_END_LOG();
+
+	fs::memory_stream mstrm(fs::filesystem::get_instance().openReadStream("test.frag"));
+	std::cout << mstrm.toString();
 
 
 	// Rendering device
