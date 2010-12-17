@@ -125,7 +125,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="glew32.lib;freeimage.lib"
+				AdditionalDependencies="glew32.lib FreeImage.lib"
 				OutputFile="$(OutDir)\djah_s.lib"
 				AdditionalLibraryDirectories="../../../../extlibs/lib/win32/"
 			/>
