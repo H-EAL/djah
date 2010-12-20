@@ -9,7 +9,7 @@ namespace djah { namespace time {
 	{
 	public:
 
-		clock();
+		clock(bool startNow = true);
 
 		void restart();
 		void pause();
