@@ -64,12 +64,12 @@ namespace djah { namespace log {
 
 		static const color color_levels[EWL_COUNT] =
 		{
-			//           Text color,              Background color,      Warning level
-			color(COLORS[CYAN],    COLORS[BLACK]),	//NOTIFICATION
-			color(COLORS[GREEN],   COLORS[BLACK]),	//LOW
-			color(COLORS[YELLOW],  COLORS[BLACK]),	//MEDIUM
-			color(COLORS[MAGENTA], COLORS[BLACK]),	//HIGH
-			color(COLORS[RED],     COLORS[BLACK])	//CRITICAL
+			//Text color,          Background color
+			color(COLORS[CYAN],    COLORS[BLACK]),
+			color(COLORS[GREEN],   COLORS[BLACK]),
+			color(COLORS[YELLOW],  COLORS[BLACK]),
+			color(COLORS[MAGENTA], COLORS[BLACK]),
+			color(COLORS[RED],     COLORS[BLACK])
 		};
 
 		if(resetColor)

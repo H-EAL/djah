@@ -25,17 +25,25 @@ namespace djah { namespace log {
 
 	enum E_WARNING_LEVEL
 	{
-		EWL_NOTIFICATION,
-		EWL_LOW,
-		EWL_MEDIUM,
-		EWL_HIGH,
-		EWL_CRITICAL,
+		EWL_CYAN,
+		EWL_GREEN,
+		EWL_YELLOW,
+		EWL_PURPLE,
+		EWL_RED,
 		EWL_COUNT,
+
+		EWL_NOTIFICATION	= EWL_CYAN,
+		EWL_LOW				= EWL_GREEN,
+		EWL_MEDIUM			= EWL_YELLOW,
+		EWL_HIGH			= EWL_PURPLE,
+		EWL_CRITICAL		= EWL_RED,
 
 		EWL_USELAST
 	};
 
 	class logger_impl;
+
+	// Logging interface
 	class logger
 	{
 	public:
@@ -57,14 +65,12 @@ namespace djah { namespace log {
 
 	private:
 
-		virtual void beginLog() = 0;
-		virtual void write(const std::string &msg) = 0;
-		virtual std::string endLog() const = 0;
-
 		// Current logger
 		static logger_impl *instance_;
 	};
 
+
+	// Base class for all concrete logger
 	class logger_impl
 	{
 		friend class logger;
@@ -81,6 +87,7 @@ namespace djah { namespace log {
 		virtual void write(const std::string &msg) = 0;
 		virtual std::string endLog() const = 0;
 	};
+
 
 	// Useful when we need to disable the logger
 	class null_logger
