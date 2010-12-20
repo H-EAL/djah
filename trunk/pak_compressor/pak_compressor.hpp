@@ -3,14 +3,17 @@
 
 #include <set>
 #include <string>
-#include <djah/types.hpp>
 #include <boost/filesystem.hpp>
+#include <djah/types.hpp>
+#include <djah/fs/stream.hpp>
 
 class pak_compressor
 {
 public:
 
-	static int show_help();
+	static void init();
+	static int  show_help();
+	static int	run(int argc, char *argv[]);
 
 	pak_compressor(const std::string &dir_name, const std::string &pak_name = "");
 
@@ -31,9 +34,10 @@ private:
 
 	typedef std::set<pak_header> file_list_t;
 
-	bool fillPakHeader(const boost::filesystem::path &file);
-	void writeHeader();
+	bool addFile(const boost::filesystem::path &file);
+	void writeHeaders();
 	void writeFiles();
+	void writeCRC();
 
 
 
@@ -41,6 +45,7 @@ private:
 	std::string				dir_name_;
 	std::string				pak_name_;
 	djah::fs::stream_ptr	pak_file_;
+	djah::u32				crc_;
 };
 
 #endif /* PAK_COMPRESSOR_HPP */

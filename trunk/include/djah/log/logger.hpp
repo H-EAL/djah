@@ -82,6 +82,15 @@ namespace djah { namespace log {
 		virtual std::string endLog() const = 0;
 	};
 
+	// Useful when we need to disable the logger
+	class null_logger
+		: public logger_impl
+	{
+		virtual void beginLog() {};
+		virtual void write(const std::string &msg) {};
+		virtual std::string endLog() const { return ""; };
+	};
+
 } /*log*/ } /*djah*/
 
 #include "logger.inl"

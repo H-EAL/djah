@@ -4,8 +4,8 @@
 namespace djah { namespace time {
 
 	//----------------------------------------------------------------------------------------------
-	clock::clock()
-		: startTime_(0)
+	clock::clock(bool startNow)
+		: startTime_(startNow ? getCurrentTime() : 0)
 		, pausedTime_(0)
 		, deadTime_(0)
 		, paused_(true)

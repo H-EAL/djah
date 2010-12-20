@@ -1,24 +1,57 @@
 #include <iostream>
+
+#include <djah/log/logger.hpp>
+#include <djah/log/console_logger.hpp>
 #include <djah/fs/filesystem.hpp>
+#include <djah/fs/directory_source.hpp>
 #include <djah/fs/memory_stream.hpp>
+#include <djah/time/clock.hpp>
+
 #include "pak_compressor.hpp"
 
 using namespace boost::filesystem;
 
 //--------------------------------------------------------------------------------------------------
+void pak_compressor::init()
+{
+	djah::log::logger::setLogger(new djah::log::console_logger);
+	djah::fs::filesystem::get_instance().addLoadingChannel(new djah::fs::directory_source("."));
+	djah::fs::filesystem::get_instance().addSavingChannel(new djah::fs::directory_source(".", true));
+}
+//--------------------------------------------------------------------------------------------------
+
+
+//--------------------------------------------------------------------------------------------------
 int pak_compressor::show_help()
 {
-	std::cerr << "Usage: pak_compressor folder_to_pak [pak_file_name]" << std::endl;
+	DJAH_BEGIN_LOG(EWL_CRITICAL)
+		<< "Usage: pak_compressor folder_to_pak [pak_file_name]"
+		<< DJAH_END_LOG();
+
 	getchar();
+
 	return EXIT_FAILURE;
 }
 //--------------------------------------------------------------------------------------------------
 
 
 //--------------------------------------------------------------------------------------------------
+int pak_compressor::run(int argc, char *argv[])
+{
+	init();
+	return (argc < 2)	? pak_compressor::show_help()
+						: pak_compressor(argv[1], argc > 3 ? argv[2] : "").compress();
+
+}
+//--------------------------------------------------------------------------------------------------
+
+
+
+//--------------------------------------------------------------------------------------------------
 pak_compressor::pak_compressor(const std::string &dir_name, const std::string &pak_name)
 	: dir_name_(dir_name)
 	, pak_name_(pak_name.empty() ? dir_name : pak_name)
+	, crc_(0)
 {
 	pak_name_ += ".pak";
 	pak_file_ = djah::fs::stream_ptr(djah::fs::filesystem::get_instance().openWriteStream(pak_name_));
@@ -38,17 +71,22 @@ int pak_compressor::compress()
 	{
 		if(boost::filesystem::is_regular_file(it->status()))
 		{
-			if( fillPakHeader(it->path()) ) std::cout << "Adding: ";
-			else							std::cout << "Skiping: ";
-			std::cout << it->path().filename() << std::endl;
+			if( !addFile(it->path()) )
+			{
+				DJAH_BEGIN_LOG(EWL_HIGH)	<< "Skipping: ";
+				DJAH_BEGIN_LOG(EWL_LOW)		<< it->path().filename()
+											<< DJAH_END_LOG();
+			}
 		}
 	}
 
 	if(!files_.empty())
 	{
-		writeHeader();
+		writeHeaders();
 		writeFiles();
 	}
+
+	getchar();
 
 	return EXIT_SUCCESS;
 }
@@ -56,7 +94,7 @@ int pak_compressor::compress()
 
 
 //--------------------------------------------------------------------------------------------------
-bool pak_compressor::fillPakHeader(const boost::filesystem::path &file)
+bool pak_compressor::addFile(const boost::filesystem::path &file)
 {
 	if(file.filename().size() >= FILENAME_MAX_SIZE)
 		return false;
@@ -74,7 +112,7 @@ bool pak_compressor::fillPakHeader(const boost::filesystem::path &file)
 
 
 //--------------------------------------------------------------------------------------------------
-void pak_compressor::writeHeader()
+void pak_compressor::writeHeaders()
 {
 	djah::u32 file_count = static_cast<djah::u32>(files_.size());
 	pak_file_->write(file_count);
@@ -97,6 +135,9 @@ void pak_compressor::writeHeader()
 //--------------------------------------------------------------------------------------------------
 void pak_compressor::writeFiles()
 {
+	DJAH_BEGIN_LOG(EWL_NOTIFICATION)	<< "--------------------------------------------------"
+										<< DJAH_END_LOG();
+
 	file_list_t::iterator it;
 	file_list_t::iterator it_end = files_.end();
 	for(it = files_.begin(); it != it_end; ++it)
@@ -104,9 +145,28 @@ void pak_compressor::writeFiles()
 		djah::fs::stream_ptr file = djah::fs::filesystem::get_instance().openReadStream(dir_name_ + "/" + it->file_name_);
 		if(file)
 		{
+			DJAH_BEGIN_LOG(EWL_NOTIFICATION)	<< "Packing ";
+			DJAH_BEGIN_LOG(EWL_LOW)				<< it->file_name_;
+			DJAH_BEGIN_LOG(EWL_NOTIFICATION)	<< " ... ";
+
+			djah::time::clock clk;
 			djah::fs::memory_stream buff(file);
 			pak_file_->write(buff.buffer(), buff.size());
+			djah::u64 dt = clk.getElapsedTimeMs();
+
+			DJAH_BEGIN_LOG(EWL_NOTIFICATION)	<< "done (";
+			DJAH_BEGIN_LOG(EWL_NOTIFICATION)	<< dt << " ms";
+			DJAH_BEGIN_LOG(EWL_NOTIFICATION)	<< ")"
+												<< DJAH_END_LOG();
 		}
 	}
+}
+//--------------------------------------------------------------------------------------------------
+
+
+//--------------------------------------------------------------------------------------------------
+void pak_compressor::writeCRC()
+{
+	pak_file_->write(crc_);
 }
 //--------------------------------------------------------------------------------------------------

@@ -6,7 +6,7 @@ namespace djah { namespace log {
 
 	//--------------------------------------------------------------------------
 	E_WARNING_LEVEL logger_impl::level_ = EWL_MEDIUM;
-	logger_impl *logger::instance_ = 0;
+	logger_impl *logger::instance_ = new null_logger;
 	//--------------------------------------------------------------------------
 
 
