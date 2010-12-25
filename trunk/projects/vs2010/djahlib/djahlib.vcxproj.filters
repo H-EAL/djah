@@ -99,6 +99,15 @@
     <Filter Include="src\utils">
       <UniqueIdentifier>{d320a66f-4231-4e7e-9581-d31e6e1c2740}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\time">
+      <UniqueIdentifier>{1171b3f4-053e-4f2c-8dd1-56e396956e7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\time">
+      <UniqueIdentifier>{d50dedf4-64e7-47fc-8bf6-87cec8d72b23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\video\primitives">
+      <UniqueIdentifier>{e2cc87f8-53ab-4cbe-8ce9-0be1bbacca14}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\djah\math.hpp">
@@ -329,6 +338,18 @@
     <ClInclude Include="..\..\..\include\djah\video\drivers\ogl\buffers\render_buffer.hpp">
       <Filter>include\video\drivers\ogl\buffers</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\fs\compressed_source.hpp">
+      <Filter>include\fs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\fs\compression_techniques.hpp">
+      <Filter>include\fs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\fs\memory_stream.hpp">
+      <Filter>include\fs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\time\clock.hpp">
+      <Filter>include\time</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\include\djah\math\basic_matrix.inl">
@@ -366,6 +387,9 @@
     </None>
     <None Include="..\..\..\include\djah\resources\media_manager.inl">
       <Filter>include\resources</Filter>
+    </None>
+    <None Include="..\..\..\include\djah\fs\compressed_source.inl">
+      <Filter>include\fs</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -436,6 +460,24 @@
       <Filter>src\video\drivers\ogl\buffers</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\video\drivers\ogl\buffers\render_buffer.cpp">
+      <Filter>src\video\drivers\ogl\buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\fs\compression_techniques.cpp">
+      <Filter>src\fs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\fs\memory_stream.cpp">
+      <Filter>src\fs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\time\clock.cpp">
+      <Filter>src\time</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\video\primitives\triangle.cpp">
+      <Filter>src\video\primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\video\drivers\ogl\shaders\shader_base.cpp">
+      <Filter>src\video\drivers\ogl\shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\video\drivers\ogl\buffers\buffer_base.cpp">
       <Filter>src\video\drivers\ogl\buffers</Filter>
     </ClCompile>
   </ItemGroup>
