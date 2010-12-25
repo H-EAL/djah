@@ -105,8 +105,9 @@ bool pak_compressor::addFile(const boost::filesystem::path &file)
 
 	header.size_	= static_cast<djah::u32>(file_size(file));
 	header.offset_	= 0;
-
-	return files_.insert(header).second;
+	
+	files_.push_back(header);
+	return true;
 }
 //--------------------------------------------------------------------------------------------------
 

@@ -1,7 +1,7 @@
 #ifndef PAK_COMPRESSOR_HPP
 #define PAK_COMPRESSOR_HPP
 
-#include <set>
+#include <vector>
 #include <string>
 #include <boost/filesystem.hpp>
 #include <djah/types.hpp>
@@ -27,12 +27,9 @@ private:
 		char		file_name_[FILENAME_MAX_SIZE];
 		djah::u32	size_;
 		djah::u32	offset_;
-
-		bool operator <(const pak_header &rhs) const
-		{ return strncmp(file_name_, rhs.file_name_, FILENAME_MAX_SIZE) < 0; }
 	};
 
-	typedef std::set<pak_header> file_list_t;
+	typedef std::vector<pak_header> file_list_t;
 
 	bool addFile(const boost::filesystem::path &file);
 	void writeHeaders();

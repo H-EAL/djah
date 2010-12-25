@@ -91,9 +91,12 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\include\djah\fs\compressed_source.hpp" />
+    <ClInclude Include="..\..\..\include\djah\fs\compression_techniques.hpp" />
     <ClInclude Include="..\..\..\include\djah\fs\directory_source.hpp" />
     <ClInclude Include="..\..\..\include\djah\fs\filesystem.hpp" />
     <ClInclude Include="..\..\..\include\djah\fs\file_stream.hpp" />
+    <ClInclude Include="..\..\..\include\djah\fs\memory_stream.hpp" />
     <ClInclude Include="..\..\..\include\djah\fs\source.hpp" />
     <ClInclude Include="..\..\..\include\djah\fs\stream.hpp" />
     <ClInclude Include="..\..\..\include\djah\geometry\plane.hpp" />
@@ -128,6 +131,7 @@
     <ClInclude Include="..\..\..\include\djah\resources\media_manager.hpp" />
     <ClInclude Include="..\..\..\include\djah\resources\resource_base.hpp" />
     <ClInclude Include="..\..\..\include\djah\resources\resource_manager.hpp" />
+    <ClInclude Include="..\..\..\include\djah\time\clock.hpp" />
     <ClInclude Include="..\..\..\include\djah\utils\detail\command_base.hpp" />
     <ClInclude Include="..\..\..\include\djah\utils\detail\functor_handler.hpp" />
     <ClInclude Include="..\..\..\include\djah\utils\detail\functor_impl.hpp" />
@@ -169,6 +173,7 @@
     <ClInclude Include="..\..\..\include\djah\video\video_config.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\include\djah\fs\compressed_source.inl" />
     <None Include="..\..\..\include\djah\fs\stream.inl" />
     <None Include="..\..\..\include\djah\geometry\plane.inl" />
     <None Include="..\..\..\include\djah\geometry\rect.inl" />
@@ -183,9 +188,11 @@
     <None Include="..\..\..\include\djah\video\drivers\ogl\shaders\shader_base.inl" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\src\fs\compression_techniques.cpp" />
     <ClCompile Include="..\..\..\src\fs\directory_source.cpp" />
     <ClCompile Include="..\..\..\src\fs\filesystem.cpp" />
     <ClCompile Include="..\..\..\src\fs\file_stream.cpp" />
+    <ClCompile Include="..\..\..\src\fs\memory_stream.cpp" />
     <ClCompile Include="..\..\..\src\log\console_logger.cpp" />
     <ClCompile Include="..\..\..\src\log\html_logger.cpp" />
     <ClCompile Include="..\..\..\src\log\logger.cpp" />
@@ -193,18 +200,22 @@
     <ClCompile Include="..\..\..\src\resources\loaders\image_loader.cpp" />
     <ClCompile Include="..\..\..\src\resources\resource_base.cpp" />
     <ClCompile Include="..\..\..\src\resources\resource_manager.cpp" />
+    <ClCompile Include="..\..\..\src\time\clock.cpp" />
     <ClCompile Include="..\..\..\src\utils\randomizer.cpp" />
     <ClCompile Include="..\..\..\src\video\device_base.cpp" />
     <ClCompile Include="..\..\..\src\video\devices\win32device.cpp" />
     <ClCompile Include="..\..\..\src\video\drivers\detail\opengl_win32.cpp" />
+    <ClCompile Include="..\..\..\src\video\drivers\ogl\buffers\buffer_base.cpp" />
     <ClCompile Include="..\..\..\src\video\drivers\ogl\buffers\frame_buffer.cpp" />
     <ClCompile Include="..\..\..\src\video\drivers\ogl\buffers\render_buffer.cpp" />
     <ClCompile Include="..\..\..\src\video\drivers\ogl\buffers\vertex_array.cpp" />
     <ClCompile Include="..\..\..\src\video\drivers\ogl\buffers\vertex_format.cpp" />
     <ClCompile Include="..\..\..\src\video\drivers\ogl\gl_caps.cpp" />
     <ClCompile Include="..\..\..\src\video\drivers\ogl\shaders\shader.cpp" />
+    <ClCompile Include="..\..\..\src\video\drivers\ogl\shaders\shader_base.cpp" />
     <ClCompile Include="..\..\..\src\video\drivers\opengl_base.cpp" />
     <ClCompile Include="..\..\..\src\video\driver_base.cpp" />
+    <ClCompile Include="..\..\..\src\video\primitives\triangle.cpp" />
     <ClCompile Include="..\..\..\src\video\video_config.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
