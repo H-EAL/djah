@@ -48,10 +48,6 @@ namespace djah { namespace log {
 	{
 	public:
 
-		logger();
-		// Abstract class
-		virtual ~logger();
-
 		// Change the current logger
 		static void setLogger(logger_impl *l);
 		static void setLevel(E_WARNING_LEVEL level);
@@ -64,6 +60,10 @@ namespace djah { namespace log {
 		static logger_impl& log(E_WARNING_LEVEL level = EWL_USELAST);
 
 	private:
+
+		// Static class
+		logger();
+		~logger();
 
 		// Current logger
 		static logger_impl *instance_;

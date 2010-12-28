@@ -30,6 +30,7 @@ namespace djah { namespace fs {
 		boost::scoped_array<byte>	buffer_;
 		size_t						buffer_size_;
 		const byte					*r_cursor_;
+		byte						*w_cursor_;
 	};
 
 } /*fs*/ } /*djah*/
