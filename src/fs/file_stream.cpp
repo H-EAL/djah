@@ -12,7 +12,7 @@ namespace djah { namespace fs {
 		if (overwrite_)
 			mode |= std::ios::trunc | std::ios::out;
 
-		stream_.open (file_name_.c_str(), mode);
+		stream_.open(file_name_.c_str(), mode);
 		is_open_ = stream_.good();
 	}
 	//----------------------------------------------------------------------------------------------

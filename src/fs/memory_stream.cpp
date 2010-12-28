@@ -1,4 +1,3 @@
-#include <string>
 #include "fs/memory_stream.hpp"
 
 namespace djah { namespace fs {
@@ -8,6 +7,7 @@ namespace djah { namespace fs {
 		: buffer_(new byte[size])
 		, buffer_size_(size)
 		, r_cursor_(buffer_.get())
+		, w_cursor_(buffer_.get())
 	{
 		memcpy(buffer_.get(), buffer, size);
 	}
@@ -19,6 +19,7 @@ namespace djah { namespace fs {
 		: buffer_(new byte[other_stream->size()])
 		, buffer_size_(other_stream->size())
 		, r_cursor_(buffer_.get())
+		, w_cursor_(buffer_.get())
 	{
 		other_stream->seek(0, ESD_BEG);
 		other_stream->read(buffer_.get(), other_stream->size());
@@ -31,6 +32,7 @@ namespace djah { namespace fs {
 		: buffer_(new byte[size])
 		, buffer_size_(size)
 		, r_cursor_(buffer_.get())
+		, w_cursor_(buffer_.get())
 	{
 		other_stream->seek(offset, ESD_BEG);
 		other_stream->read(buffer_.get(), size);
@@ -102,7 +104,7 @@ namespace djah { namespace fs {
 	//----------------------------------------------------------------------------------------------
 	size_t memory_stream::readImpl(char* buff, size_t size)
 	{
-		memcpy(buff, buffer(), size);
+		memcpy(buff, r_cursor_, size);
 		return size;
 	}
 	//----------------------------------------------------------------------------------------------
@@ -111,7 +113,7 @@ namespace djah { namespace fs {
 	//----------------------------------------------------------------------------------------------
 	size_t memory_stream::writeImpl(const char* buff, size_t size)
 	{
-		memcpy(buffer_.get(), buff, size);
+		memcpy(w_cursor_, buff, size);
 		return size;
 	}
 	//----------------------------------------------------------------------------------------------
