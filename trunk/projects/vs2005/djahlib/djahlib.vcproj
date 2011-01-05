@@ -330,6 +330,10 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="gameplay"
+				>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="include"
@@ -505,6 +509,10 @@
 				</File>
 				<File
 					RelativePath="..\..\..\include\djah\utils\hierarchy_generation.hpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\include\djah\utils\murmur_hash.hpp"
 					>
 				</File>
 				<File
@@ -793,6 +801,22 @@
 				>
 				<File
 					RelativePath="..\..\..\include\djah\time\clock.hpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="gameplay"
+				>
+				<File
+					RelativePath="..\..\..\include\djah\gameplay\game_object_component.hpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\include\djah\gameplay\game_object_component_database.hpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\include\djah\gameplay\game_object_component_database.inl"
 					>
 				</File>
 			</Filter>
