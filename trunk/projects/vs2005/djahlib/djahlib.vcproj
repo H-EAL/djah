@@ -807,18 +807,26 @@
 			<Filter
 				Name="gameplay"
 				>
-				<File
-					RelativePath="..\..\..\include\djah\gameplay\game_object_component.hpp"
+				<Filter
+					Name="go"
 					>
-				</File>
-				<File
-					RelativePath="..\..\..\include\djah\gameplay\game_object_component_database.hpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\include\djah\gameplay\game_object_component_database.inl"
-					>
-				</File>
+					<File
+						RelativePath="..\..\..\include\djah\gameplay\go\component.hpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\include\djah\gameplay\go\components_database.hpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\include\djah\gameplay\go\components_database.inl"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\include\djah\gameplay\go\components_typelist.inl"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 	</Files>
