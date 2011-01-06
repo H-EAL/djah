@@ -9,7 +9,7 @@ namespace djah { namespace utils {
 	static const u32 _m = 0x5bd1e995;
 	static const u32 _r = 24;
 	//----------------------------------------------------------------------------------------------
-/*
+
 	//----------------------------------------------------------------------------------------------
 	template <size_t LEN>
 	u32 murmur_hash_len(u32 hash, const char* str, int idx)
@@ -68,76 +68,65 @@ namespace djah { namespace utils {
 		return h;
 	}
 	//----------------------------------------------------------------------------------------------
-*/
+
 
 	//----------------------------------------------------------------------------------------------
-	template<u32 hash, char *str, int idx, u32 len>
-	struct murmur_hash_len
+	u32 murmur_hash(const void *key, u32 len, u32 seed)
 	{
-		enum { Result = murmur_hash_len<murmur_hash_len<hash, str, idx, 4>, str, idx+4, len-4> };
-	};
-	//----------------------------------------------------------------------------------------------
-	template<u32 hash, char *str, int idx>
-	struct murmur_hash_len<hash, str, idx, 4>
-	{
-		#define _k  ((str[idx+0]) | ((str[idx+1])<<8) | ((str[idx+2]) << 16) | ((str[idx+3]) << 24))
-		enum
+		// 'm' and 'r' are mixing constants generated offline.
+		// They're not really 'magic', they just happen to work well.
+
+		// Initialize the hash to a 'random' value
+		u32 h = seed ^ len;
+
+		// Mix 4 bytes at a time into the hash
+		const u32 * data = (u32 *)key;
+
+		while(len >= 4)
 		{
-			Tmp0	= _k * _m,
-			Tmp1	= Tmp0 >> _r,
-			Tmp2	= Tmp0 ^ Tmp1,
-			k		= Tmp2 * _m,
-			Result	= (hash * _m) ^ k
-		};
-	};
-	//----------------------------------------------------------------------------------------------
-	template<u32 hash, char *str, int idx>
-	struct murmur_hash_len<hash, str, idx, 3>
-	{
-		enum { Result = (hash ^ (str[idx+2] << 16) ^ (str[idx+1] << 8) ^ (str[idx+0])) * _m };
-	};
-	//----------------------------------------------------------------------------------------------
-	template<u32 hash, char *str, int idx>
-	struct murmur_hash_len<hash, str, idx, 2>
-	{
-		enum { Result = (hash ^ (str[idx+1] << 8) ^ (str[idx+0])) * _m };
-	};
-	//----------------------------------------------------------------------------------------------
-	template<u32 hash, char *str, int idx>
-	struct murmur_hash_len<hash, str, idx, 1>
-	{
-		enum { Result = (hash ^ (str[idx+0])) * _m };
-	};
-	//----------------------------------------------------------------------------------------------
-	template<u32 hash, char *str, int idx>
-	struct murmur_hash_len<hash, str, idx, 0>
-	{
-		enum { Result = hash };
-	};
-	//----------------------------------------------------------------------------------------------
+			u32 k = *(u32 *)data;
 
+			k *= _m; 
+			k ^= k >> _r;
+			k *= _m; 
 
-	//----------------------------------------------------------------------------------------------
-	template<u32 seed, char *str>
-	struct murmur_hash
-	{
-		enum
+			h *= _m; 
+			h ^= k;
+
+			data += 4;
+			len -= 4;
+		}
+
+		// Handle the last few bytes of the input array
+		switch(len)
 		{
-			Tmp0	= sizeof(str),
-			Tmp1	= murmur_hash_len<seed ^ Tmp0, str, 0, Tmp0>::Result,
-			Tmp2	= Tmp1 >> 13,
-			Tmp3	= Tmp1 ^ Tmp2,
-			Tmp4	= Tmp3 * _m,
-			Tmp5	= Tmp4 >> 15,
-			Tmp6	= Tmp4 ^ Tmp5,
-			Result	= Tmp6
+		case 3: h ^= data[2] << 16;
+		case 2: h ^= data[1] << 8;
+		case 1: h ^= data[0];
+			h *= _m;
 		};
-	};
-	//----------------------------------------------------------------------------------------------
+
+		// Do a few final mixes of the hash to ensure the last few
+		// bytes are well-incorporated.
+		h ^= h >> 13;
+		h *= _m;
+		h ^= h >> 15;
+
+		return h;
+	} 
+
 
 	//----------------------------------------------------------------------------------------------
 	// This generates an immediate hash with a literal string. Do NOT use with a dynamic string.
-	#define DJAH_STATIC_MURMUR_HASH(str, seed) djah::utils::murmur_hash<seed, str>::Result
+	inline u32 static_murmur_hash(const char *str, u32 seed = 0)
+	{
+		return djah::utils::murmur_hash<sizeof(str)>(seed, str);
+	}
+	//----------------------------------------------------------------------------------------------
+	inline u32 dyamic_murmur_hash(const char *str, u32 len, u32 seed = 0)
+	{
+		return murmur_hash(str, len, seed);
+	}
 	//----------------------------------------------------------------------------------------------
 
 } /*utils*/ } /*djah*/

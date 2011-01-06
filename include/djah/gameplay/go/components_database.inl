@@ -1,14 +1,14 @@
-namespace djah { namespace gameplay {
+namespace djah { namespace gameplay { namespace go {
 
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	T game_object_component_database::add()
+	T components_database::add()
 	{
 		typedef typename T::Component					Component;
 		typedef typename component_holder<Component>	ComponentHolder;
 		typedef typename T								Id;
 
-		ComponentHolder::component_list_.push_back(game_object_component<Component>());
+		ComponentHolder::component_list_.push_back(component<Component>());
 		return Id(*this, ComponentHolder::component_list_.size() - 1);
 	}
 	//----------------------------------------------------------------------------------------------
@@ -16,22 +16,21 @@ namespace djah { namespace gameplay {
 
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	void game_object_component_database::remove(const game_object_component_id<typename T::Component>& gocid)
+	void components_database::remove(const component_id<typename T::Component>& comp_id)
 	{
-		typedef typename component_holder<typename T::Component> ComponentHolder;
-
-		ComponentHolder::component_list_.erase(ComponentHolder::component_list_.begin() + gocid.offset());
+		typedef component_holder<typename T::Component> ComponentHolder;
+		ComponentHolder::component_list_.erase(ComponentHolder::component_list_.begin() + comp_id.offset());
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	game_object_component<T>& game_object_component_database::get(size_t offset)
+	component<T>& components_database::get(size_t offset)
 	{
-		typedef typename component_holder<T> ComponentHolder;
+		typedef component_holder<T> ComponentHolder;
 		return ComponentHolder::component_list_[offset];
 	}
 	//----------------------------------------------------------------------------------------------
 
-} /*gameplay*/ } /*djah*/
+} /*go*/ } /*gameplay*/ } /*djah*/
