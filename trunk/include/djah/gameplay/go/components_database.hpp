@@ -22,20 +22,20 @@ namespace djah { namespace gameplay { namespace go {
 		static u32 get_type() { return Component::name_; }
 
 		component_id(components_database &db, size_t offset)
-			: db_(db), offset_(offset) {}
+			: db_(db), index_(offset) {}
 
-		size_t offset() const { return offset_; }
+		size_t index() const { return index_; }
 
 		RealType& toRealType() { return get(); }
 		operator RealType() { return get(); }
 		component_id<T>& operator =(const RealType &data) { set(data); return *this; }
 
 	private:
-		RealType&	get()						{ return db_.get<T>(offset_).get(); }
+		RealType&	get()						{ return db_.get<T>(index_).get(); }
 		void		set(const RealType &data)	{ get() = data; }
 
 		components_database &db_;
-		size_t offset_;
+		size_t index_;
 	};
 	//----------------------------------------------------------------------------------------------
 
@@ -71,7 +71,10 @@ namespace djah { namespace gameplay { namespace go {
 		component<T>& get(size_t offset);
 
 		template<typename T>
-		const component<T>& get(size_t offset) const;	
+		const component<T>& get(size_t index) const;
+
+		template<typename T>
+		typename component_holder<typename T::Component>::component_list_t& getArray();
 	};
 	//----------------------------------------------------------------------------------------------
 
