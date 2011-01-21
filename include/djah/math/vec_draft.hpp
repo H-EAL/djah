@@ -83,7 +83,7 @@ struct vector : public vector_base<N,T>
 	vector<N,T>&	normalize()				{ return (*this) /= length(); }
 	vector<N,T>		getNormalized()	const	{ return vector<N,T>(*this).normalize(); }
 
-	const vector<N,T> operator -() const { vector<N,T> result; std::transform(data, data+N, result.data, std::negate<T>()); return result; }
+	const vector<N,T> operator -() const { vector<N,T> result; for(int i = 0; i < N; ++i) result.data[i] = -data[i]; return result; }
 
 	vector<N,T>& operator +=(const vector<N,T> &rhs) { for(int i = 0; i < N; ++i) data[i] += rhs.data[i]; return (*this); }
 	vector<N,T>& operator -=(const vector<N,T> &rhs) { for(int i = 0; i < N; ++i) data[i] -= rhs.data[i]; return (*this); }
@@ -156,11 +156,11 @@ template<typename T>
 vector<3,T> cross(const vector<3,T> &lhs, const vector<3,T> &rhs)
 {
 	return vector<3,T>
-		(
+	(
 		lhs.y * rhs.z - lhs.z * rhs.y,
 		lhs.z * rhs.x - lhs.x * rhs.z,
 		lhs.x * rhs.y - lhs.y * rhs.x
-		);
+	);
 }
 
 template<typename T, int N>
