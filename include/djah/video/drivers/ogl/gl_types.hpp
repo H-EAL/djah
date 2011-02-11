@@ -5,31 +5,31 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline unsigned int get_gl_type();
+	struct gl_type;
 	//----------------------------------------------------------------------------------------------
 	template<>
-	inline unsigned int get_gl_type<char>()           { return GL_BYTE; }
+	struct gl_type<char>			{ enum { Type = GL_BYTE };				};
 	//----------------------------------------------------------------------------------------------
 	template<>
-	inline unsigned int get_gl_type<unsigned char>()  { return GL_UNSIGNED_BYTE; }
+	struct gl_type<unsigned char>	{ enum { Type = GL_UNSIGNED_BYTE };		};
 	//----------------------------------------------------------------------------------------------
 	template<>
-	inline unsigned int get_gl_type<short>()          { return GL_SHORT; }
+	struct gl_type<short>			{ enum { Type = GL_SHORT };				};
 	//----------------------------------------------------------------------------------------------
 	template<>
-	inline unsigned int get_gl_type<unsigned short>() { return GL_UNSIGNED_SHORT; }
+	struct gl_type<unsigned short>	{ enum { Type = GL_UNSIGNED_SHORT };	};
 	//----------------------------------------------------------------------------------------------
 	template<>
-	inline unsigned int get_gl_type<int>()            { return GL_INT; }
+	struct gl_type<int>				{ enum { Type = GL_INT };				};
 	//----------------------------------------------------------------------------------------------
 	template<>
-	inline unsigned int get_gl_type<unsigned int>()   { return GL_UNSIGNED_INT; }
+	struct gl_type<unsigned int>	{ enum { Type = GL_UNSIGNED_INT };		};
 	//----------------------------------------------------------------------------------------------
 	template<>
-	inline unsigned int get_gl_type<float>()          { return GL_FLOAT; }
+	struct gl_type<float>			{ enum { Type = GL_FLOAT };				};
 	//----------------------------------------------------------------------------------------------
 	template<>
-	inline unsigned int get_gl_type<double>()         { return GL_DOUBLE; }
+	struct gl_type<double>			{ enum { Type = GL_DOUBLE };			};
 	//----------------------------------------------------------------------------------------------
 
 } /*ogl*/ } /*drivers*/ } /*video*/ } /*djah*/

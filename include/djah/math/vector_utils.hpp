@@ -43,7 +43,7 @@ namespace djah { namespace math {
 
 	//--------------------------------------------------------------------------
 	template<typename T>
-	inline vector<4,T> point4_to_point3(const vector<3,T> &p)
+	inline vector<3,T> point4_to_point3(const vector<4,T> &p)
 	{
 		return vec4_to_vec3(p);
 	}
