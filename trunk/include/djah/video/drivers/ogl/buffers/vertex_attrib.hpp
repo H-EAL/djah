@@ -53,7 +53,7 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 		struct position : public vertex_attrib<T>
 		{
 			position(unsigned int count)
-				: vertex_attrib("Position", count) {}
+				: vertex_attrib<T>("Position", count) {}
 		};
 		//------------------------------------------------------------------------------------------
 
@@ -63,7 +63,7 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 		struct normal : public vertex_attrib<T>
 		{
 			normal(unsigned int count)
-				: vertex_attrib("Normal", count) {}
+				: vertex_attrib<T>("Normal", count) {}
 		};
 		//------------------------------------------------------------------------------------------
 
@@ -73,7 +73,7 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 		struct color : public vertex_attrib<T>
 		{
 			color(unsigned int count)
-				: vertex_attrib("Color", count) {}
+				: vertex_attrib<T>("Color", count) {}
 		};
 		//------------------------------------------------------------------------------------------
 
@@ -83,7 +83,7 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 		struct tex_coord : public vertex_attrib<T>
 		{
 			tex_coord(unsigned int count)
-				: vertex_attrib("TexCoord", count) {}
+				: vertex_attrib<T>("TexCoord", count) {}
 		};
 		//------------------------------------------------------------------------------------------
 

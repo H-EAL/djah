@@ -9,6 +9,6 @@
 #include "math/vector3.hpp"
 #include "math/vector4.hpp"
 #include "math/quaternion.hpp"
-#include "math/utils.hpp"
+#include "math/math_utils.hpp"
 
 #endif /* MATH_HPP */

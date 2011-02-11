@@ -54,7 +54,7 @@ namespace djah { namespace log {
 		char buffer[512];
 		va_list params;
 		va_start(params, format);
-		vsprintf_s(buffer, 512, format, params);
+		vsprintf(buffer, format, params);
 		va_end(params);
 
 		instance_->beginLog();

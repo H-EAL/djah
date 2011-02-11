@@ -2,29 +2,17 @@ namespace djah { namespace math {
 
 	//--------------------------------------------------------------------------
 	template<typename T>
-	quaternion<T>::quaternion(const T (&array)[size_])
-		: vector_base(array)
+	quaternion<T>::quaternion(const T (&array)[4])
 	{
+		memcpy(data, array, 4*sizeof(T));
 	}
 	//--------------------------------------------------------------------------
 	
 	
 	//--------------------------------------------------------------------------
 	template<typename T>
-	quaternion<T>::quaternion(T x, T y, T z, T w)
-	{
-		data_[0] = x;
-		data_[1] = y;
-		data_[2] = z;
-		data_[3] = w;
-	}
-	//--------------------------------------------------------------------------
-	
-	
-	//--------------------------------------------------------------------------
-	template<typename T>
-	quaternion<T>::quaternion(const detail::vector_base<size_,T> &v)
-		: vector_base(v)
+	quaternion<T>::quaternion(T _x, T _y, T _z, T _w)
+	: x(_x), y(_y), z(_z), w(_w)
 	{
 	}
 	//--------------------------------------------------------------------------
@@ -34,7 +22,7 @@ namespace djah { namespace math {
 	template<typename T>
 	inline T quaternion<T>::magnitude() const
 	{
-		return sqrt(x()*x() + y()*y() + z()*z() + w()*w());
+		return sqrt(x*x + y*y + z*z + w*w);
 	}
 	//--------------------------------------------------------------------------
 	
@@ -52,9 +40,9 @@ namespace djah { namespace math {
 	template<typename T>
 	inline quaternion<T>& quaternion<T>::conjugate()
 	{
-		x() = -x();
-		y() = -y();
-		z() = -z();
+		x = -x;
+		y = -y;
+		z = -z;
 		return *this;
 	}
 	//--------------------------------------------------------------------------
@@ -82,8 +70,8 @@ namespace djah { namespace math {
 	template<typename T>
 	inline quaternion<T>& quaternion<T>::operator +=(const quaternion<T> &rhs)
 	{
-		for(size_t i = 0; i < SIZE; ++i)
-			data_[i] += rhs.data_[i];
+		for(size_t i = 0; i < 4; ++i)
+			data[i] += rhs.data[i];
 
 		return *this;
 	}
@@ -94,8 +82,8 @@ namespace djah { namespace math {
 	template<typename T>
 	inline quaternion<T>& quaternion<T>::operator -=(const quaternion<T> &rhs)
 	{
-		for(size_t i = 0; i < SIZE; ++i)
-			data_[i] -= rhs.data_[i];
+		for(size_t i = 0; i < 4; ++i)
+			data[i] -= rhs.data[i];
 
 		return *this;
 	}
@@ -106,7 +94,8 @@ namespace djah { namespace math {
 	template<typename T>
 	inline quaternion<T>& quaternion<T>::operator *=(T rhs)
 	{
-		std::transform(begin(), end(), data_, std::bind2nd(std::multiplies<T>(), rhs));
+		for(size_t i = 0; i < 4; ++i)
+			data[i] *= rhs;
 		return *this;
 	}
 	//------------------------------------------------------------------------------
@@ -178,11 +167,11 @@ namespace djah { namespace math {
 	template<typename T>
 	inline const quaternion<T> operator *(const quaternion<T> &lhs, const quaternion<T> &rhs)
 	{
-		const vector3<T> v1(lhs.x(), lhs.y(), lhs.z());
-		const vector3<T> v2(rhs.x(), rhs.y(), rhs.z());
-		const vector3<T> vR(v2*lhs.w() + v1*rhs.w() + cross(v1,v2));
+		const vector<3,T> v1(lhs.x, lhs.y, lhs.z);
+		const vector<3,T> v2(rhs.x, rhs.y, rhs.z);
+		const vector<3,T> vR(v2*lhs.w + v1*rhs.w + cross(v1,v2));
 
-		return quaternion<T>(vR.x(), vR.y(), vR.z(), lhs.w()*rhs.w() - v1*v2);
+		return quaternion<T>(vR.x, vR.y, vR.z, lhs.w*rhs.w - v1*v2);
 	}
 	//------------------------------------------------------------------------------
 

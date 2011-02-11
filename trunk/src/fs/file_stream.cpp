@@ -62,7 +62,7 @@ namespace djah { namespace fs {
 	//----------------------------------------------------------------------------------------------
 	void file_stream::seek(size_t offset, E_SEEK_DIR dir)
 	{
-		stream_.seekg(static_cast<std::streamoff>(offset), dir);
+		//stream_.seekg(static_cast<std::streamoff>(offset), static_cast<std::ios_base::seekdir>(dir));
 	}
 	//----------------------------------------------------------------------------------------------
 

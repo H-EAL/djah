@@ -10,7 +10,7 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 	{
 	public:
 		vertex_buffer(size_t size, E_BUFFER_USAGE usage, bool auto_alloc = true)
-			: buffer_base(size, usage, auto_alloc) {}
+			: buffer_base<GL_ARRAY_BUFFER>(size, usage, auto_alloc) {}
 	};
 
 } /*ogl*/ } /*drivers*/ } /*video*/ } /*djah*/

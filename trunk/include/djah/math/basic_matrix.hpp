@@ -9,12 +9,12 @@
 namespace djah { namespace math {
 
 	template<size_t SIZE, typename T>
-	class basic_matrix : public detail::vector_base< SIZE*SIZE,T >
+	class basic_matrix : public detail::vector_base2< SIZE*SIZE,T >
 	{
 	public:
 
 		// A row type
-		typedef detail::vector_base<SIZE,T> row_t;
+		typedef detail::vector_base2<SIZE,T> row_t;
 		// A col type
 		typedef row_t						col_t;
 

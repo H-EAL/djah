@@ -1,6 +1,7 @@
 #ifndef DJAH_FS_STREAM_HPP
 #define DJAH_FS_STREAM_HPP
 
+#include <ios>
 #include <string>
 #include <boost/shared_ptr.hpp>
 #include "../types.hpp"

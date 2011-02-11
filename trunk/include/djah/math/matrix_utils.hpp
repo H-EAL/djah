@@ -26,15 +26,15 @@ namespace djah { namespace math {
 	}
 	//------------------------------------------------------------------------------
 	template<typename T>
-	inline basic_matrix<4,T> make_translation(const vector3<T> &v)
+	inline basic_matrix<4,T> make_translation(const vector<3,T> &v)
 	{
-		return make_translation(v.x(), v.y(), v.z());
+		return make_translation(v.x, v.y, v.z);
 	}
 	//------------------------------------------------------------------------------
 	template<typename T>
-	inline basic_matrix<4,T> make_translation(const vector4<T> &v)
+	inline basic_matrix<4,T> make_translation(const vector<4,T> &v)
 	{
-		return make_translation(v.x(), v.y(), v.z(), v.w());
+		return make_translation(v.x, v.y, v.z, v.w);
 	}
 	//------------------------------------------------------------------------------
 
@@ -54,28 +54,28 @@ namespace djah { namespace math {
 	}
 	//------------------------------------------------------------------------------
 	template<typename T>
-	inline basic_matrix<4,T> make_scale(const vector3<T> &v)
+	inline basic_matrix<4,T> make_scale(const vector<3,T> &v)
 	{
 		return make_scale(v.x(), v.y(), v.z());
 	}
 	//------------------------------------------------------------------------------
 	template<typename T>
-	inline basic_matrix<4,T> make_scale(const vector4<T> &v)
+	inline basic_matrix<4,T> make_scale(const vector<4,T> &v)
 	{
-		return make_scale(v.x(), v.y(), v.z(), v.w());
+		return make_scale(v.x, v.y, v.z, v.w);
 	}
 	//------------------------------------------------------------------------------
 
 
 	//------------------------------------------------------------------------------
 	template<typename T>
-	inline basic_matrix<4,T> make_rotation(T angle, vector3<T> axis)
+	inline basic_matrix<4,T> make_rotation(T angle, vector<3,T> axis)
 	{
 		axis.normalize();
 
-		const T u_x  = axis.x(); 
-		const T u_y  = axis.y(); 
-		const T u_z  = axis.z();
+		const T u_x  = axis.x; 
+		const T u_y  = axis.y; 
+		const T u_z  = axis.z;
 		const T u_x2 = u_x * u_x;
 		const T u_y2 = u_y * u_y;
 		const T u_z2 = u_z * u_z;
@@ -102,26 +102,26 @@ namespace djah { namespace math {
 	}
 	//------------------------------------------------------------------------------
 	template<typename A, typename T>
-	inline basic_matrix<4,T> make_rotation(A angle, const vector4<T> &axis)
+	inline basic_matrix<4,T> make_rotation(A angle, const vector<4,T> &axis)
 	{
-		return make_rotation(angle, vector3<T>(axis.x(), axis.y(), axis.z()));
+		return make_rotation(angle, vector<3,T>(axis.x(), axis.y(), axis.z()));
 	}
 	//------------------------------------------------------------------------------
 	template<typename A, typename T>
 	inline basic_matrix<4,T> make_rotation(A angle, T t_x, T t_y, T t_z)
 	{
-		return make_rotation(angle, vector3<T>(t_x, t_y, t_z));
+		return make_rotation(angle, vector<3,T>(t_x, t_y, t_z));
 	}
 	//------------------------------------------------------------------------------
 
 
 	//--------------------------------------------------------------------------
-	template<size_t SIZE, typename T>
-	inline basic_vector<SIZE,T> operator *(const basic_matrix<SIZE,T> &m, const basic_vector<SIZE,T> &v)
+	template<int N, typename T>
+	inline vector<N,T> operator *(const basic_matrix<N,T> &m, const vector<N,T> &v)
 	{
-		typedef basic_vector<SIZE,T> vec_t;
+		typedef vector<N,T> vec_t;
 		vec_t result;
-		for(size_t i = 0; i < SIZE; ++i)
+		for(size_t i = 0; i < N; ++i)
 		{
 			const vec_t r_i( m.row(i) );
 			result[i] = r_i * v;
@@ -134,7 +134,7 @@ namespace djah { namespace math {
 
 	//--------------------------------------------------------------------------
 	template<size_t SIZE, typename T>
-	inline basic_vector<SIZE,T> transform(const basic_matrix<SIZE,T> &m, const basic_vector<SIZE,T> &v)
+	inline vector<SIZE,T> transform(const basic_matrix<SIZE,T> &m, const vector<SIZE,T> &v)
 	{
 		return m*v;
 	}

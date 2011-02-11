@@ -47,7 +47,10 @@ namespace djah { namespace log {
 			HANDLE hdl = GetStdHandle(STD_OUTPUT_HANDLE);
 			SetConsoleTextAttribute(hdl, static_cast<WORD>(textColor+(bgColor<<4)));
 		#else
-			std::string col = "3" + textColor + ";" + "4" + bgColor;
+			std::string col = "3";
+			col += textColor;
+			col += ";4";
+			col += bgColor;
 			printf("\033[%sm", col.c_str());
 		#endif
 		}

@@ -1,5 +1,4 @@
 #include "video/drivers/opengl_base.hpp"
-#include <GL/glew.h>
 #include "video/drivers/ogl/gl_caps.hpp"
 
 namespace djah { namespace video { namespace drivers {
@@ -83,7 +82,7 @@ namespace djah { namespace video { namespace drivers {
 	void opengl_base::updateViewport()
 	{
 		const math::vector2i &topLeft = viewport_.topLeft();
-		glViewport(topLeft.x(), topLeft.y(), viewport_.width(), viewport_.height());
+		glViewport(topLeft.x, topLeft.y, viewport_.width(), viewport_.height());
 	}
 	//----------------------------------------------------------------------------------------------
 

@@ -12,7 +12,7 @@
 #ifdef _MSC_VER	
 	#define DJAH_LOG_TODO(x) __pragma( message(__LOC__ #x) )
 #else
-	#define DJAH_LOG_TODO(x)  _Pragma( message(__LOC__ #x) )
+	#define DJAH_LOG_TODO(x)  /*_Pragma( message(__LOC__ #x) )*/
 #endif
 //------------------------------------------------------------------------------
 // Macro to ease the logging
