@@ -1,8 +1,10 @@
 #ifndef DJAH_VIDEO_DRIVERS_OGL_BUFFER_BASE_HPP
 #define DJAH_VIDEO_DRIVERS_OGL_BUFFER_BASE_HPP
 
+#include <cassert>
 #include "../../../../types.hpp"
 #include "../resource.hpp"
+#include "../gl_types.hpp"
 
 namespace djah { namespace video { namespace drivers { namespace ogl {
 

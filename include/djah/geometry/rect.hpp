@@ -11,24 +11,24 @@ namespace djah { namespace geometry {
 	public:
 
 		rect(T left = T(0), T top = T(0), T right = T(0), T bottom = T(0));
-		rect(const math::vector2<T> &topLeft, const math::vector2<T> &bottomRight);
-		rect(const math::vector2<T> &topLeftPosition, T width, T height);
+		rect(const math::vector<2,T> &topLeft, const math::vector<2,T> &bottomRight);
+		rect(const math::vector<2,T> &topLeftPosition, T width, T height);
 
 		T width() const;
 		T height() const;
 
 		// Read/Write accessors
-		math::vector2<T>& topLeft();
-		math::vector2<T>& bottomRight();
+		math::vector<2,T>& topLeft();
+		math::vector<2,T>& bottomRight();
 
 		// Read-only accessors
-		const math::vector2<T>& topLeft() const;
-		const math::vector2<T>& bottomRight() const;
+		const math::vector<2,T>& topLeft() const;
+		const math::vector<2,T>& bottomRight() const;
 
 	private:
 
-		math::vector2<T> topLeft_;
-		math::vector2<T> bottomRight_;
+		math::vector<2,T> topLeft_;
+		math::vector<2,T> bottomRight_;
 	};
 
 

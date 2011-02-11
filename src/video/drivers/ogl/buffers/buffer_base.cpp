@@ -92,9 +92,9 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 
 	//----------------------------------------------------------------------------------------------
 	template<int Target>
-	size_t buffer_base<Target>::dataType() const
+	u32 buffer_base<Target>::dataType() const
 	{
-		return dataType();
+		return data_type_;
 	}
 	//----------------------------------------------------------------------------------------------
 

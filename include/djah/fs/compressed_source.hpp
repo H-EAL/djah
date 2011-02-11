@@ -6,6 +6,7 @@
 #include "stream.hpp"
 #include "compressed_source.hpp"
 #include "memory_stream.hpp"
+#include "filesystem.hpp"
 
 namespace djah { namespace fs {
 

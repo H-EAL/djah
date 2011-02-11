@@ -11,23 +11,23 @@ namespace djah { namespace geometry {
 	public:
 
 		// Init with 3 points
-		triangle(const math::vector3<T> &a, const math::vector3<T> &b, const math::vector3<T> &c);
+		triangle(const math::vector<3,T> &a, const math::vector<3,T> &b, const math::vector<3,T> &c);
 
 		// Read/Write accessors
-		math::vector3<T>&		a();
-		math::vector3<T>&		b();
-		math::vector3<T>&		c();
+		math::vector<3,T>&			a();
+		math::vector<3,T>&			b();
+		math::vector<3,T>&			c();
 		// Read-only accessors
-		const math::vector3<T>&	a() const;
-		const math::vector3<T>&	b() const;
-		const math::vector3<T>&	c() const;
+		const math::vector<3,T>&	a() const;
+		const math::vector<3,T>&	b() const;
+		const math::vector<3,T>&	c() const;
 
 
 	private:
 
-		math::vector3<T> a_;
-		math::vector3<T> b_;
-		math::vector3<T> c_;
+		math::vector<3,T> a_;
+		math::vector<3,T> b_;
+		math::vector<3,T> c_;
 	};
 
 

@@ -11,18 +11,18 @@ namespace djah { namespace geometry {
 	public:
 
 		// A sphere is just a 3D point and a radius
-		sphere(T radius = T(1), const math::vector3<T> &center = math::vector3<T>())
+		sphere(T radius = T(1), const math::vector<3,T> &center = math::vector3<T>())
 			: radius_(radius), center_(center) {}
 
 		// Read/Write accessors
-		T&                      radius()       { return radius_; }
-		math::vector3<T>&       center()       { return center_; }
+		T&                       radius()       { return radius_; }
+		math::vector<3,T>&       center()       { return center_; }
 		// Read-only accessors
-		const T&                radius() const { return radius_; }
-		const math::vector3<T>& center() const { return center_; }
+		const T&                 radius() const { return radius_; }
+		const math::vector<3,T>& center() const { return center_; }
 
 		// Indicates if a point is inside the sphere
-		bool isInside(const math::vector3<T> &point) const
+		bool isInside(const math::vector<3,T> &point) const
 		{
 			const T distance = math::distance(point, center_);
 			return distance <= radius_;
@@ -31,8 +31,8 @@ namespace djah { namespace geometry {
 
 	private:
 
-		T                radius_;
-		math::vector3<T> center_;
+		T                 radius_;
+		math::vector<3,T> center_;
 	};
 
 

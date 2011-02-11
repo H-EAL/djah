@@ -1,34 +1,17 @@
 #ifndef DJAH_MATH_QUATERNION_HPP
 #define DJAH_MATH_QUATERNION_HPP
 
-#include "detail/vector_base.hpp"
-
 namespace djah { namespace math {
 
 	template<typename T>
 	class quaternion
-		: public detail::vector_base<4,T>
 	{
 	public:
 
 		// Init from values
-		explicit quaternion(T x = T(0), T y = T(0), T z = T(0), T w = T(1));
+		explicit quaternion(T _x = T(0), T _y = T(0), T _z = T(0), T _w = T(1));
 		// Init with an array
-		quaternion(const T (&array)[size_]);
-		// Init from a base class element
-		quaternion(const detail::vector_base<size_,T> &v);
-
-		// Quaternion members accessors
-		T& x() { return data_[0]; }
-		T& y() { return data_[1]; }
-		T& z() { return data_[2]; }
-		T& w() { return data_[3]; }
-
-		// Const quaternion member accessors
-		const T& x() const { return data_[0]; }
-		const T& y() const { return data_[1]; }
-		const T& z() const { return data_[2]; }
-		const T& w() const { return data_[3]; }
+		quaternion(const T (&array)[4]);
 
 		// Get magnitude
 		T magnitude() const;
@@ -51,6 +34,13 @@ namespace djah { namespace math {
 		// Scalar division
 		quaternion<T>& operator /=(T rhs);
 
+		
+		// Actual data
+		union
+		{
+			struct { T x, y, z, w; };
+			T data[4];
+		};
 
 		// Useful constant
 		static const quaternion<T> identity;

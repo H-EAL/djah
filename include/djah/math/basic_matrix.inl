@@ -15,7 +15,7 @@ namespace djah { namespace math {
 	basic_matrix<SIZE,T>::basic_matrix(const T (&array)[SIZE*SIZE])
 	{
 		for(size_t i = 0; i < SIZE*SIZE; ++i)
-				vector_base::data_[i] = array[i];
+				vector_base2<SIZE*SIZE,T>::data_[i] = array[i];
 	}
 	//------------------------------------------------------------------------------
 
@@ -26,7 +26,7 @@ namespace djah { namespace math {
 	{
 		for(size_t i = 0; i < SIZE; ++i)
 			for(size_t j = 0; j < SIZE; ++j)
-				data_[i + j*SIZE] = array[i][j];
+				vector_base2<SIZE*SIZE,T>::data_[i + j*SIZE] = array[i][j];
 	}
 	//------------------------------------------------------------------------------
 
@@ -34,10 +34,10 @@ namespace djah { namespace math {
 	//------------------------------------------------------------------------------
 	template<size_t SIZE, typename T>
 	template<size_t I, size_t J>
-	T& basic_matrix<SIZE,T>::m() { return vector_base::data_[I-1 + (J-1)*SIZE]; }
+	T& basic_matrix<SIZE,T>::m() { return vector_base2<SIZE*SIZE,T>::data_[I-1 + (J-1)*SIZE]; }
 	template<size_t SIZE, typename T>
 	template<size_t I, size_t J>
-	const T& basic_matrix<SIZE,T>::m() const { return vector_base::data_[I-1 * (J-1)*SIZE]; }
+	const T& basic_matrix<SIZE,T>::m() const { return vector_base2<SIZE*SIZE,T>::data_[I-1 * (J-1)*SIZE]; }
 	//------------------------------------------------------------------------------
 
 
@@ -47,7 +47,7 @@ namespace djah { namespace math {
 	{
 		for(size_t i = 0; i < SIZE; ++i)
 			for(size_t j = 0; j < SIZE; ++j)
-				vector_base::data_[i + j * SIZE] = i==j ? T(1) : T(0);
+				vector_base2<SIZE*SIZE,T>::data_[i + j * SIZE] = i==j ? T(1) : T(0);
 	}
 	//------------------------------------------------------------------------------
 
@@ -58,7 +58,7 @@ namespace djah { namespace math {
 	{
 		for(size_t i = 0; i < SIZE; ++i)
 			for(size_t j = i+1; j < SIZE; ++j)
-				std::swap(vector_base::data_[i + j*SIZE], vector_base::data_[j + i*SIZE]);
+				std::swap(vector_base2<SIZE*SIZE,T>::data_[i + j*SIZE], vector_base2<SIZE*SIZE,T>::data_[j + i*SIZE]);
 	}
 	//------------------------------------------------------------------------------
 
@@ -104,8 +104,8 @@ namespace djah { namespace math {
 				const size_t kdi = (i+j) % SIZE;
 				const size_t kci = ((SIZE-1) + (i-j)) % SIZE;
 
-				diag         *= vector_base::data_[kdi + j*SIZE];
-				counter_diag *= vector_base::data_[kci + j*SIZE];
+				diag         *= vector_base2<SIZE*SIZE,T>::data_[kdi + j*SIZE];
+				counter_diag *= vector_base2<SIZE*SIZE,T>::data_[kci + j*SIZE];
 			}
 			det += diag - counter_diag;
 		}
@@ -121,7 +121,7 @@ namespace djah { namespace math {
 	{
 		row_t r;
 		for(size_t j = 0; j < SIZE; ++j)
-			r[j] = vector_base::data_[i + j*SIZE];
+			r[j] = vector_base2<SIZE*SIZE,T>::data_[i + j*SIZE];
 		return r;
 	}
 	//------------------------------------------------------------------------------
@@ -133,7 +133,7 @@ namespace djah { namespace math {
 	{
 		col_t c;
 		for(size_t i = 0; i < SIZE; ++i)
-			c[i] = vector_base::data_[i + j*SIZE];
+			c[i] = vector_base2<SIZE*SIZE,T>::data_[i + j*SIZE];
 		return c;
 	}
 	//------------------------------------------------------------------------------
@@ -154,7 +154,7 @@ namespace djah { namespace math {
 	{
 		for(size_t i = 0; i < SIZE; ++i)
 			for(size_t j = 0; j < SIZE; ++j)
-				vector_base::data_[i + j*SIZE] += rhs.data_[i + j*SIZE];
+				vector_base2<SIZE*SIZE,T>::data_[i + j*SIZE] += rhs.data_[i + j*SIZE];
 
 		return *this;
 	}
@@ -167,7 +167,7 @@ namespace djah { namespace math {
 	{
 		for(size_t i = 0; i < SIZE; ++i)
 			for(size_t j = 0; j < SIZE; ++j)
-				vector_base::data_[i + j*SIZE] -= rhs.data_[i + j*SIZE];
+				vector_base2<SIZE*SIZE,T>::data_[i + j*SIZE] -= rhs.data_[i + j*SIZE];
 
 		return *this;
 	}
@@ -185,13 +185,13 @@ namespace djah { namespace math {
 
 		for(size_t i = 0; i < SIZE; ++i)
 		{
-			const matrix_t::row_t r_i( row(i) );
+			const vector_base2<SIZE,T> r_i( row(i) );
 			for(size_t j = 0; j < SIZE; ++j)
 			{
-				vector_base::data_[i + j*SIZE] = T(0);
-				const matrix_t::row_t r_j( rhsT.row(j) );
+				vector_base2<SIZE,T>::data_[i + j*SIZE] = T(0);
+				const vector_base2<SIZE,T> r_j( rhsT.row(j) );
 				for(size_t k = 0; k < SIZE; ++k)
-					vector_base::data_[i + j*SIZE] += r_i[k] * r_j[k];
+					vector_base2<SIZE*SIZE,T>::data_[i + j*SIZE] += r_i[k] * r_j[k];
 			}
 		}
 		return *this;
@@ -203,7 +203,7 @@ namespace djah { namespace math {
 	template<size_t SIZE, typename T>
 	inline basic_matrix<SIZE,T>& basic_matrix<SIZE,T>::operator *=(T rhs)
 	{
-		std::transform(vector_base<SIZE,T>::begin(), vector_base<SIZE,T>::end(), vector_base::data_, std::bind2nd(std::multiplies<T>(), rhs));
+		std::transform(vector_base2<SIZE*SIZE,T>::begin(), vector_base2<SIZE*SIZE,T>::end(), vector_base2<SIZE*SIZE,T>::data_, std::bind2nd(std::multiplies<T>(), rhs));
 		return *this;
 	}
 	//------------------------------------------------------------------------------
@@ -224,7 +224,7 @@ namespace djah { namespace math {
 	inline T* basic_matrix<SIZE,T>::at(size_t i, size_t j) 
 	{
 		assert(i < SIZE && j < SIZE);
-		return &vector_base::data_[i + j*SIZE];
+		return &vector_base2<SIZE*SIZE,T>::data_[i + j*SIZE];
 	}
 	//------------------------------------------------------------------------------
 
@@ -234,7 +234,7 @@ namespace djah { namespace math {
 	inline const T* basic_matrix<SIZE,T>::at(size_t i, size_t j) const
 	{
 		assert(i < SIZE && j < SIZE);
-		return &vector_base::data_[i + j*SIZE];
+		return &vector_base2<SIZE*SIZE,T>::data_[i + j*SIZE];
 	}
 	//------------------------------------------------------------------------------
 

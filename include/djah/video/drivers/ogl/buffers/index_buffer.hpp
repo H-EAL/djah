@@ -17,7 +17,7 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 	{
 	public:
 		index_buffer(size_t size, E_BUFFER_USAGE usage, E_DRAWING_MODE mode = EDM_TRIANGLES, bool auto_alloc = true)
-			: buffer_base(size, usage, auto_alloc),
+			: buffer_base<GL_ELEMENT_ARRAY_BUFFER>(size, usage, auto_alloc),
 			  mode_(mode) {}
 
 		E_DRAWING_MODE drawingMode() const { return mode_; }

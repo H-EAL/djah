@@ -11,21 +11,21 @@ namespace djah { namespace geometry {
 	public:
 
 		// A ray has an origin point and points to a direction
-		ray(const math::vector3<T> &origin, const math::vector3<T> &direction)
+		ray(const math::vector<3,T> &origin, const math::vector<3,T> &direction)
 			: origin_(origin), direction_(direction) {}
 
 		// Read/Write accessors
-		T&                      origin()    { return origin_;    }
-		math::vector3<T>&       direction() { return direction_; }
+		T&                       origin()    { return origin_;    }
+		math::vector<3,T>&       direction() { return direction_; }
 		// Read-only accessors
-		const T&                origin()    const { return origin_;    }
-		const math::vector3<T>& direction() const { return direction_; }
+		const T&                 origin()    const { return origin_;    }
+		const math::vector<3,T>& direction() const { return direction_; }
 
 
 	private:
 
-		math::vector3<T> origin_;
-		math::vector3<T> direction_;
+		math::vector<3,T> origin_;
+		math::vector<3,T> direction_;
 	};
 
 

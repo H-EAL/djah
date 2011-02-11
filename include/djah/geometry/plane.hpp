@@ -16,19 +16,19 @@ namespace djah { namespace geometry {
 		plane(T a, T b, T c, T d);
 
 		// Read/Write accessors
-		T&                      distance();
-		math::vector3<T>&       normal();
-		T&                      a();
-		T&                      b();
-		T&                      c();
-		T&                      d();
+		T&							distance();
+		math::vector<3,T>&			normal();
+		T&							a();
+		T&							b();
+		T&							c();
+		T&							d();
 		// Read-only accessors
-		const T&                distance() const;
-		const math::vector3<T>& normal()   const;
-		const T&                a()        const;
-		const T&                b()        const;
-		const T&                c()        const;
-		const T&                d()        const;
+		const T&					distance() const;
+		const math::vector<3,T>&	normal()   const;
+		const T&					a()        const;
+		const T&					b()        const;
+		const T&					c()        const;
+		const T&					d()        const;
 
 		// Solve plane equation
 		T solve(const math::vector3<T> &point) const;
@@ -40,17 +40,17 @@ namespace djah { namespace geometry {
 		int relativePosition(const math::vector3<T> &point) const;
 
 		// Indicates if a point is on the plane
-		bool isOn(const math::vector3<T> &point)        const;
+		bool isOn(const math::vector<3,T> &point)        const;
 		// Indicates if a point is behind the plane
-		bool isBehind(const math::vector3<T> &point)    const;
+		bool isBehind(const math::vector<3,T> &point)    const;
 		// Indicates if a point is in front of the plane
-		bool isInFrontOf(const math::vector3<T> &point) const;
+		bool isInFrontOf(const math::vector<3,T> &point) const;
 
 
 	private:
 
-		T                distance_;
-		math::vector3<T> normal_;
+		T					distance_;
+		math::vector<3,T>	normal_;
 	};
 
 

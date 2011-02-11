@@ -8,7 +8,7 @@
 namespace djah { namespace math { namespace detail {
 
 	template<size_t SIZE, typename T>
-	class vector_base
+	class vector_base2
 	{
 	public:
 
@@ -17,11 +17,11 @@ namespace djah { namespace math { namespace detail {
 		static const size_t size_ = SIZE;
 
 		// All data to default value
-		vector_base();
+		vector_base2();
 		// Init with an array
-		vector_base(const T (&array)[SIZE]);
+		vector_base2(const T (&array)[SIZE]);
 		// Meant to be a base class
-		virtual ~vector_base() {};
+		virtual ~vector_base2() {};
 
 		// Returns a const pointer to data array
 		const T* data() const;
@@ -41,18 +41,18 @@ namespace djah { namespace math { namespace detail {
 		iterator_to_const end()   const;
 
 		// Comparison operators
-		bool operator ==(const vector_base<SIZE,T> &rhs) const
+		bool operator ==(const vector_base2<SIZE,T> &rhs) const
 		{
 			return std::equal(begin(), end(), rhs.data_);
 		}
-		bool operator !=(const vector_base<SIZE,T> &rhs) const
+		bool operator !=(const vector_base2<SIZE,T> &rhs) const
 		{
 			return !(*this == rhs);
 		}
 
 		// Feed output stream with vector data
-		template<size_t SIZE, typename T>
-		friend std::ostream& operator <<(std::ostream &out, const vector_base<SIZE,T> &v);
+		template<size_t SIZE_, typename T_>
+		friend std::ostream& operator <<(std::ostream &out, const vector_base2<SIZE_,T_> &v);
 
 
 	protected:

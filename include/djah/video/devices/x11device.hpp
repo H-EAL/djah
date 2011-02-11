@@ -29,9 +29,12 @@ namespace djah { namespace video {
 
 		virtual void setWindowTitle(const std::string &title);
 
+		virtual void swapBuffers();
+		
 	private:
 
 		virtual void createImpl();
+		virtual void destroyImpl();
 		virtual bool runImpl();
 
 		// Platform specific

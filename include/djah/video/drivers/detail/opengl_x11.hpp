@@ -1,7 +1,7 @@
 #ifndef DJAH_VIDEO_DRIVERS_DETAIL_OPENGL_X11_HPP
 #define DJAH_VIDEO_DRIVERS_DETAIL_OPENGL_X11_HPP
 
-#include <GL/gl.h>
+#include "platform.hpp"
 
 #include "opengl_impl.hpp"
 
