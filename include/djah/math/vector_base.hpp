@@ -122,12 +122,12 @@ inline const vector<N,U> cast(const vector<N,T> &op)
 { vector<N,U> result; for(int i = 0; i < N; ++i) result.data[i] = static_cast<U>(op.data[i]); return result; }
 
 template<int N2, int N, typename T>
-inline const vector<N2,T> resize(const vector<N,T> &op) 
-{ vector<N2,T> result; for(int i = 0; i < N2; ++i) result.data[i] = i<N ? op.data[i]:0; return result; }
+inline const vector<N2,T> resize(const vector<N,T> &op, T padding = 0) 
+{ vector<N2,T> result; for(int i = 0; i < N2; ++i) result.data[i] = i<N ? op.data[i]:padding; return result; }
 
 template<typename V, int N, typename T>
-inline const V vector_cast(const vector<N,T> &op) 
-{ V result; for(int i = 0; i < V::size; ++i) result.data[i] = i<N ? static_cast<typename V::value_type>(op.data[i]):0; return result; }
+inline const V vector_cast(const vector<N,T> &op, T padding = 0) 
+{ V result; for(int i = 0; i < V::size; ++i) result.data[i] = i<N ? static_cast<typename V::value_type>(op.data[i]):padding; return result; }
 //----------------------------------------------------------------------------------------------
 
 } /*math*/ } /*djah*/
