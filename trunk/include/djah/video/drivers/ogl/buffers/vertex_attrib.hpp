@@ -19,10 +19,10 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 				: name_(name), size_(size), count_(count), value_type_(value_type) {}
 
 			// Read-only accessors
-			std::string  name()      const { return name_;       }
-			unsigned int size()      const { return size_;       }
-			unsigned int count()     const { return count_;      } 
-			unsigned int valueType() const { return value_type_; } 
+			const std::string&  name()      const { return name_;       }
+			unsigned int		size()      const { return size_;       }
+			unsigned int		count()     const { return count_;      } 
+			unsigned int		valueType() const { return value_type_; } 
 
 		protected:
 
@@ -43,7 +43,7 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 		struct vertex_attrib : public vertex_attrib_base
 		{
 			vertex_attrib(const std::string &name, unsigned int count)
-				: vertex_attrib_base(name, sizeof(T), count, get_gl_type<T>()) {}
+			: vertex_attrib_base(name, sizeof(T), count, gl_type<T>::Type) {}
 		};
 		//------------------------------------------------------------------------------------------
 
