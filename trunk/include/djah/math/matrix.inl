@@ -11,7 +11,7 @@ namespace djah { namespace math {
 	template<int N, typename T>
 	matrix<N,T>::matrix(const T (&array)[N*N])
 	{
-		memcpy(data, array, N*N*sizeof(T));
+		memcpy(matrix_base<N,T>::data, array, N*N*sizeof(T));
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -19,7 +19,7 @@ namespace djah { namespace math {
 	template<int N, typename T>
 	matrix<N,T>::matrix(const T (&array)[N][N])
 	{
-		memcpy(data, array, N*N*sizeof(T));
+		memcpy(matrix_base<N,T>::data, array, N*N*sizeof(T));
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -28,7 +28,7 @@ namespace djah { namespace math {
 	template<int N, typename T>
 	inline matrix<N,T>& matrix<N,T>::identity()
 	{
-		memset(data, 0, N*N*sizeof(T));
+		memset(matrix_base<N,T>::data, 0, N*N*sizeof(T));
 		for(int i = 0; i < N; ++i)
 			m(i,i) = T(1);
 		return (*this);
@@ -58,7 +58,7 @@ namespace djah { namespace math {
 	template<int N, typename T>
 	inline matrix<N,T>& matrix<N,T>::invert()
 	{
-		const T determinant = getDeterminant();
+		const T determinant = determinant();
 		assert( determinant != T(0) );
 		
 		adjugate();
@@ -113,8 +113,8 @@ namespace djah { namespace math {
 				const int kdi = (i+j) % N;
 				const int kci = ((N-1) + (i-j)) % N;
 
-				diag         *= data[kdi + j*N];
-				counter_diag *= data[kci + j*N];
+				diag         *= matrix_base<N,T>::data[kdi + j*N];
+				counter_diag *= matrix_base<N,T>::data[kci + j*N];
 			}
 			det += diag - counter_diag;
 		}
@@ -152,14 +152,14 @@ namespace djah { namespace math {
 	template<int Row, int Col>
 	inline T& matrix<N,T>::m()
 	{
-		return data[Row*N + Col];
+		return matrix_base<N,T>::data[Row*N + Col];
 	}
 	//----------------------------------------------------------------------------------------------
 	template<int N, typename T>
 	template<int Row, int Col>
 	inline const T& matrix<N,T>::m() const
 	{
-		return data[Row*N + Col];
+		return matrix_base<N,T>::data[Row*N + Col];
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -167,13 +167,13 @@ namespace djah { namespace math {
 	template<int N, typename T>
 	inline T& matrix<N,T>::m(int at_row, int at_col)
 	{
-		return data[at_row*N + at_col];
+		return matrix_base<N,T>::data[at_row*N + at_col];
 	}
 	//----------------------------------------------------------------------------------------------
 	template<int N, typename T>
 	inline const T& matrix<N,T>::m(int at_row, int at_col) const
 	{
-		return data[at_row*N + at_col];
+		return matrix_base<N,T>::data[at_row*N + at_col];
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -191,7 +191,7 @@ namespace djah { namespace math {
 	inline matrix<N,T>& matrix<N,T>::operator +=(const matrix<N,T> &rhs)
 	{
 		for(int i = 0; i < N*N; ++i)
-			data[i] += rhs.data[i];
+			matrix_base<N,T>::data[i] += rhs.data[i];
 		return (*this);
 	}
 	//----------------------------------------------------------------------------------------------
@@ -201,7 +201,7 @@ namespace djah { namespace math {
 	inline matrix<N,T>& matrix<N,T>::operator -=(const matrix<N,T> &rhs)
 	{
 		for(int i = 0; i < N*N; ++i)
-			data[i] -= rhs.data[i];
+			matrix_base<N,T>::data[i] -= rhs.data[i];
 		return (*this);
 	}
 	//----------------------------------------------------------------------------------------------
@@ -233,7 +233,7 @@ namespace djah { namespace math {
 	inline matrix<N,T>& matrix<N,T>::operator *=(T rhs)
 	{
 		for(int i = 0; i < N*N; ++i)
-			data[i] *= rhs;
+			matrix_base<N,T>::data[i] *= rhs;
 		return (*this);
 	}
 	//----------------------------------------------------------------------------------------------
@@ -243,7 +243,9 @@ namespace djah { namespace math {
 	inline matrix<N,T>& matrix<N,T>::operator /=(T rhs)
 	{
 		assert(rhs != T(0));
-		return *this *= (T(1)/rhs);
+		for(int i = 0; i < N*N; ++i)
+			matrix_base<N,T>::data[i] /= rhs;
+		return (*this);
 	}
 	//----------------------------------------------------------------------------------------------
 

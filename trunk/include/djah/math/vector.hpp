@@ -1,6 +1,8 @@
 #ifndef DJAH_MATH_VECTOR_HPP
 #define DJAH_MATH_VECTOR_HPP
 
+#include <cmath>
+
 namespace djah { namespace math {
 
 	//----------------------------------------------------------------------------------------------
@@ -38,9 +40,10 @@ namespace djah { namespace math {
 		vector<N,T>& operator =(T (&array)[N]);
 
 		// Length type of vector<double> is double any other vector<T> is float
-		template<typename F>	struct type			{ typedef float		float_t; };
-		template<>				struct type<double> { typedef double	float_t; };
-		typedef typename type<T>::float_t float_t;
+		//template<typename F>	struct type			{ typedef float		float_t; };
+		//template<>				struct type<double> { typedef double	float_t; };
+		//typedef typename type<T>::float_t float_t;
+		typedef float float_t;
 
 		// Vector math
 		T				lengthSq()		const;
