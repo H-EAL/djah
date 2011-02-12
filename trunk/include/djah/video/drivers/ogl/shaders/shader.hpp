@@ -4,7 +4,7 @@
 #include <map>
 #include <string>
 
-#include "../../../../math/basic_matrix.hpp"
+#include "../../../../math/matrix.hpp"
 
 #include "shader_base.hpp"
 
@@ -40,13 +40,13 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 		void sendUniform(const std::string &name, int u1, int u2, int u3) const;
 		void sendUniform(const std::string &name, int u1, int u2, int u3, int u4) const;
 
-		template<size_t SIZE, typename T>
+		template<int N, typename T>
 		void sendUniform(const std::string &name, const T *data, int count = 1) const;
 
-		template<size_t SIZE>
+		template<int N>
 		void sendUniformMatrix(const std::string &name, const float *data, int count = 1, bool transpose = false) const;
-		template<size_t SIZE>
-		void sendUniformMatrix(const std::string &name, const math::basic_matrix<SIZE,float> &mat, bool transpose = false) const;
+		template<int N>
+		void sendUniformMatrix(const std::string &name, const math::matrix<N,float> &mat, bool transpose = false) const;
 
 
 	private:

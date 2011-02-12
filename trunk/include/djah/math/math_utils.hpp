@@ -44,12 +44,12 @@ namespace djah { namespace math {
 
 	//--------------------------------------------------------------------------
 	template<typename T>
-	inline basic_matrix<4,T> quat_to_matrix4(const quaternion<T> &q)
+	inline matrix<4,T> quat_to_matrix4(const quaternion<T> &q)
 	{
-		const T qx = q.x();
-		const T qy = q.y();
-		const T qz = q.z();
-		const T qw = q.w();
+		const T qx = q.x;
+		const T qy = q.y;
+		const T qz = q.z;
+		const T qw = q.w;
 		const T qx2 = qx * qx;
 		const T qy2 = qy * qy;
 		const T qz2 = qz * qz;
@@ -61,20 +61,20 @@ namespace djah { namespace math {
 			{2*qx*qz - 2*qy*qw, 2*qy*qz + 2*qx*qw, 1 - 2*qx2 - 2*qy2, 0},
 			{                0,                 0,                 0, 1}
 		};
-		return basic_matrix<4,T>(m);
+		return matrix<4,T>(m);
 	}
 	//--------------------------------------------------------------------------
 	
 	
 	//--------------------------------------------------------------------------
 	template<typename T>
-	inline quaternion<T> matrix4_to_quat(const basic_matrix<4,T> &mat)
+	inline quaternion<T> matrix4_to_quat(const matrix<4,T> &mat)
 	{
-		const T w = sqrt(T(1) + mat.m<1,1>() + mat.m<2,2>() + mat.m<3,3>()) / T(2);
+		const T w = sqrt(T(1) + mat._11 + mat._22 + mat._33) / T(2);
 		const T four_w = T(4) * w;
-		const T x = (mat.m<3,2>() - mat.m<2,3>()) / four_w;
-		const T y = (mat.m<1,3>() - mat.m<3,1>()) / four_w;
-		const T z = (mat.m<2,1>() - mat.m<1,2>()) / four_w;
+		const T x = (mat._32 - mat._23) / four_w;
+		const T y = (mat._13 - mat._31) / four_w;
+		const T z = (mat._21 - mat._12) / four_w;
 		return quaternion<T>(x,y,z,w);
 	}
 	//--------------------------------------------------------------------------

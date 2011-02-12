@@ -12,9 +12,6 @@
     <Filter Include="include\math">
       <UniqueIdentifier>{4cb13fd0-2e08-467f-ba90-0e1ec341cda0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="include\math\detail">
-      <UniqueIdentifier>{d63f4a54-4dbb-4c8f-a2b6-2f008653d301}</UniqueIdentifier>
-    </Filter>
     <Filter Include="include\video">
       <UniqueIdentifier>{97b3f15b-ce8c-43e3-9baf-878bb20fc7cd}</UniqueIdentifier>
     </Filter>
@@ -108,58 +105,28 @@
     <Filter Include="src\video\primitives">
       <UniqueIdentifier>{e2cc87f8-53ab-4cbe-8ce9-0be1bbacca14}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include\gameplay">
+      <UniqueIdentifier>{2e3f11b2-ae6f-4f74-80eb-b80f37057b99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\gameplay\go">
+      <UniqueIdentifier>{9a8ddd0b-4d1a-4cf2-af46-1ea9e9464b5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\math\vector">
+      <UniqueIdentifier>{7f8285c4-16be-4298-91c4-7adc0a4866d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\math\matrix">
+      <UniqueIdentifier>{cb4c147e-62d2-41df-a004-f17c811c6b29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\math\quaternion">
+      <UniqueIdentifier>{985dfc8e-88ab-4328-ba53-951f49aef7c8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\djah\math.hpp">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\math\basic_matrix.hpp">
-      <Filter>include\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\math\basic_vector.hpp">
-      <Filter>include\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\math\matrix_utils.hpp">
-      <Filter>include\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\math\matrix2.hpp">
-      <Filter>include\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\math\matrix3.hpp">
-      <Filter>include\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\math\matrix4.hpp">
-      <Filter>include\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\math\quaternion.hpp">
-      <Filter>include\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\math\quaternion_utils.hpp">
-      <Filter>include\math</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\djah\math\splines.hpp">
       <Filter>include\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\math\utils.hpp">
-      <Filter>include\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\math\vector_utils.hpp">
-      <Filter>include\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\math\vector2.hpp">
-      <Filter>include\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\math\vector3.hpp">
-      <Filter>include\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\math\vector4.hpp">
-      <Filter>include\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\math\detail\vector_base.hpp">
-      <Filter>include\math\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\video\devices\win32device.hpp">
-      <Filter>include\video\devices</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\djah\video\video_config.hpp">
       <Filter>include\video</Filter>
@@ -350,20 +317,59 @@
     <ClInclude Include="..\..\..\include\djah\time\clock.hpp">
       <Filter>include\time</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\gameplay\go\component.hpp">
+      <Filter>include\gameplay\go</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\gameplay\go\components_database.hpp">
+      <Filter>include\gameplay\go</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\video\devices\win32device.hpp">
+      <Filter>include\video\drivers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\math\math_utils.hpp">
+      <Filter>include\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\math\matrix4.hpp">
+      <Filter>include\math\matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\math\matrix3.hpp">
+      <Filter>include\math\matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\math\matrix2.hpp">
+      <Filter>include\math\matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\math\matrix_utils.hpp">
+      <Filter>include\math\matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\math\vector_utils.hpp">
+      <Filter>include\math\vector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\math\vector4.hpp">
+      <Filter>include\math\vector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\math\vector3.hpp">
+      <Filter>include\math\vector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\math\vector2.hpp">
+      <Filter>include\math\vector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\math\vector.hpp">
+      <Filter>include\math\vector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\math\vector.inl">
+      <Filter>include\math\vector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\math\quaternion.hpp">
+      <Filter>include\math\quaternion</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\math\quaternion_utils.hpp">
+      <Filter>include\math\quaternion</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\math\matrix.hpp">
+      <Filter>include\math\matrix</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\include\djah\math\basic_matrix.inl">
-      <Filter>include\math</Filter>
-    </None>
-    <None Include="..\..\..\include\djah\math\basic_vector.inl">
-      <Filter>include\math</Filter>
-    </None>
-    <None Include="..\..\..\include\djah\math\quaternion.inl">
-      <Filter>include\math</Filter>
-    </None>
-    <None Include="..\..\..\include\djah\math\detail\vector_base.inl">
-      <Filter>include\math\detail</Filter>
-    </None>
     <None Include="..\..\..\include\djah\geometry\plane.inl">
       <Filter>include\geometry</Filter>
     </None>
@@ -390,6 +396,18 @@
     </None>
     <None Include="..\..\..\include\djah\fs\compressed_source.inl">
       <Filter>include\fs</Filter>
+    </None>
+    <None Include="..\..\..\include\djah\gameplay\go\components_database.inl">
+      <Filter>include\gameplay\go</Filter>
+    </None>
+    <None Include="..\..\..\include\djah\gameplay\go\components_typelist.inl">
+      <Filter>include\gameplay\go</Filter>
+    </None>
+    <None Include="..\..\..\include\djah\math\quaternion.inl">
+      <Filter>include\math\quaternion</Filter>
+    </None>
+    <None Include="..\..\..\include\djah\math\matrix.inl">
+      <Filter>include\math\matrix</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

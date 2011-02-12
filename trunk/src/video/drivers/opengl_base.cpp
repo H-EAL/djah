@@ -55,7 +55,7 @@ namespace djah { namespace video { namespace drivers {
 		{
 			glMatrixMode(GL_PROJECTION);
 			glLoadIdentity();
-			glMultMatrixf(projection_matrix_.data());
+			glMultMatrixf(projection_matrix_.data);
 			proj_dirty_ = false;
 		}
 
@@ -63,7 +63,7 @@ namespace djah { namespace video { namespace drivers {
 
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
-		glMultMatrixf(view_matrix_.data());
+		glMultMatrixf(view_matrix_.data);
 
 		// Use current shader
 	}

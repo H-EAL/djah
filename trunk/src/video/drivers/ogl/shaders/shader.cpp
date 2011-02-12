@@ -199,7 +199,7 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 
 
 	//----------------------------------------------------------------------------------------------
-	template<size_t SIZE>
+	template<int N>
 	void shader::sendUniformMatrix(const std::string &name, const float *data, int count, bool transpose) const
 	{
 		static const PFNGLUNIFORMMATRIX2FVPROC uniformMatrixFuncTab[] = 
@@ -209,16 +209,16 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 			glUniformMatrix4fv
 		};
 
-		static const PFNGLUNIFORMMATRIX2FVPROC uniformMatrix = uniformMatrixFuncTab[SIZE-2];
+		static const PFNGLUNIFORMMATRIX2FVPROC uniformMatrix = uniformMatrixFuncTab[N-2];
 
 		unsigned int location = getUniformLocation(name);
 		uniformMatrix(location, count, transpose, data);
 	}
 	//----------------------------------------------------------------------------------------------
-	template<size_t SIZE>
-	void shader::sendUniformMatrix(const std::string &name, const math::basic_matrix<SIZE,float> &mat, bool transpose) const
+	template<int N>
+	void shader::sendUniformMatrix(const std::string &name, const math::matrix<N,float> &mat, bool transpose) const
 	{
-		sendUniformMatrix<SIZE>(name, mat.data(), 1, transpose);
+		sendUniformMatrix<SIZE>(name, mat.data, 1, transpose);
 	}
 	//----------------------------------------------------------------------------------------------
 

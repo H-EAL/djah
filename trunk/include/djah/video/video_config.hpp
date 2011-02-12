@@ -3,13 +3,13 @@
 
 namespace djah { namespace video {
 
-	class VideoConfig
+	class video_config
 	{
 	public:
 
-		VideoConfig(int width = 640, int height = 480,
-					int colorBits = 32, int depthBit = 24, int stencilBits = 0,
-					bool fullscreen = false, bool vsync = true);
+		video_config(int width = 640, int height = 480,
+					 int colorBits = 32, int depthBit = 24, int stencilBits = 0,
+					 bool fullscreen = false, bool vsync = true);
 
 		int	 width_;
 		int  height_;

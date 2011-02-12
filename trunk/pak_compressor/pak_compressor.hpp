@@ -10,9 +10,6 @@
 class pak_compressor
 {
 public:
-
-	static void init();
-	static int  show_help();
 	static int	run(int argc, char *argv[]);
 
 	pak_compressor(const std::string &dir_name, const std::string &pak_name = "");
@@ -20,6 +17,9 @@ public:
 	int compress();
 
 private:
+
+	static void init();
+	static int  show_help();
 
 	static const int FILENAME_MAX_SIZE = 32;
 	struct pak_header

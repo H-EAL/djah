@@ -4,7 +4,7 @@
 namespace djah { namespace video {
 
 	//----------------------------------------------------------------------------------------------
-	device_ptr create_device(const VideoConfig &cfg)
+	device_ptr create_device(const video_config &cfg)
 	{
 		device_ptr device = new DeviceImpl;
 		driver_ptr driver = new drivers::opengl_base(device);
@@ -17,7 +17,7 @@ namespace djah { namespace video {
 							 int colorBits, int depthBits, int stencilBits,
 							 bool fullscreen, bool vsync)
 	{
-		return create_device( VideoConfig(width, height, colorBits, depthBits, stencilBits, fullscreen, vsync) );
+		return create_device( video_config(width, height, colorBits, depthBits, stencilBits, fullscreen, vsync) );
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -29,10 +29,10 @@ namespace djah { namespace video {
 	//----------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------
-	//device_ptr device_base::get_current()
-	//{
-	//	return s_device_inst_;
-	//}
+	device_ptr device_base::get_current()
+	{
+		return s_device_inst_;
+	}
 	//----------------------------------------------------------------------------------------------
 
 
@@ -54,7 +54,7 @@ namespace djah { namespace video {
 
 
 	//----------------------------------------------------------------------------------------------
-	VideoConfig device_base::videoConfig() const
+	video_config device_base::videoConfig() const
 	{
 		return video_config_;
 	}
@@ -78,7 +78,7 @@ namespace djah { namespace video {
 
 
 	//----------------------------------------------------------------------------------------------
-	void device_base::create(const VideoConfig &cfg)
+	void device_base::create(const video_config &cfg)
 	{
 		s_device_inst_ = this;
 		video_config_ = cfg;

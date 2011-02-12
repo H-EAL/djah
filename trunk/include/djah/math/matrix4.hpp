@@ -1,13 +1,41 @@
 #ifndef DJAH_MATH_MATRIX4_HPP
 #define DJAH_MATH_MATRIX4_HPP
 
-#include "basic_matrix.hpp"
+#include "matrix.hpp"
 
 namespace djah { namespace math {
+	
+	//----------------------------------------------------------------------------------------------
+	template<typename T>
+	struct matrix_base<4,T>
+	{
+		matrix_base() { memset(data, 0, 4*4*sizeof(T)); }
+		matrix_base(T _11_, T _12_, T _13_, T _14_,  T _21_, T _22_, T _23_, T _24_,  T _31_, T _32_, T _33_, T _34_,  T _41_, T _42_, T _43_, T _44_)
+			: _11(_11_), _21(_21_), _31(_31_), _41(_41_),
+			, _12(_12_), _22(_22_), _32(_32_), _42(_42_),
+			, _13(_12_), _23(_23_), _33(_33_), _43(_43_),
+			, _14(_14_), _24(_24_), _34(_34_), _44(_44_)
+		{}
+		
+		union
+		{
+			struct
+			{
+				T _11, _21, _31, _41;
+				T _12, _22, _32, _42;
+				T _13, _23, _33, _43;
+				T _14, _24, _34, _44;
+			};
+			T data[4*4];
+		};
+	};
+	//----------------------------------------------------------------------------------------------
 
-	typedef basic_matrix<4,int>		matrix4i;
-	typedef basic_matrix<4,float>	matrix4f;
-	typedef basic_matrix<4,double>	matrix4d;
+	//----------------------------------------------------------------------------------------------
+	typedef matrix<4,int>		matrix4i;
+	typedef matrix<4,float>		matrix4f;
+	typedef matrix<4,double>	matrix4d;
+	//----------------------------------------------------------------------------------------------
 
 } /*math*/ } /*djah*/
 

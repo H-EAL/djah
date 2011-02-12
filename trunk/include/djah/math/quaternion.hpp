@@ -2,7 +2,8 @@
 #define DJAH_MATH_QUATERNION_HPP
 
 namespace djah { namespace math {
-
+	
+	//----------------------------------------------------------------------------------------------
 	template<typename T>
 	class quaternion
 	{
@@ -15,8 +16,10 @@ namespace djah { namespace math {
 
 		// Get magnitude
 		T magnitude() const;
-		// Normalize this vector
+		// Normalize this quaternion
 		quaternion<T>& normalize();
+		// Retrieve a normalized copy of this quaternion
+		quaternion<T> getNormalized() const;
 		// Replace this quaternion by its conjugate
 		quaternion<T>& conjugate();
 		// Retrieve conjugate
@@ -45,13 +48,10 @@ namespace djah { namespace math {
 		// Useful constant
 		static const quaternion<T> identity;
 	};
+	//----------------------------------------------------------------------------------------------
 
-
-	// Useful constant
-	template<typename T>
-	const quaternion<T> quaternion<T>::identity;
-
-
+	
+	//----------------------------------------------------------------------------------------------
 	// Addition
 	template<typename T>
 	const quaternion<T> operator +(const quaternion<T> &lhs, const quaternion<T> &rhs);
@@ -66,20 +66,23 @@ namespace djah { namespace math {
 	// Scalar division
 	template<typename T>
 	const quaternion<T> operator /(const quaternion<T> &lhs, T rhs);
-
+	//----------------------------------------------------------------------------------------------
+	
+	//----------------------------------------------------------------------------------------------
 	// Quaternion product
 	template<typename T>
 	const quaternion<T> operator *(const quaternion<T> &lhs, const quaternion<T> &rhs);
+	//----------------------------------------------------------------------------------------------
 
-
+	
+	//----------------------------------------------------------------------------------------------
 	// Useful type definitions
 	typedef quaternion<float>  quatf;
 	typedef quaternion<double> quatd;
+	//----------------------------------------------------------------------------------------------
 
 } /*math*/ } /*djah*/
 
-
 #include "quaternion.inl"
-
 
 #endif /* DJAH_MATH_QUATERNION_HPP */

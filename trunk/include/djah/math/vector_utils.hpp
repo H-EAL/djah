@@ -1,7 +1,7 @@
 #ifndef DJAH_MATH_VECTOR_UTILS_HPP
 #define DJAH_MATH_VECTOR_UTILS_HPP
 
-#include "vector_base.hpp"
+#include "vector.hpp"
 
 namespace djah { namespace math {
 

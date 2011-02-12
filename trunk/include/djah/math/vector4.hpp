@@ -1,7 +1,7 @@
 #ifndef DJAH_MATH_VECTOR4_HPP
 #define DJAH_MATH_VECTOR4_HPP
 
-#include "vector_base.hpp"
+#include "vector.hpp"
 
 namespace djah { namespace math {
 
@@ -17,9 +17,24 @@ namespace djah { namespace math {
 			struct { T x, y, z, w; };
 			T data[4];
 		};
+
+		// Usefull constants
+		static const vector<4,T> x_axis;
+		static const vector<4,T> y_axis;
+		static const vector<4,T> z_axis;
 	};
 	//----------------------------------------------------------------------------------------------
 
+	//----------------------------------------------------------------------------------------------
+	template<typename T>
+	const vector<4,T> vector_base<4,T>::x_axis = vector<4,T>(1,0,0,0);
+	template<typename T>
+	const vector<4,T> vector_base<4,T>::y_axis = vector<4,T>(0,1,0,0);
+	template<typename T>
+	const vector<4,T> vector_base<4,T>::z_axis = vector<4,T>(0,0,1,0);
+	//----------------------------------------------------------------------------------------------
+	
+	//----------------------------------------------------------------------------------------------
 	// Useful type definitions
 	typedef vector<4,unsigned char>		vector4ub;
 	typedef vector<4,unsigned short>	vector4us;
@@ -38,6 +53,7 @@ namespace djah { namespace math {
 	typedef vector4i					point4i;
 	typedef vector4f					point4f;
 	typedef vector4d					point4d;
+	//----------------------------------------------------------------------------------------------
 
 
 } /*math*/ } /*djah*/

@@ -14,13 +14,13 @@ namespace djah { namespace video {
 		device_base();
 		virtual ~device_base();
 
-		//static device_base* get_current();
-		VideoConfig videoConfig() const;
+		static device_base* get_current();
+		video_config videoConfig() const;
 
 		void setVideoDriver(driver_ptr driver);
 		driver_ptr videoDriver() const;
 
-		virtual void create(const VideoConfig &cfg);
+		virtual void create(const video_config &cfg);
 		virtual void destroy();
 		virtual bool run();
 		virtual void shutDown();
@@ -43,10 +43,10 @@ namespace djah { namespace video {
 		bool hasToQuit_;
 
 		// Video driver used
-		driver_ptr	driver_;
+		driver_ptr driver_;
 
 		// Current config
-		VideoConfig	video_config_;
+		video_config video_config_;
 
 		// Last created device
 		static device_base *s_device_inst_;
@@ -56,7 +56,7 @@ namespace djah { namespace video {
 	typedef device_base* device_ptr;
 
 	//----------------------------------------------------------------------------------------------
-	device_ptr create_device(const VideoConfig &cfg);
+	device_ptr create_device(const video_config &cfg);
 	//----------------------------------------------------------------------------------------------
 	device_ptr create_device(int width, int height,
 							 int colorBits = 32, int depthBits = 24, int stencilBits = 0,
