@@ -5,6 +5,8 @@
 #include <GL/glew.h>
 #include <boost/thread/thread.hpp>
 
+#include "djah/math.hpp"
+
 #include "djah/log/console_logger.hpp"
 
 #include "djah/utils/command.hpp"
@@ -55,7 +57,7 @@ void analyse(const std::string &cmd_str)
 	}
 	else
 	{
-		log::logger::log(log::logger::EWL_CRITICAL)	<<
+		log::logger::log(log::EWL_CRITICAL)	<<
 			"ERROR : Command \"" << name << "\" not found"		<<
 		log::logger::endl();
 	}
@@ -95,14 +97,14 @@ struct CameraTweaker
 		driver_->setProjectionMatrix(video::make_perspective_projection(fovy, aspect, near, far));
 	}
 
-	void translation(float x, float y, float z)
+	void translate(float x, float y, float z)
 	{
 		math::matrix4f cam = driver_->getViewMatrix();
 		cam *= math::make_translation(x, y, z);
 		driver_->setViewMatrix(cam);
 	}
 
-	void rotation(float angle, float x, float y, float z)
+	void rotate(float angle, float x, float y, float z)
 	{
 		math::matrix4f cam = driver_->getViewMatrix();
 		cam *= math::make_rotation(angle, x, y, z);
@@ -119,7 +121,7 @@ void printInfos() {	print_infos = true; }
 using namespace djah::video::drivers;
 void printInfosAux()
 {
-	log::logger::log(log::logger::EWL_NOTIFICATION)
+	log::logger::log(log::EWL_NOTIFICATION)
 		<< "=========================================================================\n"
 		<< "| Renderer                 | " << ogl::capabilities::renderer()       << "\n"
 		<< "| Vendor                   | " << ogl::capabilities::vendor()         << "\n"
@@ -142,6 +144,39 @@ void printInfosAux()
 		<< log::logger::endl();
 }
 
+void printHelpSection(const std::string &name, const std::string &desc)
+{
+	log::logger::log(log::EWL_GREEN)	<< name;
+	log::logger::log(log::EWL_YELLOW)	<< "\t-  ";
+	log::logger::log(log::EWL_CYAN)		<< desc	<< log::logger::endl();
+}
+void printHelp()
+{
+	printHelpSection("help",								"Print this help");
+	printHelpSection("infos",								"Print infos about the driver");
+	printHelpSection("showFPS",								"Show the FPS counter on the title bar");
+	printHelpSection("hideFPS",								"Hide the FPS counter on the title bar");
+	printHelpSection("getFPS",								"Print current FPS");
+	printHelpSection("projection(fovy, aspect, near, far)",	"Set the projection matrix");
+	printHelpSection("translate(x,y,z)",					"Translate the current view matrix");
+	printHelpSection("rotate(angle, x,y,z)",				"Rotate the current view matrix");
+	printHelpSection("exit (quit)",							"Exit the application");
+
+	/*
+	log::logger::log(log::EWL_MEDIUM)
+		<< "help                                - Print this help"							<< "\n"
+		<< "infos                               - Print infos about the driver"				<< "\n"
+		<< "showFPS	                            - Show the FPS counter on the title bar"	<< "\n"
+		<< "hideFPS                             - Hide the FPS counter on the title bar"	<< "\n"
+		<< "getFPS                              - Print current FPS"						<< "\n"
+		<< "projection(fovy, aspect, near, far) - Set the projection matrix"				<< "\n"
+		<< "translate(x,y,z)                    - Translate the current view matrix"		<< "\n"
+		<< "rotate(angle, x,y,z)                - Rotate the current view matrix"			<< "\n"
+		<< "exit (quit)                         - Exit the application"						<< "\n"
+		<< log::logger::endl();
+	*/
+}
+
 
 int main()
 {
@@ -162,11 +197,12 @@ int main()
 	commands["hideFPS"]		= utils::make_command(&hideFPS);
 	commands["getFPS"]		= utils::make_command(&getFPS);
 	commands["projection"]	= utils::make_command(pCam, &CameraTweaker::projection);
-	commands["translation"]	= utils::make_command(pCam, &CameraTweaker::translation);
-	commands["rotation"]	= utils::make_command(pCam, &CameraTweaker::rotation);
+	commands["translate"]	= utils::make_command(pCam, &CameraTweaker::translate);
+	commands["rotate"]		= utils::make_command(pCam, &CameraTweaker::rotate);
 	commands["quit"]		= utils::make_command(device, &video::device_base::shutDown);
 	commands["exit"]		= commands["quit"];
 	commands["infos"]		= utils::make_command(&printInfos);
+	commands["help"]		= utils::make_command(&printHelp);
 
 	boost::thread testThread(&readInputs);
 
@@ -227,17 +263,17 @@ int main()
 		glBegin(GL_LINES);
 		{
 			//X
-			glColor3fv(math::vector3f::x_axis.data());
-			glVertex3fv(math::vector3f::null_vec.data());
-			glVertex3fv(math::vector3f::x_axis.data());
+			glColor3fv(math::vector3f::x_axis.data);
+			glVertex3fv(math::vector3f::null_vector.data);
+			glVertex3fv(math::vector3f::x_axis.data);
 			//Y
-			glColor3fv(math::vector3f::y_axis.data());
-			glVertex3fv(math::vector3f::null_vec.data());
-			glVertex3fv(math::vector3f::y_axis.data());
+			glColor3fv(math::vector3f::y_axis.data);
+			glVertex3fv(math::vector3f::null_vector.data);
+			glVertex3fv(math::vector3f::y_axis.data);
 			//Z
-			glColor3fv(math::vector3f::z_axis.data());
-			glVertex3fv(math::vector3f::null_vec.data());
-			glVertex3fv(math::vector3f::z_axis.data());
+			glColor3fv(math::vector3f::z_axis.data);
+			glVertex3fv(math::vector3f::null_vector.data);
+			glVertex3fv(math::vector3f::z_axis.data);
 		}
 		glEnd();
 

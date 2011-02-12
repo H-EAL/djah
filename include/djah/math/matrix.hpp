@@ -63,6 +63,16 @@ namespace djah { namespace math {
 		// Retrieve a col
 		col_t col(int j) const;
 
+		// Easy static access
+		template<int Row, int Col>
+		T& m();
+		template<int Row, int Col>
+		const T& m() const;
+
+		// Easy dynamic access
+		T&		 m(int at_row, int at_col);
+		const T& m(int at_row, int at_col) const;
+
 		// Unary minus : doesn't change the current state
 		const matrix<N,T> operator -() const;
 
@@ -108,7 +118,7 @@ namespace djah { namespace math {
 	inline const matrix<N,T>& identity_matrix();
 
 	template<int N, typename T>
-	inline std::ostream& operator >>(std::ostream &out, const matrix<N,T> &rhs);
+	inline std::ostream& operator <<(std::ostream &out, const matrix<N,T> &rhs);
 	//----------------------------------------------------------------------------------------------
 
 } /*math*/ } /*djah*/

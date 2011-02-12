@@ -32,6 +32,8 @@
 #include "mesh_builder.hpp"
 
 using namespace djah;
+using namespace djah::math;
+using namespace djah::video;
 using namespace djah::video::drivers;
 
 
@@ -102,15 +104,15 @@ boost::shared_ptr<T> find_resource(const std::string &url)
 typedef std::vector<math::vector3f> vec_list;
 
 
-void CreateBones(collada::library::node *n, const math::matrix4f &pm, vec_list &v)
+void CreateBones(collada::library::node *n, const matrix4f &pm, vec_list &v)
 {
-	math::matrix4f m(n->matrix_);
+	matrix4f m(n->matrix_);
 	m.transpose();
 	m=pm*m;
 
 	if(n->parent_)
 	{
-		static const math::vector4f w(0.0f,0.0f,0.0f,1.0f);
+		static const vector4f w(0.0f,0.0f,0.0f,1.0f);
 		v.push_back( math::resize<3>(math::transform(pm, w)) );
 		v.push_back( math::resize<3>(math::transform(m, w))  );
 	}
@@ -132,7 +134,7 @@ int main(int argc, char *argv[])
 	djah::fs::filesystem::get().addLoadingChannel(new djah::fs::pak_source("2pak.pak"));
 
 	// Logger
-	djah::log::logger::setLogger(new djah::log::console_logger);
+	log::logger::setLogger(new djah::log::console_logger);
 
 	time::clock clk;
 	collada::proxy obj(/**/"../data/3d/astroBoy_walk_Max.dae"/**/ /**"../../data/3d/seymour_triangulate.dae"/**/);
@@ -149,7 +151,7 @@ int main(int argc, char *argv[])
 	root = root->children_[0];
 	root->parent_ = 0;
 
-	math::matrix4f id = math::make_translation(2.5f, 0.0f, 0.0f);
+	matrix4f id = math::make_translation(2.5f, 0.0f, 0.0f);
 	vec_list v;
 	CreateBones(root, id, v);
 
@@ -161,12 +163,12 @@ int main(int argc, char *argv[])
 
 	// Rendering device
 	const int s = 1;
-	djah::video::device_ptr device = djah::video::create_device(480*s, 320*s/*, 24, 24, 0, false, true*/);
-	djah::video::driver_ptr driver = device->videoDriver();
+	device_ptr device = create_device(480*s, 320*s/*, 24, 24, 0, false, true*/);
+	driver_ptr driver = device->videoDriver();
 	//printInfosAux();
 
 	float aspect = static_cast<float>(device->videoConfig().width_) / static_cast<float>(device->videoConfig().height_);
-	math::matrix4f proj = video::make_perspective_projection(60.0f, aspect, 0.1f, 1000.0f);
+	matrix4f proj = video::make_perspective_projection(60.0f, aspect, 0.1f, 1000.0f);
 	driver->setProjectionMatrix(proj);
 
 	/**/
@@ -201,8 +203,8 @@ int main(int argc, char *argv[])
 
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-	math::matrix4f view (math::matrix4f::mat_identity);
-	view *= math::make_translation(0.0f, -3.5f, -10.0f);
+	matrix4f view(matrix4f::mat_identity);
+	//view *= math::make_translation(0.0f, -3.5f, -10.0f);
 	//view *= math::make_rotation(math::deg_to_rad(90.0f), math::vector3f::x_axis);
 	//view *= math::make_rotation(math::deg_to_rad(-90.0f), math::vector3f::z_axis);
 

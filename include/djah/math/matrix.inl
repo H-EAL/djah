@@ -19,9 +19,6 @@ namespace djah { namespace math {
 	template<int N, typename T>
 	matrix<N,T>::matrix(const T (&array)[N][N])
 	{
-		//for(int i = 0; i < N; ++i)
-		//	for(int j = 0; j < N; ++j)
-		//		data[i + j*N] = array[i][j];
 		memcpy(data, array, N*N*sizeof(T));
 	}
 	//----------------------------------------------------------------------------------------------
@@ -29,29 +26,29 @@ namespace djah { namespace math {
 
 	//----------------------------------------------------------------------------------------------
 	template<int N, typename T>
-	matrix<N,T>& matrix<N,T>::identity()
+	inline matrix<N,T>& matrix<N,T>::identity()
 	{
+		memset(data, 0, N*N*sizeof(T));
 		for(int i = 0; i < N; ++i)
-			for(int j = 0; j < N; ++j)
-				data[i + j*N] =  i==j ? T(1) : T(0);
+			m(i,i) = T(1);
 		return (*this);
 	}
 	//----------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------
 	template<int N, typename T>
-	matrix<N,T>& matrix<N,T>::transpose()
+	inline matrix<N,T>& matrix<N,T>::transpose()
 	{
-		for(int i = 0; i < N; ++i)
-			for(int j = i+1; j < N; ++j)
-				std::swap(data[i + j*N], data[j + i*N]);
+		for(int r = 0; r < N; ++r)
+			for(int c = r+1; c < N; ++c)
+				std::swap(m(r,c), m(c,r));
 		return (*this);
 	}
 	//----------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------
 	template<int N, typename T>
-	matrix<N,T>& matrix<N,T>::adjugate()
+	inline matrix<N,T>& matrix<N,T>::adjugate()
 	{
 		return (*this);
 	}
@@ -59,7 +56,7 @@ namespace djah { namespace math {
 
 	//----------------------------------------------------------------------------------------------
 	template<int N, typename T>
-	matrix<N,T>& matrix<N,T>::invert()
+	inline matrix<N,T>& matrix<N,T>::invert()
 	{
 		const T determinant = getDeterminant();
 		assert( determinant != T(0) );
@@ -76,7 +73,7 @@ namespace djah { namespace math {
 
 	//----------------------------------------------------------------------------------------------
 	template<int N, typename T>
-	matrix<N,T> matrix<N,T>::getTransposed() const
+	inline matrix<N,T> matrix<N,T>::getTransposed() const
 	{
 		return matrix<N,T>(*this).transpose();
 	}
@@ -84,7 +81,7 @@ namespace djah { namespace math {
 
 	//----------------------------------------------------------------------------------------------
 	template<int N, typename T>
-	matrix<N,T> matrix<N,T>::getAdjugate() const
+	inline matrix<N,T> matrix<N,T>::getAdjugate() const
 	{
 		return matrix<N,T>(*this).adjugate();
 	}
@@ -92,7 +89,7 @@ namespace djah { namespace math {
 
 	//----------------------------------------------------------------------------------------------
 	template<int N, typename T>
-	matrix<N,T> matrix<N,T>::getInvert() const
+	inline matrix<N,T> matrix<N,T>::getInvert() const
 	{
 		return matrix<N,T>(*this).invert();
 	}
@@ -100,10 +97,10 @@ namespace djah { namespace math {
 
 	//----------------------------------------------------------------------------------------------
 	template<int N, typename T>
-	T matrix<N,T>::determinant() const
+	inline T matrix<N,T>::determinant() const
 	{
 		if(N==2)
-			return (_11 * _22) - (_12 * _21);
+			return (m<1,1>() * m<2,2>()) - (m<1,2>() * m<2,1>());
 
 		T det = T(0);
 
@@ -129,23 +126,54 @@ namespace djah { namespace math {
 
 	//----------------------------------------------------------------------------------------------
 	template<int N, typename T>
-	typename matrix<N,T>::row_t matrix<N,T>::row(int i) const
+	inline typename matrix<N,T>::row_t matrix<N,T>::row(int r) const
 	{
-		row_t r;
-		for(int j = 0; j < N; ++j)
-			r.data[j] = data[i + j*N];
-		return r;
+		row_t result;
+		for(int c = 0; c < N; ++c)
+			result.data[c] = m(r,c);
+		return result;
 	}
 	//----------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------
 	template<int N, typename T>
-	typename matrix<N,T>::col_t matrix<N,T>::col(int j) const
+	inline typename matrix<N,T>::col_t matrix<N,T>::col(int c) const
 	{
-		col_t c;
-		for(int i = 0; i < N; ++i)
-			c.data[i] = data[i + j*N];
-		return c;
+		col_t result;
+		for(int r = 0; r < N; ++r)
+			result.data[r] = m(r,c);
+		return result;
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	template<int N, typename T>
+	template<int Row, int Col>
+	inline T& matrix<N,T>::m()
+	{
+		return data[Row*N + Col];
+	}
+	//----------------------------------------------------------------------------------------------
+	template<int N, typename T>
+	template<int Row, int Col>
+	inline const T& matrix<N,T>::m() const
+	{
+		return data[Row*N + Col];
+	}
+	//----------------------------------------------------------------------------------------------
+
+	//----------------------------------------------------------------------------------------------
+	template<int N, typename T>
+	inline T& matrix<N,T>::m(int at_row, int at_col)
+	{
+		return data[at_row*N + at_col];
+	}
+	//----------------------------------------------------------------------------------------------
+	template<int N, typename T>
+	inline const T& matrix<N,T>::m(int at_row, int at_col) const
+	{
+		return data[at_row*N + at_col];
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -184,15 +212,15 @@ namespace djah { namespace math {
 	{
 		matrix<N,T> rhsT(rhs.getTransposed());
 
-		for(int i = 0; i < N; ++i)
+		for(int r = 0; r < N; ++r)
 		{
-			const row_t r_i( row(i) );
-			for(int j = 0; j < N; ++j)
+			const row_t row_lhs( row(r) );
+			for(int c = 0; c < N; ++c)
 			{
-				data[i + j*N] = T(0);
-				const row_t r_j( rhsT.row(j) );
+				m(r,c) = T(0);
+				const row_t row_rhsT( rhsT.row(c) );
 				for(int k = 0; k < N; ++k)
-					data[i + j*N] += r_i.data[k] * r_j.data[k];
+					m(r,c) += row_lhs.data[k] * row_rhsT.data[k];
 			}
 		}
 
@@ -277,13 +305,13 @@ namespace djah { namespace math {
 
 	//----------------------------------------------------------------------------------------------
 	template<int N, typename T>
-	inline std::ostream& operator >>(std::ostream &out, const matrix<N,T> &rhs)
+	inline std::ostream& operator <<(std::ostream &out, const matrix<N,T> &rhs)
 	{
-		for(int i = 0; i < N; ++i)
+		for(int r = 0; r < N; ++r)
 		{
 			out << "[ ";
-			for(int j = 0; j < N; ++j)
-				out << matrix<N,T>::data_[i + j*N] << " ";
+			for(int c = 0; c < N; ++c)
+				out << rhs.m(r,c) << " ";
 			out << "]\n";
 		}
 
