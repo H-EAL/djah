@@ -106,6 +106,7 @@ namespace djah { namespace math {
 	template<int N, typename T>
 	inline vector<N,T>& vector<N,T>::operator /=(T rhs)
 	{
+		assert(rhs != T(0));
 		for(int i = 0; i < N; ++i)
 			vector_base<N,T>::data[i] /= rhs;
 		return (*this);

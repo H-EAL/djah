@@ -56,7 +56,7 @@ namespace djah { namespace math {
 	template<typename T>
 	inline matrix<4,T> make_scale(const vector<3,T> &v)
 	{
-		return make_scale(v.x(), v.y(), v.z());
+		return make_scale(v.x, v.y, v.z);
 	}
 	//------------------------------------------------------------------------------
 	template<typename T>
@@ -113,10 +113,10 @@ namespace djah { namespace math {
 	{
 		vector<N,T> result;
 
-		for(size_t i = 0; i < N; ++i)
+		for(size_t r = 0; r < N; ++r)
 		{
-			const vector<N,T> r_i( m.row(i).data );
-			result.data[i] = r_i * v;
+			const vector<N,T> row( m.row(r) );
+			result.data[r] = row * v;
 		}
 
 		return result;

@@ -7,8 +7,6 @@ namespace djah { namespace video { namespace drivers {
 	opengl_base::opengl_base(device_base *device)
 		: driver_base(device)
 	{
-		view_matrix_.identity();
-		projection_matrix_.identity();
 	}
 	//----------------------------------------------------------------------------------------------
 

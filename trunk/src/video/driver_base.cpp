@@ -6,6 +6,8 @@ namespace djah { namespace video {
 	//-------------------------------------------------------------------------------------------------
 	driver_base::driver_base(device_base *device)
 		: device_(device)
+		, view_matrix_(math::matrix4f::mat_identity)
+		, projection_matrix_(math::matrix4f::mat_identity)
 		, proj_dirty_(true)
 	{
 	}
@@ -37,7 +39,7 @@ namespace djah { namespace video {
 
 
 	//-------------------------------------------------------------------------------------------------
-	math::matrix4f driver_base::getViewMatrix() const
+	const math::matrix4f& driver_base::getViewMatrix() const
 	{
 		return view_matrix_;
 	}
@@ -51,7 +53,7 @@ namespace djah { namespace video {
 	//-------------------------------------------------------------------------------------------------
 
 	//-------------------------------------------------------------------------------------------------
-	math::matrix4f driver_base::getProjectionMatrix() const
+	const math::matrix4f& driver_base::getProjectionMatrix() const
 	{
 		return projection_matrix_;
 	}

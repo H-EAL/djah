@@ -25,9 +25,9 @@ namespace djah { namespace video {
 		void setViewport(const geometry::rect_i &viewport);
 		geometry::rect_i getViewport() const;
 
-		math::matrix4f getViewMatrix() const;
+		const math::matrix4f& getViewMatrix() const;
 		void setViewMatrix(const math::matrix4f &proj_mat);
-		math::matrix4f getProjectionMatrix() const;
+		const math::matrix4f& getProjectionMatrix() const;
 		void setProjectionMatrix(const math::matrix4f &proj_mat);
 
 	protected:
