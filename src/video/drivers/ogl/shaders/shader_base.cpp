@@ -61,7 +61,7 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 	template<int ShaderType>
 	void shader_base<ShaderType>::loadSourceFromUrl(const std::string &url)
 	{
-		fs::stream_ptr strm = fs::filesystem::get_instance().openReadStream(url);
+		fs::stream_ptr strm = fs::filesystem::get().openReadStream(url);
 		if( !strm )
 			return; // Error opening file
 

@@ -35,12 +35,12 @@ namespace djah { namespace math {
 		matrix();
 		
 		// Constructors from values, only the needed one is actually created
-		matrix(T _11, T _12,  T _21, T _22)
-			: matrix_base(_11,_12,  _21,_22) {}
-		matrix(T _11, T _12, T _13,  T _21, T _22, T _23,  T _31, T _32, T _33)
-			: matrix_base(_11,_12,_13,  _21,_22,_23,  _31,_32,_33) {}
-		matrix(T _11, T _12, T _13, T _14,  T _21, T _22, T _23, T _24,  T _31, T _32, T _33, T _34,  T _41, T _42, T _43, T _44)
-			: matrix_base(_11,_12,_13,_14,  _21,_22,_23,_24,  _31,_32,_33,_34,  _41,_42,_43,_44) {}
+		matrix(T _11, T _21,  T _12, T _22)
+			: matrix_base(_11,_21,  _12,_22) {}
+		matrix(T _11, T _21, T _31,  T _12, T _22, T _32,  T _13, T _23, T _33)
+			: matrix_base(_11,_21,_31,  _12,_22,_32,  _13,_23,_33) {}
+		matrix(T _11, T _21, T _31, T _41,  T _12, T _22, T _32, T _42,  T _13, T _23, T _33, T _43,  T _14, T _24, T _34, T _44)
+			: matrix_base(_11,_21,_31,_41,  _12,_22,_32,_42,  _13,_23,_33,_43,  _14,_24,_34,_44) {}
 		
 		// Constructors from array
 		matrix(const T (&array)[N*N]);
@@ -100,6 +100,15 @@ namespace djah { namespace math {
 	// Matrix product
 	template<int N, typename T>
 	const matrix<N,T> operator *(const matrix<N,T> &lhs, const matrix<N,T> &rhs);
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	template<int N, typename T>
+	inline const matrix<N,T>& identity_matrix();
+
+	template<int N, typename T>
+	inline std::ostream& operator >>(std::ostream &out, const matrix<N,T> &rhs);
 	//----------------------------------------------------------------------------------------------
 
 } /*math*/ } /*djah*/

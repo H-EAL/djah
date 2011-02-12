@@ -13,7 +13,7 @@ namespace djah { namespace utils {
 	{
 	public:
 
-		static T& get_instance()
+		static T& get()
 		{
 			if( instance_ == 0 )
 				instance_ = new T;
@@ -22,7 +22,7 @@ namespace djah { namespace utils {
 
 		static T* get_instance_ptr()
 		{
-			return &get_instance();
+			return &get();
 		}
 
 		static void destroy()

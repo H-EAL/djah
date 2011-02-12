@@ -14,7 +14,7 @@ namespace djah { namespace resources {
 	//----------------------------------------------------------------------------------------------
 	resource_base::~resource_base()
 	{
-		resource_manager::get_instance().remove(name_);
+		resource_manager::get().remove(name_);
 	}
 	//----------------------------------------------------------------------------------------------
 

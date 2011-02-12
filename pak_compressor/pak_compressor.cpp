@@ -15,8 +15,8 @@ using namespace boost::filesystem;
 void pak_compressor::init()
 {
 	djah::log::logger::setLogger(new djah::log::console_logger);
-	djah::fs::filesystem::get_instance().addLoadingChannel(new djah::fs::directory_source("."));
-	djah::fs::filesystem::get_instance().addSavingChannel(new djah::fs::directory_source(".", true));
+	djah::fs::filesystem::get().addLoadingChannel(new djah::fs::directory_source("."));
+	djah::fs::filesystem::get().addSavingChannel(new djah::fs::directory_source(".", true));
 }
 //--------------------------------------------------------------------------------------------------
 
@@ -54,7 +54,7 @@ pak_compressor::pak_compressor(const std::string &dir_name, const std::string &p
 	, crc_(0)
 {
 	pak_name_ += ".pak";
-	pak_file_ = djah::fs::stream_ptr(djah::fs::filesystem::get_instance().openWriteStream(pak_name_));
+	pak_file_ = djah::fs::stream_ptr(djah::fs::filesystem::get().openWriteStream(pak_name_));
 }
 //--------------------------------------------------------------------------------------------------
 
@@ -143,7 +143,7 @@ void pak_compressor::writeFiles()
 	file_list_t::iterator it_end = files_.end();
 	for(it = files_.begin(); it != it_end; ++it)
 	{
-		djah::fs::stream_ptr file = djah::fs::filesystem::get_instance().openReadStream(dir_name_ + "/" + it->file_name_);
+		djah::fs::stream_ptr file = djah::fs::filesystem::get().openReadStream(dir_name_ + "/" + it->file_name_);
 		if(file)
 		{
 			DJAH_BEGIN_LOG(EWL_NOTIFICATION)	<< "Packing ";
