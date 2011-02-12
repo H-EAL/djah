@@ -218,7 +218,7 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 	template<int N>
 	void shader::sendUniformMatrix(const std::string &name, const math::matrix<N,float> &mat, bool transpose) const
 	{
-		sendUniformMatrix<SIZE>(name, mat.data, 1, transpose);
+		sendUniformMatrix<N>(name, mat.data, 1, transpose);
 	}
 	//----------------------------------------------------------------------------------------------
 
