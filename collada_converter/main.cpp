@@ -63,17 +63,17 @@ void drawAxis()
 	glBegin(GL_LINES);
 	{
 		//X
-		glColor3fv (math::vector3f::x_axis.data()	);
-		glVertex3fv(math::vector3f::null_vec.data()	);
-		glVertex3fv(math::vector3f::x_axis.data()	);
+		glColor3fv (math::vector3f::x_axis.data	);
+		glVertex3fv(math::vector3f::null_vector.data	);
+		glVertex3fv(math::vector3f::x_axis.data	);
 		//Y
-		glColor3fv (math::vector3f::y_axis.data()	);
-		glVertex3fv(math::vector3f::null_vec.data()	);
-		glVertex3fv(math::vector3f::y_axis.data()	);
+		glColor3fv (math::vector3f::y_axis.data	);
+		glVertex3fv(math::vector3f::null_vector.data	);
+		glVertex3fv(math::vector3f::y_axis.data	);
 		//Z
-		glColor3fv (math::vector3f::z_axis.data()	);
-		glVertex3fv(math::vector3f::null_vec.data()	);
-		glVertex3fv(math::vector3f::z_axis.data()	);
+		glColor3fv (math::vector3f::z_axis.data	);
+		glVertex3fv(math::vector3f::null_vector.data	);
+		glVertex3fv(math::vector3f::z_axis.data	);
 	}
 	glEnd();
 }
@@ -113,7 +113,7 @@ math::matrix4f get_matrix(collada::library::node *n)
 	{
 		float angle = (*it)->values_[3];
 
-		math::vector3f axis = math::vector3f::null_vec;
+		math::vector3f axis = math::vector3f::null_vector;
 
 		if((*it)->sid_ == "rotateAxisX")
 			axis = math::vector3f::x_axis;
@@ -122,7 +122,7 @@ math::matrix4f get_matrix(collada::library::node *n)
 		else if((*it)->sid_ == "rotateZ")
 			axis = math::vector3f::z_axis;
 
-		if(axis != math::vector3f::null_vec)
+		if(axis != math::vector3f::null_vector)
 			m *= math::make_rotation(math::deg_to_rad(angle), axis);
 	}
 
@@ -266,7 +266,7 @@ int main(int argc, char *argv[])
 			glColor3f(1,0,0);
 			for(vec_list::iterator it = v.begin(); it != v.end(); ++it)
 			{
-				glVertex3fv(it->data());
+				glVertex3fv(it->data);
 			}
 			glEnd();
 

@@ -1,7 +1,7 @@
 #ifndef DJAH_MATH_VECTOR2_HPP
 #define DJAH_MATH_VECTOR2_HPP
 
-#include "vector_base.hpp"
+#include "vector.hpp"
 
 namespace djah { namespace math {
 
@@ -17,7 +17,18 @@ namespace djah { namespace math {
 			struct { T x, y; };
 			T data[2];
 		};
+
+		// Usefull constants
+		static const vector<2,T> x_axis;
+		static const vector<2,T> y_axis;
 	};
+	//----------------------------------------------------------------------------------------------
+
+	//----------------------------------------------------------------------------------------------
+	template<typename T>
+	const vector<2,T> vector_base<2,T>::x_axis = vector<2,T>(1,0);
+	template<typename T>
+	const vector<2,T> vector_base<2,T>::y_axis = vector<2,T>(0,1);
 	//----------------------------------------------------------------------------------------------
 	
 	//----------------------------------------------------------------------------------------------

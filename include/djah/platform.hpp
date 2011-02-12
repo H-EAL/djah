@@ -4,8 +4,6 @@
 #define DEFINE_DEVICE_IMPL(device) typedef djah::video::devices::##device			DeviceImpl
 #define DEFINE_DRIVER_IMPL(driver) typedef djah::video::drivers::detail::##driver	OglImpl
 
-#define TARGET_OS_MAC
-
 #if defined(_WIN32)
 #	define DJAH_COMPILE_WINDOWS
 #	include <windows.h>

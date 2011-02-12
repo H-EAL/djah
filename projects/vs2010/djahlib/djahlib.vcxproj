@@ -99,6 +99,8 @@
     <ClInclude Include="..\..\..\include\djah\fs\memory_stream.hpp" />
     <ClInclude Include="..\..\..\include\djah\fs\source.hpp" />
     <ClInclude Include="..\..\..\include\djah\fs\stream.hpp" />
+    <ClInclude Include="..\..\..\include\djah\gameplay\go\component.hpp" />
+    <ClInclude Include="..\..\..\include\djah\gameplay\go\components_database.hpp" />
     <ClInclude Include="..\..\..\include\djah\geometry\plane.hpp" />
     <ClInclude Include="..\..\..\include\djah\geometry\ray.hpp" />
     <ClInclude Include="..\..\..\include\djah\geometry\rect.hpp" />
@@ -108,9 +110,8 @@
     <ClInclude Include="..\..\..\include\djah\log\html_logger.hpp" />
     <ClInclude Include="..\..\..\include\djah\log\logger.hpp" />
     <ClInclude Include="..\..\..\include\djah\math.hpp" />
-    <ClInclude Include="..\..\..\include\djah\math\basic_matrix.hpp" />
-    <ClInclude Include="..\..\..\include\djah\math\basic_vector.hpp" />
-    <ClInclude Include="..\..\..\include\djah\math\detail\vector_base.hpp" />
+    <ClInclude Include="..\..\..\include\djah\math\math_utils.hpp" />
+    <ClInclude Include="..\..\..\include\djah\math\matrix.hpp" />
     <ClInclude Include="..\..\..\include\djah\math\matrix2.hpp" />
     <ClInclude Include="..\..\..\include\djah\math\matrix3.hpp" />
     <ClInclude Include="..\..\..\include\djah\math\matrix4.hpp" />
@@ -118,10 +119,11 @@
     <ClInclude Include="..\..\..\include\djah\math\quaternion.hpp" />
     <ClInclude Include="..\..\..\include\djah\math\quaternion_utils.hpp" />
     <ClInclude Include="..\..\..\include\djah\math\splines.hpp" />
-    <ClInclude Include="..\..\..\include\djah\math\utils.hpp" />
+    <ClInclude Include="..\..\..\include\djah\math\vector.inl" />
     <ClInclude Include="..\..\..\include\djah\math\vector2.hpp" />
     <ClInclude Include="..\..\..\include\djah\math\vector3.hpp" />
     <ClInclude Include="..\..\..\include\djah\math\vector4.hpp" />
+    <ClInclude Include="..\..\..\include\djah\math\vector.hpp" />
     <ClInclude Include="..\..\..\include\djah\math\vector_utils.hpp" />
     <ClInclude Include="..\..\..\include\djah\messages\message_type.hpp" />
     <ClInclude Include="..\..\..\include\djah\platform.hpp" />
@@ -175,12 +177,12 @@
   <ItemGroup>
     <None Include="..\..\..\include\djah\fs\compressed_source.inl" />
     <None Include="..\..\..\include\djah\fs\stream.inl" />
+    <None Include="..\..\..\include\djah\gameplay\go\components_database.inl" />
+    <None Include="..\..\..\include\djah\gameplay\go\components_typelist.inl" />
     <None Include="..\..\..\include\djah\geometry\plane.inl" />
     <None Include="..\..\..\include\djah\geometry\rect.inl" />
     <None Include="..\..\..\include\djah\log\logger.inl" />
-    <None Include="..\..\..\include\djah\math\basic_matrix.inl" />
-    <None Include="..\..\..\include\djah\math\basic_vector.inl" />
-    <None Include="..\..\..\include\djah\math\detail\vector_base.inl" />
+    <None Include="..\..\..\include\djah\math\matrix.inl" />
     <None Include="..\..\..\include\djah\math\quaternion.inl" />
     <None Include="..\..\..\include\djah\resources\media_manager.inl" />
     <None Include="..\..\..\include\djah\video\drivers\ogl\buffers\buffer_base.inl" />

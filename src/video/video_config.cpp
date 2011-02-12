@@ -3,7 +3,7 @@
 namespace djah { namespace video {
 
 	//----------------------------------------------------------------------------------------------
-	VideoConfig::VideoConfig(int width, int height, int colorBits, int depthBits, int stencilBits, bool fullscreen, bool vsync)
+	video_config::video_config(int width, int height, int colorBits, int depthBits, int stencilBits, bool fullscreen, bool vsync)
 		: width_(width)
 		, height_(height)
 		, colorBits_(colorBits)

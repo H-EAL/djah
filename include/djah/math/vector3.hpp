@@ -1,7 +1,7 @@
 #ifndef DJAH_MATH_VECTOR3_HPP
 #define DJAH_MATH_VECTOR3_HPP
 
-#include "vector_base.hpp"
+#include "vector.hpp"
 
 namespace djah { namespace math {
 	
@@ -17,9 +17,22 @@ namespace djah { namespace math {
 			struct { T x, y, z; };
 			T data[3];
 		};
+
+		// Usefull constants
+		static const vector<3,T> x_axis;
+		static const vector<3,T> y_axis;
+		static const vector<3,T> z_axis;
 	};
 	//----------------------------------------------------------------------------------------------
-	
+
+	//----------------------------------------------------------------------------------------------
+	template<typename T>
+	const vector<3,T> vector_base<3,T>::x_axis = vector<3,T>(1,0,0);
+	template<typename T>
+	const vector<3,T> vector_base<3,T>::y_axis = vector<3,T>(0,1,0);
+	template<typename T>
+	const vector<3,T> vector_base<3,T>::z_axis = vector<3,T>(0,0,1);
+	//----------------------------------------------------------------------------------------------
 	
 	//----------------------------------------------------------------------------------------------
 	// Cross product
@@ -41,7 +54,6 @@ namespace djah { namespace math {
 	}
 	//----------------------------------------------------------------------------------------------
 	
-
 	//----------------------------------------------------------------------------------------------
 	// Useful type definitions
 	typedef vector<3,unsigned char>		vector3ub;

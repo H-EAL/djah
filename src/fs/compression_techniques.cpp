@@ -26,7 +26,7 @@ namespace djah { namespace fs {
 
 		for(u32 i = 0; i < num_files_; ++i)
 		{
-			//strm->read(fentry);
+			strm->read(fentry);
 			file_struct fstruct = { fentry.offset_, fentry.size_, fentry.size_ };
 			registry.insert( file_registry_t::value_type(fentry.file_name_, fstruct) );
 		}

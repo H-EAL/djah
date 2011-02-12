@@ -35,7 +35,7 @@ namespace djah { namespace utils {
 
 		// Only derived classes can access ctor/dtor
 		singleton() {}
-		virtual ~singleton() { if(instance_) delete instance_; }
+		virtual ~singleton() {}
 
 	private:
 

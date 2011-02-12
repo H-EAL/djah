@@ -13,7 +13,7 @@ namespace djah { namespace math {
 
 	//------------------------------------------------------------------------------
 	template<typename T>
-	inline basic_matrix<4,T> make_translation(T t_x, T t_y, T t_z, T t_w = T(1))
+	inline matrix<4,T> make_translation(T t_x, T t_y, T t_z, T t_w = T(1))
 	{
 		const T m[4][4] =
 		{
@@ -22,17 +22,17 @@ namespace djah { namespace math {
 			{0,0,1,t_z},
 			{0,0,0,t_w}
 		};
-		return basic_matrix<4,T>(m);
+		return matrix<4,T>(m);
 	}
 	//------------------------------------------------------------------------------
 	template<typename T>
-	inline basic_matrix<4,T> make_translation(const vector<3,T> &v)
+	inline matrix<4,T> make_translation(const vector<3,T> &v)
 	{
 		return make_translation(v.x, v.y, v.z);
 	}
 	//------------------------------------------------------------------------------
 	template<typename T>
-	inline basic_matrix<4,T> make_translation(const vector<4,T> &v)
+	inline matrix<4,T> make_translation(const vector<4,T> &v)
 	{
 		return make_translation(v.x, v.y, v.z, v.w);
 	}
@@ -41,7 +41,7 @@ namespace djah { namespace math {
 
 	//------------------------------------------------------------------------------
 	template<typename T>
-	inline basic_matrix<4,T> make_scale(T t_x, T t_y, T t_z, T t_w = T(1))
+	inline matrix<4,T> make_scale(T t_x, T t_y, T t_z, T t_w = T(1))
 	{
 		const T m[4][4] =
 		{
@@ -50,17 +50,17 @@ namespace djah { namespace math {
 			{  0,   0, t_z,   0},
 			{  0,   0,   0, t_w}
 		};
-		return basic_matrix<4,T>(m);
+		return matrix<4,T>(m);
 	}
 	//------------------------------------------------------------------------------
 	template<typename T>
-	inline basic_matrix<4,T> make_scale(const vector<3,T> &v)
+	inline matrix<4,T> make_scale(const vector<3,T> &v)
 	{
 		return make_scale(v.x(), v.y(), v.z());
 	}
 	//------------------------------------------------------------------------------
 	template<typename T>
-	inline basic_matrix<4,T> make_scale(const vector<4,T> &v)
+	inline matrix<4,T> make_scale(const vector<4,T> &v)
 	{
 		return make_scale(v.x, v.y, v.z, v.w);
 	}
@@ -69,7 +69,7 @@ namespace djah { namespace math {
 
 	//------------------------------------------------------------------------------
 	template<typename T>
-	inline basic_matrix<4,T> make_rotation(T angle, vector<3,T> axis)
+	inline matrix<4,T> make_rotation(T angle, vector<3,T> axis)
 	{
 		axis.normalize();
 
@@ -82,33 +82,33 @@ namespace djah { namespace math {
 		const T c    = cos(angle);
 		const T s    = sin(angle);
 
-		basic_matrix<4,T> R;
+		matrix<4,T> R;
 
-		R.m<1,1>() = u_x2 + (1 - u_x2) * c;
-		R.m<1,2>() = u_x * u_y * (1 - c) - u_z * s;
-		R.m<1,3>() = u_x * u_z * (1 - c) + u_y * s;
+		R._11 = u_x2 + (1 - u_x2) * c;
+		R._12 = u_x * u_y * (1 - c) - u_z * s;
+		R._13 = u_x * u_z * (1 - c) + u_y * s;
 
-		R.m<2,1>() = u_x * u_y * (1 - c) + u_z * s;
-		R.m<2,2>() = u_y2 + (1 - u_y2) * c;
-		R.m<2,3>() = u_y * u_z * (1 - c) - u_x * s;
+		R._21 = u_x * u_y * (1 - c) + u_z * s;
+		R._22 = u_y2 + (1 - u_y2) * c;
+		R._23 = u_y * u_z * (1 - c) - u_x * s;
 
-		R.m<3,1>() = u_x * u_z * (1 - c) - u_y * s;
-		R.m<3,2>() = u_y * u_z * (1 - c) + u_x * s;
-		R.m<3,3>() = u_z2 + (1 - u_z2) * c;
+		R._31 = u_x * u_z * (1 - c) - u_y * s;
+		R._32 = u_y * u_z * (1 - c) + u_x * s;
+		R._33 = u_z2 + (1 - u_z2) * c;
 
-		R.m<4,4>() = 1;
+		R._44 = 1;
 
 		return R;
 	}
 	//------------------------------------------------------------------------------
 	template<typename A, typename T>
-	inline basic_matrix<4,T> make_rotation(A angle, const vector<4,T> &axis)
+	inline matrix<4,T> make_rotation(A angle, const vector<4,T> &axis)
 	{
-		return make_rotation(angle, vector<3,T>(axis.x(), axis.y(), axis.z()));
+		return make_rotation(angle, vector<3,T>(axis.x, axis.y, axis.z));
 	}
 	//------------------------------------------------------------------------------
 	template<typename A, typename T>
-	inline basic_matrix<4,T> make_rotation(A angle, T t_x, T t_y, T t_z)
+	inline matrix<4,T> make_rotation(A angle, T t_x, T t_y, T t_z)
 	{
 		return make_rotation(angle, vector<3,T>(t_x, t_y, t_z));
 	}
@@ -117,14 +117,14 @@ namespace djah { namespace math {
 
 	//--------------------------------------------------------------------------
 	template<int N, typename T>
-	inline vector<N,T> operator *(const basic_matrix<N,T> &m, const vector<N,T> &v)
+	inline vector<N,T> operator *(const matrix<N,T> &m, const vector<N,T> &v)
 	{
-		typedef vector<N,T> vec_t;
-		vec_t result;
+		vector<N,T> result;
+
 		for(size_t i = 0; i < N; ++i)
 		{
-			const vec_t r_i( m.row(i) );
-			result[i] = r_i * v;
+			const vector<N,T> r_i( m.row(i).data );
+			result.data[i] = r_i * v;
 		}
 
 		return result;
@@ -133,8 +133,8 @@ namespace djah { namespace math {
 
 
 	//--------------------------------------------------------------------------
-	template<size_t SIZE, typename T>
-	inline vector<SIZE,T> transform(const basic_matrix<SIZE,T> &m, const vector<SIZE,T> &v)
+	template<int N, typename T>
+	inline vector<N,T> transform(const matrix<N,T> &m, const vector<N,T> &v)
 	{
 		return m*v;
 	}

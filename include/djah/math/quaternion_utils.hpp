@@ -12,7 +12,7 @@ namespace djah { namespace math {
 	{
 		const T theta = angle / T(2);
 		axis.normalize() *= sin(theta);
-		return quaternion<T>(axis.x(), axis.y(), axis.z(), cos(theta));
+		return quaternion<T>(axis.x, axis.y, axis.z, cos(theta));
 	}
 	//--------------------------------------------------------------------------
 	template<typename T>
