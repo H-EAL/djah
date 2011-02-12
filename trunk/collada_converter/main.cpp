@@ -63,17 +63,17 @@ void drawAxis()
 	glBegin(GL_LINES);
 	{
 		//X
-		glColor3fv (math::vector3f::x_axis.data	);
-		glVertex3fv(math::vector3f::null_vector.data	);
-		glVertex3fv(math::vector3f::x_axis.data	);
+		glColor3fv (math::vector3f::x_axis.data		);
+		glVertex3fv(math::vector3f::null_vector.data);
+		glVertex3fv(math::vector3f::x_axis.data		);
 		//Y
-		glColor3fv (math::vector3f::y_axis.data	);
-		glVertex3fv(math::vector3f::null_vector.data	);
-		glVertex3fv(math::vector3f::y_axis.data	);
+		glColor3fv (math::vector3f::y_axis.data		);
+		glVertex3fv(math::vector3f::null_vector.data);
+		glVertex3fv(math::vector3f::y_axis.data		);
 		//Z
-		glColor3fv (math::vector3f::z_axis.data	);
-		glVertex3fv(math::vector3f::null_vector.data	);
-		glVertex3fv(math::vector3f::z_axis.data	);
+		glColor3fv (math::vector3f::z_axis.data		);
+		glVertex3fv(math::vector3f::null_vector.data);
+		glVertex3fv(math::vector3f::z_axis.data		);
 	}
 	glEnd();
 }
@@ -90,92 +90,51 @@ boost::shared_ptr<T> find_resource(const std::string &url)
 		initialized = true;
 	}
 
-	boost::shared_ptr<T> res = resources::resource_manager::get_instance().get<T>(url);
+	boost::shared_ptr<T> res = resources::resource_manager::get().find<T>(url);
 	if(!res && (res = boost::shared_ptr<T>(s_dmm.loadFromUrl<T>(url))))
-		resources::resource_manager::get_instance().add(url, res);
+		resources::resource_manager::get().add(url, res);
 	else
 		DJAH_BEGIN_LOG(EWL_CRITICAL) << "[ResourceManager] Unable to find the following resource: " << url << DJAH_END_LOG();
 
 	return res;
 }
 
-
-math::matrix4f get_matrix(collada::library::node *n)
-{
-	return n->matrix_;
-
-	float *tr = n->transformations_[collada::library::transformation::ETT_TRANSLATE][0]->values_;
-	math::matrix4f m = math::make_translation(tr[0], tr[1], tr[2]);
-
-	collada::library::transformation_list_t::const_iterator it	 = n->transformations_[collada::library::transformation::ETT_ROTATE].begin();
-	collada::library::transformation_list_t::const_iterator it_end = n->transformations_[collada::library::transformation::ETT_ROTATE].end();
-	for(; it != it_end; ++it)
-	{
-		float angle = (*it)->values_[3];
-
-		math::vector3f axis = math::vector3f::null_vector;
-
-		if((*it)->sid_ == "rotateAxisX")
-			axis = math::vector3f::x_axis;
-		else if((*it)->sid_ == "rotateY")
-			axis = math::vector3f::y_axis;
-		else if((*it)->sid_ == "rotateZ")
-			axis = math::vector3f::z_axis;
-
-		if(axis != math::vector3f::null_vector)
-			m *= math::make_rotation(math::deg_to_rad(angle), axis);
-	}
-
-	return m;
-}
-
 typedef std::vector<math::vector3f> vec_list;
 
 
-void renderNode(collada::library::node *n, const math::matrix4f &pm, vec_list &v, const std::string &sp = "")
+void CreateBones(collada::library::node *n, const math::matrix4f &pm, vec_list &v)
 {
-	math::matrix4f m = get_matrix(n);
+	math::matrix4f m(n->matrix_);
 	m.transpose();
 	m=pm*m;
 
 	if(n->parent_)
 	{
-		math::vector4f w(0.0f,0.0f,0.0f,1.0f);
-		math::vector4f v4 = math::transform(m, w);
-		math::vector3f pos = math::vec4_to_vec3(v4);
-		v4 = math::transform(pm, w);
-		math::vector3f ppos = math::vec4_to_vec3(v4);
-		v.push_back(ppos);
-		v.push_back(pos);
+		static const math::vector4f w(0.0f,0.0f,0.0f,1.0f);
+		v.push_back( math::resize<3>(math::transform(pm, w)) );
+		v.push_back( math::resize<3>(math::transform(m, w))  );
 	}
 	
 	collada::library::node_list_t::const_iterator it;
 	collada::library::node_list_t::const_iterator it_end = n->children_.end();
 	for(it = n->children_.begin(); it != it_end; ++it)
-		renderNode(*it, m, v, sp+"  ");
+		CreateBones(*it, m, v);
 }
 
 
 int main(int argc, char *argv[])
 {
-
 	// File System
-	djah::fs::filesystem::get_instance().addSavingChannel (new djah::fs::directory_source("."));
-	djah::fs::filesystem::get_instance().addLoadingChannel(new djah::fs::directory_source("../data"));
-	djah::fs::filesystem::get_instance().addLoadingChannel(new djah::fs::directory_source("../data/3d"));
-	djah::fs::filesystem::get_instance().addLoadingChannel(new djah::fs::directory_source("../data/textures"));
-	djah::fs::filesystem::get_instance().addLoadingChannel(new djah::fs::pak_source("2pak.pak"));
+	djah::fs::filesystem::get().addSavingChannel (new djah::fs::directory_source("."));
+	djah::fs::filesystem::get().addLoadingChannel(new djah::fs::directory_source("../data"));
+	djah::fs::filesystem::get().addLoadingChannel(new djah::fs::directory_source("../data/3d"));
+	djah::fs::filesystem::get().addLoadingChannel(new djah::fs::directory_source("../data/textures"));
+	djah::fs::filesystem::get().addLoadingChannel(new djah::fs::pak_source("2pak.pak"));
 
 	// Logger
 	djah::log::logger::setLogger(new djah::log::console_logger);
-	/*for(int i = 0; i < 32; ++i)
-	{
-		int level = djah::utils::randomizer::random(4);
-		log::logger::log(log::logger::E_WARNING_LEVEL(level)) << "level " << level << log::logger::endl();
-	}*/
 
 	time::clock clk;
-	clk.restart();
 	collada::proxy obj(/**/"../data/3d/astroBoy_walk_Max.dae"/**/ /**"../../data/3d/seymour_triangulate.dae"/**/);
 	u64 msL = clk.getElapsedTimeMs();
 
@@ -190,18 +149,14 @@ int main(int argc, char *argv[])
 	root = root->children_[0];
 	root->parent_ = 0;
 
-	math::matrix4f id;
-	id = math::make_translation(2.5f, 0.0f, 0.0f);
+	math::matrix4f id = math::make_translation(2.5f, 0.0f, 0.0f);
 	vec_list v;
-	renderNode(root, id, v);
+	CreateBones(root, id, v);
 
 	u64 msB = clk.getElapsedTimeMs();
 
 	DJAH_BEGIN_LOG(EWL_NOTIFICATION) << "Loading time : " << msL << " ms" << DJAH_END_LOG();
 	DJAH_BEGIN_LOG(EWL_NOTIFICATION) << "Building time : " << msB << " ms" << DJAH_END_LOG();
-
-	/*fs::memory_stream mstrm(fs::filesystem::get_instance().openReadStream("test.frag"));
-	std::cout << mstrm.toString();*/
 
 
 	// Rendering device
@@ -246,21 +201,20 @@ int main(int argc, char *argv[])
 
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-	math::matrix4f view;
-	view.identity();
+	math::matrix4f view (math::matrix4f::mat_identity);
 	view *= math::make_translation(0.0f, -3.5f, -10.0f);
-	view *= math::make_rotation(math::deg_to_rad(-90.0f), math::vector3f::x_axis);
-	view *= math::make_rotation(math::deg_to_rad(-90.0f), math::vector3f::z_axis);
+	//view *= math::make_rotation(math::deg_to_rad(90.0f), math::vector3f::x_axis);
+	//view *= math::make_rotation(math::deg_to_rad(-90.0f), math::vector3f::z_axis);
 
 	while( device->run() )
 	{
-		view *= math::make_rotation(math::deg_to_rad(clk.getElapsedTimeSec()*100.0f/2.5f), math::vector3f::z_axis);
+		//view *= math::make_rotation(math::deg_to_rad(clk.getElapsedTimeSec()*100.0f/2.5f), math::vector3f::z_axis);
 		driver->setViewMatrix(view);
 
 		clk.restart();
 		driver->beginScene();
 		{
-			//drawAxis();
+			drawAxis();
 
 			glBegin(GL_LINES);
 			glColor3f(1,0,0);
@@ -295,9 +249,6 @@ int main(int argc, char *argv[])
 			glDisable(GL_TEXTURE_2D);
 		}
 		driver->endScene();
-		std::stringstream str;
-		str << clk.getElapsedTimeMs() << " mssssssss";
-		device->setWindowTitle(str.str());
 
 		device->swapBuffers();
 	}

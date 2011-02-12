@@ -4,7 +4,7 @@ namespace djah { namespace fs {
 	template<typename CompressionTechnique>
 	compressed_source<CompressionTechnique>::compressed_source(const std::string &url, unsigned int priority)
 		: source(priority)
-		, compressed_stream_(filesystem::get_instance().openReadStream(url))
+		, compressed_stream_(filesystem::get().openReadStream(url))
 	{
 		CompressionTechnique::populate_file_registry(compressed_stream_, file_registry_);
 	}

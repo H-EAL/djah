@@ -5,7 +5,7 @@ namespace djah { namespace log {
 	
 	//--------------------------------------------------------------------------
 	html_logger::html_logger(const std::string &url)
-		: log_stream_(fs::filesystem::get_instance().openWriteStream(url))
+		: log_stream_(fs::filesystem::get().openWriteStream(url))
 	{
 		write("<html><head><title>djah Log File</title>\
 				<link rel=\"stylesheet\" type=\"text/css\" href=\"log_style.css\"/>\

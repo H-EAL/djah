@@ -15,7 +15,7 @@ namespace djah { namespace resources {
 
 	public:
 		template<typename T>
-		boost::shared_ptr<T> get(const std::string &name) const;
+		boost::shared_ptr<T> find(const std::string &name) const;
 
 		void add(const std::string &name, resource_ptr res);
 		void remove(const std::string &name);
@@ -29,7 +29,7 @@ namespace djah { namespace resources {
 
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline boost::shared_ptr<T> resource_manager::get(const std::string &name) const
+	inline boost::shared_ptr<T> resource_manager::find(const std::string &name) const
 	{
 		boost::shared_ptr<T> res;
 		resource_map_t::const_iterator it = resources_.find(name);

@@ -82,23 +82,15 @@ namespace djah { namespace math {
 		const T c    = cos(angle);
 		const T s    = sin(angle);
 
-		matrix<4,T> R;
+		T m[4][4] =
+		{
+			{ u_x2 + (1 - u_x2) * c,			u_x * u_y * (1 - c) + u_z * s,		u_x * u_z * (1 - c) - u_y * s,	0	},
+			{ u_x * u_y * (1 - c) - u_z * s,	u_y2 + (1 - u_y2) * c,				u_y * u_z * (1 - c) + u_x * s,	0	},
+			{ u_x * u_z * (1 - c) + u_y * s,	u_y * u_z * (1 - c) - u_x * s,		u_z2 + (1 - u_z2) * c,			0	},
+			{ 0,								0,									0,								1	}
+		};
 
-		R._11 = u_x2 + (1 - u_x2) * c;
-		R._12 = u_x * u_y * (1 - c) - u_z * s;
-		R._13 = u_x * u_z * (1 - c) + u_y * s;
-
-		R._21 = u_x * u_y * (1 - c) + u_z * s;
-		R._22 = u_y2 + (1 - u_y2) * c;
-		R._23 = u_y * u_z * (1 - c) - u_x * s;
-
-		R._31 = u_x * u_z * (1 - c) - u_y * s;
-		R._32 = u_y * u_z * (1 - c) + u_x * s;
-		R._33 = u_z2 + (1 - u_z2) * c;
-
-		R._44 = 1;
-
-		return R;
+		return matrix<4,T>(m);
 	}
 	//------------------------------------------------------------------------------
 	template<typename A, typename T>
