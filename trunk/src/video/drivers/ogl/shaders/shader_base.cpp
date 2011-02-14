@@ -10,11 +10,11 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 
 	//----------------------------------------------------------------------------------------------
 	template<int ShaderType>
-	shader_base<ShaderType>::shader_base(const std::string &file_path)
+	shader_base<ShaderType>::shader_base(const std::string &url)
 	{
 		aquire();
-		if( !file_path.empty() )
-			loadSourceFromUrl(file_path);
+		if( !url.empty() )
+			loadSourceFromUrl(url);
 	}
 	//----------------------------------------------------------------------------------------------
 

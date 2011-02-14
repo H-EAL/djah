@@ -15,7 +15,8 @@ namespace djah { namespace video {
 		virtual ~device_base();
 
 		static device_base* get_current();
-		video_config videoConfig() const;
+		
+		const video_config& videoConfig() const;
 
 		void setVideoDriver(driver_ptr driver);
 		driver_ptr videoDriver() const;

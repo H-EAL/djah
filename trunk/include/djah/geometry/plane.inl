@@ -26,11 +26,11 @@ namespace djah { namespace geometry {
 	template<typename T>
 	math::vector<3,T>& plane<T>::normal()  { return normal_;     }
 	template<typename T>
-	T&                plane<T>::a()        { return normal_.x(); }
+	T&                plane<T>::a()        { return normal_.x; }
 	template<typename T>
-	T&                plane<T>::b()        { return normal_.y(); }
+	T&                plane<T>::b()        { return normal_.y; }
 	template<typename T>
-	T&                plane<T>::c()        { return normal_.z(); }
+	T&                plane<T>::c()        { return normal_.z; }
 	template<typename T>
 	T&                plane<T>::d()        { return distance_;   }
 	//-----------------------------------------------------------------------------
@@ -42,11 +42,11 @@ namespace djah { namespace geometry {
 	template<typename T>
 	const math::vector<3,T>& plane<T>::normal()   const { return normal_;     }
 	template<typename T>
-	const T&                 plane<T>::a()        const { return normal_.x(); }
+	const T&                 plane<T>::a()        const { return normal_.x; }
 	template<typename T>
-	const T&                 plane<T>::b()        const { return normal_.y(); }
+	const T&                 plane<T>::b()        const { return normal_.y; }
 	template<typename T>
-	const T&                 plane<T>::c()        const { return normal_.z(); }
+	const T&                 plane<T>::c()        const { return normal_.z; }
 	template<typename T>
 	const T&                 plane<T>::d()        const { return distance_;   }
 	//-----------------------------------------------------------------------------

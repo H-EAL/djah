@@ -2,7 +2,6 @@
 #define DJAH_VIDEO_DRIVERS_OGL_VERTEX_ATTRIB_HPP
 
 #include <string>
-#include <GL/glew.h>
 
 #include "../gl_types.hpp"
 

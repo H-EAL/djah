@@ -23,7 +23,7 @@ namespace djah { namespace video {
 		virtual void endScene() = 0;
 
 		void setViewport(const geometry::rect_i &viewport);
-		geometry::rect_i getViewport() const;
+		const geometry::rect_i& getViewport() const;
 
 		const math::matrix4f& getViewMatrix() const;
 		void setViewMatrix(const math::matrix4f &proj_mat);
