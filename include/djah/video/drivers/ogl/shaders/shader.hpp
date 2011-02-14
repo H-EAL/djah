@@ -26,7 +26,7 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 		void link() const;
 
 		void begin() const;
-		void end()   const;
+		static void end();
 
 		unsigned int getVertexAttributeLocation(const std::string &name) const;
 

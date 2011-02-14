@@ -84,7 +84,7 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 
 
 	//----------------------------------------------------------------------------------------------
-	void shader::end() const
+	void shader::end()
 	{
 		glUseProgram(0);
 	}

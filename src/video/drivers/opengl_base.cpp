@@ -1,5 +1,5 @@
 #include "video/drivers/opengl_base.hpp"
-#include "video/drivers/ogl/gl_caps.hpp"
+//#include "video/drivers/ogl/gl_caps.hpp"
 
 namespace djah { namespace video { namespace drivers {
 
@@ -27,13 +27,13 @@ namespace djah { namespace video { namespace drivers {
 		//glewInit();
 
 		// Init caps
-		ogl::capabilities::init();
+		/*ogl::capabilities::init();
 
 		glClearDepth(1.f);
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
 		glEnable(GL_DEPTH_TEST);
-		glDepthMask(GL_TRUE);
+		glDepthMask(GL_TRUE);*/
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -48,7 +48,7 @@ namespace djah { namespace video { namespace drivers {
 
 	//----------------------------------------------------------------------------------------------
 	void opengl_base::beginScene()
-	{
+	{/*
 		if( proj_dirty_ )
 		{
 			glMatrixMode(GL_PROJECTION);
@@ -62,7 +62,7 @@ namespace djah { namespace video { namespace drivers {
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 		glMultMatrixf(view_matrix_.data);
-
+*/
 		// Use current shader
 	}
 	//----------------------------------------------------------------------------------------------
@@ -80,7 +80,7 @@ namespace djah { namespace video { namespace drivers {
 	void opengl_base::updateViewport()
 	{
 		const math::vector2i &topLeft = viewport_.topLeft();
-		glViewport(topLeft.x, topLeft.y, viewport_.width(), viewport_.height());
+		//glViewport(topLeft.x, topLeft.y, viewport_.width(), viewport_.height());
 	}
 	//----------------------------------------------------------------------------------------------
 

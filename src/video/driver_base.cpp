@@ -31,7 +31,7 @@ namespace djah { namespace video {
 
 
 	//-------------------------------------------------------------------------------------------------
-	geometry::rect_i driver_base::getViewport() const
+	const geometry::rect_i& driver_base::getViewport() const
 	{
 		return viewport_;
 	}
@@ -66,6 +66,5 @@ namespace djah { namespace video {
 		proj_dirty_ = true;
 	}
 	//-------------------------------------------------------------------------------------------------
-
 
 } /*video*/ } /*djah*/

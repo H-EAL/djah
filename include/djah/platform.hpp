@@ -1,6 +1,8 @@
 #ifndef DJAH_PLATFORM_HPP
 #define DJAH_PLATFORM_HPP
 
+#define TARGET_OS_MAC
+
 #define DEFINE_DEVICE_IMPL(device) typedef djah::video::devices::##device			DeviceImpl
 #define DEFINE_DRIVER_IMPL(driver) typedef djah::video::drivers::detail::##driver	OglImpl
 
@@ -20,12 +22,11 @@
 	DEFINE_DRIVER_IMPL(opengl_x11);
 
 #elif defined(TARGET_OS_MAC)
-//#	define DJAH_COMPILE_MACOSX
-#	define DJAH_COMPILE_LINUX
-#	include "video/devices/x11device.hpp"
-#	include "video/drivers/detail/opengl_x11.hpp"
-typedef djah::video::devices::x11device			DeviceImpl;
-typedef djah::video::drivers::detail::opengl_x11	OglImpl;
+#	define DJAH_COMPILE_MACOSX
+#	include "video/devices/iosdevice.hpp"
+#	include "video/drivers/detail/opengl_ios.hpp"
+typedef djah::video::devices::iOSdevice				DeviceImpl;
+typedef djah::video::drivers::detail::opengl_ios	OglImpl;
 
 #elif defined(IPHONEOS)
 #	define DJAH_COMPILE_IPHONEOS
@@ -40,14 +41,14 @@ typedef djah::video::drivers::detail::opengl_x11	OglImpl;
 #	include <windows.h>
 #endif
 
-#include <GL/glew.h>
+//#include <GL/glew.h>
 
 #ifndef TARGET_OS_MAC
 #	include <GL/gl.h>
 #	include <GL/glu.h>
-#else
-#	include <OpenGl/gl.h>
-#	include <OpenGl/glu.h>
+//#else
+//#	include <OpenGl/gl.h>
+//#	include <OpenGl/glu.h>
 #endif
 
 

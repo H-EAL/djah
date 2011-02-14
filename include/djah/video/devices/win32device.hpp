@@ -15,7 +15,8 @@ namespace djah { namespace video {
 
 	namespace devices  {
 
-	class win32device : public device_base
+	class win32device 
+		: public device_base
 	{
 	public:
 

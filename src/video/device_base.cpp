@@ -54,7 +54,7 @@ namespace djah { namespace video {
 
 
 	//----------------------------------------------------------------------------------------------
-	video_config device_base::videoConfig() const
+	const video_config& device_base::videoConfig() const
 	{
 		return video_config_;
 	}

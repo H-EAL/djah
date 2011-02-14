@@ -15,7 +15,8 @@ namespace djah { namespace video {
 
 	namespace devices  {
 
-	class x11device : public device_base
+	class x11device
+		: public device_base
 	{
 	public:
 
