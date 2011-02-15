@@ -6,8 +6,8 @@ namespace djah { namespace video {
 	//----------------------------------------------------------------------------------------------
 	device_ptr create_device(const video_config &cfg)
 	{
-		device_ptr device = new DeviceImpl;
-		driver_ptr driver = new drivers::opengl_base(device);
+		device_ptr device = new_platform_specific_device();
+		driver_ptr driver = new_platform_specific_driver(device);
 		device->setVideoDriver(driver);
 		device->create(cfg);
 		return device;

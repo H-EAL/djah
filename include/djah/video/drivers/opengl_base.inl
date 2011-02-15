@@ -1,10 +1,8 @@
-#include "video/drivers/opengl_base.hpp"
-//#include "video/drivers/ogl/gl_caps.hpp"
-
 namespace djah { namespace video { namespace drivers {
 
 	//----------------------------------------------------------------------------------------------
-	opengl_base::opengl_base(device_base *device)
+	template<typename OglImpl>
+	opengl_base<OglImpl>::opengl_base(device_base *device)
 		: driver_base(device)
 	{
 	}
@@ -12,14 +10,16 @@ namespace djah { namespace video { namespace drivers {
 
 
 	//----------------------------------------------------------------------------------------------
-	opengl_base::~opengl_base()
+	template<typename OglImpl>
+	opengl_base<OglImpl>::~opengl_base()
 	{
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	void opengl_base::create()
+	template<typename OglImpl>
+	void opengl_base<OglImpl>::create()
 	{
 		OglImpl::create(device_);
 
@@ -39,7 +39,8 @@ namespace djah { namespace video { namespace drivers {
 
 
 	//----------------------------------------------------------------------------------------------
-	void opengl_base::destroy()
+	template<typename OglImpl>
+	void opengl_base<OglImpl>::destroy()
 	{
 		OglImpl::destroy();
 	}
@@ -47,7 +48,8 @@ namespace djah { namespace video { namespace drivers {
 
 
 	//----------------------------------------------------------------------------------------------
-	void opengl_base::beginScene()
+	template<typename OglImpl>
+	void opengl_base<OglImpl>::beginScene()
 	{/*
 		if( proj_dirty_ )
 		{
@@ -69,7 +71,8 @@ namespace djah { namespace video { namespace drivers {
 
 
 	//----------------------------------------------------------------------------------------------
-	void opengl_base::endScene()
+	template<typename OglImpl>
+	void opengl_base<OglImpl>::endScene()
 	{
 		// End using current shader
 	}
@@ -77,7 +80,8 @@ namespace djah { namespace video { namespace drivers {
 
 
 	//----------------------------------------------------------------------------------------------
-	void opengl_base::updateViewport()
+	template<typename OglImpl>
+	void opengl_base<OglImpl>::updateViewport()
 	{
 		const math::vector2i &topLeft = viewport_.topLeft();
 		//glViewport(topLeft.x, topLeft.y, viewport_.width(), viewport_.height());

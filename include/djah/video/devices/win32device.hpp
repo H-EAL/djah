@@ -44,7 +44,6 @@ namespace djah { namespace video {
 		HDC			hDC_;			// Drawing context handler
 	};
 
-
 } /*devices*/ } /*video*/ } /*djah*/
 
 #endif /* DJAH_VIDEO_DEVICES_WIN32DEVICE_HPP */

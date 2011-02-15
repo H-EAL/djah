@@ -18,9 +18,6 @@
     <Filter Include="src\video">
       <UniqueIdentifier>{c1140ae0-a39c-4768-ad34-af9b6177eecd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="include\video\devices">
-      <UniqueIdentifier>{f14a3ca1-8590-4aaf-9f73-64f126f1ba35}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\video\devices">
       <UniqueIdentifier>{ea85bade-5606-4c80-b9fb-f66e7bb7392b}</UniqueIdentifier>
     </Filter>
@@ -119,6 +116,9 @@
     </Filter>
     <Filter Include="include\math\quaternion">
       <UniqueIdentifier>{985dfc8e-88ab-4328-ba53-951f49aef7c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\video\devices">
+      <UniqueIdentifier>{55031505-fdb7-406d-a18b-1a4a65b9e541}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -323,9 +323,6 @@
     <ClInclude Include="..\..\..\include\djah\gameplay\go\components_database.hpp">
       <Filter>include\gameplay\go</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\video\devices\win32device.hpp">
-      <Filter>include\video\drivers</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\djah\math\math_utils.hpp">
       <Filter>include\math</Filter>
     </ClInclude>
@@ -368,6 +365,12 @@
     <ClInclude Include="..\..\..\include\djah\math\matrix.hpp">
       <Filter>include\math\matrix</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\video\devices\win32device.hpp">
+      <Filter>include\video\devices</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\video\drivers\opengl_include.hpp">
+      <Filter>include\video\drivers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\include\djah\geometry\plane.inl">
@@ -409,6 +412,9 @@
     <None Include="..\..\..\include\djah\math\matrix.inl">
       <Filter>include\math\matrix</Filter>
     </None>
+    <None Include="..\..\..\include\djah\video\drivers\opengl_base.inl">
+      <Filter>include\video\drivers</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\video\devices\win32device.cpp">
@@ -425,9 +431,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\video\drivers\detail\opengl_win32.cpp">
       <Filter>src\video\drivers\detail</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\video\drivers\opengl_base.cpp">
-      <Filter>src\video\drivers</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\log\console_logger.cpp">
       <Filter>src\log</Filter>

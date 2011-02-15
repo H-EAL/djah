@@ -6,7 +6,8 @@
 #include "driver_base.hpp"
 
 namespace djah { namespace video {
-
+	
+	//----------------------------------------------------------------------------------------------
 	class device_base
 	{
 	public:
@@ -52,9 +53,12 @@ namespace djah { namespace video {
 		// Last created device
 		static device_base *s_device_inst_;
 	};
-
+	//----------------------------------------------------------------------------------------------
+	
+	//----------------------------------------------------------------------------------------------
 	// Pointer to a device : should be reference counted
 	typedef device_base* device_ptr;
+	//----------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------
 	device_ptr create_device(const video_config &cfg);
@@ -62,6 +66,12 @@ namespace djah { namespace video {
 	device_ptr create_device(int width, int height,
 							 int colorBits = 32, int depthBits = 24, int stencilBits = 0,
 							 bool fullscreen = false, bool vsync = true);
+	//----------------------------------------------------------------------------------------------
+	
+	//----------------------------------------------------------------------------------------------
+	// Prototype of the actual instance creator (platform specific)
+	//----------------------------------------------------------------------------------------------
+	device_ptr new_platform_specific_device();
 	//----------------------------------------------------------------------------------------------
 
 } /*video*/ } /*djah*/

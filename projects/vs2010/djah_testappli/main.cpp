@@ -150,6 +150,7 @@ void printHelpSection(const std::string &name, const std::string &desc)
 	log::logger::log(log::EWL_YELLOW)	<< "\t-  ";
 	log::logger::log(log::EWL_CYAN)		<< desc	<< log::logger::endl();
 }
+
 void printHelp()
 {
 	printHelpSection("help",								"Print this help");
@@ -161,20 +162,6 @@ void printHelp()
 	printHelpSection("translate(x,y,z)",					"Translate the current view matrix");
 	printHelpSection("rotate(angle, x,y,z)",				"Rotate the current view matrix");
 	printHelpSection("exit (quit)",							"Exit the application");
-
-	/*
-	log::logger::log(log::EWL_MEDIUM)
-		<< "help                                - Print this help"							<< "\n"
-		<< "infos                               - Print infos about the driver"				<< "\n"
-		<< "showFPS	                            - Show the FPS counter on the title bar"	<< "\n"
-		<< "hideFPS                             - Hide the FPS counter on the title bar"	<< "\n"
-		<< "getFPS                              - Print current FPS"						<< "\n"
-		<< "projection(fovy, aspect, near, far) - Set the projection matrix"				<< "\n"
-		<< "translate(x,y,z)                    - Translate the current view matrix"		<< "\n"
-		<< "rotate(angle, x,y,z)                - Rotate the current view matrix"			<< "\n"
-		<< "exit (quit)                         - Exit the application"						<< "\n"
-		<< log::logger::endl();
-	*/
 }
 
 
