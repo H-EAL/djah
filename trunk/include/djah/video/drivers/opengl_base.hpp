@@ -2,10 +2,11 @@
 #define DJAH_VIDEO_DRIVERS_OPENGL_BASE_HPP
 
 #include "../driver_base.hpp"
-#include "platform.hpp"
+#include "video/drivers/ogl/gl_caps.hpp"
 
 namespace djah { namespace video { namespace drivers {
 
+	template<typename OglImpl>
 	class opengl_base
 		: public driver_base
 		, public OglImpl
@@ -27,5 +28,7 @@ namespace djah { namespace video { namespace drivers {
 	};
 
 } /*drivers*/ } /*video*/ } /*djah*/
+
+#include "opengl_base.inl"
 
 #endif /* DJAH_VIDEO_DRIVERS_OPENGL_BASE_HPP */

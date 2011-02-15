@@ -1,11 +1,20 @@
-#include "platform.hpp"
-#ifdef DJAH_COMPILE_WINDOWS
-
 #include <cassert>
-#include <GL/glew.h>
+#include "video/drivers/opengl_include.hpp"
 
+#include "video/drivers/opengl_base.hpp"
 #include "video/drivers/detail/opengl_win32.hpp"
 #include "video/devices/win32device.hpp"
+
+namespace djah { namespace video {
+
+	//----------------------------------------------------------------------------------------------
+	driver_ptr new_platform_specific_driver(device_base *device)
+	{
+		return new drivers::opengl_base<drivers::detail::opengl_win32>(device);
+	}
+	//----------------------------------------------------------------------------------------------
+
+} /*video*/ } /*djah*/
 
 namespace djah { namespace video { namespace drivers { namespace detail {
 
@@ -44,7 +53,7 @@ namespace djah { namespace video { namespace drivers { namespace detail {
 		if( strstr( extensions, "WGL_EXT_swap_control" ) != 0 )
 		{
 			wglSwapIntervalEXT = (PFNWGLSWAPINTERVALFARPROC)wglGetProcAddress( "wglSwapIntervalEXT" );
-			if( wglSwapIntervalEXT ) wglSwapIntervalEXT(device->videoConfig().vsync_ ? 1 : 0);
+			if( wglSwapIntervalEXT ) wglSwapIntervalEXT(device->videoConfig().vsync ? 1 : 0);
 		}
 	}
 	//----------------------------------------------------------------------------------------------
@@ -66,11 +75,11 @@ namespace djah { namespace video { namespace drivers { namespace detail {
 			sizeof(PIXELFORMATDESCRIPTOR), 1,
 			PFD_SUPPORT_OPENGL | PFD_DRAW_TO_WINDOW | PFD_DOUBLEBUFFER,
 			PFD_TYPE_RGBA,
-			static_cast<BYTE>(device->videoConfig().colorBits_),	// Bits de couleur
+			static_cast<BYTE>(device->videoConfig().colorBits),	// Bits de couleur
 			0, 0, 0, 0, 0, 0, 0, 0,
 			0, 0, 0, 0, 0,
-			static_cast<BYTE>(device->videoConfig().depthBits_),	// Bits de profondeur
-			static_cast<BYTE>(device->videoConfig().stencilBits_),	// Bits du buffer stencil
+			static_cast<BYTE>(device->videoConfig().depthBits),	// Bits de profondeur
+			static_cast<BYTE>(device->videoConfig().stencilBits),	// Bits du buffer stencil
 			0,														// Nombre de buffers auxiliaires
 			0, 0, 0, 0, 0
 		};	 
@@ -91,5 +100,3 @@ namespace djah { namespace video { namespace drivers { namespace detail {
 	//----------------------------------------------------------------------------------------------
 
 } /*detail*/ } /*drivers*/ } /*video*/ } /*djah*/
-
-#endif /* DJAH_COMPILE_WINDOWS */

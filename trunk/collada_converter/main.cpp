@@ -167,7 +167,7 @@ int main(int argc, char *argv[])
 	driver_ptr driver = device->videoDriver();
 	//printInfosAux();
 
-	float aspect = static_cast<float>(device->videoConfig().width_) / static_cast<float>(device->videoConfig().height_);
+	float aspect = static_cast<float>(device->videoConfig().width) / static_cast<float>(device->videoConfig().height);
 	matrix4f proj = video::make_perspective_projection(60.0f, aspect, 0.1f, 1000.0f);
 	driver->setProjectionMatrix(proj);
 

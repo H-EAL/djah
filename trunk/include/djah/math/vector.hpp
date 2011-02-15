@@ -115,4 +115,4 @@ namespace djah { namespace math {
 
 #include "vector.inl"
 
-#endif /* DJAH_MATH_HPP */
+#endif /* DJAH_MATH_VECTOR_HPP */

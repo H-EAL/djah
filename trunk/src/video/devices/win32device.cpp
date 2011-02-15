@@ -1,12 +1,20 @@
-#include "platform.hpp"
-#ifdef DJAH_COMPILE_WINDOWS
-
 #include "video/devices/win32device.hpp"
 
 #include <cassert>
 #include <GL/gl.h>
 
 #include "geometry/rect.hpp"
+
+namespace djah { namespace video {
+	
+	//----------------------------------------------------------------------------------------------
+	device_ptr new_platform_specific_device()
+	{
+		return new devices::win32device;
+	}
+	//----------------------------------------------------------------------------------------------
+
+} /*video*/ } /*djah*/
 
 
 namespace djah { namespace video { namespace devices {
@@ -48,8 +56,6 @@ namespace djah { namespace video { namespace devices {
 	//----------------------------------------------------------------------------------------------
 
 
-
-
 	//----------------------------------------------------------------------------------------------
 	win32device::win32device()
 		: hInstance_(0)
@@ -83,8 +89,8 @@ namespace djah { namespace video { namespace devices {
 		assert( RegisterClassExA(&window_class) );
 
 		// Take into account borders
-		int real_width  = video_config_.width_  + (GetSystemMetrics(SM_CXSIZEFRAME) << 1);
-		int real_height = video_config_.height_ + GetSystemMetrics(SM_CYCAPTION) + (GetSystemMetrics(SM_CYSIZEFRAME) << 1);
+		int real_width  = video_config_.width  + (GetSystemMetrics(SM_CXSIZEFRAME) << 1);
+		int real_height = video_config_.height + GetSystemMetrics(SM_CYCAPTION) + (GetSystemMetrics(SM_CYSIZEFRAME) << 1);
 
 		// Center on the screen
 		int pos_x = (GetSystemMetrics(SM_CXSCREEN) - real_width)  >> 1;
@@ -93,12 +99,12 @@ namespace djah { namespace video { namespace devices {
 		long style = WS_VISIBLE;
 		long ex_style = 0;
 		
-		if(video_config_.fullscreen_)
+		if(video_config_.fullscreen)
 		{
 			style |= WS_POPUPWINDOW | WS_MAXIMIZE;
 			pos_x = pos_y = 0;
-			real_width  = video_config_.width_;
-			real_height = video_config_.height_;
+			real_width  = video_config_.width;
+			real_height = video_config_.height;
 		}
 		else
 		{
@@ -194,5 +200,3 @@ namespace djah { namespace video { namespace devices {
 	//----------------------------------------------------------------------------------------------
 
 } /*devices*/ } /*video*/ } /*djah*/
-
-#endif /*DJAH_COMPILE_WINDOWS */

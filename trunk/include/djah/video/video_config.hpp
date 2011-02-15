@@ -7,17 +7,17 @@ namespace djah { namespace video {
 	{
 	public:
 
-		video_config(int width = 640, int height = 480,
-					 int colorBits = 32, int depthBit = 24, int stencilBits = 0,
-					 bool fullscreen = false, bool vsync = true);
+		video_config(int _width = 640, int _height = 480,
+					 int _colorBits = 32, int _depthBit = 24, int _stencilBits = 0,
+					 bool _fullscreen = false, bool _vsync = true);
 
-		int	 width_;
-		int  height_;
-		int  colorBits_;
-		int  depthBits_;
-		int  stencilBits_;
-		bool fullscreen_;
-		bool vsync_;
+		int	 width;
+		int  height;
+		int  colorBits;
+		int  depthBits;
+		int  stencilBits;
+		bool fullscreen;
+		bool vsync;
 	};
 
 } /*video*/ } /*djah*/
