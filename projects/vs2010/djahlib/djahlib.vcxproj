@@ -148,7 +148,7 @@
     <ClInclude Include="..\..\..\include\djah\utils\typelist.hpp" />
     <ClInclude Include="..\..\..\include\djah\video\device_base.hpp" />
     <ClInclude Include="..\..\..\include\djah\video\devices\win32device.hpp" />
-    <ClInclude Include="..\..\..\include\djah\video\drivers\detail\opengl_impl.hpp" />
+    <ClInclude Include="..\..\..\include\djah\video\drivers\detail\opengl_context.hpp" />
     <ClInclude Include="..\..\..\include\djah\video\drivers\detail\opengl_win32.hpp" />
     <ClInclude Include="..\..\..\include\djah\video\drivers\ogl.hpp" />
     <ClInclude Include="..\..\..\include\djah\video\drivers\ogl\buffers.hpp" />
@@ -172,7 +172,7 @@
     <ClInclude Include="..\..\..\include\djah\video\drivers\ogl\shaders\shader.hpp" />
     <ClInclude Include="..\..\..\include\djah\video\drivers\ogl\shaders\shader_base.hpp" />
     <ClInclude Include="..\..\..\include\djah\video\drivers\ogl\shaders\vertex_shader.hpp" />
-    <ClInclude Include="..\..\..\include\djah\video\drivers\opengl_base.hpp" />
+    <ClInclude Include="..\..\..\include\djah\video\drivers\opengl_driver.hpp" />
     <ClInclude Include="..\..\..\include\djah\video\drivers\opengl_include.hpp" />
     <ClInclude Include="..\..\..\include\djah\video\driver_base.hpp" />
     <ClInclude Include="..\..\..\include\djah\video\fonts\font.hpp" />
@@ -194,7 +194,6 @@
     <None Include="..\..\..\include\djah\video\drivers\ogl\buffers\buffer_base.inl" />
     <None Include="..\..\..\include\djah\video\drivers\ogl\shaders\shader.inl" />
     <None Include="..\..\..\include\djah\video\drivers\ogl\shaders\shader_base.inl" />
-    <None Include="..\..\..\include\djah\video\drivers\opengl_base.inl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\filesystem\browser.cpp" />
@@ -223,6 +222,7 @@
     <ClCompile Include="..\..\..\src\video\drivers\ogl\gl_caps.cpp" />
     <ClCompile Include="..\..\..\src\video\drivers\ogl\shaders\shader.cpp" />
     <ClCompile Include="..\..\..\src\video\drivers\ogl\shaders\shader_base.cpp" />
+    <ClCompile Include="..\..\..\src\video\drivers\opengl_driver.cpp" />
     <ClCompile Include="..\..\..\src\video\driver_base.cpp" />
     <ClCompile Include="..\..\..\src\video\primitives\triangle.cpp" />
     <ClCompile Include="..\..\..\src\video\video_config.cpp" />

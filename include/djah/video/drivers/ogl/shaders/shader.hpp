@@ -5,7 +5,7 @@
 #include <string>
 
 #include "../../../../math/matrix.hpp"
-
+#include "../../opengl_include.hpp"
 #include "shader_base.hpp"
 
 namespace djah { namespace video { namespace drivers { namespace ogl {

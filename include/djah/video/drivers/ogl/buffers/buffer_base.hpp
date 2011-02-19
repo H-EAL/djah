@@ -3,8 +3,8 @@
 
 #include <cassert>
 #include "../../../../types.hpp"
-#include "../resource.hpp"
 #include "../gl_types.hpp"
+#include "../resource.hpp"
 
 namespace djah { namespace video { namespace drivers { namespace ogl {
 

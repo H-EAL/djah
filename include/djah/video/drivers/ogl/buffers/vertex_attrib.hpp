@@ -3,6 +3,7 @@
 
 #include <string>
 
+#include "../../../../types.hpp"
 #include "../gl_types.hpp"
 
 namespace djah { namespace video { namespace drivers { namespace ogl {
@@ -14,75 +15,75 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 		{
 		public:
 
-			vertex_attrib_base(const std::string &name, unsigned int size, unsigned int count, unsigned int value_type)
+			vertex_attrib_base(const std::string &name, u32 size, u32 count, u32 value_type)
 				: name_(name), size_(size), count_(count), value_type_(value_type) {}
 
 			// Read-only accessors
-			const std::string&  name()      const { return name_;       }
-			unsigned int		size()      const { return size_;       }
-			unsigned int		count()     const { return count_;      } 
-			unsigned int		valueType() const { return value_type_; } 
+			const std::string& name() const { return name_; }
+			u32 size()      const { return size_;       }
+			u32 count()     const { return count_;      } 
+			u32 valueType() const { return value_type_; } 
 
 		protected:
 
 			// Attribute name
 			std::string  name_;
 			// Size of an element
-			unsigned int size_;
+			u32 size_;
 			// Number of elements
-			unsigned int count_;
+			u32 count_;
 			// Elements' type
-			unsigned int value_type_;
+			u32 value_type_;
 		};
 		//------------------------------------------------------------------------------------------
 
 
 		//------------------------------------------------------------------------------------------
-		template<typename T>
+		template<u32 Count, typename T>
 		struct vertex_attrib : public vertex_attrib_base
 		{
-			vertex_attrib(const std::string &name, unsigned int count)
-			: vertex_attrib_base(name, sizeof(T), count, gl_type<T>::Type) {}
+			vertex_attrib(const std::string &name)
+			: vertex_attrib_base(name, sizeof(T), Count, gl_type<T>::Type) {}
 		};
 		//------------------------------------------------------------------------------------------
 
 
 		//------------------------------------------------------------------------------------------
-		template<typename T>
-		struct position : public vertex_attrib<T>
+		template<u32 Count, typename T>
+		struct position : public vertex_attrib<Count,T>
 		{
-			position(unsigned int count)
-				: vertex_attrib<T>("Position", count) {}
+			position()
+				: vertex_attrib<Count,T>("Position") {}
 		};
 		//------------------------------------------------------------------------------------------
 
 
 		//------------------------------------------------------------------------------------------
-		template<typename T>
-		struct normal : public vertex_attrib<T>
+		template<u32 Count, typename T>
+		struct normal : public vertex_attrib<Count,T>
 		{
-			normal(unsigned int count)
-				: vertex_attrib<T>("Normal", count) {}
+			normal()
+				: vertex_attrib<Count,T>("Normal") {}
 		};
 		//------------------------------------------------------------------------------------------
 
 
 		//------------------------------------------------------------------------------------------
-		template<typename T>
-		struct color : public vertex_attrib<T>
+		template<u32 Count, typename T>
+		struct color : public vertex_attrib<Count,T>
 		{
-			color(unsigned int count)
-				: vertex_attrib<T>("Color", count) {}
+			color()
+				: vertex_attrib<Count,T>("Color") {}
 		};
 		//------------------------------------------------------------------------------------------
 
 
 		//------------------------------------------------------------------------------------------
-		template<typename T>
-		struct tex_coord : public vertex_attrib<T>
+		template<u32 Count, typename T>
+		struct tex_coord : public vertex_attrib<Count,T>
 		{
-			tex_coord(unsigned int count)
-				: vertex_attrib<T>("TexCoord", count) {}
+			tex_coord()
+				: vertex_attrib<Count,T>("TexCoord") {}
 		};
 		//------------------------------------------------------------------------------------------
 

@@ -3,7 +3,7 @@
 
 #include <windows.h>
 
-#include "opengl_impl.hpp"
+#include "opengl_context.hpp"
 
 namespace djah { namespace video {
 	
@@ -14,7 +14,7 @@ namespace djah { namespace video {
 	namespace drivers { namespace detail {
 
 	class opengl_win32
-		: public opengl_impl
+		: public opengl_context
 	{
 	public:
 

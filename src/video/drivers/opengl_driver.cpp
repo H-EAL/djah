@@ -1,56 +1,58 @@
+#include "video/drivers/opengl_driver.hpp"
+#include "video/drivers/opengl_include.hpp"
+#include "video/drivers/detail/opengl_context.hpp"
+#include "video/drivers/ogl/gl_caps.hpp"
+
 namespace djah { namespace video { namespace drivers {
 
 	//----------------------------------------------------------------------------------------------
-	template<typename OglImpl>
-	opengl_base<OglImpl>::opengl_base(device_base *device)
+	opengl_driver::opengl_driver(device_base *device)
 		: driver_base(device)
+		, context_(detail::new_platform_specific_context())
 	{
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	template<typename OglImpl>
-	opengl_base<OglImpl>::~opengl_base()
+	opengl_driver::~opengl_driver()
 	{
+		delete context_;
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	template<typename OglImpl>
-	void opengl_base<OglImpl>::create()
+	void opengl_driver::create()
 	{
-		OglImpl::create(device_);
+		context_->create(device_);
 
 		// Init glew
-		//glewInit();
+		glewInit();
 
 		// Init caps
-		/*ogl::capabilities::init();
+		ogl::capabilities::init();
 
 		glClearDepth(1.f);
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
 		glEnable(GL_DEPTH_TEST);
-		glDepthMask(GL_TRUE);*/
+		glDepthMask(GL_TRUE);
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	template<typename OglImpl>
-	void opengl_base<OglImpl>::destroy()
+	void opengl_driver::destroy()
 	{
-		OglImpl::destroy();
+		context_->destroy();
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	template<typename OglImpl>
-	void opengl_base<OglImpl>::beginScene()
-	{/*
+	void opengl_driver::beginScene()
+	{
 		if( proj_dirty_ )
 		{
 			glMatrixMode(GL_PROJECTION);
@@ -64,15 +66,14 @@ namespace djah { namespace video { namespace drivers {
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 		glMultMatrixf(view_matrix_.data);
-*/
+
 		// Use current shader
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	template<typename OglImpl>
-	void opengl_base<OglImpl>::endScene()
+	void opengl_driver::endScene()
 	{
 		// End using current shader
 	}
@@ -80,11 +81,10 @@ namespace djah { namespace video { namespace drivers {
 
 
 	//----------------------------------------------------------------------------------------------
-	template<typename OglImpl>
-	void opengl_base<OglImpl>::updateViewport()
+	void opengl_driver::updateViewport()
 	{
 		const math::vector2i &topLeft = viewport_.topLeft();
-		//glViewport(topLeft.x, topLeft.y, viewport_.width(), viewport_.height());
+		glViewport(topLeft.x, topLeft.y, viewport_.width(), viewport_.height());
 	}
 	//----------------------------------------------------------------------------------------------
 
