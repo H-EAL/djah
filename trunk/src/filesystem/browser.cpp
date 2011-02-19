@@ -41,12 +41,11 @@ namespace djah { namespace filesystem {
 
 		source_list_t::iterator it;
 		source_list_t::iterator it_end = loading_channels_.end();
-		for(it = loading_channels_.begin(); it != it_end; ++it)
+		for(it = loading_channels_.begin(); it != it_end && !strm; ++it)
 		{
 			if( (*it)->isFetchable(url) )
 			{
 				strm = (*it)->loadStream(url);
-				break;
 			}
 		}
 
@@ -62,12 +61,11 @@ namespace djah { namespace filesystem {
 
 		source_list_t::iterator it;
 		source_list_t::iterator it_end = saving_channels_.end();
-		for(it = saving_channels_.begin(); it != it_end; ++it)
+		for(it = saving_channels_.begin(); it != it_end && !strm; ++it)
 		{
 			if( (*it)->isWritable(url) )
 			{
 				strm = (*it)->saveStream(url);
-				break;
 			}
 		}
 
