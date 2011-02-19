@@ -10,10 +10,10 @@
 #include <djah/log/console_logger.hpp>
 #include <djah/log/html_logger.hpp>
 
-#include <djah/fs/filesystem.hpp>
-#include <djah/fs/directory_source.hpp>
-#include <djah/fs/memory_stream.hpp>
-#include <djah/fs/compression_techniques.hpp>
+#include <djah/filesystem/browser.hpp>
+#include <djah/filesystem/directory_source.hpp>
+#include <djah/filesystem/memory_stream.hpp>
+#include <djah/filesystem/compression_techniques.hpp>
 
 #include <djah/resources/media_manager.hpp>
 #include <djah/resources/resource_manager.hpp>
@@ -127,11 +127,11 @@ void CreateBones(collada::library::node *n, const matrix4f &pm, vec_list &v)
 int main(int argc, char *argv[])
 {
 	// File System
-	djah::fs::filesystem::get().addSavingChannel (new djah::fs::directory_source("."));
-	djah::fs::filesystem::get().addLoadingChannel(new djah::fs::directory_source("../data"));
-	djah::fs::filesystem::get().addLoadingChannel(new djah::fs::directory_source("../data/3d"));
-	djah::fs::filesystem::get().addLoadingChannel(new djah::fs::directory_source("../data/textures"));
-	djah::fs::filesystem::get().addLoadingChannel(new djah::fs::pak_source("2pak.pak"));
+	djah::filesystem::browser::get().addSavingChannel (new djah::filesystem::directory_source("."));
+	djah::filesystem::browser::get().addLoadingChannel(new djah::filesystem::directory_source("../data"));
+	djah::filesystem::browser::get().addLoadingChannel(new djah::filesystem::directory_source("../data/3d"));
+	djah::filesystem::browser::get().addLoadingChannel(new djah::filesystem::directory_source("../data/textures"));
+	djah::filesystem::browser::get().addLoadingChannel(new djah::filesystem::pak_source("2pak.pak"));
 
 	// Logger
 	log::logger::setLogger(new djah::log::console_logger);

@@ -20,7 +20,7 @@ namespace djah { namespace utils {
 			return *instance_;
 		}
 
-		static T* get_instance_ptr()
+		static T* get_ptr()
 		{
 			return &get();
 		}

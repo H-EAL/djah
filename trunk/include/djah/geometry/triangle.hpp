@@ -22,7 +22,6 @@ namespace djah { namespace geometry {
 		const math::vector<3,T>&	b() const;
 		const math::vector<3,T>&	c() const;
 
-
 	private:
 
 		math::vector<3,T> a_;
@@ -37,8 +36,6 @@ namespace djah { namespace geometry {
 
 } /*geometry*/ } /*djah*/
 
-
 #include "triangle.inl"
-
 
 #endif /* DJAH_GEOMETRY_TRIANGLE_HPP */

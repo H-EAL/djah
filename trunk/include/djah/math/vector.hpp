@@ -14,6 +14,17 @@ namespace djah { namespace math {
 	};
 	//----------------------------------------------------------------------------------------------
 
+	
+	//----------------------------------------------------------------------------------------------
+	namespace {
+
+		// Length type of vector<double> is double any other vector<T> is float
+		template<typename F>	struct length_type         { typedef float  float_t; };
+		template<>				struct length_type<double> { typedef double float_t; };
+
+	}
+	//----------------------------------------------------------------------------------------------
+
 
 	//----------------------------------------------------------------------------------------------
 	template<int N, typename T>
@@ -39,11 +50,7 @@ namespace djah { namespace math {
 		// Assignation from an array operator
 		vector<N,T>& operator =(T (&array)[N]);
 
-		// Length type of vector<double> is double any other vector<T> is float
-		//template<typename F>	struct type			{ typedef float		float_t; };
-		//template<>				struct type<double> { typedef double	float_t; };
-		//typedef typename type<T>::float_t float_t;
-		typedef float float_t;
+		typedef typename length_type<T>::float_t float_t;
 
 		// Vector math
 		T				lengthSq()		const;

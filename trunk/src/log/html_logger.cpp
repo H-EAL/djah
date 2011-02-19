@@ -1,11 +1,11 @@
 #include "log/html_logger.hpp"
-#include "fs/filesystem.hpp"
+#include "filesystem/browser.hpp"
 
 namespace djah { namespace log {
 	
 	//--------------------------------------------------------------------------
 	html_logger::html_logger(const std::string &url)
-		: log_stream_(fs::filesystem::get().openWriteStream(url))
+		: log_stream_(filesystem::browser::get().openWriteStream(url))
 	{
 		write("<html><head><title>djah Log File</title>\
 				<link rel=\"stylesheet\" type=\"text/css\" href=\"log_style.css\"/>\
@@ -37,15 +37,16 @@ namespace djah { namespace log {
 	//--------------------------------------------------------------------------
 	void html_logger::write(const std::string &msg)
 	{
-		std::string parsed_msg = msg;
+		std::string parsed_msg("");
 
 		std::string br = "<br/>";
-		size_t n = parsed_msg.find("\n", 0);
+		size_t last = 0;
+		size_t n = msg.find("\n", last);
 		while(n != std::string::npos)
 		{
-			parsed_msg.erase(n, 1);		// erase /n
-			parsed_msg.insert(n, br);	// insert <br/>
-			n = parsed_msg.find("\n", n);
+			parsed_msg += msg.substr(last, n) + br;
+			last = n;
+			n = msg.find("\n", last);
 		}
 
 		log_stream_->write(parsed_msg);

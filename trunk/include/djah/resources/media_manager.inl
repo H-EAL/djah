@@ -29,7 +29,7 @@ namespace djah { namespace resources {
 		media_holder<T>::loader_t_ptr ldr = findLoader<T>(url);
 		if(ldr)
 		{
-			fs::stream_ptr strm = fs::filesystem::get().openReadStream(url);
+			filesystem::stream_ptr strm = filesystem::browser::get().openReadStream(url);
 			if(strm)
 				res = ldr->loadFromStream(*strm, url);
 		}
@@ -46,7 +46,7 @@ namespace djah { namespace resources {
 		media_holder<T>::loader_t_ptr ldr = findLoader<T>(url);
 		if(ldr)
 		{
-			fs::stream_ptr strm = fs::filesystem::get().openWriteStream(url);
+			filesystem::stream_ptr strm = filesystem::browser::get().openWriteStream(url);
 			if(strm)
 				res = ldr->saveToStream(obj, strm, url);
 		}

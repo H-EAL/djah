@@ -1,6 +1,5 @@
 #include "video/drivers/ogl/buffers/frame_buffer.hpp"
-
-#include <GL/glew.h>
+#include "video/drivers/ogl/buffers/render_buffer.hpp"
 
 #include "log/logger.hpp"
 
@@ -51,6 +50,21 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 	void frame_buffer::unbind()
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	void frame_buffer::attachRenderBuffer(const render_buffer &renderBuffer)
+	{
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, renderBuffer.id());
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	void frame_buffer::attachTexture(const texture &tex)
+	{
 	}
 	//----------------------------------------------------------------------------------------------
 

@@ -91,20 +91,21 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\djah\fs\compressed_source.hpp" />
-    <ClInclude Include="..\..\..\include\djah\fs\compression_techniques.hpp" />
-    <ClInclude Include="..\..\..\include\djah\fs\directory_source.hpp" />
-    <ClInclude Include="..\..\..\include\djah\fs\filesystem.hpp" />
-    <ClInclude Include="..\..\..\include\djah\fs\file_stream.hpp" />
-    <ClInclude Include="..\..\..\include\djah\fs\memory_stream.hpp" />
-    <ClInclude Include="..\..\..\include\djah\fs\source.hpp" />
-    <ClInclude Include="..\..\..\include\djah\fs\stream.hpp" />
+    <ClInclude Include="..\..\..\include\djah\filesystem\browser.hpp" />
+    <ClInclude Include="..\..\..\include\djah\filesystem\compressed_source.hpp" />
+    <ClInclude Include="..\..\..\include\djah\filesystem\compression_techniques.hpp" />
+    <ClInclude Include="..\..\..\include\djah\filesystem\directory_source.hpp" />
+    <ClInclude Include="..\..\..\include\djah\filesystem\file_stream.hpp" />
+    <ClInclude Include="..\..\..\include\djah\filesystem\memory_stream.hpp" />
+    <ClInclude Include="..\..\..\include\djah\filesystem\source.hpp" />
+    <ClInclude Include="..\..\..\include\djah\filesystem\stream.hpp" />
     <ClInclude Include="..\..\..\include\djah\gameplay\go\component.hpp" />
     <ClInclude Include="..\..\..\include\djah\gameplay\go\components_database.hpp" />
     <ClInclude Include="..\..\..\include\djah\geometry\plane.hpp" />
     <ClInclude Include="..\..\..\include\djah\geometry\ray.hpp" />
     <ClInclude Include="..\..\..\include\djah\geometry\rect.hpp" />
     <ClInclude Include="..\..\..\include\djah\geometry\sphere.hpp" />
+    <ClInclude Include="..\..\..\include\djah\geometry\triangle.hpp" />
     <ClInclude Include="..\..\..\include\djah\geometry\utils.hpp" />
     <ClInclude Include="..\..\..\include\djah\log\console_logger.hpp" />
     <ClInclude Include="..\..\..\include\djah\log\html_logger.hpp" />
@@ -149,10 +150,13 @@
     <ClInclude Include="..\..\..\include\djah\video\devices\win32device.hpp" />
     <ClInclude Include="..\..\..\include\djah\video\drivers\detail\opengl_impl.hpp" />
     <ClInclude Include="..\..\..\include\djah\video\drivers\detail\opengl_win32.hpp" />
+    <ClInclude Include="..\..\..\include\djah\video\drivers\ogl.hpp" />
+    <ClInclude Include="..\..\..\include\djah\video\drivers\ogl\buffers.hpp" />
     <ClInclude Include="..\..\..\include\djah\video\drivers\ogl\buffers\buffer_base.hpp" />
     <ClInclude Include="..\..\..\include\djah\video\drivers\ogl\buffers\frame_buffer.hpp" />
     <ClInclude Include="..\..\..\include\djah\video\drivers\ogl\buffers\index_buffer.hpp" />
     <ClInclude Include="..\..\..\include\djah\video\drivers\ogl\buffers\render_buffer.hpp" />
+    <ClInclude Include="..\..\..\include\djah\video\drivers\ogl\buffers\texture.hpp" />
     <ClInclude Include="..\..\..\include\djah\video\drivers\ogl\buffers\uniform_buffer.hpp" />
     <ClInclude Include="..\..\..\include\djah\video\drivers\ogl\buffers\vertex_array.hpp" />
     <ClInclude Include="..\..\..\include\djah\video\drivers\ogl\buffers\vertex_attrib.hpp" />
@@ -176,12 +180,13 @@
     <ClInclude Include="..\..\..\include\djah\video\video_config.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\include\djah\fs\compressed_source.inl" />
-    <None Include="..\..\..\include\djah\fs\stream.inl" />
+    <None Include="..\..\..\include\djah\filesystem\compressed_source.inl" />
+    <None Include="..\..\..\include\djah\filesystem\stream.inl" />
     <None Include="..\..\..\include\djah\gameplay\go\components_database.inl" />
     <None Include="..\..\..\include\djah\gameplay\go\components_typelist.inl" />
     <None Include="..\..\..\include\djah\geometry\plane.inl" />
     <None Include="..\..\..\include\djah\geometry\rect.inl" />
+    <None Include="..\..\..\include\djah\geometry\triangle.inl" />
     <None Include="..\..\..\include\djah\log\logger.inl" />
     <None Include="..\..\..\include\djah\math\matrix.inl" />
     <None Include="..\..\..\include\djah\math\quaternion.inl" />
@@ -192,11 +197,11 @@
     <None Include="..\..\..\include\djah\video\drivers\opengl_base.inl" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\fs\compression_techniques.cpp" />
-    <ClCompile Include="..\..\..\src\fs\directory_source.cpp" />
-    <ClCompile Include="..\..\..\src\fs\filesystem.cpp" />
-    <ClCompile Include="..\..\..\src\fs\file_stream.cpp" />
-    <ClCompile Include="..\..\..\src\fs\memory_stream.cpp" />
+    <ClCompile Include="..\..\..\src\filesystem\browser.cpp" />
+    <ClCompile Include="..\..\..\src\filesystem\compression_techniques.cpp" />
+    <ClCompile Include="..\..\..\src\filesystem\directory_source.cpp" />
+    <ClCompile Include="..\..\..\src\filesystem\file_stream.cpp" />
+    <ClCompile Include="..\..\..\src\filesystem\memory_stream.cpp" />
     <ClCompile Include="..\..\..\src\log\console_logger.cpp" />
     <ClCompile Include="..\..\..\src\log\html_logger.cpp" />
     <ClCompile Include="..\..\..\src\log\logger.cpp" />
@@ -212,6 +217,7 @@
     <ClCompile Include="..\..\..\src\video\drivers\ogl\buffers\buffer_base.cpp" />
     <ClCompile Include="..\..\..\src\video\drivers\ogl\buffers\frame_buffer.cpp" />
     <ClCompile Include="..\..\..\src\video\drivers\ogl\buffers\render_buffer.cpp" />
+    <ClCompile Include="..\..\..\src\video\drivers\ogl\buffers\texture.cpp" />
     <ClCompile Include="..\..\..\src\video\drivers\ogl\buffers\vertex_array.cpp" />
     <ClCompile Include="..\..\..\src\video\drivers\ogl\buffers\vertex_format.cpp" />
     <ClCompile Include="..\..\..\src\video\drivers\ogl\gl_caps.cpp" />

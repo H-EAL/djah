@@ -9,5 +9,6 @@
 #include "buffers/frame_buffer.hpp"
 #include "buffers/render_buffer.hpp"
 #include "buffers/vertex_attrib.hpp"
+#include "buffers/texture.hpp"
 
 #endif /* DJAH_VIDEO_DRIVERS_OGL_BUFFERS_HPP */

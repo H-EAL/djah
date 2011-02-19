@@ -1,6 +1,9 @@
 #ifndef DJAH_MATH_QUATERNION_HPP
 #define DJAH_MATH_QUATERNION_HPP
 
+#include <cassert>
+#include "vector3.hpp"
+
 namespace djah { namespace math {
 	
 	//----------------------------------------------------------------------------------------------
@@ -9,8 +12,10 @@ namespace djah { namespace math {
 	{
 	public:
 
+		// Default: construct with identity
+		quaternion();
 		// Init from values
-		explicit quaternion(T _x = T(0), T _y = T(0), T _z = T(0), T _w = T(1));
+		quaternion(T _x, T _y, T _z, T _w);
 		// Init with an array
 		quaternion(const T (&array)[4]);
 

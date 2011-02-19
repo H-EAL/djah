@@ -4,7 +4,7 @@
 
 #include "video/drivers/ogl/shaders/shader_base.hpp"
 #include "log/logger.hpp"
-#include "fs/filesystem.hpp"
+#include "filesystem/browser.hpp"
 
 namespace djah { namespace video { namespace drivers { namespace ogl {
 
@@ -61,7 +61,7 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 	template<int ShaderType>
 	void shader_base<ShaderType>::loadSourceFromUrl(const std::string &url)
 	{
-		fs::stream_ptr strm = fs::filesystem::get().openReadStream(url);
+		filesystem::stream_ptr strm = filesystem::browser::get().openReadStream(url);
 		if( !strm )
 			return; // Error opening file
 

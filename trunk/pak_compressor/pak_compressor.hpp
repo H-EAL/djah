@@ -5,7 +5,7 @@
 #include <string>
 #include <boost/filesystem.hpp>
 #include <djah/types.hpp>
-#include <djah/fs/stream.hpp>
+#include <djah/filesystem/stream.hpp>
 
 class pak_compressor
 {
@@ -41,7 +41,7 @@ private:
 	file_list_t				files_;
 	std::string				dir_name_;
 	std::string				pak_name_;
-	djah::fs::stream_ptr	pak_file_;
+	djah::filesystem::stream_ptr	pak_file_;
 	djah::u32				crc_;
 };
 
