@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="collada">
+      <UniqueIdentifier>{2c88d154-2f68-4ade-9919-d4e07cc43aec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="collada\library">
+      <UniqueIdentifier>{323c2b81-de58-4401-a80b-fd2165425e4b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\collada_converter\sources\collada\library\animations.cpp">
+      <Filter>collada\library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\collada_converter\sources\collada\library\common.cpp">
+      <Filter>collada\library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\collada_converter\sources\collada\library\controllers.cpp">
+      <Filter>collada\library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\collada_converter\sources\collada\library\effects.cpp">
+      <Filter>collada\library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\collada_converter\sources\collada\library\geometries.cpp">
+      <Filter>collada\library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\collada_converter\sources\collada\library\images.cpp">
+      <Filter>collada\library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\collada_converter\sources\collada\library\materials.cpp">
+      <Filter>collada\library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\collada_converter\sources\collada\library\visual_scenes.cpp">
+      <Filter>collada\library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\collada_converter\sources\collada\database.cpp">
+      <Filter>collada</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\collada_converter\sources\collada\proxy.cpp">
+      <Filter>collada</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\collada_converter\sources\collada\utils.cpp">
+      <Filter>collada</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\collada_converter\sources\main.cpp" />
+    <ClCompile Include="..\..\..\collada_converter\sources\mesh_builder.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\collada_converter\sources\collada\library\animations.hpp">
+      <Filter>collada\library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\collada_converter\sources\collada\library\common.hpp">
+      <Filter>collada\library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\collada_converter\sources\collada\library\controllers.hpp">
+      <Filter>collada\library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\collada_converter\sources\collada\library\effects.hpp">
+      <Filter>collada\library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\collada_converter\sources\collada\library\geometries.hpp">
+      <Filter>collada\library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\collada_converter\sources\collada\library\images.hpp">
+      <Filter>collada\library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\collada_converter\sources\collada\library\materials.hpp">
+      <Filter>collada\library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\collada_converter\sources\collada\library\visual_scenes.hpp">
+      <Filter>collada\library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\collada_converter\sources\collada\database.hpp">
+      <Filter>collada</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\collada_converter\sources\collada\fwd_decl.hpp">
+      <Filter>collada</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\collada_converter\sources\collada\proxy.hpp">
+      <Filter>collada</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\collada_converter\sources\collada\utils.hpp">
+      <Filter>collada</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\collada_converter\sources\mesh_builder.hpp" />
+  </ItemGroup>
+</Project>
