@@ -4,7 +4,6 @@
 #include "ogl/buffers.hpp"
 #include "ogl/shaders.hpp"
 #include "ogl/gl_caps.hpp"
-#include "ogl/texture.hpp"
 #include "ogl/gl_types.hpp"
 #include "ogl/errors.hpp"
 

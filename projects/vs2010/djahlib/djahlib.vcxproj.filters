@@ -84,12 +84,6 @@
     <Filter Include="src\resources\loaders">
       <UniqueIdentifier>{a199385e-cd43-4b29-8ff7-577cc7a7d7ca}</UniqueIdentifier>
     </Filter>
-    <Filter Include="include\fs">
-      <UniqueIdentifier>{a0277615-ba0b-4c49-be5b-247767d7e009}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\fs">
-      <UniqueIdentifier>{d8a314d4-0fa5-4251-9736-da3d376ea80f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\utils">
       <UniqueIdentifier>{d320a66f-4231-4e7e-9581-d31e6e1c2740}</UniqueIdentifier>
     </Filter>
@@ -119,6 +113,12 @@
     </Filter>
     <Filter Include="include\video\devices">
       <UniqueIdentifier>{55031505-fdb7-406d-a18b-1a4a65b9e541}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\filesystem">
+      <UniqueIdentifier>{a0277615-ba0b-4c49-be5b-247767d7e009}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\filesystem">
+      <UniqueIdentifier>{d8a314d4-0fa5-4251-9736-da3d376ea80f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -278,21 +278,6 @@
     <ClInclude Include="..\..\..\include\djah\resources\loaders\image_loader.hpp">
       <Filter>include\resources\loaders</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\fs\directory_source.hpp">
-      <Filter>include\fs</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\fs\file_stream.hpp">
-      <Filter>include\fs</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\fs\source.hpp">
-      <Filter>include\fs</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\fs\stream.hpp">
-      <Filter>include\fs</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\fs\filesystem.hpp">
-      <Filter>include\fs</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\djah\resources\media_manager.hpp">
       <Filter>include\resources</Filter>
     </ClInclude>
@@ -304,15 +289,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\djah\video\drivers\ogl\buffers\render_buffer.hpp">
       <Filter>include\video\drivers\ogl\buffers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\fs\compressed_source.hpp">
-      <Filter>include\fs</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\fs\compression_techniques.hpp">
-      <Filter>include\fs</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\fs\memory_stream.hpp">
-      <Filter>include\fs</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\djah\time\clock.hpp">
       <Filter>include\time</Filter>
@@ -371,6 +347,42 @@
     <ClInclude Include="..\..\..\include\djah\video\drivers\opengl_include.hpp">
       <Filter>include\video\drivers</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\video\drivers\ogl\buffers.hpp">
+      <Filter>include\video\drivers\ogl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\video\drivers\ogl.hpp">
+      <Filter>include\video\drivers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\video\drivers\ogl\buffers\texture.hpp">
+      <Filter>include\video\drivers\ogl\buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\geometry\triangle.hpp">
+      <Filter>include\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\filesystem\browser.hpp">
+      <Filter>include\filesystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\filesystem\compressed_source.hpp">
+      <Filter>include\filesystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\filesystem\compression_techniques.hpp">
+      <Filter>include\filesystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\filesystem\directory_source.hpp">
+      <Filter>include\filesystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\filesystem\file_stream.hpp">
+      <Filter>include\filesystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\filesystem\memory_stream.hpp">
+      <Filter>include\filesystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\filesystem\source.hpp">
+      <Filter>include\filesystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\filesystem\stream.hpp">
+      <Filter>include\filesystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\include\djah\geometry\plane.inl">
@@ -391,14 +403,8 @@
     <None Include="..\..\..\include\djah\video\drivers\ogl\shaders\shader_base.inl">
       <Filter>include\video\drivers\ogl\shaders</Filter>
     </None>
-    <None Include="..\..\..\include\djah\fs\stream.inl">
-      <Filter>include\fs</Filter>
-    </None>
     <None Include="..\..\..\include\djah\resources\media_manager.inl">
       <Filter>include\resources</Filter>
-    </None>
-    <None Include="..\..\..\include\djah\fs\compressed_source.inl">
-      <Filter>include\fs</Filter>
     </None>
     <None Include="..\..\..\include\djah\gameplay\go\components_database.inl">
       <Filter>include\gameplay\go</Filter>
@@ -414,6 +420,15 @@
     </None>
     <None Include="..\..\..\include\djah\video\drivers\opengl_base.inl">
       <Filter>include\video\drivers</Filter>
+    </None>
+    <None Include="..\..\..\include\djah\geometry\triangle.inl">
+      <Filter>include\geometry</Filter>
+    </None>
+    <None Include="..\..\..\include\djah\filesystem\compressed_source.inl">
+      <Filter>include\filesystem</Filter>
+    </None>
+    <None Include="..\..\..\include\djah\filesystem\stream.inl">
+      <Filter>include\filesystem</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -462,15 +477,6 @@
     <ClCompile Include="..\..\..\src\resources\loaders\image_loader.cpp">
       <Filter>src\resources\loaders</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\fs\directory_source.cpp">
-      <Filter>src\fs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\fs\file_stream.cpp">
-      <Filter>src\fs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\fs\filesystem.cpp">
-      <Filter>src\fs</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\resources\image.cpp">
       <Filter>src\resources</Filter>
     </ClCompile>
@@ -483,12 +489,6 @@
     <ClCompile Include="..\..\..\src\video\drivers\ogl\buffers\render_buffer.cpp">
       <Filter>src\video\drivers\ogl\buffers</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\fs\compression_techniques.cpp">
-      <Filter>src\fs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\fs\memory_stream.cpp">
-      <Filter>src\fs</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\time\clock.cpp">
       <Filter>src\time</Filter>
     </ClCompile>
@@ -500,6 +500,24 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\video\drivers\ogl\buffers\buffer_base.cpp">
       <Filter>src\video\drivers\ogl\buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\video\drivers\ogl\buffers\texture.cpp">
+      <Filter>src\video\drivers\ogl\buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\filesystem\browser.cpp">
+      <Filter>src\filesystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\filesystem\compression_techniques.cpp">
+      <Filter>src\filesystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\filesystem\directory_source.cpp">
+      <Filter>src\filesystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\filesystem\file_stream.cpp">
+      <Filter>src\filesystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\filesystem\memory_stream.cpp">
+      <Filter>src\filesystem</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

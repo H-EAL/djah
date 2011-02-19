@@ -2,7 +2,7 @@
 #define DJAH_LOG_HTML_LOGGER_HPP
 
 #include <fstream>
-#include "../fs/stream.hpp"
+#include "../filesystem/stream.hpp"
 #include "logger.hpp"
 
 namespace djah { namespace log {
@@ -21,7 +21,7 @@ namespace djah { namespace log {
 		void write(const std::string &msg);
 		std::string endLog() const;
 
-		fs::stream_ptr log_stream_;
+		filesystem::stream_ptr log_stream_;
 	};
 
 } /*log*/ } /*djah*/

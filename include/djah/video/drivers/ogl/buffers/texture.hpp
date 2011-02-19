@@ -1,7 +1,7 @@
 #ifndef DJAH_VIDEO_DRIVERS_OGL_TEXTURE_HPP
 #define DJAH_VIDEO_DRIVERS_OGL_TEXTURE_HPP
 
-#include "resource.hpp"
+#include "../resource.hpp"
 
 namespace djah { namespace video { namespace drivers { namespace ogl {
 
@@ -30,16 +30,24 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 	{
 	public:
 
-		texture();
+		texture(int width, int height);
 		~texture();
 
 		void bind() const;
 		static void unbind();
 
+		int width() const;
+		int height() const;
+
 	private:
 
 		void aquire();
 		void release();
+
+	protected:
+
+		int width_;
+		int height_;
 	};
 
 } /*ogl*/ } /*drivers*/ } /*video*/ } /*djah*/

@@ -5,6 +5,9 @@
 
 namespace djah { namespace video { namespace drivers { namespace ogl {
 
+	class texture;
+	class render_buffer;
+
 	class frame_buffer
 		: public resource
 	{
@@ -15,6 +18,9 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 
 		void bind() const;
 		static void unbind();
+
+		void attachTexture(const texture &tex);
+		void attachRenderBuffer(const render_buffer &renderBuffer);
 
 	private:
 

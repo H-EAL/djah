@@ -2,9 +2,9 @@
 
 #include <djah/log/logger.hpp>
 #include <djah/log/console_logger.hpp>
-#include <djah/fs/filesystem.hpp>
-#include <djah/fs/directory_source.hpp>
-#include <djah/fs/memory_stream.hpp>
+#include <djah/filesystem/browser.hpp>
+#include <djah/filesystem/directory_source.hpp>
+#include <djah/filesystem/memory_stream.hpp>
 #include <djah/time/clock.hpp>
 
 #include "pak_compressor.hpp"
@@ -15,8 +15,8 @@ using namespace boost::filesystem;
 void pak_compressor::init()
 {
 	djah::log::logger::setLogger(new djah::log::console_logger);
-	djah::fs::filesystem::get().addLoadingChannel(new djah::fs::directory_source("."));
-	djah::fs::filesystem::get().addSavingChannel(new djah::fs::directory_source(".", true));
+	djah::filesystem::browser::get().addLoadingChannel(new djah::filesystem::directory_source("."));
+	djah::filesystem::browser::get().addSavingChannel(new djah::filesystem::directory_source(".", true));
 }
 //--------------------------------------------------------------------------------------------------
 
@@ -54,7 +54,7 @@ pak_compressor::pak_compressor(const std::string &dir_name, const std::string &p
 	, crc_(0)
 {
 	pak_name_ += ".pak";
-	pak_file_ = djah::fs::stream_ptr(djah::fs::filesystem::get().openWriteStream(pak_name_));
+	pak_file_ = djah::filesystem::stream_ptr(djah::filesystem::browser::get().openWriteStream(pak_name_));
 }
 //--------------------------------------------------------------------------------------------------
 
@@ -143,7 +143,7 @@ void pak_compressor::writeFiles()
 	file_list_t::iterator it_end = files_.end();
 	for(it = files_.begin(); it != it_end; ++it)
 	{
-		djah::fs::stream_ptr file = djah::fs::filesystem::get().openReadStream(dir_name_ + "/" + it->file_name_);
+		djah::filesystem::stream_ptr file = djah::filesystem::browser::get().openReadStream(dir_name_ + "/" + it->file_name_);
 		if(file)
 		{
 			DJAH_BEGIN_LOG(EWL_NOTIFICATION)	<< "Packing ";
@@ -151,7 +151,7 @@ void pak_compressor::writeFiles()
 			DJAH_BEGIN_LOG(EWL_NOTIFICATION)	<< " ... ";
 
 			djah::time::clock clk;
-			djah::fs::memory_stream buff(file);
+			djah::filesystem::memory_stream buff(file);
 			pak_file_->write(buff.buffer(), buff.size());
 			djah::u64 dt = clk.getElapsedTimeMs();
 

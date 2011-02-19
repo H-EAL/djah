@@ -1,6 +1,6 @@
 #include "resources/loaders/image_loader.hpp"
 #include <FreeImage.h>
-#include "fs/stream.hpp"
+#include "filesystem/stream.hpp"
 
 namespace djah { namespace resources { namespace loaders {
 
@@ -25,7 +25,7 @@ namespace djah { namespace resources { namespace loaders {
 
 
 	//----------------------------------------------------------------------------------------------
-	image* image_loader::loadFromStream(fs::stream &strm, const std::string &filename)
+	image* image_loader::loadFromStream(filesystem::stream &strm, const std::string &filename)
 	{
 		BYTE *buffer;
 		size_t buffer_size = strm.size();

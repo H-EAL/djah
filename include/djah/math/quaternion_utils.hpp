@@ -1,8 +1,9 @@
 #ifndef DJAH_MATH_QUATERNION_UTILS_HPP
 #define DJAH_MATH_QUATERNION_UTILS_HPP
 
-#include "quaternion.hpp"
 #include <cmath>
+#include "vector_utils.hpp"
+#include "quaternion.hpp"
 
 namespace djah { namespace math {
 

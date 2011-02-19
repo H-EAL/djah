@@ -6,7 +6,7 @@
 #include <boost/shared_ptr.hpp>
 #include "../utils/hierarchy_generation.hpp"
 #include "../utils/string_utils.hpp"
-#include "../fs/filesystem.hpp"
+#include "../filesystem/browser.hpp"
 #include "loader.hpp"
 #include "image.hpp"
 

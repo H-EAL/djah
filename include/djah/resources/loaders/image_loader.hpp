@@ -12,7 +12,7 @@ namespace djah { namespace resources { namespace loaders {
 	public:
 		image_loader();
 		~image_loader();
-		image* loadFromStream(fs::stream &stream, const std::string &filename = "");
+		image* loadFromStream(filesystem::stream &stream, const std::string &filename = "");
 	};
 
 } /*loaders*/ } /*resources*/ } /*djah*/

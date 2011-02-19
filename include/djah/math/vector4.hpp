@@ -35,6 +35,27 @@ namespace djah { namespace math {
 	//----------------------------------------------------------------------------------------------
 	
 	//----------------------------------------------------------------------------------------------
+	// Cross product
+	template<typename T>
+	inline vector<4,T> cross(const vector<4,T> &lhs, const vector<4,T> &rhs)
+	{
+		return vector<4,T>
+		(
+			lhs.y * rhs.z - lhs.z * rhs.y,
+			lhs.z * rhs.x - lhs.x * rhs.z,
+			lhs.x * rhs.y - lhs.y * rhs.x,
+			0
+		);
+	}
+	//----------------------------------------------------------------------------------------------
+	template<typename T>
+	const vector<4,T> operator ^(const vector<4,T> &lhs, const vector<4,T> &rhs)
+	{
+		return cross(lhs, rhs);
+	}
+	//----------------------------------------------------------------------------------------------
+	
+	//----------------------------------------------------------------------------------------------
 	// Useful type definitions
 	typedef vector<4,unsigned char>		vector4ub;
 	typedef vector<4,unsigned short>	vector4us;
@@ -55,8 +76,6 @@ namespace djah { namespace math {
 	typedef vector4d					point4d;
 	//----------------------------------------------------------------------------------------------
 
-
 } /*math*/ } /*djah*/
-
 
 #endif /* DJAH_MATH_VECTOR4_HPP */

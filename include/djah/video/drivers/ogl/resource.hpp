@@ -7,10 +7,11 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 	{
 	public:
 
-		unsigned int id() const { return id_; }
+		unsigned int	id()		const { return id_; }
+		bool			isValid()	const { return id_ != INVALID_ID; }
 
-		virtual void aquire()  = 0;
-		virtual void release() = 0;
+		virtual void	aquire()  = 0;
+		virtual void	release() = 0;
 
 	protected:
 
@@ -18,9 +19,9 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 		enum { INVALID_ID = 0 };
 
 		// Meant to be used as a base class
-		resource(unsigned int id = INVALID_ID)
-			: id_(id) {}
+		resource(unsigned int id = INVALID_ID) : id_(id) {}
 		virtual ~resource() {}
+
 		// Non copyable
 		resource(const resource &res);
 		resource& operator =(const resource &res);

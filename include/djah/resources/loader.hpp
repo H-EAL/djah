@@ -4,9 +4,9 @@
 #include <iosfwd>
 #include <string>
 
-namespace djah { namespace fs {
+namespace djah { namespace filesystem {
 	class stream;
-} /*fs*/ } /*djah*/
+} /*filesystem*/ } /*djah*/
 
 namespace djah { namespace resources {
 
@@ -18,12 +18,12 @@ namespace djah { namespace resources {
 
 		virtual ~loader() {}
 
-		virtual T* loadFromStream(fs::stream &stream, const std::string &filename = "")
+		virtual T* loadFromStream(filesystem::stream &stream, const std::string &filename = "")
 		{
 			return 0;
 		}
 
-		virtual void saveToStream(const T &obj, fs::stream &stream, const std::string &filename = "")
+		virtual void saveToStream(const T &obj, filesystem::stream &stream, const std::string &filename = "")
 		{
 
 		}

@@ -1,10 +1,12 @@
-#include "video/drivers/ogl/texture.hpp"
-#include <GL/glew.h>
+#include "video/drivers/ogl/buffers/texture.hpp"
+#include "video/drivers/opengl_include.hpp"
 
 namespace djah { namespace video { namespace drivers { namespace ogl {
 
 	//----------------------------------------------------------------------------------------------
-	texture::texture()
+	texture::texture(int width, int height)
+		: width_(width)
+		, height_(height)
 	{
 		aquire();
 	}

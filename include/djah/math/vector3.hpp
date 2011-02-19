@@ -77,5 +77,4 @@ namespace djah { namespace math {
 
 } /*math*/ } /*djah*/
 
-
 #endif /* DJAH_MATH_VECTOR3_HPP */

@@ -1,13 +1,13 @@
 #include "video/drivers/ogl/buffers/render_buffer.hpp"
-
-#include <GL/glew.h>
+#include "video/drivers/opengl_include.hpp"
 
 #include "log/logger.hpp"
 
 namespace djah { namespace video { namespace drivers { namespace ogl {
 
 	//----------------------------------------------------------------------------------------------
-	render_buffer::render_buffer()
+	render_buffer::render_buffer(int width, int height)
+		: texture(width, height)
 	{
 		aquire();
 	}
@@ -51,6 +51,14 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 	void render_buffer::unbind()
 	{
 		glBindRenderbuffer(GL_FRAMEBUFFER, 0);
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	void render_buffer::initialize(E_INTERNAL_FORMAT internalFormat)
+	{
+		glRenderbufferStorage(GL_RENDERBUFFER, internalFormat, width_, height_);
 	}
 	//----------------------------------------------------------------------------------------------
 
