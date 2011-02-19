@@ -1,20 +1,21 @@
-#ifndef DJAH_VIDEO_DRIVERS_OPENGL_BASE_HPP
-#define DJAH_VIDEO_DRIVERS_OPENGL_BASE_HPP
+#ifndef DJAH_VIDEO_DRIVERS_OPENGL_DRIVER_HPP
+#define DJAH_VIDEO_DRIVERS_OPENGL_DRIVER_HPP
 
 #include "../driver_base.hpp"
-#include "video/drivers/ogl/gl_caps.hpp"
 
 namespace djah { namespace video { namespace drivers {
 
-	template<typename OglImpl>
-	class opengl_base
+	namespace detail {
+		class opengl_context;
+	}
+
+	class opengl_driver
 		: public driver_base
-		, public OglImpl
 	{
 	public:
 
-		opengl_base(device_base *device);
-		virtual ~opengl_base();
+		opengl_driver(device_base *device);
+		virtual ~opengl_driver();
 
 		virtual void create();
 		virtual void destroy();
@@ -25,10 +26,12 @@ namespace djah { namespace video { namespace drivers {
 	protected:
 
 		virtual void updateViewport();
+
+	private:
+
+		detail::opengl_context *context_;
 	};
 
 } /*drivers*/ } /*video*/ } /*djah*/
 
-#include "opengl_base.inl"
-
-#endif /* DJAH_VIDEO_DRIVERS_OPENGL_BASE_HPP */
+#endif /* DJAH_VIDEO_DRIVERS_OPENGL_DRIVER_HPP */

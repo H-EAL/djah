@@ -1,8 +1,6 @@
 #include <iostream>
-#include <ctime>
 #include <map>
 
-#include <GL/glew.h>
 #include <boost/thread/thread.hpp>
 
 #include "djah/math.hpp"
@@ -19,6 +17,13 @@
 #include "djah/video/drivers/ogl/buffers/index_buffer.hpp"
 #include "djah/video/drivers/ogl/buffers/vertex_buffer.hpp"
 #include "djah/video/drivers/ogl/buffers/vertex_format.hpp"
+
+#ifdef near
+#undef near
+#endif
+#ifdef far
+#undef far
+#endif
 
 using namespace std;
 using namespace djah;
@@ -74,6 +79,7 @@ void readInputs()
 		{
 			analyse(cmd_str);
 			std::cout << "> ";
+			std::flush(std::cout);
 			cmd_str.clear();
 		}
 		else if(c != '\n')
@@ -116,29 +122,37 @@ struct CameraTweaker
 
 
 static bool print_infos = false;
-void printInfos() {	print_infos = true; }
+static bool show_ext = true;
+void printInfos(bool showExtensions = true) {	show_ext = showExtensions; print_infos = true; }
 
 using namespace djah::video::drivers;
-void printInfosAux()
+void printInfosAux(bool showExtensions = true)
 {
 	log::logger::log(log::EWL_NOTIFICATION)
-		<< "=========================================================================\n"
+		<< "\n=========================================================================\n"
 		<< "| Renderer                 | " << ogl::capabilities::renderer()       << "\n"
 		<< "| Vendor                   | " << ogl::capabilities::vendor()         << "\n"
 		<< "| OpenGL version           | " << ogl::capabilities::opengl_version() << "\n"
-		<< "| GLSL version             | " << ogl::capabilities::glsl_version()   << "\n"
+		<< "| GLSL version             | " << ogl::capabilities::glsl_version()
+		<< log::logger::endl();
+
+	if(showExtensions)
+	{
+		log::logger::log(log::EWL_NOTIFICATION)
 		<< "-------------------------------------------------------------------------\n"
 		<< "| Available extensions (" << ogl::capabilities::s_extensions_.size()  << ")\n"
 		<< "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
 		<< log::logger::endl();
 
-	ogl::capabilities::string_list_t::const_iterator it    = ogl::capabilities::s_extensions_.begin();
-	ogl::capabilities::string_list_t::const_iterator itEnd = ogl::capabilities::s_extensions_.end();
-	while(it != itEnd)
-	{
-		log::logger::log() << "|\t" << *it << log::logger::endl();
-		++it;
+		ogl::capabilities::string_list_t::const_iterator it    = ogl::capabilities::s_extensions_.begin();
+		ogl::capabilities::string_list_t::const_iterator itEnd = ogl::capabilities::s_extensions_.end();
+		while(it != itEnd)
+		{
+			log::logger::log() << "|\t" << *it << log::logger::endl();
+			++it;
+		}
 	}
+
 	log::logger::log()
 		<< "========================================================================="
 		<< log::logger::endl();
@@ -209,7 +223,7 @@ int main()
 	};
 
 	ogl::vertex_format fvf;
-	fvf.record() << ogl::format::position<float>(3) << ogl::format::color<float>(3) << ogl::format::normal<float>(3);
+	fvf.record() << ogl::format::position<3,float>() << ogl::format::color<3,float>() << ogl::format::normal<3,float>();
 
 	/*ogl::vertex_buffer vbuf( sizeof(CubeArray), ogl::EBU_STATIC_DRAW );
 	vbuf.write(CubeArray);
@@ -237,7 +251,7 @@ int main()
 	{
 		if( print_infos )
 		{
-			printInfosAux();
+			printInfosAux(show_ext);
 			print_infos = false;
 		}
 

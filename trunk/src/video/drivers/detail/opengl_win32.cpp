@@ -1,22 +1,19 @@
 #include <cassert>
 #include "video/drivers/opengl_include.hpp"
 
-#include "video/drivers/opengl_base.hpp"
+#include "video/drivers/opengl_driver.hpp"
 #include "video/drivers/detail/opengl_win32.hpp"
 #include "video/devices/win32device.hpp"
 
-namespace djah { namespace video {
+namespace djah { namespace video { namespace drivers { namespace detail {
 
 	//----------------------------------------------------------------------------------------------
-	driver_ptr new_platform_specific_driver(device_base *device)
+	opengl_context* new_platform_specific_context()
 	{
-		return new drivers::opengl_base<drivers::detail::opengl_win32>(device);
+		return new opengl_win32;
 	}
 	//----------------------------------------------------------------------------------------------
 
-} /*video*/ } /*djah*/
-
-namespace djah { namespace video { namespace drivers { namespace detail {
 
 	//----------------------------------------------------------------------------------------------
 	opengl_win32::opengl_win32()
