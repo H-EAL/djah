@@ -17,7 +17,9 @@ namespace djah { namespace video { namespace drivers { namespace detail {
 
 	//----------------------------------------------------------------------------------------------
 	opengl_win32::opengl_win32()
-		: hGLRC_(0)
+		: hDC_(0)
+		, hGLRC_(0)
+		, hWindow_(0)
 	{
 	}
 	//----------------------------------------------------------------------------------------------
@@ -34,14 +36,17 @@ namespace djah { namespace video { namespace drivers { namespace detail {
 	void opengl_win32::create(device_ptr device)
 	{
 		devices::win32device *w32dev = dynamic_cast<devices::win32device*>(device);
-
 		assert(w32dev);
-		w32dev->hDC_ = GetDC(w32dev->hWindow_);
-		assert(w32dev->hDC_);
-		setupPixelFormat(w32dev);
-		hGLRC_ = wglCreateContext(w32dev->hDC_);
+
+		hWindow_ = w32dev->hWindow_;
+		hDC_ = GetDC(hWindow_);
+		assert(hDC_);
+
+		setupPixelFormat(device->videoConfig());
+		hGLRC_ = wglCreateContext(hDC_);
 		assert(hGLRC_);
-		wglMakeCurrent(w32dev->hDC_, hGLRC_);
+
+		makeCurrent();
 
 		// Handle VSync
 		typedef BOOL (APIENTRY *PFNWGLSWAPINTERVALFARPROC)( int );
@@ -59,38 +64,63 @@ namespace djah { namespace video { namespace drivers { namespace detail {
 	//----------------------------------------------------------------------------------------------
 	void opengl_win32::destroy()
 	{
+		doneCurrent();
+		ReleaseDC(hWindow_, hDC_);
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	void opengl_win32::swapBuffers()
+	{
+		SwapBuffers(hDC_);
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	void opengl_win32::makeCurrent()
+	{
+		wglMakeCurrent(hDC_, hGLRC_);
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	void opengl_win32::doneCurrent()
+	{
 		wglMakeCurrent(0,0);
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	void opengl_win32::setupPixelFormat(devices::win32device *device)
+	void opengl_win32::setupPixelFormat(const video_config &cfg)
 	{
 		PIXELFORMATDESCRIPTOR pfd =
 		{	 
 			sizeof(PIXELFORMATDESCRIPTOR), 1,
 			PFD_SUPPORT_OPENGL | PFD_DRAW_TO_WINDOW | PFD_DOUBLEBUFFER,
 			PFD_TYPE_RGBA,
-			static_cast<BYTE>(device->videoConfig().colorBits),	// Bits de couleur
+			static_cast<BYTE>(cfg.colorBits),	// Bits de couleur
 			0, 0, 0, 0, 0, 0, 0, 0,
 			0, 0, 0, 0, 0,
-			static_cast<BYTE>(device->videoConfig().depthBits),	// Bits de profondeur
-			static_cast<BYTE>(device->videoConfig().stencilBits),	// Bits du buffer stencil
+			static_cast<BYTE>(cfg.depthBits),	// Bits de profondeur
+			static_cast<BYTE>(cfg.stencilBits),	// Bits du buffer stencil
 			0,														// Nombre de buffers auxiliaires
 			0, 0, 0, 0, 0
 		};	 
 
 		int pixelFormat;
-		pixelFormat = ChoosePixelFormat(device->hDC_, &pfd);
+		pixelFormat = ChoosePixelFormat(hDC_, &pfd);
 		if (!pixelFormat)
 		{
-			MessageBoxA(WindowFromDC(device->hDC_), "Mode graphique non supporté", "Problème", MB_ICONERROR | MB_OK);
+			MessageBoxA(WindowFromDC(hDC_), "Mode graphique non supporté", "Problème", MB_ICONERROR | MB_OK);
 			exit(1);
 		}	
-		if (!SetPixelFormat(device->hDC_, pixelFormat, &pfd))
+		if (!SetPixelFormat(hDC_, pixelFormat, &pfd))
 		{
-			MessageBoxA(WindowFromDC(device->hDC_), "Mode graphique non supporté", "Problème", MB_ICONERROR | MB_OK);
+			MessageBoxA(WindowFromDC(hDC_), "Mode graphique non supporté", "Problème", MB_ICONERROR | MB_OK);
 			exit(1);
 		}	
 	}

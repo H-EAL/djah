@@ -2,6 +2,7 @@
 #define DJAH_MATH_VECTOR_HPP
 
 #include <cmath>
+#include <cassert>
 
 namespace djah { namespace math {
 

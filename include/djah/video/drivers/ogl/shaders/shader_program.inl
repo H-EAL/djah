@@ -34,7 +34,7 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 
 	//----------------------------------------------------------------------------------------------
 	template<int N, typename T>
-	void shader::sendUniform(const std::string &name, const T *data, int count) const
+	void shader_program::sendUniform(const std::string &name, const T *data, int count) const
 	{
 		unsigned int location = getUniformLocation(name);
 		priv::UniformFunc<T>::uniform(N-1)(location, count, data);

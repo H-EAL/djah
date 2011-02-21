@@ -120,6 +120,9 @@
     <Filter Include="sources\filesystem">
       <UniqueIdentifier>{d8a314d4-0fa5-4251-9736-da3d376ea80f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include\video\primitives">
+      <UniqueIdentifier>{567c4861-d5eb-48ee-afbb-2b05d9b8f4ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\djah\math.hpp">
@@ -231,9 +234,6 @@
       <Filter>include\video\drivers\ogl\shaders</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\djah\video\drivers\ogl\shaders\pixel_shader.hpp">
-      <Filter>include\video\drivers\ogl\shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\video\drivers\ogl\shaders\shader.hpp">
       <Filter>include\video\drivers\ogl\shaders</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\djah\video\drivers\ogl\shaders\shader_base.hpp">
@@ -383,6 +383,12 @@
     <ClInclude Include="..\..\..\include\djah\video\drivers\detail\opengl_context.hpp">
       <Filter>include\video\drivers\detail</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\video\primitives\triangle.hpp">
+      <Filter>include\video\primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\video\drivers\ogl\shaders\shader_program.hpp">
+      <Filter>include\video\drivers\ogl\shaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\include\djah\geometry\plane.inl">
@@ -396,12 +402,6 @@
     </None>
     <None Include="..\..\..\include\djah\video\drivers\ogl\buffers\buffer_base.inl">
       <Filter>include\video\drivers\ogl\buffers</Filter>
-    </None>
-    <None Include="..\..\..\include\djah\video\drivers\ogl\shaders\shader.inl">
-      <Filter>include\video\drivers\ogl\shaders</Filter>
-    </None>
-    <None Include="..\..\..\include\djah\video\drivers\ogl\shaders\shader_base.inl">
-      <Filter>include\video\drivers\ogl\shaders</Filter>
     </None>
     <None Include="..\..\..\include\djah\resources\media_manager.inl">
       <Filter>include\resources</Filter>
@@ -426,6 +426,9 @@
     </None>
     <None Include="..\..\..\include\djah\filesystem\stream.inl">
       <Filter>include\filesystem</Filter>
+    </None>
+    <None Include="..\..\..\include\djah\video\drivers\ogl\shaders\shader_program.inl">
+      <Filter>include\video\drivers\ogl\shaders</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -455,9 +458,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\video\drivers\ogl\buffers\vertex_format.cpp">
       <Filter>sources\video\drivers\ogl\buffers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\video\drivers\ogl\shaders\shader.cpp">
-      <Filter>sources\video\drivers\ogl\shaders</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\video\drivers\ogl\gl_caps.cpp">
       <Filter>sources\video\drivers\ogl</Filter>
@@ -518,6 +518,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\video\drivers\opengl_driver.cpp">
       <Filter>sources\video\drivers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\video\drivers\ogl\shaders\shader_program.cpp">
+      <Filter>sources\video\drivers\ogl\shaders</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
 #include <GL/glew.h>
 #include <boost/smart_ptr/scoped_array.hpp>
 
-#include "video/drivers/ogl/shaders/shader.hpp"
+#include "video/drivers/ogl/shaders/shader_program.hpp"
 #include "video/drivers/ogl/errors.hpp"
 #include "log/logger.hpp"
 
@@ -9,7 +9,7 @@
 namespace djah { namespace video { namespace drivers { namespace ogl {
 
 	//----------------------------------------------------------------------------------------------
-	shader::shader()
+	shader_program::shader_program()
 	{
 		aquire();
 	}
@@ -17,7 +17,7 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 
 
 	//----------------------------------------------------------------------------------------------
-	shader::~shader()
+	shader_program::~shader_program()
 	{
 		release();
 	}
@@ -25,7 +25,7 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 
 
 	//----------------------------------------------------------------------------------------------
-	void shader::aquire()
+	void shader_program::aquire()
 	{
 		DJAH_TEST_FOR_OPENGL_ERRORS
 		(
@@ -36,7 +36,7 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 
 
 	//----------------------------------------------------------------------------------------------
-	void shader::release()
+	void shader_program::release()
 	{
 		glDeleteProgram(id_);
 		id_ = INVALID_ID;
@@ -45,8 +45,16 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 
 
 	//----------------------------------------------------------------------------------------------
+	bool shader_program::isValidResource() const
+	{
+		return glIsProgram(id_) != 0;
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
 	template<int ShaderType>
-	void shader::attach(const shader_base<ShaderType> &s) const
+	void shader_program::attach(const shader_base<ShaderType> &s) const
 	{
 		glAttachShader(id_, s.id());
 	}
@@ -55,7 +63,7 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 
 	//----------------------------------------------------------------------------------------------
 	template<int ShaderType>
-	void shader::detach(const shader_base<ShaderType> &s) const
+	void shader_program::detach(const shader_base<ShaderType> &s) const
 	{
 		glDetachShader(id_, s.id());
 	}
@@ -63,7 +71,7 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 
 
 	//----------------------------------------------------------------------------------------------
-	void shader::link() const
+	void shader_program::link() const
 	{
 		cache_.clear();
 		DJAH_TEST_FOR_OPENGL_ERRORS
@@ -76,7 +84,7 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 
 
 	//----------------------------------------------------------------------------------------------
-	void shader::begin() const
+	void shader_program::begin() const
 	{
 		glUseProgram(id_);
 	}
@@ -84,7 +92,7 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 
 
 	//----------------------------------------------------------------------------------------------
-	void shader::end()
+	void shader_program::end()
 	{
 		glUseProgram(0);
 	}
@@ -92,7 +100,7 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 
 
 	//----------------------------------------------------------------------------------------------
-	unsigned int shader::getVertexAttributeLocation(const std::string &name) const
+	unsigned int shader_program::getVertexAttributeLocation(const std::string &name) const
 	{
 		return glGetAttribLocation(id_, name.c_str());
 	}
@@ -100,7 +108,7 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 
 
 	//----------------------------------------------------------------------------------------------
-	void shader::handleLinkingErrors() const
+	void shader_program::handleLinkingErrors() const
 	{
 		// First of all check if the linking went well
 		int status = GL_TRUE;
@@ -131,7 +139,7 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 
 
 	//----------------------------------------------------------------------------------------------
-	unsigned int shader::getUniformLocation(const std::string &name) const
+	unsigned int shader_program::getUniformLocation(const std::string &name) const
 	{
 		// First search for the uniform in cache
 		uniform_cache_t::const_iterator it = cache_.find(name);
@@ -145,25 +153,25 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 
 
 	//----------------------------------------------------------------------------------------------
-	void shader::sendUniform(const std::string &name, float u1) const
+	void shader_program::sendUniform(const std::string &name, float u1) const
 	{
 		unsigned int location = getUniformLocation(name);
 		glUniform1f(location, u1);
 	}
 	//----------------------------------------------------------------------------------------------
-	void shader::sendUniform(const std::string &name, float u1, float u2) const
+	void shader_program::sendUniform(const std::string &name, float u1, float u2) const
 	{
 		unsigned int location = getUniformLocation(name);
 		glUniform2f(location, u1, u2);
 	}
 	//----------------------------------------------------------------------------------------------
-	void shader::sendUniform(const std::string &name, float u1, float u2, float u3) const
+	void shader_program::sendUniform(const std::string &name, float u1, float u2, float u3) const
 	{
 		unsigned int location = getUniformLocation(name);
 		glUniform3f(location, u1, u2, u3);
 	}
 	//----------------------------------------------------------------------------------------------
-	void shader::sendUniform(const std::string &name, float u1, float u2, float u3, float u4) const
+	void shader_program::sendUniform(const std::string &name, float u1, float u2, float u3, float u4) const
 	{
 		unsigned int location = getUniformLocation(name);
 		glUniform4f(location, u1, u2, u3, u4);
@@ -172,25 +180,25 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 
 
 	//----------------------------------------------------------------------------------------------
-	void shader::sendUniform(const std::string &name, int u1) const
+	void shader_program::sendUniform(const std::string &name, int u1) const
 	{
 		unsigned int location = getUniformLocation(name);
 		glUniform1i(location, u1);
 	}
 	//----------------------------------------------------------------------------------------------
-	void shader::sendUniform(const std::string &name, int u1, int u2) const
+	void shader_program::sendUniform(const std::string &name, int u1, int u2) const
 	{
 		unsigned int location = getUniformLocation(name);
 		glUniform2i(location, u1, u2);
 	}
 	//----------------------------------------------------------------------------------------------
-	void shader::sendUniform(const std::string &name, int u1, int u2, int u3) const
+	void shader_program::sendUniform(const std::string &name, int u1, int u2, int u3) const
 	{
 		unsigned int location = getUniformLocation(name);
 		glUniform3i(location, u1, u2, u3);
 	}
 	//----------------------------------------------------------------------------------------------
-	void shader::sendUniform(const std::string &name, int u1, int u2, int u3, int u4) const
+	void shader_program::sendUniform(const std::string &name, int u1, int u2, int u3, int u4) const
 	{
 		unsigned int location = getUniformLocation(name);
 		glUniform4i(location, u1, u2, u3, u4);
@@ -200,7 +208,7 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 
 	//----------------------------------------------------------------------------------------------
 	template<int N>
-	void shader::sendUniformMatrix(const std::string &name, const float *data, int count, bool transpose) const
+	void shader_program::sendUniformMatrix(const std::string &name, const float *data, int count, bool transpose) const
 	{
 		static const PFNGLUNIFORMMATRIX2FVPROC uniformMatrixFuncTab[] = 
 		{
@@ -216,7 +224,7 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 	}
 	//----------------------------------------------------------------------------------------------
 	template<int N>
-	void shader::sendUniformMatrix(const std::string &name, const math::matrix<N,float> &mat, bool transpose) const
+	void shader_program::sendUniformMatrix(const std::string &name, const math::matrix<N,float> &mat, bool transpose) const
 	{
 		sendUniformMatrix<N>(name, mat.data, 1, transpose);
 	}

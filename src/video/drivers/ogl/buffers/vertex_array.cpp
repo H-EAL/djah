@@ -6,7 +6,7 @@
 #include "video/drivers/ogl/buffers/vertex_buffer.hpp"
 #include "video/drivers/ogl/buffers/index_buffer.hpp"
 
-#include "video/drivers/ogl/shaders/shader.hpp"
+#include "video/drivers/ogl/shaders/shader_program.hpp"
 
 #include "log/logger.hpp"
 
@@ -51,6 +51,14 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 
 
 	//----------------------------------------------------------------------------------------------
+	bool vertex_array::isValidResource() const
+	{
+		return glIsVertexArray(id_) != 0;
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
 	void vertex_array::bind() const
 	{
 		glBindVertexArray(id_);
@@ -67,7 +75,7 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 	
 
 	//----------------------------------------------------------------------------------------------
-	void vertex_array::init(const shader &sp) const
+	void vertex_array::init(const shader_program &sp) const
 	{
 		const vertex_format::attr_list_t &attributes = vertex_format_.attributes();
 		vertex_format::attr_list_t::const_iterator it;

@@ -7,13 +7,14 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 	{
 	public:
 
-		unsigned int	id()		const { return id_; }
-		bool			isValid()	const { return id_ != INVALID_ID; }
-
-		virtual void	aquire()  = 0;
-		virtual void	release() = 0;
+		unsigned int id()	   const { return id_; }
+		bool		 isValid() const { return id_ != INVALID_ID && isValidResource(); }
 
 	protected:
+
+		virtual void aquire()  = 0;
+		virtual void release() = 0;
+		virtual bool isValidResource() const = 0;
 
 		// 0 is an invalid id in OpenGL
 		enum { INVALID_ID = 0 };

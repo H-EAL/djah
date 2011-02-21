@@ -13,22 +13,23 @@ namespace djah { namespace video { namespace drivers {
 		: public driver_base
 	{
 	public:
-
 		opengl_driver(device_base *device);
 		virtual ~opengl_driver();
 
 		virtual void create();
 		virtual void destroy();
+		virtual void swapBuffers();
+
+		detail::opengl_context* context() const;
 
 		virtual void beginScene();
 		virtual void endScene();
 
-	protected:
 
+	protected:
 		virtual void updateViewport();
 
 	private:
-
 		detail::opengl_context *context_;
 	};
 

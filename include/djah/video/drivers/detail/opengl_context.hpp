@@ -15,6 +15,10 @@ namespace djah { namespace video { namespace drivers { namespace detail {
 
 		virtual void create(device_ptr device) = 0;
 		virtual void destroy() = 0;
+		virtual void swapBuffers() = 0;
+
+		virtual void makeCurrent() = 0;
+		virtual void doneCurrent() = 0;
 	};
 	//----------------------------------------------------------------------------------------------
 	
@@ -22,7 +26,7 @@ namespace djah { namespace video { namespace drivers { namespace detail {
 	//----------------------------------------------------------------------------------------------
 	// Prototype of the actual instance creator (platform specific)
 	//----------------------------------------------------------------------------------------------
-	extern opengl_context* new_platform_specific_context();
+	opengl_context* new_platform_specific_context();
 	//----------------------------------------------------------------------------------------------
 
 } /*detail*/ } /*drivers*/ } /*video*/ } /*djah*/

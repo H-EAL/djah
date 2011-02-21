@@ -179,7 +179,7 @@ void printHelp()
 }
 
 
-int main()
+int bordel()
 {
 	std::fill(fps_avg, fps_avg+FPS_AVG_COUNT, -1);
 	
@@ -297,7 +297,7 @@ int main()
 		sp.end();*/
 
 		driver->endScene();
-		device->swapBuffers();
+		driver->swapBuffers();
 
 		// FPS SHIT
 		double dt = static_cast<double>((clock() - start));
@@ -333,7 +333,6 @@ int main()
 			++fps;
 	}
 
-	device->shutDown();
 	delete device;
 
 	return 0;

@@ -9,7 +9,7 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 	class vertex_buffer;
 	class index_buffer;
 	class vertex_format;
-	class shader;
+	class shader_program;
 
 	class vertex_array
 		: public resource
@@ -22,13 +22,14 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 		void bind() const;
 		static void unbind();
 
-		void init(const shader &sp) const;
+		void init(const shader_program &sp) const;
 		void draw() const;
 
 	private:
 
 		void aquire();
 		void release();
+		bool isValidResource() const;
 
 		const vertex_format &vertex_format_;
 		const vertex_buffer &vertex_buffer_;

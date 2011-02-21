@@ -55,6 +55,15 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 
 	//----------------------------------------------------------------------------------------------
 	template<int Target>
+	bool buffer_base<Target>::isValidResource() const
+	{
+		return glIsBuffer(id_) != 0;
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	template<int Target>
 	void buffer_base<Target>::bind() const
 	{
 		assert(id_ != INVALID_ID);
