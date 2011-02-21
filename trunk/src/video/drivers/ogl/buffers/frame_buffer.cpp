@@ -39,6 +39,14 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 
 
 	//----------------------------------------------------------------------------------------------
+	bool frame_buffer::isValidResource() const
+	{
+		return glIsFramebuffer(id_) != 0;
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
 	void frame_buffer::bind() const
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, id_);

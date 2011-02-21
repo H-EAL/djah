@@ -1,7 +1,6 @@
 #include "video/devices/win32device.hpp"
 
 #include <cassert>
-#include <GL/gl.h>
 
 #include "geometry/rect.hpp"
 
@@ -46,12 +45,9 @@ namespace djah { namespace video { namespace devices {
 			if(wParam == VK_ESCAPE)
 				device->shutDown();
 			break;
-
-		default:
-			return DefWindowProc(hWnd, msg, wParam, lParam);
 		}
 
-		return 0;
+		return DefWindowProc(hWnd, msg, wParam, lParam);
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -60,7 +56,6 @@ namespace djah { namespace video { namespace devices {
 	win32device::win32device()
 		: hInstance_(0)
 		, hWindow_(0)
-		, hDC_(0)
 	{
 	}
 	//----------------------------------------------------------------------------------------------
@@ -93,8 +88,8 @@ namespace djah { namespace video { namespace devices {
 		int real_height = video_config_.height + GetSystemMetrics(SM_CYCAPTION) + (GetSystemMetrics(SM_CYSIZEFRAME) << 1);
 
 		// Center on the screen
-		int pos_x = (GetSystemMetrics(SM_CXSCREEN) - real_width)  >> 1;
-		int pos_y = (GetSystemMetrics(SM_CYSCREEN) - real_height) >> 1;
+		int pos_x = (GetSystemMetrics(SM_CXSCREEN) - real_width)  / 2;
+		int pos_y = (GetSystemMetrics(SM_CYSCREEN) - real_height) / 2;
 
 		long style = WS_VISIBLE;
 		long ex_style = 0;
@@ -135,7 +130,6 @@ namespace djah { namespace video { namespace devices {
 	//----------------------------------------------------------------------------------------------
 	void win32device::destroyImpl()
 	{
-		ReleaseDC(hWindow_, hDC_);
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -144,14 +138,6 @@ namespace djah { namespace video { namespace devices {
 	void win32device::show()
 	{
 		ShowWindow(hWindow_, SW_SHOW);
-	}
-	//----------------------------------------------------------------------------------------------
-
-
-	//----------------------------------------------------------------------------------------------
-	void win32device::swapBuffers()
-	{
-		SwapBuffers(hDC_);
 	}
 	//----------------------------------------------------------------------------------------------
 

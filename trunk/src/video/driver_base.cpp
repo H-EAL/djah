@@ -8,7 +8,7 @@ namespace djah { namespace video {
 		: device_(device)
 		, view_matrix_(math::matrix4f::mat_identity)
 		, projection_matrix_(math::matrix4f::mat_identity)
-		, proj_dirty_(true)
+		, proj_dirty_(false)
 	{
 	}
 	//-------------------------------------------------------------------------------------------------

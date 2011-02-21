@@ -1,5 +1,5 @@
-#ifndef DJAH_VIDEO_DRIVERS_OGL_SHADER_HPP
-#define DJAH_VIDEO_DRIVERS_OGL_SHADER_HPP
+#ifndef DJAH_VIDEO_DRIVERS_OGL_SHADER_PROGRAM_HPP
+#define DJAH_VIDEO_DRIVERS_OGL_SHADER_PROGRAM_HPP
 
 #include <map>
 #include <string>
@@ -10,13 +10,13 @@
 
 namespace djah { namespace video { namespace drivers { namespace ogl {
 
-	class shader
+	class shader_program
 		: public resource
 	{
 	public:
 
-		shader();
-		~shader();
+		shader_program();
+		~shader_program();
 
 		template<int ShaderType>
 		void attach(const shader_base<ShaderType> &s) const;
@@ -53,6 +53,7 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 
 		void aquire();
 		void release();
+		bool isValidResource() const;
 
 		void handleLinkingErrors() const;
 
@@ -65,6 +66,6 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 
 } /*ogl*/ } /*drivers*/ } /*video*/ } /*djah*/
 
-#include "shader.inl"
+#include "shader_program.inl"
 
-#endif /* DJAH_VIDEO_DRIVERS_OGL_SHADER_HPP */
+#endif /* DJAH_VIDEO_DRIVERS_OGL_SHADER_PROGRAM_HPP */

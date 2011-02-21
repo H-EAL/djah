@@ -31,6 +31,7 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 
 		void aquire();
 		void release();
+		bool isValidResource() const;
 	};
 
 } /*ogl*/ } /*drivers*/ } /*video*/ } /*djah*/

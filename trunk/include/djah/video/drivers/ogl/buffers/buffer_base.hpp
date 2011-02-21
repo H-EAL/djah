@@ -62,6 +62,7 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 
 		void aquire();
 		void release();
+		bool isValidResource() const;
 
 		E_BUFFER_USAGE	usage_;
 		const size_t	size_;

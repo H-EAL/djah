@@ -49,6 +49,15 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 
 	//----------------------------------------------------------------------------------------------
 	template<int ShaderType>
+	bool shader_base<ShaderType>::isValidResource() const
+	{
+		return glIsShader(id_) != 0;
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	template<int ShaderType>
 	void shader_base<ShaderType>::loadSourceFromString(const std::string &source)
 	{
 		source_ = source;

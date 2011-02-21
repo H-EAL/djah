@@ -17,7 +17,6 @@ namespace djah { namespace video { namespace drivers {
 	//----------------------------------------------------------------------------------------------
 	opengl_driver::~opengl_driver()
 	{
-		delete context_;
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -46,6 +45,24 @@ namespace djah { namespace video { namespace drivers {
 	void opengl_driver::destroy()
 	{
 		context_->destroy();
+		delete context_;
+		context_ = 0;
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	void opengl_driver::swapBuffers()
+	{
+		context_->swapBuffers();
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	detail::opengl_context* opengl_driver::context() const
+	{
+		return context_;
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -57,7 +74,7 @@ namespace djah { namespace video { namespace drivers {
 		{
 			glMatrixMode(GL_PROJECTION);
 			glLoadIdentity();
-			glMultMatrixf(projection_matrix_.data);
+			glMultMatrixf(projection_matrix_.getTransposed().data);
 			proj_dirty_ = false;
 		}
 
@@ -65,7 +82,7 @@ namespace djah { namespace video { namespace drivers {
 
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
-		glMultMatrixf(view_matrix_.data);
+		glMultMatrixf(view_matrix_.getTransposed().data);
 
 		// Use current shader
 	}

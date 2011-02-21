@@ -22,6 +22,7 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 
 		void aquire();
 		void release();
+		bool isValidResource() const;
 
 		void loadSource() const;
 		void handleCompilationErrors() const;

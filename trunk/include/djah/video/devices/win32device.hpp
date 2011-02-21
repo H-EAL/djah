@@ -2,8 +2,8 @@
 #define DJAH_VIDEO_DEVICES_WIN32DEVICE_HPP
 
 #include <string>
-#include <windows.h>
 
+#include "../../platform.hpp"
 #include "../device_base.hpp"
 
 namespace djah { namespace video {
@@ -28,7 +28,6 @@ namespace djah { namespace video {
 		virtual bool hasWindowFocus();
 
 		virtual void setWindowTitle(const std::string &title);
-		virtual void swapBuffers();
 
 	private:
 
@@ -41,7 +40,6 @@ namespace djah { namespace video {
 		friend LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 		HINSTANCE	hInstance_;		// Application handler
 		HWND		hWindow_;		// Window handler
-		HDC			hDC_;			// Drawing context handler
 	};
 
 } /*devices*/ } /*video*/ } /*djah*/
