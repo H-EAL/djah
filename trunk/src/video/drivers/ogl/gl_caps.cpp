@@ -1,7 +1,7 @@
 #include "video/drivers/ogl/gl_caps.hpp"
 #include <algorithm>
-#include <GL/glew.h>
 #include "utils/string_utils.hpp"
+#include "video/drivers/opengl_include.hpp"
 
 namespace djah { namespace video { namespace drivers { namespace ogl {
 

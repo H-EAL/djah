@@ -65,7 +65,7 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>..\..\..\..\extlibs\lib\win32\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;freetype.lib;glew32.lib;%(AdditionalDependencies);FreeImage.lib</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;freetype.lib;%(AdditionalDependencies);FreeImage.lib</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>
       </IgnoreAllDefaultLibraries>
       <IgnoreSpecificDefaultLibraries>LIBCMT.lib;</IgnoreSpecificDefaultLibraries>
@@ -86,7 +86,7 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>..\..\..\..\extlibs\lib\win32\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;opengl32.lib;freetype.lib;%(AdditionalDependencies);FreeImage.lib</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;freetype.lib;%(AdditionalDependencies);FreeImage.lib</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>LIBCMT.lib;</IgnoreSpecificDefaultLibraries>
     </Lib>
   </ItemDefinitionGroup>
@@ -146,6 +146,7 @@
     <ClInclude Include="..\..\..\include\djah\utils\singleton.hpp" />
     <ClInclude Include="..\..\..\include\djah\utils\string_utils.hpp" />
     <ClInclude Include="..\..\..\include\djah\utils\typelist.hpp" />
+    <ClInclude Include="..\..\..\include\djah\utils\type_traits.hpp" />
     <ClInclude Include="..\..\..\include\djah\video\device_base.hpp" />
     <ClInclude Include="..\..\..\include\djah\video\devices\win32device.hpp" />
     <ClInclude Include="..\..\..\include\djah\video\drivers\detail\opengl_context.hpp" />
@@ -193,6 +194,7 @@
     <None Include="..\..\..\include\djah\math\quaternion.inl" />
     <None Include="..\..\..\include\djah\resources\media_manager.inl" />
     <None Include="..\..\..\include\djah\video\drivers\ogl\buffers\buffer_base.inl" />
+    <None Include="..\..\..\include\djah\video\drivers\ogl\extensions.hpp" />
     <None Include="..\..\..\include\djah\video\drivers\ogl\shaders\shader_program.inl" />
   </ItemGroup>
   <ItemGroup>
@@ -219,6 +221,7 @@
     <ClCompile Include="..\..\..\src\video\drivers\ogl\buffers\texture.cpp" />
     <ClCompile Include="..\..\..\src\video\drivers\ogl\buffers\vertex_array.cpp" />
     <ClCompile Include="..\..\..\src\video\drivers\ogl\buffers\vertex_format.cpp" />
+    <ClCompile Include="..\..\..\src\video\drivers\ogl\extensions.cpp" />
     <ClCompile Include="..\..\..\src\video\drivers\ogl\gl_caps.cpp" />
     <ClCompile Include="..\..\..\src\video\drivers\ogl\shaders\shader_program.cpp" />
     <ClCompile Include="..\..\..\src\video\drivers\ogl\shaders\shader_base.cpp" />

@@ -1,6 +1,7 @@
 #ifndef DJAH_VIDEO_DRIVERS_OGL_SHADER_BASE_HPP
 #define DJAH_VIDEO_DRIVERS_OGL_SHADER_BASE_HPP
 
+#include <string>
 #include "../resource.hpp"
 
 namespace djah { namespace video { namespace drivers { namespace ogl {

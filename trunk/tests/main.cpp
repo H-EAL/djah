@@ -41,21 +41,15 @@ private:
 		const float h = static_cast<float>(device_->videoConfig().height);
 		matPerspectiveProj_ = video::make_perspective_projection(60.0f, w/h, 0.1f, 1000.f);
 		matOrthoProj_ = video::make_orthographic_projection(0.0f, w, h, 0.0f, -1.0f, 1.0f);
+		
+		glClearDepth(1.f);
+		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
+		glEnable(GL_DEPTH_TEST);
+		glDepthMask(GL_TRUE);
 
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		glOrtho(0,w, h,0, -1,1);
-
-		math::matrix4f m;
-		glGetFloatv(GL_PROJECTION_MATRIX, m.data);
-		
-		std::cout << matOrthoProj_.getTransposed() << std::endl;
-		std::cout << m;
-
-		//glMultMatrixf(matOrthoProj_.getTransposed().data);
 	}
 
 	void run()
@@ -98,7 +92,6 @@ private:
 
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		//glOrtho(0,w, h,0, -1,1);
 		glMultMatrixf(matOrthoProj_.getTransposed().data);
 		
 		glMatrixMode(GL_MODELVIEW);

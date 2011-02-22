@@ -1,5 +1,3 @@
-#include <string>
-#include <GL/glew.h>
 #include <boost/smart_ptr/scoped_array.hpp>
 
 #include "video/drivers/ogl/shaders/shader_base.hpp"
