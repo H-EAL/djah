@@ -26,17 +26,8 @@ namespace djah { namespace video { namespace drivers {
 	{
 		context_->create(device_);
 
-		// Init glew
-		glewInit();
-
-		// Init caps
 		ogl::capabilities::init();
-
-		glClearDepth(1.f);
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
-		glEnable(GL_DEPTH_TEST);
-		glDepthMask(GL_TRUE);
+		ogl::load_extensions();
 	}
 	//----------------------------------------------------------------------------------------------
 

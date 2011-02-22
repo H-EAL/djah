@@ -1,7 +1,7 @@
 #ifndef DJAH_VIDEO_DRIVERS_OGL_GL_TYPES_HPP
 #define DJAH_VIDEO_DRIVERS_OGL_GL_TYPES_HPP
 
-#include <GL/glew.h>
+#include "../opengl_include.hpp"
 
 namespace djah { namespace video { namespace drivers { namespace ogl {
 

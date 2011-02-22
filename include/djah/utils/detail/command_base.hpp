@@ -3,9 +3,11 @@
 
 #include "../string_utils.hpp"
 #include "../functor.hpp"
+#include "../type_traits.hpp"
 
 namespace djah { namespace utils { namespace detail {
-
+	
+	//----------------------------------------------------------------------------------------------
 	class command_base
 	{
 	public:
@@ -14,13 +16,6 @@ namespace djah { namespace utils { namespace detail {
 
 		virtual std::string execute(const std::string &params) = 0;
 	};
-
-
-	//----------------------------------------------------------------------------------------------
-	template<typename T> struct base_type { typedef T Type; };
-	template<typename T> struct base_type<T&> { typedef T Type; };
-	template<typename T> struct base_type<const T> { typedef T Type; };
-	template<typename T> struct base_type<const T&> { typedef T Type; };
 	//----------------------------------------------------------------------------------------------
 
 
@@ -99,7 +94,7 @@ namespace djah { namespace utils { namespace detail {
 
 		virtual std::string execute(const std::string &params)
 		{
-			typename base_type<P1>::Type p1;
+			typename type_traits<P1>::BaseType p1;
 			extract_params_from_string(params, p1);
 			return caller<R>::exec(*this, p1);
 		}
@@ -118,8 +113,8 @@ namespace djah { namespace utils { namespace detail {
 
 		virtual std::string execute(const std::string &params)
 		{
-			typename base_type<P1>::Type p1;
-			typename base_type<P2>::Type p2;
+			typename type_traits<P1>::BaseType p1;
+			typename type_traits<P2>::BaseType p2;
 			extract_params_from_string(params, p1, p2);
 			return caller<R>::exec(*this, p1, p2);
 		}
@@ -138,9 +133,9 @@ namespace djah { namespace utils { namespace detail {
 
 		virtual std::string execute(const std::string &params)
 		{
-			typename base_type<P1>::Type p1;
-			typename base_type<P2>::Type p2;
-			typename base_type<P3>::Type p3;
+			typename type_traits<P1>::BaseType p1;
+			typename type_traits<P2>::BaseType p2;
+			typename type_traits<P3>::BaseType p3;
 			extract_params_from_string(params, p1, p2, p3);
 			return caller<R>::exec(*this, p1, p2, p3);
 		}
@@ -157,12 +152,12 @@ namespace djah { namespace utils { namespace detail {
 
 		IMPLEMENT_FUNCTOR_CTORS(command4)
 
-			virtual std::string execute(const std::string &params)
+		virtual std::string execute(const std::string &params)
 		{
-			typename base_type<P1>::Type p1;
-			typename base_type<P2>::Type p2;
-			typename base_type<P3>::Type p3;
-			typename base_type<P4>::Type p4;
+			typename type_traits<P1>::BaseType p1;
+			typename type_traits<P2>::BaseType p2;
+			typename type_traits<P3>::BaseType p3;
+			typename type_traits<P4>::BaseType p4;
 			extract_params_from_string(params, p1, p2, p3, p4);
 			return caller<R>::exec(*this, p1, p2, p3, p4);
 		}
@@ -179,13 +174,13 @@ namespace djah { namespace utils { namespace detail {
 
 		IMPLEMENT_FUNCTOR_CTORS(command5)
 
-			virtual std::string execute(const std::string &params)
+		virtual std::string execute(const std::string &params)
 		{
-			typename base_type<P1>::Type p1;
-			typename base_type<P2>::Type p2;
-			typename base_type<P3>::Type p3;
-			typename base_type<P4>::Type p4;
-			typename base_type<P5>::Type p5;
+			typename type_traits<P1>::BaseType p1;
+			typename type_traits<P2>::BaseType p2;
+			typename type_traits<P3>::BaseType p3;
+			typename type_traits<P4>::BaseType p4;
+			typename type_traits<P5>::BaseType p5;
 			extract_params_from_string(params, p1, p2, p3, p4, p5);
 			return caller<R>::exec(*this, p1, p2, p3, p4, p5);
 		}
