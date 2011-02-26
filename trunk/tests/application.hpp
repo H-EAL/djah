@@ -146,8 +146,6 @@ private:
 
 	void drawSomething()
 	{
-
-			DJAH_TEST_FOR_OPENGL_ERRORS(int a);
 		static const GLfloat CubeArray[] = {
 			0.0f, 0.0f, 0.0f,	0.0f, 0.0f, 0.0f,	-1.0f, -1.0f, -1.0f,
 			0.0f, 1.0f, 0.0f,	0.0f, 1.0f, 0.0f,	-1.0f,  1.0f, -1.0f,
