@@ -13,7 +13,7 @@
 namespace djah { namespace video { namespace drivers { namespace ogl {
 
 	//----------------------------------------------------------------------------------------------
-	vertex_array::vertex_array(const vertex_buffer &vb, const index_buffer &ib, const vertex_format &format)
+	vertex_array::vertex_array(const vertex_format &format, vertex_buffer *vb, index_buffer *ib)
 		: vertex_format_(format)
 		, vertex_buffer_(vb)
 		, index_buffer_(ib)
@@ -90,7 +90,7 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 		bind();
 
 		// Record vertex attributes
-		vertex_buffer_.bind();
+		vertex_buffer_->bind();
 		for(it = attributes.begin(); it != it_end; ++it)
 		{
 			int attr_index = sp.getVertexAttributeLocation(it->name());
@@ -98,13 +98,14 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 			{
 				glEnableVertexAttribArray(attr_index);
 				glVertexAttribPointer(attr_index, it->count(), it->valueType(), GL_FALSE, stride, buffer_offset(offset));
-				offset += it->count() * it->size() * (vertex_format_.isPacked() ? vertex_buffer_.size() : 1);
+				offset += it->count() * it->size() * (vertex_format_.isPacked() ? vertex_buffer_->size() : 1);
 				stack.push(attr_index);
 			}
 		}
 
-		// Record indices
-		index_buffer_.bind();
+		// Record indices if there's any
+		if(index_buffer_)
+			index_buffer_->bind();
 
 		// Stop recording
 		unbind();
@@ -116,8 +117,9 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 			stack.pop();
 		}
 
-		vertex_buffer_.unbind();
-		index_buffer_.unbind();
+		vertex_buffer_->unbind();
+		if(index_buffer_)
+			index_buffer_->unbind();
 
 		initialized_ = true;
 	}
@@ -130,8 +132,15 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 		if( initialized_ )
 		{
 			bind();
-			GLsizei count = static_cast<GLsizei>(index_buffer_.count());
-			glDrawElements(index_buffer_.drawingMode(), count, index_buffer_.dataType(), 0);
+			if( index_buffer_ )
+			{
+				GLsizei count = static_cast<GLsizei>(index_buffer_->count());
+				glDrawElements(index_buffer_->drawingMode(), count, index_buffer_->dataType(), 0);
+			}
+			else
+			{
+				glDrawArrays(GL_TRIANGLES, 0, vertex_buffer_->count() / 3);
+			}
 			//unbind();
 		}
 	}

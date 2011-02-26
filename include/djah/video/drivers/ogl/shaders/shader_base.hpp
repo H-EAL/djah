@@ -33,4 +33,6 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 
 } /*ogl*/ } /*drivers*/ } /*video*/ } /*djah*/
 
+#include "shader_base.inl"
+
 #endif /* DJAH_VIDEO_DRIVERS_OGL_SHADER_BASE_HPP */

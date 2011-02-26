@@ -23,6 +23,13 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 	DEFINE_EXTENSION( PFNGLISVERTEXARRAYPROC,			glIsVertexArray				);
 	DEFINE_EXTENSION( PFNGLBINDVERTEXARRAYPROC,			glBindVertexArray			);
 
+	DEFINE_EXTENSION( PFNGLGENBUFFERSPROC,				glGenBuffers				);
+	DEFINE_EXTENSION( PFNGLDELETEBUFFERSPROC,			glDeleteBuffers				);
+	DEFINE_EXTENSION( PFNGLISBUFFERPROC,				glIsBuffer					);
+	DEFINE_EXTENSION( PFNGLBINDBUFFERPROC,				glBindBuffer				);
+	DEFINE_EXTENSION( PFNGLBUFFERDATAPROC,				glBufferData				);
+	DEFINE_EXTENSION( PFNGLBUFFERSUBDATAPROC,			glBufferSubData				);
+
 	DEFINE_EXTENSION( PFNGLENABLEVERTEXATTRIBARRAYPROC,	glEnableVertexAttribArray	);
 	DEFINE_EXTENSION( PFNGLDISABLEVERTEXATTRIBARRAYPROC,glDisableVertexAttribArray	);
 	DEFINE_EXTENSION( PFNGLVERTEXATTRIBPOINTERPROC,		glVertexAttribPointer		);
@@ -42,9 +49,18 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 	//----------------------------------------------------------------------------------------------
 	// Shaders
 	//----------------------------------------------------------------------------------------------
+	DEFINE_EXTENSION( PFNGLCREATESHADERPROC,			glCreateShader				);
+	DEFINE_EXTENSION( PFNGLDELETESHADERPROC,			glDeleteShader				);
+	DEFINE_EXTENSION( PFNGLISSHADERPROC,				glIsShader					);
+	DEFINE_EXTENSION( PFNGLSHADERSOURCEPROC,			glShaderSource				);
+	DEFINE_EXTENSION( PFNGLGETSHADERIVPROC,				glGetShaderiv				);
+	DEFINE_EXTENSION( PFNGLGETSHADERINFOLOGPROC,		glGetShaderInfoLog			);
+	DEFINE_EXTENSION( PFNGLCOMPILESHADERPROC,			glCompileShader				);
 	DEFINE_EXTENSION( PFNGLCREATEPROGRAMPROC,			glCreateProgram				);
 	DEFINE_EXTENSION( PFNGLDELETEPROGRAMPROC,			glDeleteProgram				);
 	DEFINE_EXTENSION( PFNGLISPROGRAMPROC,				glIsProgram					);
+	DEFINE_EXTENSION( PFNGLATTACHSHADERPROC,			glAttachShader				);
+	DEFINE_EXTENSION( PFNGLDETACHSHADERPROC,			glDetachShader				);
 	DEFINE_EXTENSION( PFNGLLINKPROGRAMPROC,				glLinkProgram				);
 	DEFINE_EXTENSION( PFNGLUSEPROGRAMPROC,				glUseProgram				);
 	DEFINE_EXTENSION( PFNGLGETATTRIBLOCATIONPROC,		glGetAttribLocation			);
@@ -74,6 +90,10 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 	DEFINE_EXTENSION( PFNGLUNIFORM2IVPROC,				glUniform2iv				);
 	DEFINE_EXTENSION( PFNGLUNIFORM3IVPROC,				glUniform3iv				);
 	DEFINE_EXTENSION( PFNGLUNIFORM4IVPROC,				glUniform4iv				);
+
+	DEFINE_EXTENSION( PFNGLUNIFORMMATRIX2FVPROC,		glUniformMatrix2fv			);
+	DEFINE_EXTENSION( PFNGLUNIFORMMATRIX3FVPROC,		glUniformMatrix3fv			);
+	DEFINE_EXTENSION( PFNGLUNIFORMMATRIX4FVPROC,		glUniformMatrix4fv			);
 
 } /*ogl*/ } /*drivers*/ } /*video*/ } /*djah*/
 
