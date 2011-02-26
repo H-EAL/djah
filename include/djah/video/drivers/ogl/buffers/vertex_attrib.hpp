@@ -43,7 +43,7 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 		struct vertex_attrib : public vertex_attrib_base
 		{
 			vertex_attrib(const std::string &name)
-			: vertex_attrib_base(name, sizeof(T), Count, gl_type<T>::Type) {}
+				: vertex_attrib_base(name, sizeof(T), Count, gl_type<T>::Type) {}
 		};
 		//------------------------------------------------------------------------------------------
 
