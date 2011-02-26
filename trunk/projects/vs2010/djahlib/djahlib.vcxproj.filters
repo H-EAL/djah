@@ -344,9 +344,6 @@
     <ClInclude Include="..\..\..\include\djah\video\drivers\ogl\buffers.hpp">
       <Filter>include\video\drivers\ogl</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\video\drivers\ogl.hpp">
-      <Filter>include\video\drivers</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\djah\video\drivers\ogl\buffers\texture.hpp">
       <Filter>include\video\drivers\ogl\buffers</Filter>
     </ClInclude>
@@ -392,6 +389,9 @@
     <ClInclude Include="..\..\..\include\djah\utils\type_traits.hpp">
       <Filter>include\utils</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\video\drivers\ogl.hpp">
+      <Filter>include\video\drivers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\include\djah\geometry\plane.inl">
@@ -435,6 +435,9 @@
     </None>
     <None Include="..\..\..\include\djah\video\drivers\ogl\extensions.hpp">
       <Filter>include\video\drivers\ogl</Filter>
+    </None>
+    <None Include="..\..\..\include\djah\video\drivers\ogl\shaders\shader_base.inl">
+      <Filter>include\video\drivers\ogl\shaders</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -497,9 +500,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\video\primitives\triangle.cpp">
       <Filter>sources\video\primitives</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\video\drivers\ogl\shaders\shader_base.cpp">
-      <Filter>sources\video\drivers\ogl\shaders</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\video\drivers\ogl\buffers\buffer_base.cpp">
       <Filter>sources\video\drivers\ogl\buffers</Filter>

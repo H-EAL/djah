@@ -1,6 +1,8 @@
 #ifndef DJAH_TESTS_APPLICATION_BASE_HPP
 #define DJAH_TESTS_APPLICATION_BASE_HPP
 
+#include <djah/video/video_config.hpp>
+
 namespace djah { namespace video {
 
 		class video_config;
@@ -18,14 +20,17 @@ namespace djah { namespace tests {
 		explicit application_base(const video::video_config &config);
 		virtual ~application_base();
 
-		void exec();
+		void init();
+		int exec(int argc, char *argv[]);
+		void exit();
 
 	protected:
 
-		virtual void init();
-		virtual void run();
-		virtual void exit();
+		virtual void initImpl() = 0;
+		virtual void runImpl() = 0;
+		virtual void exitImpl() = 0;
 
+		video::video_config video_config_;
 		video::device_base *device_;
 		video::driver_base *driver_;
 	};

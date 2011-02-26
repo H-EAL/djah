@@ -3,7 +3,9 @@
 
 #include <cassert>
 #include "../../../../types.hpp"
+#include "../../opengl_include.hpp"
 #include "../gl_types.hpp"
+#include "../errors.hpp"
 #include "../resource.hpp"
 
 namespace djah { namespace video { namespace drivers { namespace ogl {

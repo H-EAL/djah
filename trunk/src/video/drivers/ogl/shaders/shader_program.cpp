@@ -52,24 +52,6 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 
 
 	//----------------------------------------------------------------------------------------------
-	template<int ShaderType>
-	void shader_program::attach(const shader_base<ShaderType> &s) const
-	{
-		glAttachShader(id_, s.id());
-	}
-	//----------------------------------------------------------------------------------------------
-
-
-	//----------------------------------------------------------------------------------------------
-	template<int ShaderType>
-	void shader_program::detach(const shader_base<ShaderType> &s) const
-	{
-		glDetachShader(id_, s.id());
-	}
-	//----------------------------------------------------------------------------------------------
-
-
-	//----------------------------------------------------------------------------------------------
 	void shader_program::link() const
 	{
 		cache_.clear();
@@ -201,31 +183,6 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 	{
 		unsigned int location = getUniformLocation(name);
 		glUniform4i(location, u1, u2, u3, u4);
-	}
-	//----------------------------------------------------------------------------------------------
-
-
-	//----------------------------------------------------------------------------------------------
-	template<int N>
-	void shader_program::sendUniformMatrix(const std::string &name, const float *data, int count, bool transpose) const
-	{
-		static const PFNGLUNIFORMMATRIX2FVPROC uniformMatrixFuncTab[] = 
-		{
-			glUniformMatrix2fv,
-			glUniformMatrix3fv,
-			glUniformMatrix4fv
-		};
-
-		static const PFNGLUNIFORMMATRIX2FVPROC uniformMatrix = uniformMatrixFuncTab[N-2];
-
-		unsigned int location = getUniformLocation(name);
-		uniformMatrix(location, count, transpose, data);
-	}
-	//----------------------------------------------------------------------------------------------
-	template<int N>
-	void shader_program::sendUniformMatrix(const std::string &name, const math::matrix<N,float> &mat, bool transpose) const
-	{
-		sendUniformMatrix<N>(name, mat.data, 1, transpose);
 	}
 	//----------------------------------------------------------------------------------------------
 

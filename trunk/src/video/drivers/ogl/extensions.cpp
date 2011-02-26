@@ -32,6 +32,13 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 		LOAD_EXTENSION( glDeleteVertexArrays		);
 		LOAD_EXTENSION( glIsVertexArray				);
 		LOAD_EXTENSION( glBindVertexArray			);
+		
+		LOAD_EXTENSION( glGenBuffers				);
+		LOAD_EXTENSION( glDeleteBuffers				);
+		LOAD_EXTENSION( glIsBuffer					);
+		LOAD_EXTENSION( glBindBuffer				);
+		LOAD_EXTENSION( glBufferData				);
+		LOAD_EXTENSION( glBufferSubData				);
 
 		LOAD_EXTENSION( glEnableVertexAttribArray	);
 		LOAD_EXTENSION( glDisableVertexAttribArray	);
@@ -52,9 +59,18 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 		//------------------------------------------------------------------------------------------
 		// Shaders
 		//------------------------------------------------------------------------------------------
+		LOAD_EXTENSION( glCreateShader		 );
+		LOAD_EXTENSION( glDeleteShader		 );
+		LOAD_EXTENSION( glIsShader			 );
+		LOAD_EXTENSION( glShaderSource		 );
+		LOAD_EXTENSION( glGetShaderiv		 );
+		LOAD_EXTENSION( glGetShaderInfoLog	 );
+		LOAD_EXTENSION( glCompileShader		 );
 		LOAD_EXTENSION( glCreateProgram		 );
 		LOAD_EXTENSION( glDeleteProgram		 );
 		LOAD_EXTENSION( glIsProgram			 );
+		LOAD_EXTENSION( glAttachShader		 );
+		LOAD_EXTENSION( glDetachShader		 );
 		LOAD_EXTENSION( glLinkProgram		 );
 		LOAD_EXTENSION( glUseProgram		 );
 		LOAD_EXTENSION( glGetAttribLocation	 );
@@ -84,6 +100,10 @@ namespace djah { namespace video { namespace drivers { namespace ogl {
 		LOAD_EXTENSION( glUniform2iv );
 		LOAD_EXTENSION( glUniform3iv );
 		LOAD_EXTENSION( glUniform4iv );
+
+		LOAD_EXTENSION( glUniformMatrix2fv );
+		LOAD_EXTENSION( glUniformMatrix3fv );
+		LOAD_EXTENSION( glUniformMatrix4fv );
 	}
 
 } /*ogl*/ } /*drivers*/ } /*video*/ } /*djah*/
