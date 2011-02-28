@@ -1,9 +1,9 @@
-#ifndef DJAH_VIDEO_DRIVERS_DETAIL_OPENGL_CONTEXT_HPP
-#define DJAH_VIDEO_DRIVERS_DETAIL_OPENGL_CONTEXT_HPP
+#ifndef DJAH_SYSTEM_OPENGL_CONTEXT_HPP
+#define DJAH_SYSTEM_OPENGL_CONTEXT_HPP
 
-#include "../../device_base.hpp"
+#include "device_base.hpp"
 
-namespace djah { namespace video { namespace drivers { namespace detail {
+namespace djah { namespace system {
 	
 	//----------------------------------------------------------------------------------------------
 	class opengl_context
@@ -29,6 +29,6 @@ namespace djah { namespace video { namespace drivers { namespace detail {
 	opengl_context* new_platform_specific_context();
 	//----------------------------------------------------------------------------------------------
 
-} /*detail*/ } /*drivers*/ } /*video*/ } /*djah*/
+} /*system*/ } /*djah*/
 
-#endif /* DJAH_VIDEO_DRIVERS_DETAIL_OPENGL_CONTEXT_HPP */
+#endif /* DJAH_SYSTEM_OPENGL_CONTEXT_HPP */
