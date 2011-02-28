@@ -1,11 +1,11 @@
-#ifndef DJAH_VIDEO_DEVICE_BASE_HPP
-#define DJAH_VIDEO_DEVICE_BASE_HPP
+#ifndef DJAH_SYSTEM_DEVICE_BASE_HPP
+#define DJAH_SYSTEM_DEVICE_BASE_HPP
 
 #include <string>
 #include "video_config.hpp"
 #include "driver_base.hpp"
 
-namespace djah { namespace video {
+namespace djah { namespace system {
 	
 	//----------------------------------------------------------------------------------------------
 	class device_base
@@ -72,6 +72,6 @@ namespace djah { namespace video {
 	device_ptr new_platform_specific_device();
 	//----------------------------------------------------------------------------------------------
 
-} /*video*/ } /*djah*/
+} /*system*/ } /*djah*/
 
-#endif /* DJAH_VIDEO_DEVICE_BASE_HPP */
+#endif /* DJAH_SYSTEM_DEVICE_BASE_HPP */

@@ -1,5 +1,5 @@
-#ifndef DJAH_VIDEO_DRIVERS_OGL_HPP
-#define DJAH_VIDEO_DRIVERS_OGL_HPP
+#ifndef DJAH_VIDEO_OGL_HPP
+#define DJAH_VIDEO_OGL_HPP
 
 #include "ogl/buffers.hpp"
 #include "ogl/shaders.hpp"
@@ -7,4 +7,4 @@
 #include "ogl/gl_types.hpp"
 #include "ogl/errors.hpp"
 
-#endif /* DJAH_VIDEO_DRIVERS_OGL_HPP */
+#endif /* DJAH_VIDEO_OGL_HPP */

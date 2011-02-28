@@ -1,7 +1,7 @@
-#ifndef DJAH_VIDEO_VIDEO_CONFIG_HPP
-#define DJAH_VIDEO_VIDEO_CONFIG_HPP
+#ifndef DJAH_SYSTEM_VIDEO_CONFIG_HPP
+#define DJAH_SYSTEM_VIDEO_CONFIG_HPP
 
-namespace djah { namespace video {
+namespace djah { namespace system {
 
 	class video_config
 	{
@@ -20,6 +20,6 @@ namespace djah { namespace video {
 		bool vsync;
 	};
 
-} /*video*/ } /*djah*/
+} /*system*/ } /*djah*/
 
-#endif /* DJAH_VIDEO_VIDEO_CONFIG_HPP */
+#endif /* DJAH_SYSTEM_VIDEO_CONFIG_HPP */

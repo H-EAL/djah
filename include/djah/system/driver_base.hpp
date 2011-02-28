@@ -1,10 +1,10 @@
-#ifndef DJAH_VIDEO_DRIVER_BASE_HPP
-#define DJAH_VIDEO_DRIVER_BASE_HPP
+#ifndef DJAH_SYSTEM_DRIVER_BASE_HPP
+#define DJAH_SYSTEM_DRIVER_BASE_HPP
 
 #include "../math/matrix4.hpp"
 #include "../geometry/rect.hpp"
 
-namespace djah { namespace video {
+namespace djah { namespace system {
 
 	// Forward declaration
 	class device_base;
@@ -54,6 +54,6 @@ namespace djah { namespace video {
 	typedef driver_base* driver_ptr;
 	//----------------------------------------------------------------------------------------------
 
-} /*video*/ } /*djah*/
+} /*system*/ } /*djah*/
 
-#endif /* DJAH_VIDEO_DRIVER_BASE_HPP */
+#endif /* DJAH_SYSTEM_DRIVER_BASE_HPP */

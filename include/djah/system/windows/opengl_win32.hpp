@@ -1,10 +1,10 @@
-#ifndef DJAH_VIDEO_DRIVERS_DETAIL_OPENGL_WIN32_HPP
-#define DJAH_VIDEO_DRIVERS_DETAIL_OPENGL_WIN32_HPP
+#ifndef DJAH_SYSTEM_OPENGL_WIN32_HPP
+#define DJAH_SYSTEM_OPENGL_WIN32_HPP
 
-#include "../../../platform.hpp"
-#include "opengl_context.hpp"
+#include "../../platform.hpp"
+#include "../opengl_context.hpp"
 
-namespace djah { namespace video { namespace drivers { namespace detail {
+namespace djah { namespace system {
 
 	class opengl_win32
 		: public opengl_context
@@ -30,6 +30,6 @@ namespace djah { namespace video { namespace drivers { namespace detail {
 		HWND hWindow_;
 	};
 
-} /*detail*/ } /*drivers*/ } /*video*/ } /*djah*/
+} /*system*/ } /*djah*/
 
-#endif /* DJAH_VIDEO_DRIVERS_DETAIL_OPENGL_WIN32_HPP */
+#endif /* DJAH_SYSTEM_OPENGL_WIN32_HPP */
