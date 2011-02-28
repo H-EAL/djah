@@ -10,6 +10,13 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\pak_compressor\sources\pak_compressor.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\pak_compressor\sources\main.cpp" />
+    <ClCompile Include="..\..\..\pak_compressor\sources\pak_compressor.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{226ED030-80A3-471A-9FA2-82EA872FAD5A}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -41,12 +48,12 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>D:\Development\Boost\1_44;$(IncludePath)</IncludePath>
     <LibraryPath>D:\Development\Boost\1_44\lib;$(LibraryPath)</LibraryPath>
-    <OutDir>..\..\..\bin\</OutDir>
+    <OutDir>..\..\..\$(ProjectName)\binaries\</OutDir>
     <TargetName>$(ProjectName)_debug</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\..\..\bin\</OutDir>
+    <OutDir>..\..\..\$(ProjectName)\binaries\</OutDir>
     <IncludePath>D:\Development\Boost\1_44;$(IncludePath)</IncludePath>
     <LibraryPath>D:\Development\Boost\1_44\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
@@ -57,14 +64,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\include\;..\..\..\..\extlibs\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\trunk\include\;..\..\..\..\extlibs\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>
-      </AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\..\..\extlibs\lib\win32\;..\..\..\lib\win32\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>djah_filesystem_d.lib;djah_core_d.lib;djah_log_d.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\..\extlibs\lib\win32\;..\..\..\..\trunk\lib\win32\</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -76,25 +82,17 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\include\;..\..\..\..\extlibs\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\trunk\include\;..\..\..\..\extlibs\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>
-      </AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\..\..\extlibs\lib\win32\;..\..\..\lib\win32\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>djah_filesystem.lib;djah_core.lib;djah_log.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\..\extlibs\lib\win32\;..\..\..\..\trunk\lib\win32\</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\pak_compressor\pak_compressor.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\..\pak_compressor\main.cpp" />
-    <ClCompile Include="..\..\..\pak_compressor\pak_compressor.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -1,8 +1,32 @@
-#include <iostream>
-
+#include <fstream>
+#include "collada/proxy.hpp"
+#include "mesh_builder.hpp"
 
 int main()
 {
+	collada::proxy obj("astroBoy_walk_Max.dae");
+	if(obj.good())
+	{
+		std::fstream file;
+		file.open("mesh.bdae", std::ios::in | std::ios::binary | std::ios::trunc | std::ios::out);
+		if( !file.good() )
+			return 1;
+
+		mesh_builder mesh(obj);
+		const int nbSubMeshes = (int)mesh.getSubMeshesCount();
+		for(int b = 0; b < nbSubMeshes; ++b)
+		{
+			const std::vector<float> &buffer = mesh.getBuffer(b);
+			const size_t vertexSize = mesh.getVertexSize(b);
+
+			//file.write((const char*)&buffer[0], 4*buffer.size());
+
+			for(size_t i = 0; i < buffer.size(); i += vertexSize)
+			{
+				file.write((const char*)&buffer[i], 3*4);
+			}
+		}
+	}
 	return 0;
 }
 
