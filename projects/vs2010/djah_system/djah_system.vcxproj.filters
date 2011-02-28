@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{06b650a9-2425-4a69-a0ee-7ee3a0ef3c7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\windows">
+      <UniqueIdentifier>{aa9b23f7-ac7e-4c1c-ba3a-43f97cb81aeb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sources">
+      <UniqueIdentifier>{22b8f8d1-1d46-483e-b031-13560c119296}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sources\windows">
+      <UniqueIdentifier>{802e4ef1-d47e-4135-b289-f30ae6c824ff}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\include\djah\system\windows\opengl_win32.hpp">
+      <Filter>include\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\system\windows\win32device.hpp">
+      <Filter>include\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\system\device_base.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\system\driver_base.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\system\opengl_context.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\system\opengl_driver.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\system\opengl_include.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\system\video_config.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\sources\system\windows\opengl_win32.cpp">
+      <Filter>sources\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\sources\system\windows\win32device.cpp">
+      <Filter>sources\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\sources\system\device_base.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\sources\system\driver_base.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\sources\system\opengl_driver.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\sources\system\video_config.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="include\loaders">
+      <UniqueIdentifier>{7e2512d5-d07c-4d4d-b2f6-78b5641bb18f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sources\loaders">
+      <UniqueIdentifier>{b47b4f67-b0e6-4fb3-8fff-ed337c984568}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\include\djah\resources\image.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\resources\loader.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\resources\media_manager.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\resources\resource_base.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\resources\resource_manager.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\resources\loaders\image_loader.hpp">
+      <Filter>include\loaders</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\include\djah\resources\media_manager.inl">
+      <Filter>include</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\sources\resources\loaders\image_loader.cpp">
+      <Filter>sources\loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\sources\resources\image.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\sources\resources\resource_base.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\sources\resources\resource_manager.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

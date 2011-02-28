@@ -11,21 +11,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{226ED030-80A3-471A-9FA2-82EA872FAD5A}</ProjectGuid>
-    <Keyword>Win32Proj</Keyword>
-    <RootNamespace>pak_compressor</RootNamespace>
+    <ProjectGuid>{DC426C2C-85A1-43A0-A8CF-282072C25D71}</ProjectGuid>
+    <RootNamespace>djah_filesystem</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -38,62 +37,63 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LinkIncremental>true</LinkIncremental>
-    <IncludePath>D:\Development\Boost\1_44;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Development\Boost\1_44\lib;$(LibraryPath)</LibraryPath>
-    <OutDir>..\..\..\bin\</OutDir>
-    <TargetName>$(ProjectName)_debug</TargetName>
+    <TargetName>$(ProjectName)_d</TargetName>
+    <OutDir>..\..\..\lib\win32\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\..\..\bin\</OutDir>
-    <IncludePath>D:\Development\Boost\1_44;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Development\Boost\1_44\lib;$(LibraryPath)</LibraryPath>
+    <TargetName>$(ProjectName)</TargetName>
+    <OutDir>..\..\..\lib\win32\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\include\;..\..\..\..\extlibs\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include\djah\;..\..\..\..\extlibs\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>
-      </AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\..\..\extlibs\lib\win32\;..\..\..\lib\win32\</AdditionalLibraryDirectories>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>..\..\..\..\extlibs\lib\win32\;</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\include\;..\..\..\..\extlibs\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include\djah\;..\..\..\..\extlibs\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>
-      </AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\..\..\extlibs\lib\win32\;..\..\..\lib\win32\</AdditionalLibraryDirectories>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>..\..\..\..\extlibs\lib\win32\;</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\pak_compressor\pak_compressor.hpp" />
+    <ClInclude Include="..\..\..\include\djah\filesystem\browser.hpp" />
+    <ClInclude Include="..\..\..\include\djah\filesystem\compressed_source.hpp" />
+    <ClInclude Include="..\..\..\include\djah\filesystem\compression_techniques.hpp" />
+    <ClInclude Include="..\..\..\include\djah\filesystem\directory_source.hpp" />
+    <ClInclude Include="..\..\..\include\djah\filesystem\file_stream.hpp" />
+    <ClInclude Include="..\..\..\include\djah\filesystem\memory_stream.hpp" />
+    <ClInclude Include="..\..\..\include\djah\filesystem\source.hpp" />
+    <ClInclude Include="..\..\..\include\djah\filesystem\stream.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\pak_compressor\main.cpp" />
-    <ClCompile Include="..\..\..\pak_compressor\pak_compressor.cpp" />
+    <None Include="..\..\..\include\djah\filesystem\compressed_source.inl" />
+    <None Include="..\..\..\include\djah\filesystem\stream.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\sources\filesystem\browser.cpp" />
+    <ClCompile Include="..\..\..\sources\filesystem\compression_techniques.cpp" />
+    <ClCompile Include="..\..\..\sources\filesystem\directory_source.cpp" />
+    <ClCompile Include="..\..\..\sources\filesystem\file_stream.cpp" />
+    <ClCompile Include="..\..\..\sources\filesystem\memory_stream.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
