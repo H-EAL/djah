@@ -11,11 +11,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "djah_testappli", "djah_test
 		{E553EFC9-96B6-46B1-844F-E33388018025} = {E553EFC9-96B6-46B1-844F-E33388018025}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pak_compressor", "pak_compressor\pak_compressor.vcxproj", "{226ED030-80A3-471A-9FA2-82EA872FAD5A}"
-	ProjectSection(ProjectDependencies) = postProject
-		{DC426C2C-85A1-43A0-A8CF-282072C25D71} = {DC426C2C-85A1-43A0-A8CF-282072C25D71}
-	EndProjectSection
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "djah_system", "djah_system\djah_system.vcxproj", "{AFA71315-A65A-4309-AEB3-AB7788E32E4F}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "djah_filesystem", "djah_filesystem\djah_filesystem.vcxproj", "{DC426C2C-85A1-43A0-A8CF-282072C25D71}"
@@ -41,8 +36,6 @@ Global
 		{7AAB6E15-003B-4255-A923-7D8A8C11F47E}.Debug|Win32.Build.0 = Debug|Win32
 		{7AAB6E15-003B-4255-A923-7D8A8C11F47E}.Release|Win32.ActiveCfg = Release|Win32
 		{7AAB6E15-003B-4255-A923-7D8A8C11F47E}.Release|Win32.Build.0 = Release|Win32
-		{226ED030-80A3-471A-9FA2-82EA872FAD5A}.Debug|Win32.ActiveCfg = Debug|Win32
-		{226ED030-80A3-471A-9FA2-82EA872FAD5A}.Release|Win32.ActiveCfg = Release|Win32
 		{AFA71315-A65A-4309-AEB3-AB7788E32E4F}.Debug|Win32.ActiveCfg = Debug|Win32
 		{AFA71315-A65A-4309-AEB3-AB7788E32E4F}.Debug|Win32.Build.0 = Debug|Win32
 		{AFA71315-A65A-4309-AEB3-AB7788E32E4F}.Release|Win32.ActiveCfg = Release|Win32
