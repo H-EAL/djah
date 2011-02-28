@@ -11,6 +11,10 @@
 #include <djah/log/logger.hpp>
 #include <djah/log/console_logger.hpp>
 
+#include <djah/filesystem/browser.hpp>
+#include <djah/filesystem/directory_source.hpp>
+#include <djah/filesystem/memory_stream.hpp>
+
 #include <djah/math.hpp>
 
 #include "application_base.hpp"
@@ -24,8 +28,8 @@ public:
 
 	explicit application(int w = 480, int h = 320)
 		: application_base(djah::system::video_config(w,h))
-		, eye_(1,1,math::pi_over_2)
-		, center_(0,0,0)
+		, eye_(10,3,math::pi_over_2)
+		, center_(0,1,0)
 		, up_(0,1,0)
 	{
 	}
@@ -48,9 +52,15 @@ private:
 	math::matrix4f matOrthoProj_;
 	math::matrix4f matView_;
 
+	filesystem::memory_stream *strm;
+
 	virtual void initImpl()
 	{
-		djah::log::logger::setLogger(new djah::log::console_logger);
+		filesystem::browser::get().addLoadingChannel(new filesystem::directory_source("."));
+		log::logger::setLogger(new log::console_logger);
+
+		strm = new filesystem::memory_stream(filesystem::browser::get().openReadStream("data/mesh.bdae"));
+
 		const float w = static_cast<float>(device_->videoConfig().width);
 		const float h = static_cast<float>(device_->videoConfig().height);
 		matPerspectiveProj_ = video::make_perspective_projection(60.0f, w/h, 0.1f, 1000.f);
@@ -82,22 +92,23 @@ private:
 
 	void draw3D()
 	{
-		/*glMatrixMode(GL_PROJECTION);
+		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 		glMultMatrixf(matPerspectiveProj_.getTransposed().data);
 
 		static float angle = 0.0f;
-		eye_.x = cos(angle);
-		eye_.z = sin(angle);
+		eye_.x = 3*cos(angle);
+		eye_.z =3* sin(angle);
 		angle = (angle+0.01f > math::pi_times_2) ? 0.0f : angle+0.01f;
 		math::matrix4f matView = video::make_look_at(eye_, center_, up_);
 		
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
-		glMultMatrixf(matView.getTransposed().data);*/
+		glMultMatrixf(matView.getTransposed().data);
 
-		//drawAxis();
-		drawSomething();
+		drawAxis();
+		drawMesh();
+		//drawSomething();
 	}
 
 	void draw2D()
@@ -206,6 +217,26 @@ private:
 		sp.sendUniformMatrix("ProjectionMatrix", (matPerspectiveProj_*matView), true);
 		va.draw();
 		sp.end();
+	}
+
+	void drawMesh()
+	{
+		glPushMatrix();
+		glRotatef(90.0f, 0,0,1);
+		glRotatef(90.0f, 0,1,0);
+		glScalef(0.3f,0.3f,0.3f);
+		glColor3f(0,1,1);
+		int vertexSize = 3 + 3 + 2;
+		const float *buf = (const float*)strm->buffer();
+		glBegin(GL_TRIANGLES);
+		for(size_t i = 0; i < strm->size()/4; i+=3)
+		{
+			//glTexCoord2fv(&buf[i+6]);
+			//glNormal3fv(&buf[i+3]);
+			glVertex3fv(&buf[i]);
+		}
+		glEnd();
+		glPopMatrix();
 	}
 };
 

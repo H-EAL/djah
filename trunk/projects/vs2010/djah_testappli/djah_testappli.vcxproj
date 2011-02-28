@@ -10,6 +10,14 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\tests\sources\application.hpp" />
+    <ClInclude Include="..\..\..\tests\sources\application_base.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\tests\sources\application_base.cpp" />
+    <ClCompile Include="..\..\..\tests\sources\main.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7AAB6E15-003B-4255-A923-7D8A8C11F47E}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -39,15 +47,15 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\..\..\bin\</OutDir>
-    <TargetName>$(ProjectName)_$(Configuration)</TargetName>
+    <OutDir>..\..\..\tests\binaries\</OutDir>
+    <TargetName>$(ProjectName)_debug</TargetName>
     <IncludePath>D:\Development\Boost\1_44;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;</IncludePath>
     <LibraryPath>D:\Development\Boost\1_44\lib;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <TargetName>$(ProjectName)</TargetName>
-    <OutDir>..\..\..\bin\</OutDir>
+    <OutDir>..\..\..\tests\binaries\</OutDir>
     <IncludePath>D:\Development\Boost\1_44;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;</IncludePath>
     <LibraryPath>D:\Development\Boost\1_44\lib;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib</LibraryPath>
   </PropertyGroup>
@@ -88,14 +96,6 @@
       <IgnoreSpecificDefaultLibraries>libcmt.lib</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\..\tests\application_base.cpp" />
-    <ClCompile Include="..\..\..\tests\main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\tests\application.hpp" />
-    <ClInclude Include="..\..\..\tests\application_base.hpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
