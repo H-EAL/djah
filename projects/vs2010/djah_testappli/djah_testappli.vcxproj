@@ -85,8 +85,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>djah_system.lib;djah_filesystem.lib;djah_video.lib;djah_log.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\..\lib\win32\;..\..\..\..\extlibs\lib\win32\</AdditionalLibraryDirectories>
-      <IgnoreSpecificDefaultLibraries>
-      </IgnoreSpecificDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>libcmt.lib</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
