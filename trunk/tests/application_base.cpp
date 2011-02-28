@@ -1,12 +1,12 @@
 #include "application_base.hpp"
 
-#include <djah/video/device_base.hpp>
-#include <djah/video/driver_base.hpp>
+#include <djah/system/device_base.hpp>
+#include <djah/system/driver_base.hpp>
 
 namespace djah { namespace tests {
 
 	//----------------------------------------------------------------------------------------------
-	application_base::application_base(const video::video_config &config)
+	application_base::application_base(const system::video_config &config)
 		: video_config_(config)
 		, device_(0)
 		, driver_(0)
@@ -39,7 +39,7 @@ namespace djah { namespace tests {
 	//----------------------------------------------------------------------------------------------
 	void application_base::init()
 	{
-		device_ = video::create_device(video_config_);
+		device_ = system::create_device(video_config_);
 		driver_ = device_->videoDriver();
 
 		initImpl();
