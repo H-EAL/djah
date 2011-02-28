@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="include\utils">
+      <UniqueIdentifier>{2ef47501-f01a-477e-907d-f4373dd6b33b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\math">
+      <UniqueIdentifier>{3b3b2828-a8ae-4195-be83-0b332c180fa8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\time">
+      <UniqueIdentifier>{17fde1ba-af43-4418-98a2-dbd3872d744c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\geometry">
+      <UniqueIdentifier>{6e73b30c-89cd-4e27-9fd9-3e369f2fe6db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\math\vector">
+      <UniqueIdentifier>{b47d1f16-26d5-4bfe-9869-3eaca96ed485}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\math\matrix">
+      <UniqueIdentifier>{2d753a79-2dcd-4d7b-9993-6fccd2e8b9b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\math\quaternion">
+      <UniqueIdentifier>{d3f5cf60-bab0-43be-bb52-ccdd22255de9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\utils\detail">
+      <UniqueIdentifier>{4a06c7b1-e337-408f-bc64-6d32dc421211}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sources\time">
+      <UniqueIdentifier>{0809bdc8-d4d2-43eb-9154-a46508d31316}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sources\utils">
+      <UniqueIdentifier>{ccc8cee7-22ff-4bdd-ba7f-c9b41f4b133c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\include\djah\math\math_utils.hpp">
+      <Filter>include\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\math\splines.hpp">
+      <Filter>include\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\math\matrix.hpp">
+      <Filter>include\math\matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\math\matrix2.hpp">
+      <Filter>include\math\matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\math\matrix3.hpp">
+      <Filter>include\math\matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\math\matrix4.hpp">
+      <Filter>include\math\matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\math\matrix_utils.hpp">
+      <Filter>include\math\matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\math\quaternion.hpp">
+      <Filter>include\math\quaternion</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\math\quaternion_utils.hpp">
+      <Filter>include\math\quaternion</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\math\vector.hpp">
+      <Filter>include\math\vector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\math\vector_utils.hpp">
+      <Filter>include\math\vector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\math\vector2.hpp">
+      <Filter>include\math\vector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\math\vector3.hpp">
+      <Filter>include\math\vector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\math\vector4.hpp">
+      <Filter>include\math\vector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\geometry\plane.hpp">
+      <Filter>include\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\geometry\ray.hpp">
+      <Filter>include\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\geometry\rect.hpp">
+      <Filter>include\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\geometry\sphere.hpp">
+      <Filter>include\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\geometry\triangle.hpp">
+      <Filter>include\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\geometry\utils.hpp">
+      <Filter>include\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\time\clock.hpp">
+      <Filter>include\time</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\utils\command.hpp">
+      <Filter>include\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\utils\functor.hpp">
+      <Filter>include\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\utils\hierarchy_generation.hpp">
+      <Filter>include\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\utils\murmur_hash.hpp">
+      <Filter>include\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\utils\randomizer.hpp">
+      <Filter>include\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\utils\singleton.hpp">
+      <Filter>include\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\utils\string_utils.hpp">
+      <Filter>include\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\utils\type_traits.hpp">
+      <Filter>include\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\utils\typelist.hpp">
+      <Filter>include\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\utils\detail\command_base.hpp">
+      <Filter>include\utils\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\utils\detail\functor_handler.hpp">
+      <Filter>include\utils\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\utils\detail\functor_impl.hpp">
+      <Filter>include\utils\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\utils\detail\member_function_handler.hpp">
+      <Filter>include\utils\detail</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\include\djah\math\matrix.inl">
+      <Filter>include\math\matrix</Filter>
+    </None>
+    <None Include="..\..\..\include\djah\math\quaternion.inl">
+      <Filter>include\math\quaternion</Filter>
+    </None>
+    <None Include="..\..\..\include\djah\math\vector.inl">
+      <Filter>include\math\vector</Filter>
+    </None>
+    <None Include="..\..\..\include\djah\geometry\plane.inl">
+      <Filter>include\geometry</Filter>
+    </None>
+    <None Include="..\..\..\include\djah\geometry\rect.inl">
+      <Filter>include\geometry</Filter>
+    </None>
+    <None Include="..\..\..\include\djah\geometry\triangle.inl">
+      <Filter>include\geometry</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\sources\time\clock.cpp">
+      <Filter>sources\time</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\sources\utils\randomizer.cpp">
+      <Filter>sources\utils</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

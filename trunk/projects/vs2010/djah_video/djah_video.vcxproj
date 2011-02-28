@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{7A05DD56-1939-488D-9E6D-F5DEA55ACAA4}</ProjectGuid>
+    <RootNamespace>djah_video</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <TargetName>$(ProjectName)_d</TargetName>
+    <OutDir>..\..\..\lib\win32\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <TargetName>$(ProjectName)</TargetName>
+    <OutDir>..\..\..\lib\win32\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\..\include\djah\;..\..\..\..\extlibs\include\</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>..\..\..\..\extlibs\lib\win32\;</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>..\..\..\include\djah\;..\..\..\..\extlibs\include\</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>..\..\..\..\extlibs\lib\win32\;</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\include\djah\video\ogl.hpp" />
+    <ClInclude Include="..\..\..\include\djah\video\ogl\buffers.hpp" />
+    <ClInclude Include="..\..\..\include\djah\video\ogl\buffers\buffer_base.hpp" />
+    <ClInclude Include="..\..\..\include\djah\video\ogl\buffers\frame_buffer.hpp" />
+    <ClInclude Include="..\..\..\include\djah\video\ogl\buffers\index_buffer.hpp" />
+    <ClInclude Include="..\..\..\include\djah\video\ogl\buffers\render_buffer.hpp" />
+    <ClInclude Include="..\..\..\include\djah\video\ogl\buffers\texture.hpp" />
+    <ClInclude Include="..\..\..\include\djah\video\ogl\buffers\uniform_buffer.hpp" />
+    <ClInclude Include="..\..\..\include\djah\video\ogl\buffers\vertex_array.hpp" />
+    <ClInclude Include="..\..\..\include\djah\video\ogl\buffers\vertex_attrib.hpp" />
+    <ClInclude Include="..\..\..\include\djah\video\ogl\buffers\vertex_buffer.hpp" />
+    <ClInclude Include="..\..\..\include\djah\video\ogl\buffers\vertex_format.hpp" />
+    <ClInclude Include="..\..\..\include\djah\video\ogl\errors.hpp" />
+    <ClInclude Include="..\..\..\include\djah\video\ogl\extensions.hpp" />
+    <ClInclude Include="..\..\..\include\djah\video\ogl\gl_caps.hpp" />
+    <ClInclude Include="..\..\..\include\djah\video\ogl\gl_types.hpp" />
+    <ClInclude Include="..\..\..\include\djah\video\ogl\resource.hpp" />
+    <ClInclude Include="..\..\..\include\djah\video\ogl\shaders.hpp" />
+    <ClInclude Include="..\..\..\include\djah\video\ogl\shaders\geometry_shader.hpp" />
+    <ClInclude Include="..\..\..\include\djah\video\ogl\shaders\pixel_shader.hpp" />
+    <ClInclude Include="..\..\..\include\djah\video\ogl\shaders\shader_base.hpp" />
+    <ClInclude Include="..\..\..\include\djah\video\ogl\shaders\shader_program.hpp" />
+    <ClInclude Include="..\..\..\include\djah\video\ogl\shaders\vertex_shader.hpp" />
+    <ClInclude Include="..\..\..\include\djah\video\primitives\triangle.hpp" />
+    <ClInclude Include="..\..\..\include\djah\video\projection.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\include\djah\video\ogl\buffers\buffer_base.inl" />
+    <None Include="..\..\..\include\djah\video\ogl\shaders\shader_base.inl" />
+    <None Include="..\..\..\include\djah\video\ogl\shaders\shader_program.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\sources\video\ogl\buffers\frame_buffer.cpp" />
+    <ClCompile Include="..\..\..\sources\video\ogl\buffers\render_buffer.cpp" />
+    <ClCompile Include="..\..\..\sources\video\ogl\buffers\texture.cpp" />
+    <ClCompile Include="..\..\..\sources\video\ogl\buffers\vertex_array.cpp" />
+    <ClCompile Include="..\..\..\sources\video\ogl\buffers\vertex_format.cpp" />
+    <ClCompile Include="..\..\..\sources\video\ogl\extensions.cpp" />
+    <ClCompile Include="..\..\..\sources\video\ogl\gl_caps.cpp" />
+    <ClCompile Include="..\..\..\sources\video\ogl\shaders\shader_program.cpp" />
+    <ClCompile Include="..\..\..\sources\video\primitives\triangle.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

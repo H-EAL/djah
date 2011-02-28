@@ -1,17 +1,35 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "djahlib", "djahlib\djahlib.vcxproj", "{D346FF67-F64E-434E-AD73-6E8A663DC356}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "djah_testappli", "djah_testappli\djah_testappli.vcxproj", "{7AAB6E15-003B-4255-A923-7D8A8C11F47E}"
 	ProjectSection(ProjectDependencies) = postProject
-		{D346FF67-F64E-434E-AD73-6E8A663DC356} = {D346FF67-F64E-434E-AD73-6E8A663DC356}
+		{AFA71315-A65A-4309-AEB3-AB7788E32E4F} = {AFA71315-A65A-4309-AEB3-AB7788E32E4F}
+		{DC426C2C-85A1-43A0-A8CF-282072C25D71} = {DC426C2C-85A1-43A0-A8CF-282072C25D71}
+		{E6AD5850-0F26-4F2B-923E-8F9CBF8037F8} = {E6AD5850-0F26-4F2B-923E-8F9CBF8037F8}
+		{7A05DD56-1939-488D-9E6D-F5DEA55ACAA4} = {7A05DD56-1939-488D-9E6D-F5DEA55ACAA4}
+		{63CC4E65-85DD-40B7-832E-C24874A3A392} = {63CC4E65-85DD-40B7-832E-C24874A3A392}
+		{E553EFC9-96B6-46B1-844F-E33388018025} = {E553EFC9-96B6-46B1-844F-E33388018025}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pak_compressor", "pak_compressor\pak_compressor.vcxproj", "{226ED030-80A3-471A-9FA2-82EA872FAD5A}"
 	ProjectSection(ProjectDependencies) = postProject
-		{D346FF67-F64E-434E-AD73-6E8A663DC356} = {D346FF67-F64E-434E-AD73-6E8A663DC356}
+		{DC426C2C-85A1-43A0-A8CF-282072C25D71} = {DC426C2C-85A1-43A0-A8CF-282072C25D71}
 	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "djah_system", "djah_system\djah_system.vcxproj", "{AFA71315-A65A-4309-AEB3-AB7788E32E4F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "djah_filesystem", "djah_filesystem\djah_filesystem.vcxproj", "{DC426C2C-85A1-43A0-A8CF-282072C25D71}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "djah_video", "djah_video\djah_video.vcxproj", "{7A05DD56-1939-488D-9E6D-F5DEA55ACAA4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AFA71315-A65A-4309-AEB3-AB7788E32E4F} = {AFA71315-A65A-4309-AEB3-AB7788E32E4F}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "djah_core", "djah_core\djah_core.vcxproj", "{E6AD5850-0F26-4F2B-923E-8F9CBF8037F8}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "djah_log", "djah_log\djah_log.vcxproj", "{63CC4E65-85DD-40B7-832E-C24874A3A392}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "djah_resources", "djah_resources\djah_resources.vcxproj", "{E553EFC9-96B6-46B1-844F-E33388018025}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,18 +37,36 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D346FF67-F64E-434E-AD73-6E8A663DC356}.Debug|Win32.ActiveCfg = Debug|Win32
-		{D346FF67-F64E-434E-AD73-6E8A663DC356}.Debug|Win32.Build.0 = Debug|Win32
-		{D346FF67-F64E-434E-AD73-6E8A663DC356}.Release|Win32.ActiveCfg = Release|Win32
-		{D346FF67-F64E-434E-AD73-6E8A663DC356}.Release|Win32.Build.0 = Release|Win32
 		{7AAB6E15-003B-4255-A923-7D8A8C11F47E}.Debug|Win32.ActiveCfg = Debug|Win32
 		{7AAB6E15-003B-4255-A923-7D8A8C11F47E}.Debug|Win32.Build.0 = Debug|Win32
 		{7AAB6E15-003B-4255-A923-7D8A8C11F47E}.Release|Win32.ActiveCfg = Release|Win32
 		{7AAB6E15-003B-4255-A923-7D8A8C11F47E}.Release|Win32.Build.0 = Release|Win32
 		{226ED030-80A3-471A-9FA2-82EA872FAD5A}.Debug|Win32.ActiveCfg = Debug|Win32
-		{226ED030-80A3-471A-9FA2-82EA872FAD5A}.Debug|Win32.Build.0 = Debug|Win32
 		{226ED030-80A3-471A-9FA2-82EA872FAD5A}.Release|Win32.ActiveCfg = Release|Win32
-		{226ED030-80A3-471A-9FA2-82EA872FAD5A}.Release|Win32.Build.0 = Release|Win32
+		{AFA71315-A65A-4309-AEB3-AB7788E32E4F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AFA71315-A65A-4309-AEB3-AB7788E32E4F}.Debug|Win32.Build.0 = Debug|Win32
+		{AFA71315-A65A-4309-AEB3-AB7788E32E4F}.Release|Win32.ActiveCfg = Release|Win32
+		{AFA71315-A65A-4309-AEB3-AB7788E32E4F}.Release|Win32.Build.0 = Release|Win32
+		{DC426C2C-85A1-43A0-A8CF-282072C25D71}.Debug|Win32.ActiveCfg = Debug|Win32
+		{DC426C2C-85A1-43A0-A8CF-282072C25D71}.Debug|Win32.Build.0 = Debug|Win32
+		{DC426C2C-85A1-43A0-A8CF-282072C25D71}.Release|Win32.ActiveCfg = Release|Win32
+		{DC426C2C-85A1-43A0-A8CF-282072C25D71}.Release|Win32.Build.0 = Release|Win32
+		{7A05DD56-1939-488D-9E6D-F5DEA55ACAA4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7A05DD56-1939-488D-9E6D-F5DEA55ACAA4}.Debug|Win32.Build.0 = Debug|Win32
+		{7A05DD56-1939-488D-9E6D-F5DEA55ACAA4}.Release|Win32.ActiveCfg = Release|Win32
+		{7A05DD56-1939-488D-9E6D-F5DEA55ACAA4}.Release|Win32.Build.0 = Release|Win32
+		{E6AD5850-0F26-4F2B-923E-8F9CBF8037F8}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E6AD5850-0F26-4F2B-923E-8F9CBF8037F8}.Debug|Win32.Build.0 = Debug|Win32
+		{E6AD5850-0F26-4F2B-923E-8F9CBF8037F8}.Release|Win32.ActiveCfg = Release|Win32
+		{E6AD5850-0F26-4F2B-923E-8F9CBF8037F8}.Release|Win32.Build.0 = Release|Win32
+		{63CC4E65-85DD-40B7-832E-C24874A3A392}.Debug|Win32.ActiveCfg = Debug|Win32
+		{63CC4E65-85DD-40B7-832E-C24874A3A392}.Debug|Win32.Build.0 = Debug|Win32
+		{63CC4E65-85DD-40B7-832E-C24874A3A392}.Release|Win32.ActiveCfg = Release|Win32
+		{63CC4E65-85DD-40B7-832E-C24874A3A392}.Release|Win32.Build.0 = Release|Win32
+		{E553EFC9-96B6-46B1-844F-E33388018025}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E553EFC9-96B6-46B1-844F-E33388018025}.Debug|Win32.Build.0 = Debug|Win32
+		{E553EFC9-96B6-46B1-844F-E33388018025}.Release|Win32.ActiveCfg = Release|Win32
+		{E553EFC9-96B6-46B1-844F-E33388018025}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

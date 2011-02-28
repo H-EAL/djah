@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{77063cdb-35c1-4b02-94e0-e92bb56d8620}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sources">
+      <UniqueIdentifier>{c8bc57f5-8d16-4ad7-8d4b-c3020a77f5e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\primitives">
+      <UniqueIdentifier>{351af7bf-9cd1-42f0-8e3b-9f4e917e8ea7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\ogl">
+      <UniqueIdentifier>{c01c9713-90de-4f25-a66f-004021a97d36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\ogl\buffers">
+      <UniqueIdentifier>{fcd982c5-9dcb-4994-b105-68ed16d70a40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\ogl\shaders">
+      <UniqueIdentifier>{06b16da8-1e9b-47b0-87ff-c6739390b288}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sources\ogl">
+      <UniqueIdentifier>{adbee1c5-446e-48a5-a1ff-a29b8f57fbf8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sources\ogl\buffers">
+      <UniqueIdentifier>{651d0a76-55ac-4ced-9bef-596caab6d8a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sources\ogl\shaders">
+      <UniqueIdentifier>{e5222e81-2538-4e82-ac9f-a479efbe8bdc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sources\primitives">
+      <UniqueIdentifier>{67bf86ec-3232-4660-b0b9-0264429d76c6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\include\djah\video\ogl.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\video\projection.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\video\ogl\buffers.hpp">
+      <Filter>include\ogl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\video\ogl\errors.hpp">
+      <Filter>include\ogl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\video\ogl\extensions.hpp">
+      <Filter>include\ogl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\video\ogl\gl_caps.hpp">
+      <Filter>include\ogl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\video\ogl\gl_types.hpp">
+      <Filter>include\ogl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\video\ogl\resource.hpp">
+      <Filter>include\ogl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\video\ogl\shaders.hpp">
+      <Filter>include\ogl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\video\ogl\shaders\geometry_shader.hpp">
+      <Filter>include\ogl\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\video\ogl\shaders\pixel_shader.hpp">
+      <Filter>include\ogl\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\video\ogl\shaders\shader_base.hpp">
+      <Filter>include\ogl\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\video\ogl\shaders\shader_program.hpp">
+      <Filter>include\ogl\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\video\ogl\shaders\vertex_shader.hpp">
+      <Filter>include\ogl\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\video\ogl\buffers\buffer_base.hpp">
+      <Filter>include\ogl\buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\video\ogl\buffers\frame_buffer.hpp">
+      <Filter>include\ogl\buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\video\ogl\buffers\index_buffer.hpp">
+      <Filter>include\ogl\buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\video\ogl\buffers\render_buffer.hpp">
+      <Filter>include\ogl\buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\video\ogl\buffers\texture.hpp">
+      <Filter>include\ogl\buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\video\ogl\buffers\uniform_buffer.hpp">
+      <Filter>include\ogl\buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\video\ogl\buffers\vertex_array.hpp">
+      <Filter>include\ogl\buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\video\ogl\buffers\vertex_attrib.hpp">
+      <Filter>include\ogl\buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\video\ogl\buffers\vertex_buffer.hpp">
+      <Filter>include\ogl\buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\video\ogl\buffers\vertex_format.hpp">
+      <Filter>include\ogl\buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\video\primitives\triangle.hpp">
+      <Filter>include\primitives</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\include\djah\video\ogl\shaders\shader_base.inl">
+      <Filter>include\ogl\shaders</Filter>
+    </None>
+    <None Include="..\..\..\include\djah\video\ogl\shaders\shader_program.inl">
+      <Filter>include\ogl\shaders</Filter>
+    </None>
+    <None Include="..\..\..\include\djah\video\ogl\buffers\buffer_base.inl">
+      <Filter>include\ogl\buffers</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\sources\video\primitives\triangle.cpp">
+      <Filter>sources\primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\sources\video\ogl\buffers\frame_buffer.cpp">
+      <Filter>sources\ogl\buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\sources\video\ogl\buffers\render_buffer.cpp">
+      <Filter>sources\ogl\buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\sources\video\ogl\buffers\texture.cpp">
+      <Filter>sources\ogl\buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\sources\video\ogl\buffers\vertex_array.cpp">
+      <Filter>sources\ogl\buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\sources\video\ogl\buffers\vertex_format.cpp">
+      <Filter>sources\ogl\buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\sources\video\ogl\shaders\shader_program.cpp">
+      <Filter>sources\ogl\shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\sources\video\ogl\extensions.cpp">
+      <Filter>sources\ogl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\sources\video\ogl\gl_caps.cpp">
+      <Filter>sources\ogl</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
