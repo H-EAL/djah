@@ -177,10 +177,10 @@ namespace djah { namespace video { namespace ogl {
 	template<int Target>
 	void buffer_base<Target>::lock()
 	{
-		bind();
-		cursor_ = reinterpret_cast<byte*>(glMapBuffer(Target, GL_WRITE_ONLY));
-		cursor_count_ = 0;
-		locked_ = true;
+		//bind();
+		//cursor_ = reinterpret_cast<byte*>(glMapBuffer(Target, GL_WRITE_ONLY));
+		//cursor_count_ = 0;
+		//locked_ = true;
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -226,11 +226,11 @@ namespace djah { namespace video { namespace ogl {
 	template<int Target>
 	void buffer_base<Target>::unlock()
 	{
-		glUnmapBuffer(Target);
-		unbind();
-		cursor_ = 0;
-		cursor_count_ = 0;
-		locked_ = false;
+		//glUnmapBuffer(Target);
+		//unbind();
+		//cursor_ = 0;
+		//cursor_count_ = 0;
+		//locked_ = false;
 	}
 	//----------------------------------------------------------------------------------------------
 
