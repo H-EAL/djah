@@ -1,0 +1,414 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B5E9E15B131C6A6900A2098B /* buffer_base.hpp in Headers */ = {isa = PBXBuildFile; fileRef = B5E9E13D131C6A6900A2098B /* buffer_base.hpp */; };
+		B5E9E15C131C6A6900A2098B /* frame_buffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = B5E9E13F131C6A6900A2098B /* frame_buffer.hpp */; };
+		B5E9E15D131C6A6900A2098B /* index_buffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = B5E9E140131C6A6900A2098B /* index_buffer.hpp */; };
+		B5E9E15E131C6A6900A2098B /* render_buffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = B5E9E141131C6A6900A2098B /* render_buffer.hpp */; };
+		B5E9E15F131C6A6900A2098B /* texture.hpp in Headers */ = {isa = PBXBuildFile; fileRef = B5E9E142131C6A6900A2098B /* texture.hpp */; };
+		B5E9E160131C6A6900A2098B /* uniform_buffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = B5E9E143131C6A6900A2098B /* uniform_buffer.hpp */; };
+		B5E9E161131C6A6900A2098B /* vertex_array.hpp in Headers */ = {isa = PBXBuildFile; fileRef = B5E9E144131C6A6900A2098B /* vertex_array.hpp */; };
+		B5E9E162131C6A6900A2098B /* vertex_attrib.hpp in Headers */ = {isa = PBXBuildFile; fileRef = B5E9E145131C6A6900A2098B /* vertex_attrib.hpp */; };
+		B5E9E163131C6A6900A2098B /* vertex_buffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = B5E9E146131C6A6900A2098B /* vertex_buffer.hpp */; };
+		B5E9E164131C6A6900A2098B /* vertex_format.hpp in Headers */ = {isa = PBXBuildFile; fileRef = B5E9E147131C6A6900A2098B /* vertex_format.hpp */; };
+		B5E9E165131C6A6900A2098B /* buffers.hpp in Headers */ = {isa = PBXBuildFile; fileRef = B5E9E148131C6A6900A2098B /* buffers.hpp */; };
+		B5E9E166131C6A6900A2098B /* errors.hpp in Headers */ = {isa = PBXBuildFile; fileRef = B5E9E149131C6A6900A2098B /* errors.hpp */; };
+		B5E9E167131C6A6900A2098B /* extensions.hpp in Headers */ = {isa = PBXBuildFile; fileRef = B5E9E14A131C6A6900A2098B /* extensions.hpp */; };
+		B5E9E168131C6A6900A2098B /* gl_caps.hpp in Headers */ = {isa = PBXBuildFile; fileRef = B5E9E14B131C6A6900A2098B /* gl_caps.hpp */; };
+		B5E9E169131C6A6900A2098B /* gl_types.hpp in Headers */ = {isa = PBXBuildFile; fileRef = B5E9E14C131C6A6900A2098B /* gl_types.hpp */; };
+		B5E9E16A131C6A6900A2098B /* resource.hpp in Headers */ = {isa = PBXBuildFile; fileRef = B5E9E14D131C6A6900A2098B /* resource.hpp */; };
+		B5E9E16B131C6A6900A2098B /* geometry_shader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = B5E9E14F131C6A6900A2098B /* geometry_shader.hpp */; };
+		B5E9E16C131C6A6900A2098B /* pixel_shader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = B5E9E150131C6A6900A2098B /* pixel_shader.hpp */; };
+		B5E9E16D131C6A6900A2098B /* shader_base.hpp in Headers */ = {isa = PBXBuildFile; fileRef = B5E9E151131C6A6900A2098B /* shader_base.hpp */; };
+		B5E9E16E131C6A6900A2098B /* shader_program.hpp in Headers */ = {isa = PBXBuildFile; fileRef = B5E9E153131C6A6900A2098B /* shader_program.hpp */; };
+		B5E9E16F131C6A6900A2098B /* vertex_shader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = B5E9E155131C6A6900A2098B /* vertex_shader.hpp */; };
+		B5E9E170131C6A6900A2098B /* shaders.hpp in Headers */ = {isa = PBXBuildFile; fileRef = B5E9E156131C6A6900A2098B /* shaders.hpp */; };
+		B5E9E171131C6A6900A2098B /* ogl.hpp in Headers */ = {isa = PBXBuildFile; fileRef = B5E9E157131C6A6900A2098B /* ogl.hpp */; };
+		B5E9E172131C6A6900A2098B /* triangle.hpp in Headers */ = {isa = PBXBuildFile; fileRef = B5E9E159131C6A6900A2098B /* triangle.hpp */; };
+		B5E9E173131C6A6900A2098B /* projection.hpp in Headers */ = {isa = PBXBuildFile; fileRef = B5E9E15A131C6A6900A2098B /* projection.hpp */; };
+		B5E9E182131C6A8300A2098B /* frame_buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5E9E177131C6A8300A2098B /* frame_buffer.cpp */; };
+		B5E9E183131C6A8300A2098B /* render_buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5E9E178131C6A8300A2098B /* render_buffer.cpp */; };
+		B5E9E184131C6A8300A2098B /* texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5E9E179131C6A8300A2098B /* texture.cpp */; };
+		B5E9E186131C6A8300A2098B /* vertex_format.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5E9E17B131C6A8300A2098B /* vertex_format.cpp */; };
+		B5E9E188131C6A8300A2098B /* gl_caps.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5E9E17D131C6A8300A2098B /* gl_caps.cpp */; };
+		B5E9E189131C6A8300A2098B /* shader_program.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5E9E17F131C6A8300A2098B /* shader_program.cpp */; };
+		B5E9E18A131C6A8300A2098B /* triangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5E9E181131C6A8300A2098B /* triangle.cpp */; };
+		B5E9E19A131C6C2E00A2098B /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5E9E199131C6C2E00A2098B /* OpenGLES.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		B5E9E135131C6A0800A2098B /* libdjah_video_d.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libdjah_video_d.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		B5E9E13D131C6A6900A2098B /* buffer_base.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = buffer_base.hpp; sourceTree = "<group>"; };
+		B5E9E13E131C6A6900A2098B /* buffer_base.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = buffer_base.inl; sourceTree = "<group>"; };
+		B5E9E13F131C6A6900A2098B /* frame_buffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = frame_buffer.hpp; sourceTree = "<group>"; };
+		B5E9E140131C6A6900A2098B /* index_buffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = index_buffer.hpp; sourceTree = "<group>"; };
+		B5E9E141131C6A6900A2098B /* render_buffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = render_buffer.hpp; sourceTree = "<group>"; };
+		B5E9E142131C6A6900A2098B /* texture.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = texture.hpp; sourceTree = "<group>"; };
+		B5E9E143131C6A6900A2098B /* uniform_buffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = uniform_buffer.hpp; sourceTree = "<group>"; };
+		B5E9E144131C6A6900A2098B /* vertex_array.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = vertex_array.hpp; sourceTree = "<group>"; };
+		B5E9E145131C6A6900A2098B /* vertex_attrib.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = vertex_attrib.hpp; sourceTree = "<group>"; };
+		B5E9E146131C6A6900A2098B /* vertex_buffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = vertex_buffer.hpp; sourceTree = "<group>"; };
+		B5E9E147131C6A6900A2098B /* vertex_format.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = vertex_format.hpp; sourceTree = "<group>"; };
+		B5E9E148131C6A6900A2098B /* buffers.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = buffers.hpp; sourceTree = "<group>"; };
+		B5E9E149131C6A6900A2098B /* errors.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = errors.hpp; sourceTree = "<group>"; };
+		B5E9E14A131C6A6900A2098B /* extensions.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = extensions.hpp; sourceTree = "<group>"; };
+		B5E9E14B131C6A6900A2098B /* gl_caps.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = gl_caps.hpp; sourceTree = "<group>"; };
+		B5E9E14C131C6A6900A2098B /* gl_types.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = gl_types.hpp; sourceTree = "<group>"; };
+		B5E9E14D131C6A6900A2098B /* resource.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = resource.hpp; sourceTree = "<group>"; };
+		B5E9E14F131C6A6900A2098B /* geometry_shader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = geometry_shader.hpp; sourceTree = "<group>"; };
+		B5E9E150131C6A6900A2098B /* pixel_shader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = pixel_shader.hpp; sourceTree = "<group>"; };
+		B5E9E151131C6A6900A2098B /* shader_base.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = shader_base.hpp; sourceTree = "<group>"; };
+		B5E9E152131C6A6900A2098B /* shader_base.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shader_base.inl; sourceTree = "<group>"; };
+		B5E9E153131C6A6900A2098B /* shader_program.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = shader_program.hpp; sourceTree = "<group>"; };
+		B5E9E154131C6A6900A2098B /* shader_program.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shader_program.inl; sourceTree = "<group>"; };
+		B5E9E155131C6A6900A2098B /* vertex_shader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = vertex_shader.hpp; sourceTree = "<group>"; };
+		B5E9E156131C6A6900A2098B /* shaders.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = shaders.hpp; sourceTree = "<group>"; };
+		B5E9E157131C6A6900A2098B /* ogl.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ogl.hpp; sourceTree = "<group>"; };
+		B5E9E159131C6A6900A2098B /* triangle.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = triangle.hpp; sourceTree = "<group>"; };
+		B5E9E15A131C6A6900A2098B /* projection.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = projection.hpp; sourceTree = "<group>"; };
+		B5E9E177131C6A8300A2098B /* frame_buffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = frame_buffer.cpp; sourceTree = "<group>"; };
+		B5E9E178131C6A8300A2098B /* render_buffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = render_buffer.cpp; sourceTree = "<group>"; };
+		B5E9E179131C6A8300A2098B /* texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = texture.cpp; sourceTree = "<group>"; };
+		B5E9E17A131C6A8300A2098B /* vertex_array.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vertex_array.cpp; sourceTree = "<group>"; };
+		B5E9E17B131C6A8300A2098B /* vertex_format.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vertex_format.cpp; sourceTree = "<group>"; };
+		B5E9E17C131C6A8300A2098B /* extensions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = extensions.cpp; sourceTree = "<group>"; };
+		B5E9E17D131C6A8300A2098B /* gl_caps.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = gl_caps.cpp; sourceTree = "<group>"; };
+		B5E9E17F131C6A8300A2098B /* shader_program.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = shader_program.cpp; sourceTree = "<group>"; };
+		B5E9E181131C6A8300A2098B /* triangle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = triangle.cpp; sourceTree = "<group>"; };
+		B5E9E199131C6C2E00A2098B /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.1.sdk/System/Library/Frameworks/OpenGLES.framework; sourceTree = SYSTEM_DEVELOPER_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B5E9E133131C6A0800A2098B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B5E9E19A131C6C2E00A2098B /* OpenGLES.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		B5E9E127131C69FA00A2098B = {
+			isa = PBXGroup;
+			children = (
+				B5E9E13A131C6A6900A2098B /* include */,
+				B5E9E174131C6A8300A2098B /* sources */,
+				B5E9E136131C6A0800A2098B /* Products */,
+				B5E9E199131C6C2E00A2098B /* OpenGLES.framework */,
+			);
+			sourceTree = "<group>";
+		};
+		B5E9E136131C6A0800A2098B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B5E9E135131C6A0800A2098B /* libdjah_video_d.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B5E9E13A131C6A6900A2098B /* include */ = {
+			isa = PBXGroup;
+			children = (
+				B5E9E13B131C6A6900A2098B /* ogl */,
+				B5E9E158131C6A6900A2098B /* primitives */,
+				B5E9E157131C6A6900A2098B /* ogl.hpp */,
+				B5E9E15A131C6A6900A2098B /* projection.hpp */,
+			);
+			name = include;
+			path = ../../../include/djah/video;
+			sourceTree = SOURCE_ROOT;
+		};
+		B5E9E13B131C6A6900A2098B /* ogl */ = {
+			isa = PBXGroup;
+			children = (
+				B5E9E13C131C6A6900A2098B /* buffers */,
+				B5E9E148131C6A6900A2098B /* buffers.hpp */,
+				B5E9E149131C6A6900A2098B /* errors.hpp */,
+				B5E9E14A131C6A6900A2098B /* extensions.hpp */,
+				B5E9E14B131C6A6900A2098B /* gl_caps.hpp */,
+				B5E9E14C131C6A6900A2098B /* gl_types.hpp */,
+				B5E9E14D131C6A6900A2098B /* resource.hpp */,
+				B5E9E14E131C6A6900A2098B /* shaders */,
+				B5E9E156131C6A6900A2098B /* shaders.hpp */,
+			);
+			path = ogl;
+			sourceTree = "<group>";
+		};
+		B5E9E13C131C6A6900A2098B /* buffers */ = {
+			isa = PBXGroup;
+			children = (
+				B5E9E13D131C6A6900A2098B /* buffer_base.hpp */,
+				B5E9E13E131C6A6900A2098B /* buffer_base.inl */,
+				B5E9E13F131C6A6900A2098B /* frame_buffer.hpp */,
+				B5E9E140131C6A6900A2098B /* index_buffer.hpp */,
+				B5E9E141131C6A6900A2098B /* render_buffer.hpp */,
+				B5E9E142131C6A6900A2098B /* texture.hpp */,
+				B5E9E143131C6A6900A2098B /* uniform_buffer.hpp */,
+				B5E9E144131C6A6900A2098B /* vertex_array.hpp */,
+				B5E9E145131C6A6900A2098B /* vertex_attrib.hpp */,
+				B5E9E146131C6A6900A2098B /* vertex_buffer.hpp */,
+				B5E9E147131C6A6900A2098B /* vertex_format.hpp */,
+			);
+			path = buffers;
+			sourceTree = "<group>";
+		};
+		B5E9E14E131C6A6900A2098B /* shaders */ = {
+			isa = PBXGroup;
+			children = (
+				B5E9E14F131C6A6900A2098B /* geometry_shader.hpp */,
+				B5E9E150131C6A6900A2098B /* pixel_shader.hpp */,
+				B5E9E151131C6A6900A2098B /* shader_base.hpp */,
+				B5E9E152131C6A6900A2098B /* shader_base.inl */,
+				B5E9E153131C6A6900A2098B /* shader_program.hpp */,
+				B5E9E154131C6A6900A2098B /* shader_program.inl */,
+				B5E9E155131C6A6900A2098B /* vertex_shader.hpp */,
+			);
+			path = shaders;
+			sourceTree = "<group>";
+		};
+		B5E9E158131C6A6900A2098B /* primitives */ = {
+			isa = PBXGroup;
+			children = (
+				B5E9E159131C6A6900A2098B /* triangle.hpp */,
+			);
+			path = primitives;
+			sourceTree = "<group>";
+		};
+		B5E9E174131C6A8300A2098B /* sources */ = {
+			isa = PBXGroup;
+			children = (
+				B5E9E175131C6A8300A2098B /* ogl */,
+				B5E9E180131C6A8300A2098B /* primitives */,
+			);
+			name = sources;
+			path = ../../../sources/video;
+			sourceTree = SOURCE_ROOT;
+		};
+		B5E9E175131C6A8300A2098B /* ogl */ = {
+			isa = PBXGroup;
+			children = (
+				B5E9E176131C6A8300A2098B /* buffers */,
+				B5E9E17C131C6A8300A2098B /* extensions.cpp */,
+				B5E9E17D131C6A8300A2098B /* gl_caps.cpp */,
+				B5E9E17E131C6A8300A2098B /* shaders */,
+			);
+			path = ogl;
+			sourceTree = "<group>";
+		};
+		B5E9E176131C6A8300A2098B /* buffers */ = {
+			isa = PBXGroup;
+			children = (
+				B5E9E177131C6A8300A2098B /* frame_buffer.cpp */,
+				B5E9E178131C6A8300A2098B /* render_buffer.cpp */,
+				B5E9E179131C6A8300A2098B /* texture.cpp */,
+				B5E9E17A131C6A8300A2098B /* vertex_array.cpp */,
+				B5E9E17B131C6A8300A2098B /* vertex_format.cpp */,
+			);
+			path = buffers;
+			sourceTree = "<group>";
+		};
+		B5E9E17E131C6A8300A2098B /* shaders */ = {
+			isa = PBXGroup;
+			children = (
+				B5E9E17F131C6A8300A2098B /* shader_program.cpp */,
+			);
+			path = shaders;
+			sourceTree = "<group>";
+		};
+		B5E9E180131C6A8300A2098B /* primitives */ = {
+			isa = PBXGroup;
+			children = (
+				B5E9E181131C6A8300A2098B /* triangle.cpp */,
+			);
+			path = primitives;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		B5E9E131131C6A0800A2098B /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B5E9E15B131C6A6900A2098B /* buffer_base.hpp in Headers */,
+				B5E9E15C131C6A6900A2098B /* frame_buffer.hpp in Headers */,
+				B5E9E15D131C6A6900A2098B /* index_buffer.hpp in Headers */,
+				B5E9E15E131C6A6900A2098B /* render_buffer.hpp in Headers */,
+				B5E9E15F131C6A6900A2098B /* texture.hpp in Headers */,
+				B5E9E160131C6A6900A2098B /* uniform_buffer.hpp in Headers */,
+				B5E9E161131C6A6900A2098B /* vertex_array.hpp in Headers */,
+				B5E9E162131C6A6900A2098B /* vertex_attrib.hpp in Headers */,
+				B5E9E163131C6A6900A2098B /* vertex_buffer.hpp in Headers */,
+				B5E9E164131C6A6900A2098B /* vertex_format.hpp in Headers */,
+				B5E9E165131C6A6900A2098B /* buffers.hpp in Headers */,
+				B5E9E166131C6A6900A2098B /* errors.hpp in Headers */,
+				B5E9E167131C6A6900A2098B /* extensions.hpp in Headers */,
+				B5E9E168131C6A6900A2098B /* gl_caps.hpp in Headers */,
+				B5E9E169131C6A6900A2098B /* gl_types.hpp in Headers */,
+				B5E9E16A131C6A6900A2098B /* resource.hpp in Headers */,
+				B5E9E16B131C6A6900A2098B /* geometry_shader.hpp in Headers */,
+				B5E9E16C131C6A6900A2098B /* pixel_shader.hpp in Headers */,
+				B5E9E16D131C6A6900A2098B /* shader_base.hpp in Headers */,
+				B5E9E16E131C6A6900A2098B /* shader_program.hpp in Headers */,
+				B5E9E16F131C6A6900A2098B /* vertex_shader.hpp in Headers */,
+				B5E9E170131C6A6900A2098B /* shaders.hpp in Headers */,
+				B5E9E171131C6A6900A2098B /* ogl.hpp in Headers */,
+				B5E9E172131C6A6900A2098B /* triangle.hpp in Headers */,
+				B5E9E173131C6A6900A2098B /* projection.hpp in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		B5E9E134131C6A0800A2098B /* djah_video */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B5E9E139131C6A0800A2098B /* Build configuration list for PBXNativeTarget "djah_video" */;
+			buildPhases = (
+				B5E9E131131C6A0800A2098B /* Headers */,
+				B5E9E132131C6A0800A2098B /* Sources */,
+				B5E9E133131C6A0800A2098B /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = djah_video;
+			productName = djah_video;
+			productReference = B5E9E135131C6A0800A2098B /* libdjah_video_d.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B5E9E129131C69FA00A2098B /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = B5E9E12C131C69FA00A2098B /* Build configuration list for PBXProject "djah_video" */;
+			compatibilityVersion = "Xcode 2.4";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = B5E9E127131C69FA00A2098B;
+			productRefGroup = B5E9E136131C6A0800A2098B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B5E9E134131C6A0800A2098B /* djah_video */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B5E9E132131C6A0800A2098B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B5E9E182131C6A8300A2098B /* frame_buffer.cpp in Sources */,
+				B5E9E183131C6A8300A2098B /* render_buffer.cpp in Sources */,
+				B5E9E184131C6A8300A2098B /* texture.cpp in Sources */,
+				B5E9E186131C6A8300A2098B /* vertex_format.cpp in Sources */,
+				B5E9E188131C6A8300A2098B /* gl_caps.cpp in Sources */,
+				B5E9E189131C6A8300A2098B /* shader_program.cpp in Sources */,
+				B5E9E18A131C6A8300A2098B /* triangle.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		B5E9E12A131C69FA00A2098B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Debug;
+		};
+		B5E9E12B131C69FA00A2098B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+			};
+			name = Release;
+		};
+		B5E9E137131C6A0800A2098B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(DEVELOPER_DIR)/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.1.sdk/System/Library/Frameworks\"";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../../../../extlibs/include",
+					"$(PROJECT_DIR)/../../../include/djah",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = djah_video_d;
+				SDKROOT = iphonesimulator4.1;
+			};
+			name = Debug;
+		};
+		B5E9E138131C6A0800A2098B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(DEVELOPER_DIR)/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.1.sdk/System/Library/Frameworks\"";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../../../../extlibs/include",
+					"$(PROJECT_DIR)/../../../include/djah",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = djah_video;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B5E9E12C131C69FA00A2098B /* Build configuration list for PBXProject "djah_video" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B5E9E12A131C69FA00A2098B /* Debug */,
+				B5E9E12B131C69FA00A2098B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B5E9E139131C6A0800A2098B /* Build configuration list for PBXNativeTarget "djah_video" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B5E9E137131C6A0800A2098B /* Debug */,
+				B5E9E138131C6A0800A2098B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B5E9E129131C69FA00A2098B /* Project object */;
+}
