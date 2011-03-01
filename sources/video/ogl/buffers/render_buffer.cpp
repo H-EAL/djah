@@ -50,7 +50,7 @@ namespace djah { namespace video { namespace ogl {
 	//----------------------------------------------------------------------------------------------
 	void render_buffer::bind() const
 	{
-		glBindRenderbuffer(GL_FRAMEBUFFER, id_);
+		glBindRenderbuffer(GL_RENDERBUFFER, id_);
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -58,7 +58,7 @@ namespace djah { namespace video { namespace ogl {
 	//----------------------------------------------------------------------------------------------
 	void render_buffer::unbind()
 	{
-		glBindRenderbuffer(GL_FRAMEBUFFER, 0);
+		glBindRenderbuffer(GL_RENDERBUFFER, 0);
 	}
 	//----------------------------------------------------------------------------------------------
 
