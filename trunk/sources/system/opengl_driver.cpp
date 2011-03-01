@@ -27,7 +27,7 @@ namespace djah { namespace system {
 		context_->create(device_);
 
 		video::ogl::capabilities::init();
-		video::ogl::load_extensions();
+		//video::ogl::load_extensions();
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -61,21 +61,7 @@ namespace djah { namespace system {
 	//----------------------------------------------------------------------------------------------
 	void opengl_driver::beginScene()
 	{
-		if( proj_dirty_ )
-		{
-			glMatrixMode(GL_PROJECTION);
-			glLoadIdentity();
-			glMultMatrixf(projection_matrix_.getTransposed().data);
-			proj_dirty_ = false;
-		}
-
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
-		glMultMatrixf(view_matrix_.getTransposed().data);
-
-		// Use current shader
+		context_->makeCurrent();
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -83,7 +69,6 @@ namespace djah { namespace system {
 	//----------------------------------------------------------------------------------------------
 	void opengl_driver::endScene()
 	{
-		// End using current shader
 	}
 	//----------------------------------------------------------------------------------------------
 
