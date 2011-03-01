@@ -30,8 +30,8 @@ namespace djah { namespace video { namespace ogl {
 	template<>
 	struct gl_type<float>			{ enum { Type = GL_FLOAT };				};
 	//----------------------------------------------------------------------------------------------
-	template<>
-	struct gl_type<double>			{ enum { Type = GL_DOUBLE };			};
+	//template<>
+	//struct gl_type<double>			{ enum { Type = GL_DOUBLE };			};
 	//----------------------------------------------------------------------------------------------
 
 } /*ogl*/ } /*video*/ } /*djah*/
