@@ -1,0 +1,401 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1D60589B0D05DD56006BFB54 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.mm */; };
+		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
+		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		28FD15000DC6FC520079059D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FD14FF0DC6FC520079059D /* OpenGLES.framework */; };
+		28FD15080DC6FC5B0079059D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FD15070DC6FC5B0079059D /* QuartzCore.framework */; };
+		B5E9E2CE131C955D00A2098B /* libdjah_video.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B5E9E2C2131C954000A2098B /* libdjah_video.a */; };
+		B5E9E2CF131C956100A2098B /* libdjah_log_d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B5E9E2BC131C952E00A2098B /* libdjah_log_d.a */; };
+		B5E9E2D0131C956400A2098B /* libdjah_filesystem_d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B5E9E2B6131C952300A2098B /* libdjah_filesystem_d.a */; };
+		B5E9E2D1131C956700A2098B /* libdjah_core.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B5E9E2B0131C951700A2098B /* libdjah_core.a */; };
+		B5E9E2D2131C956A00A2098B /* libdjah_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B5E9E2AA131C950600A2098B /* libdjah_system.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B5E9E2A9131C950600A2098B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B5E9E2A5131C950600A2098B /* djah_system.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B5E9E1F0131C6FAC00A2098B /* libdjah_system.a */;
+			remoteInfo = djah_system;
+		};
+		B5E9E2AF131C951700A2098B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B5E9E2AB131C951700A2098B /* djah_core.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B5E9E043131C64C300A2098B /* libdjah_core.a */;
+			remoteInfo = djah_core;
+		};
+		B5E9E2B5131C952300A2098B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B5E9E2B1131C952300A2098B /* djah_filesystem.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B5E9E0EA131C685300A2098B /* libdjah_filesystem_d.a */;
+			remoteInfo = djah_filesystem;
+		};
+		B5E9E2BB131C952E00A2098B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B5E9E2B7131C952D00A2098B /* djah_log.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B5E9E0C2131C671A00A2098B /* libdjah_log_d.a */;
+			remoteInfo = djah_log;
+		};
+		B5E9E2C1131C954000A2098B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B5E9E2BD131C954000A2098B /* djah_video.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B5E9E135131C6A0800A2098B /* libdjah_video.a */;
+			remoteInfo = djah_video;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		1D6058910D05DD3D006BFB54 /* djah_testappli.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = djah_testappli.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		28FD14FF0DC6FC520079059D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		28FD15070DC6FC5B0079059D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		29B97316FDCFA39411CA2CEA /* main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* djah_testappli-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "djah_testappli-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		B5E9E2A0131C94B200A2098B /* djah_testappli_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = djah_testappli_Prefix.pch; sourceTree = "<group>"; };
+		B5E9E2A5131C950600A2098B /* djah_system.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = djah_system.xcodeproj; path = ../djah_system/djah_system.xcodeproj; sourceTree = SOURCE_ROOT; };
+		B5E9E2AB131C951700A2098B /* djah_core.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = djah_core.xcodeproj; path = ../djah_core/djah_core.xcodeproj; sourceTree = SOURCE_ROOT; };
+		B5E9E2B1131C952300A2098B /* djah_filesystem.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = djah_filesystem.xcodeproj; path = ../djah_filesystem/djah_filesystem.xcodeproj; sourceTree = SOURCE_ROOT; };
+		B5E9E2B7131C952D00A2098B /* djah_log.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = djah_log.xcodeproj; path = ../djah_log/djah_log.xcodeproj; sourceTree = SOURCE_ROOT; };
+		B5E9E2BD131C954000A2098B /* djah_video.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = djah_video.xcodeproj; path = ../djah_video/djah_video.xcodeproj; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1D60588F0D05DD3D006BFB54 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
+				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
+				28FD15000DC6FC520079059D /* OpenGLES.framework in Frameworks */,
+				28FD15080DC6FC5B0079059D /* QuartzCore.framework in Frameworks */,
+				B5E9E2CE131C955D00A2098B /* libdjah_video.a in Frameworks */,
+				B5E9E2CF131C956100A2098B /* libdjah_log_d.a in Frameworks */,
+				B5E9E2D0131C956400A2098B /* libdjah_filesystem_d.a in Frameworks */,
+				B5E9E2D1131C956700A2098B /* libdjah_core.a in Frameworks */,
+				B5E9E2D2131C956A00A2098B /* libdjah_system.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1D6058910D05DD3D006BFB54 /* djah_testappli.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
+			isa = PBXGroup;
+			children = (
+				B5E9E2BD131C954000A2098B /* djah_video.xcodeproj */,
+				B5E9E2B7131C952D00A2098B /* djah_log.xcodeproj */,
+				B5E9E2B1131C952300A2098B /* djah_filesystem.xcodeproj */,
+				B5E9E2AB131C951700A2098B /* djah_core.xcodeproj */,
+				B5E9E2A5131C950600A2098B /* djah_system.xcodeproj */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+			);
+			name = CustomTemplate;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				B5E9E2A0131C94B200A2098B /* djah_testappli_Prefix.pch */,
+				29B97316FDCFA39411CA2CEA /* main.mm */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8D1107310486CEB800E47090 /* djah_testappli-Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				28FD15070DC6FC5B0079059D /* QuartzCore.framework */,
+				28FD14FF0DC6FC520079059D /* OpenGLES.framework */,
+				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
+				1D30AB110D05D00D00671497 /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B5E9E2A6131C950600A2098B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B5E9E2AA131C950600A2098B /* libdjah_system.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B5E9E2AC131C951700A2098B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B5E9E2B0131C951700A2098B /* libdjah_core.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B5E9E2B2131C952300A2098B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B5E9E2B6131C952300A2098B /* libdjah_filesystem_d.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B5E9E2B8131C952D00A2098B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B5E9E2BC131C952E00A2098B /* libdjah_log_d.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B5E9E2BE131C954000A2098B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B5E9E2C2131C954000A2098B /* libdjah_video.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1D6058900D05DD3D006BFB54 /* djah_testappli */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "djah_testappli" */;
+			buildPhases = (
+				1D60588D0D05DD3D006BFB54 /* Resources */,
+				1D60588E0D05DD3D006BFB54 /* Sources */,
+				1D60588F0D05DD3D006BFB54 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = djah_testappli;
+			productName = djah_testappli;
+			productReference = 1D6058910D05DD3D006BFB54 /* djah_testappli.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "djah_testappli" */;
+			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = B5E9E2AC131C951700A2098B /* Products */;
+					ProjectRef = B5E9E2AB131C951700A2098B /* djah_core.xcodeproj */;
+				},
+				{
+					ProductGroup = B5E9E2B2131C952300A2098B /* Products */;
+					ProjectRef = B5E9E2B1131C952300A2098B /* djah_filesystem.xcodeproj */;
+				},
+				{
+					ProductGroup = B5E9E2B8131C952D00A2098B /* Products */;
+					ProjectRef = B5E9E2B7131C952D00A2098B /* djah_log.xcodeproj */;
+				},
+				{
+					ProductGroup = B5E9E2A6131C950600A2098B /* Products */;
+					ProjectRef = B5E9E2A5131C950600A2098B /* djah_system.xcodeproj */;
+				},
+				{
+					ProductGroup = B5E9E2BE131C954000A2098B /* Products */;
+					ProjectRef = B5E9E2BD131C954000A2098B /* djah_video.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				1D6058900D05DD3D006BFB54 /* djah_testappli */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		B5E9E2AA131C950600A2098B /* libdjah_system.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libdjah_system.a;
+			remoteRef = B5E9E2A9131C950600A2098B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B5E9E2B0131C951700A2098B /* libdjah_core.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libdjah_core.a;
+			remoteRef = B5E9E2AF131C951700A2098B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B5E9E2B6131C952300A2098B /* libdjah_filesystem_d.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libdjah_filesystem_d.a;
+			remoteRef = B5E9E2B5131C952300A2098B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B5E9E2BC131C952E00A2098B /* libdjah_log_d.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libdjah_log_d.a;
+			remoteRef = B5E9E2BB131C952E00A2098B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B5E9E2C2131C954000A2098B /* libdjah_video.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libdjah_video.a;
+			remoteRef = B5E9E2C1131C954000A2098B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1D60588D0D05DD3D006BFB54 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1D60588E0D05DD3D006BFB54 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D60589B0D05DD56006BFB54 /* main.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1D6058940D05DD3E006BFB54 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = djah_testappli_Prefix.pch;
+				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../../include/djah";
+				INFOPLIST_FILE = "djah_testappli-Info.plist";
+				PRODUCT_NAME = djah_testappli;
+			};
+			name = Debug;
+		};
+		1D6058950D05DD3E006BFB54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = djah_testappli_Prefix.pch;
+				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../../include/djah";
+				INFOPLIST_FILE = "djah_testappli-Info.plist";
+				PRODUCT_NAME = djah_testappli;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C01FCF4F08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(PROJECT_PATH)/../../../include/djah";
+				LIBRARY_SEARCH_PATHS = "";
+				PREBINDING = NO;
+				SDKROOT = iphonesimulator4.1;
+			};
+			name = Debug;
+		};
+		C01FCF5008A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(PROJECT_PATH)/../../../include/djah";
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PREBINDING = NO;
+				SDKROOT = iphonesimulator4.1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "djah_testappli" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D6058940D05DD3E006BFB54 /* Debug */,
+				1D6058950D05DD3E006BFB54 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "djah_testappli" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4F08A954540054247B /* Debug */,
+				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}
