@@ -19,7 +19,6 @@ namespace djah { namespace system {
 
 		virtual void create() = 0;
 		virtual void destroy() = 0;
-		virtual void swapBuffers() = 0;
 
 		virtual void beginScene() = 0;
 		virtual void endScene() = 0;

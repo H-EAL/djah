@@ -7,8 +7,6 @@
 #include "../device_base.hpp"
 
 namespace djah { namespace system {
-	
-	class opengl_win32;
 
 	class win32device 
 		: public device_base
@@ -24,6 +22,8 @@ namespace djah { namespace system {
 
 		virtual void setWindowTitle(const std::string &title);
 
+		virtual void swapBuffers();
+
 	private:
 
 		virtual void createImpl();
@@ -31,10 +31,12 @@ namespace djah { namespace system {
 		virtual bool runImpl();
 
 		// Platform specific
-		friend class opengl_win32;
+		void setupPixelFormat(const video_config &cfg);
 		friend LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 		HINSTANCE	hInstance_;		// Application handler
 		HWND		hWindow_;		// Window handler
+		HDC			hDC_;			// Drawing context
+		HGLRC		hGLRC_;			// OpenGL context
 	};
 
 } /*system*/ } /*djah*/

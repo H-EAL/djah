@@ -10,6 +10,7 @@ namespace djah { namespace system {
 		driver_ptr driver = new opengl_driver(device);
 		device->setVideoDriver(driver);
 		device->create(cfg);
+		driver->create();
 		return device;
 	}
 	//----------------------------------------------------------------------------------------------

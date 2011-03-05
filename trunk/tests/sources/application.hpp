@@ -56,8 +56,10 @@ private:
 
 	virtual void initImpl()
 	{
-		filesystem::browser::get().addLoadingChannel(new filesystem::directory_source("."));
 		log::logger::setLogger(new log::console_logger);
+		DJAH_BEGIN_LOG(EWL_NOTIFICATION) << "application::initImpl()" << DJAH_END_LOG();
+		
+		filesystem::browser::get().addLoadingChannel(new filesystem::directory_source("."));
 
 		strm = new filesystem::memory_stream(filesystem::browser::get().openReadStream("data/mesh.bdae"));
 
@@ -77,13 +79,13 @@ private:
 	}
 
 	virtual void runImpl()
-	{		
+	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		draw3D();
-		//draw2D();
+		draw2D();
 		
-		driver_->swapBuffers();
+		device_->swapBuffers();
 	}
 
 	void exitImpl()
@@ -108,7 +110,7 @@ private:
 
 		drawAxis();
 		drawMesh();
-		//drawSomething();
+		drawSomething();
 	}
 
 	void draw2D()

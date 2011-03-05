@@ -34,6 +34,8 @@ namespace djah { namespace system {
 
 		virtual void setWindowTitle(const std::string &title) = 0;
 
+		virtual void swapBuffers() = 0;
+
 	protected:
 
 		virtual void createImpl() = 0;
@@ -69,7 +71,7 @@ namespace djah { namespace system {
 	//----------------------------------------------------------------------------------------------
 	// Prototype of the actual instance creator (platform specific)
 	//----------------------------------------------------------------------------------------------
-	device_ptr new_platform_specific_device();
+	extern device_ptr new_platform_specific_device();
 	//----------------------------------------------------------------------------------------------
 
 } /*system*/ } /*djah*/

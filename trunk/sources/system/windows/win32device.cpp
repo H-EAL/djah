@@ -1,4 +1,5 @@
 #include "system/windows/win32device.hpp"
+#include "system/opengl_include.hpp"
 
 #include <cassert>
 
@@ -28,11 +29,11 @@ namespace djah { namespace system {
 		case WM_CLOSE:
 			device->shutDown();
 			break;
-
+			/*
 		case WM_CREATE:
 			device->hWindow_ = hWnd;
 			device->driver_->create();
-			break;
+			break;*/
 
 		case WM_SIZE:
 			device->resize(LOWORD(lParam), HIWORD(lParam));
@@ -53,6 +54,8 @@ namespace djah { namespace system {
 	win32device::win32device()
 		: hInstance_(0)
 		, hWindow_(0)
+		, hDC_(0)
+		, hGLRC_(0)
 	{
 	}
 	//----------------------------------------------------------------------------------------------
@@ -119,6 +122,25 @@ namespace djah { namespace system {
 
 		assert(hWindow_);
 
+		hDC_ = GetDC(hWindow_);
+		assert(hDC_);
+
+		setupPixelFormat(video_config_);
+		hGLRC_ = wglCreateContext(hDC_);
+		assert(hGLRC_);
+		
+		wglMakeCurrent(hDC_, hGLRC_);
+
+		// Handle VSync
+		typedef BOOL (APIENTRY *PFNWGLSWAPINTERVALFARPROC)( int );
+		PFNWGLSWAPINTERVALFARPROC wglSwapIntervalEXT = 0;
+		const char *extensions = reinterpret_cast<const char*>(glGetString( GL_EXTENSIONS ));
+		if( strstr( extensions, "WGL_EXT_swap_control" ) != 0 )
+		{
+			wglSwapIntervalEXT = (PFNWGLSWAPINTERVALFARPROC)wglGetProcAddress( "wglSwapIntervalEXT" );
+			if( wglSwapIntervalEXT ) wglSwapIntervalEXT(video_config_.vsync ? 1 : 0);
+		}
+
 		UpdateWindow(hWindow_);
 	}
 	//----------------------------------------------------------------------------------------------
@@ -127,6 +149,8 @@ namespace djah { namespace system {
 	//----------------------------------------------------------------------------------------------
 	void win32device::destroyImpl()
 	{
+		wglMakeCurrent(0,0);
+		ReleaseDC(hWindow_, hDC_);
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -164,6 +188,14 @@ namespace djah { namespace system {
 
 
 	//----------------------------------------------------------------------------------------------
+	void win32device::swapBuffers()
+	{
+		SwapBuffers(hDC_);
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
 	bool win32device::runImpl()
 	{
 		MSG msg;
@@ -179,6 +211,39 @@ namespace djah { namespace system {
 		UpdateWindow(hWindow_);
 
 		return true;
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	void win32device::setupPixelFormat(const video_config &cfg)
+	{
+		PIXELFORMATDESCRIPTOR pfd =
+		{	 
+			sizeof(PIXELFORMATDESCRIPTOR), 1,
+			PFD_SUPPORT_OPENGL | PFD_DRAW_TO_WINDOW | PFD_DOUBLEBUFFER,
+			PFD_TYPE_RGBA,
+			static_cast<BYTE>(cfg.colorBits),	// Bits de couleur
+			0, 0, 0, 0, 0, 0, 0, 0,
+			0, 0, 0, 0, 0,
+			static_cast<BYTE>(cfg.depthBits),	// Bits de profondeur
+			static_cast<BYTE>(cfg.stencilBits),	// Bits du buffer stencil
+			0,														// Nombre de buffers auxiliaires
+			0, 0, 0, 0, 0
+		};	 
+
+		int pixelFormat;
+		pixelFormat = ChoosePixelFormat(hDC_, &pfd);
+		if (!pixelFormat)
+		{
+			MessageBoxA(WindowFromDC(hDC_), "Mode graphique non supporté", "Problème", MB_ICONERROR | MB_OK);
+			exit(1);
+		}	
+		if (!SetPixelFormat(hDC_, pixelFormat, &pfd))
+		{
+			MessageBoxA(WindowFromDC(hDC_), "Mode graphique non supporté", "Problème", MB_ICONERROR | MB_OK);
+			exit(1);
+		}	
 	}
 	//----------------------------------------------------------------------------------------------
 

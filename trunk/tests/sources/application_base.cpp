@@ -2,6 +2,7 @@
 
 #include <djah/system/device_base.hpp>
 #include <djah/system/driver_base.hpp>
+#include <djah/system/device_base.hpp>
 
 namespace djah { namespace tests {
 

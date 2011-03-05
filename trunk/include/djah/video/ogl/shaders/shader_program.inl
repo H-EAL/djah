@@ -13,7 +13,12 @@ namespace djah { namespace video { namespace ogl {
 			static PFNGLUNIFORMPROC uniform(int i) 
 			{
 				static const PFNGLUNIFORMPROC uniformTab[] =
-				{ glUniform1fv, glUniform2fv, glUniform3fv, glUniform4fv };
+				{
+					(PFNGLUNIFORMPROC) glUniform1fv, 
+					(PFNGLUNIFORMPROC) glUniform2fv,
+					(PFNGLUNIFORMPROC)  glUniform3fv,
+					(PFNGLUNIFORMPROC)  glUniform4fv
+				};
 				return uniformTab[i];
 			}
 		};
@@ -25,7 +30,12 @@ namespace djah { namespace video { namespace ogl {
 			static PFNGLUNIFORMPROC uniform(int i) 
 			{
 				static const PFNGLUNIFORMPROC uniformTab[] =
-				{ glUniform1iv, glUniform2iv, glUniform3iv, glUniform4iv };
+				{ 
+					(PFNGLUNIFORMPROC) glUniform1iv, 
+					(PFNGLUNIFORMPROC) glUniform2iv, 
+					(PFNGLUNIFORMPROC) glUniform3iv, 
+					(PFNGLUNIFORMPROC) glUniform4iv
+				};
 				return uniformTab[i];
 			}
 		};
@@ -66,15 +76,15 @@ namespace djah { namespace video { namespace ogl {
 	template<int N>
 	void shader_program::sendUniformMatrix(const std::string &name, const float *data, int count, bool transpose) const
 	{
-		typedef void (*PFNGLUNIFORMMATRIXPROC) (GLint, GLsizei, GLboolean, const GLfloat*); 
-		static const PFNGLUNIFORMMATRIXPROC uniformMatrixFuncTab[] = 
+		//typedef void (*PFNGLUNIFORMMATRIXPROC) (GLint, GLsizei, GLboolean, const GLfloat*); 
+		static const PFNGLUNIFORMMATRIX2FVPROC uniformMatrixFuncTab[] = 
 		{
 			glUniformMatrix2fv,
 			glUniformMatrix3fv,
 			glUniformMatrix4fv
 		};
 
-		static const PFNGLUNIFORMMATRIXPROC uniformMatrix = uniformMatrixFuncTab[N-2];
+		static const PFNGLUNIFORMMATRIX2FVPROC uniformMatrix = uniformMatrixFuncTab[N-2];
 
 		unsigned int location = getUniformLocation(name);
 		uniformMatrix(location, count, transpose, data);

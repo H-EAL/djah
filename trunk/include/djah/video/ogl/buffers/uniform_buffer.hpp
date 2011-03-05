@@ -10,7 +10,7 @@ namespace djah { namespace video { namespace ogl {
 	{
 	public:
 		uniform_buffer(size_t size, E_BUFFER_USAGE usage, bool auto_alloc = true)
-			: buffer_base(size, usage, auto_alloc) {}
+			: buffer_base<GL_UNIFORM_BUFFER>(size, usage, auto_alloc) {}
 	};
 
 } /*ogl*/ } /*video*/ } /*djah*/
