@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\djah\system\windows\opengl_win32.hpp">
-      <Filter>include\windows</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\djah\system\windows\win32device.hpp">
       <Filter>include\windows</Filter>
     </ClInclude>
@@ -41,9 +38,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\sources\system\windows\opengl_win32.cpp">
-      <Filter>sources\windows</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\sources\system\windows\win32device.cpp">
       <Filter>sources\windows</Filter>
     </ClCompile>

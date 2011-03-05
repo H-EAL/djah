@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="62">
+  <logicalFolder name="root" displayName="root" projectFiles="true">
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+      <logicalFolder name="ogl" displayName="ogl" projectFiles="true">
+        <logicalFolder name="buffers" displayName="buffers" projectFiles="true">
+          <itemPath>../../../include/djah/video/ogl/buffers/buffer_base.hpp</itemPath>
+          <itemPath>../../../include/djah/video/ogl/buffers/frame_buffer.hpp</itemPath>
+          <itemPath>../../../include/djah/video/ogl/buffers/index_buffer.hpp</itemPath>
+          <itemPath>../../../include/djah/video/ogl/buffers/render_buffer.hpp</itemPath>
+          <itemPath>../../../include/djah/video/ogl/buffers/texture.hpp</itemPath>
+          <itemPath>../../../include/djah/video/ogl/buffers/uniform_buffer.hpp</itemPath>
+          <itemPath>../../../include/djah/video/ogl/buffers/vertex_array.hpp</itemPath>
+          <itemPath>../../../include/djah/video/ogl/buffers/vertex_attrib.hpp</itemPath>
+          <itemPath>../../../include/djah/video/ogl/buffers/vertex_buffer.hpp</itemPath>
+          <itemPath>../../../include/djah/video/ogl/buffers/vertex_format.hpp</itemPath>
+        </logicalFolder>
+        <logicalFolder name="shaders" displayName="shaders" projectFiles="true">
+          <itemPath>../../../include/djah/video/ogl/shaders/geometry_shader.hpp</itemPath>
+          <itemPath>../../../include/djah/video/ogl/shaders/pixel_shader.hpp</itemPath>
+          <itemPath>../../../include/djah/video/ogl/shaders/shader_base.hpp</itemPath>
+          <itemPath>../../../include/djah/video/ogl/shaders/shader_program.hpp</itemPath>
+          <itemPath>../../../include/djah/video/ogl/shaders/vertex_shader.hpp</itemPath>
+        </logicalFolder>
+        <itemPath>../../../include/djah/video/ogl/buffers.hpp</itemPath>
+        <itemPath>../../../include/djah/video/ogl/errors.hpp</itemPath>
+        <itemPath>../../../include/djah/video/ogl/extensions.hpp</itemPath>
+        <itemPath>../../../include/djah/video/ogl/gl_caps.hpp</itemPath>
+        <itemPath>../../../include/djah/video/ogl/gl_types.hpp</itemPath>
+        <itemPath>../../../include/djah/video/ogl/resource.hpp</itemPath>
+        <itemPath>../../../include/djah/video/ogl/shaders.hpp</itemPath>
+      </logicalFolder>
+      <logicalFolder name="primitives" displayName="primitives" projectFiles="true">
+        <itemPath>../../../include/djah/video/primitives/triangle.hpp</itemPath>
+      </logicalFolder>
+      <itemPath>../../../include/djah/video/ogl.hpp</itemPath>
+      <itemPath>../../../include/djah/video/projection.hpp</itemPath>
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+      <logicalFolder name="ogl" displayName="ogl" projectFiles="true">
+        <logicalFolder name="buffers" displayName="buffers" projectFiles="true">
+          <itemPath>../../../sources/video/ogl/buffers/frame_buffer.cpp</itemPath>
+          <itemPath>../../../sources/video/ogl/buffers/render_buffer.cpp</itemPath>
+          <itemPath>../../../sources/video/ogl/buffers/texture.cpp</itemPath>
+          <itemPath>../../../sources/video/ogl/buffers/vertex_array.cpp</itemPath>
+          <itemPath>../../../sources/video/ogl/buffers/vertex_format.cpp</itemPath>
+        </logicalFolder>
+        <logicalFolder name="shaders" displayName="shaders" projectFiles="true">
+          <itemPath>../../../sources/video/ogl/shaders/shader_program.cpp</itemPath>
+        </logicalFolder>
+      </logicalFolder>
+      <logicalFolder name="primitives" displayName="primitives" projectFiles="true">
+        <itemPath>../../../sources/video/primitives/triangle.cpp</itemPath>
+      </logicalFolder>
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceRootList>
+    <Elem>../../../include/djah/video/ogl</Elem>
+    <Elem>../../../include/djah/video/primitives</Elem>
+    <Elem>../../../sources/video/ogl</Elem>
+    <Elem>../../../sources/video/primitives</Elem>
+  </sourceRootList>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Debug" type="3">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>GNU|GNU</compilerSet>
+        <platform>2</platform>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <incDir>
+            <pElem>../../../../extlibs/include</pElem>
+            <pElem>../../../include/djah</pElem>
+          </incDir>
+        </ccTool>
+        <archiverTool>
+          <output>${CND_DISTDIR}/../../../../lib/linux/libdjah_video_d.a</output>
+        </archiverTool>
+      </compileType>
+    </conf>
+    <conf name="Release" type="3">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>GNU|GNU</compilerSet>
+        <platform>2</platform>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+          <incDir>
+            <pElem>../../../../extlibs/include</pElem>
+            <pElem>../../../include/djah</pElem>
+          </incDir>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <archiverTool>
+          <output>${CND_DISTDIR}/../../../../lib/linux/libdjah_video.a</output>
+        </archiverTool>
+      </compileType>
+    </conf>
+  </confs>
+</configurationDescriptor>
