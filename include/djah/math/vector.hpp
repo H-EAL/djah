@@ -3,6 +3,7 @@
 
 #include <cmath>
 #include <cassert>
+#include <algorithm>
 
 namespace djah { namespace math {
 

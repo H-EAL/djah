@@ -5,8 +5,6 @@
 
 namespace djah { namespace system {
 
-	class opengl_context;
-
 	class opengl_driver
 		: public driver_base
 	{
@@ -16,19 +14,12 @@ namespace djah { namespace system {
 
 		virtual void create();
 		virtual void destroy();
-		virtual void swapBuffers();
-
-		opengl_context* context() const;
 
 		virtual void beginScene();
 		virtual void endScene();
 
-
 	protected:
 		virtual void updateViewport();
-
-	private:
-		opengl_context *context_;
 	};
 
 } /*system*/ } /*djah*/

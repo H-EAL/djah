@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include <iostream>
+#include <cstring>
 #include "vector.hpp"
 
 namespace djah { namespace math {

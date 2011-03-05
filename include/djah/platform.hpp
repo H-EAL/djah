@@ -2,12 +2,14 @@
 #define DJAH_PLATFORM_HPP
 
 #if defined(_WIN32)
-#	define DJAH_COMPILE_WINDOWS
-#	define WIN32_LEAN_AND_MEAN
-#	include <windows.h>
+#   define DJAH_COMPILE_WINDOWS
+#   define WIN32_LEAN_AND_MEAN
+#   include <windows.h>
 
 #elif defined(linux)
-#	define DJAH_COMPILE_LINUX
+#   define DJAH_COMPILE_LINUX
+#   include<X11/X.h>
+#   include<X11/Xlib.h>
 
 #elif defined(TARGET_OS_MAC)
 #	define DJAH_COMPILE_MACOSX

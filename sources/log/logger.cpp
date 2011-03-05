@@ -1,5 +1,6 @@
 #include <cstdarg>
 #include <cassert>
+#include <cstdio>
 #include "log/logger.hpp"
 
 namespace djah { namespace log {

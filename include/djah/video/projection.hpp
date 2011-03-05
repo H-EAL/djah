@@ -1,6 +1,7 @@
 #ifndef DJAH_VIDEO_PROJECTION_HPP
 #define DJAH_VIDEO_PROJECTION_HPP
 
+#include "../math/math_utils.hpp"
 #include "../math/matrix4.hpp"
 #include "../math/vector3.hpp"
 

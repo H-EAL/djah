@@ -1,14 +1,12 @@
 #include "system/opengl_driver.hpp"
 #include "system/opengl_include.hpp"
-#include "system/opengl_context.hpp"
 #include "video/ogl/gl_caps.hpp"
 
 namespace djah { namespace system {
 
 	//----------------------------------------------------------------------------------------------
-	opengl_driver::opengl_driver(device_base *device)
+    opengl_driver::opengl_driver(device_base *device)
 		: driver_base(device)
-		, context_(new_platform_specific_context())
 	{
 	}
 	//----------------------------------------------------------------------------------------------
@@ -24,10 +22,8 @@ namespace djah { namespace system {
 	//----------------------------------------------------------------------------------------------
 	void opengl_driver::create()
 	{
-		context_->create(device_);
-
 		video::ogl::capabilities::init();
-		//video::ogl::load_extensions();
+		video::ogl::load_extensions();
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -35,25 +31,6 @@ namespace djah { namespace system {
 	//----------------------------------------------------------------------------------------------
 	void opengl_driver::destroy()
 	{
-		context_->destroy();
-		delete context_;
-		context_ = 0;
-	}
-	//----------------------------------------------------------------------------------------------
-
-
-	//----------------------------------------------------------------------------------------------
-	void opengl_driver::swapBuffers()
-	{
-		context_->swapBuffers();
-	}
-	//----------------------------------------------------------------------------------------------
-
-
-	//----------------------------------------------------------------------------------------------
-	opengl_context* opengl_driver::context() const
-	{
-		return context_;
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -61,7 +38,6 @@ namespace djah { namespace system {
 	//----------------------------------------------------------------------------------------------
 	void opengl_driver::beginScene()
 	{
-		context_->makeCurrent();
 	}
 	//----------------------------------------------------------------------------------------------
 

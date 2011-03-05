@@ -3,7 +3,7 @@
 
 #include "../platform.hpp"
 
-#define DJAH_COMPILE_IPHONEOS 1
+//#define DJAH_COMPILE_IPHONEOS 1
 
 #if defined(DJAH_COMPILE_IPHONEOS)
 #	include <OpenGlES/ES2/gl.h>
@@ -11,9 +11,12 @@
 #elif defined(DJAH_COMPILE_MACOSX)
 #	include <OpenGl/gl.h>
 #	include <OpenGl/glext.h>
+#elif defined(DJAH_COMPILE_LINUX)
+#	include <GL/gl.h>
+#       include <GL/glx.h>
 #else
-#	include "GL/gl.h"
-#	include "GL/glext.h"
+#	include "GL4/gl.h"
+#	include "GL4/glext.h"
 #endif
 
 #ifndef DJAH_COMPILE_IPHONEOS

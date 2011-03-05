@@ -1,19 +1,13 @@
-#ifndef DJAH_VIDEO_DEVICES_X11DEVICE_HPP
-#define DJAH_VIDEO_DEVICES_X11DEVICE_HPP
+#ifndef DJAH_SYSTEM_LINUX_X11DEVICE_HPP
+#define DJAH_SYSTEM_LINUX_X11DEVICE_HPP
 
 #include <string>
 
 #include <X11/Xlib.h>
 #include "../device_base.hpp"
+#include "../opengl_include.hpp"
 
-namespace djah { namespace video {
-	
-	// Forward declaration
-	namespace drivers { namespace detail {
-		class opengl_x11;
-	} /*detail*/ } /*drivers*/
-
-	namespace devices  {
+namespace djah { namespace system {
 
 	class x11device
 		: public device_base
@@ -26,7 +20,6 @@ namespace djah { namespace video {
 		virtual void show();
 		virtual bool isWindowActive();
 		virtual bool hasWindowFocus();
-		virtual void shutDown();
 
 		virtual void setWindowTitle(const std::string &title);
 
@@ -38,15 +31,12 @@ namespace djah { namespace video {
 		virtual void destroyImpl();
 		virtual bool runImpl();
 
-		// Platform specific
-		friend class drivers::detail::opengl_x11;
-	
+		// Platform specific	
 		Window 	window_;
-		Display *display_;
-		
+                Display *display_;
+                GLXContext glx_context_;
 	};
 
+} /*system*/ } /*djah*/
 
-} /*devices*/ } /*video*/ } /*djah*/
-
-#endif /* DJAH_VIDEO_DEVICES_X11DEVICE_HPP */
+#endif /* DJAH_SYSTEM_LINUX_X11DEVICE_HPP */

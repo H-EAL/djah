@@ -1,5 +1,5 @@
 #include <cassert>
-
+#include "platform.hpp"
 #define DEFINE_EXTENSIONS_AS_LOCAL
 #include "system/opengl_include.hpp"
 #undef DEFINE_EXTENSIONS_AS_LOCAL
@@ -10,7 +10,11 @@ namespace {
 	template<typename T>
 	inline void load_extension(T& func, const char *name)
 	{
-		func = reinterpret_cast<T>(wglGetProcAddress(name));
+        #if defined(DJAH_COMPILE_LINUX)
+        func = reinterpret_cast<T>( glXGetProcAddress(reinterpret_cast<const GLubyte *>(name)) );
+        #elif defined(DJAH_COMPILE_WINDOWS)
+		func = reinterpret_cast<T>( wglGetProcAddress(name) );
+        #endif
 		assert(func != 0);
 	}
 	//----------------------------------------------------------------------------------------------

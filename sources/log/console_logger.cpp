@@ -1,5 +1,6 @@
 #include "log/console_logger.hpp"
 #include <iostream>
+#include <cstdio>
 #include "platform.hpp"
 
 namespace djah { namespace log {
