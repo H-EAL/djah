@@ -77,7 +77,6 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\include\djah\system\device_base.hpp" />
     <ClInclude Include="..\..\..\include\djah\system\driver_base.hpp" />
-    <ClInclude Include="..\..\..\include\djah\system\opengl_context.hpp" />
     <ClInclude Include="..\..\..\include\djah\system\opengl_driver.hpp" />
     <ClInclude Include="..\..\..\include\djah\system\opengl_include.hpp" />
     <ClInclude Include="..\..\..\include\djah\system\video_config.hpp" />

@@ -214,6 +214,7 @@ private:
 		eye_.z = 3*sin(angle);
 		angle = (angle+0.01f > math::pi_times_2) ? 0.0f : angle+0.01f;
 		math::matrix4f matView = video::make_look_at(eye_, center_, up_);
+		matView *= math::make_translation(1.0f, 0.0f, 0.0f);
 
 		sp.begin();
 		sp.sendUniformMatrix("ProjectionMatrix", (matPerspectiveProj_*matView), true);
@@ -223,7 +224,7 @@ private:
 
 	void drawMesh()
 	{
-		glPushMatrix();
+		/*glPushMatrix();
 		glRotatef(90.0f, 0,0,1);
 		glRotatef(90.0f, 0,1,0);
 		glScalef(0.3f,0.3f,0.3f);
@@ -238,7 +239,56 @@ private:
 			glVertex3fv(&buf[i]);
 		}
 		glEnd();
-		glPopMatrix();
+		glPopMatrix();*/
+
+		
+		static video::ogl::vertex_format vf;
+		vf.record() << video::ogl::format::position<3,float>();
+		
+		static video::ogl::vertex_buffer vb( strm->size() * sizeof(float), video::ogl::EBU_STATIC_DRAW);
+		
+		static video::ogl::vertex_array  va(vf, &vb);
+		static video::ogl::shader_program sp;
+		static bool initialized = false;
+		if( !initialized )
+		{
+			vb.write(strm->buffer(), strm->size());
+
+			video::ogl::vertex_shader vs;
+			video::ogl::pixel_shader ps;
+
+			const char *vsstr = "#version 140\n uniform mat4 ProjectionMatrix; in vec4 Position; invariant gl_Position;\
+								void main() { gl_Position = ProjectionMatrix * Position; }";
+
+			const char *psstr = "#version 140\n out vec4 Color; void main() { Color = vec4(0,1,0,1); }";
+
+			vs.loadSourceFromString(vsstr);
+			vs.compile();
+			ps.loadSourceFromString(psstr);
+			ps.compile();
+			sp.attach(vs);
+			sp.attach(ps);
+			sp.link();
+
+			va.init(sp);
+			initialized = true;
+		}
+
+		static float angle = 0.0f;
+		eye_.x = 3*cos(angle);
+		eye_.z = 3*sin(angle);
+		angle = (angle+0.01f > math::pi_times_2) ? 0.0f : angle+0.01f;
+		math::matrix4f matView = video::make_look_at(eye_, center_, up_);
+
+		matView *= math::make_translation(-1.0f, 0.0f, 0.0f);
+		matView *= math::make_rotation(math::deg_to_rad(90.0f), 0.0f, 0.0f, 1.0f);
+		matView *= math::make_rotation(math::deg_to_rad(90.0f), 0.0f, 1.0f, 0.0f);
+		matView *= math::make_scale(0.3f, 0.3f, 0.3f);
+
+		sp.begin();
+		sp.sendUniformMatrix("ProjectionMatrix", (matPerspectiveProj_*matView), true);
+		va.draw();
+		sp.end();
 	}
 };
 
