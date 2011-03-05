@@ -24,9 +24,6 @@
     <ClInclude Include="..\..\..\include\djah\system\driver_base.hpp">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\system\opengl_context.hpp">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\djah\system\opengl_driver.hpp">
       <Filter>include</Filter>
     </ClInclude>
