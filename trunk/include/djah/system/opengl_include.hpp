@@ -13,7 +13,7 @@
 #	include <OpenGl/glext.h>
 #elif defined(DJAH_COMPILE_LINUX)
 #	include <GL/gl.h>
-#       include <GL/glx.h>
+#	include <GL/glx.h>
 #else
 #	include "GL4/gl.h"
 #	include "GL4/glext.h"
