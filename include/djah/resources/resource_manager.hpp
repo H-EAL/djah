@@ -19,6 +19,7 @@ namespace djah { namespace resources {
 
 		void add(const std::string &name, resource_ptr res);
 		void remove(const std::string &name);
+		void remove(resource_ptr res);
 
 	private:
 		typedef std::map<std::string, resource_base*> resource_map_t;

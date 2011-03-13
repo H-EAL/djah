@@ -60,5 +60,29 @@ namespace djah { namespace video { namespace ogl {
 		return glIsTexture(id_) != 0;
 	}
 	//----------------------------------------------------------------------------------------------
+	
+
+	//----------------------------------------------------------------------------------------------
+	void texture::setPixelBuffer(const byte *pixelBuffer, bool luminance)
+	{
+		bind();
+
+		if( luminance )
+		{
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA16, width_, height_, 0, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, pixelBuffer);
+		}
+		else
+		{
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width_, height_, 0, GL_BGR, GL_UNSIGNED_BYTE, pixelBuffer);	
+		}
+	}
+	//----------------------------------------------------------------------------------------------
+
 
 } /*ogl*/ } /*video*/ } /*djah*/

@@ -26,11 +26,6 @@ namespace djah { namespace system {
 		void setViewport(const geometry::rect_i &viewport);
 		const geometry::rect_i& getViewport() const;
 
-		const math::matrix4f& getViewMatrix() const;
-		void setViewMatrix(const math::matrix4f &proj_mat);
-		const math::matrix4f& getProjectionMatrix() const;
-		void setProjectionMatrix(const math::matrix4f &proj_mat);
-
 	protected:
 
 		virtual void updateViewport() = 0;
@@ -38,11 +33,6 @@ namespace djah { namespace system {
 		device_base			*device_;
 
 		geometry::rect_i	viewport_;
-		math::matrix4f		view_matrix_;
-		math::matrix4f		projection_matrix_;
-
-		// Indicates wether the projection matrix has been modified or not
-		bool				proj_dirty_;
 	};
 	//----------------------------------------------------------------------------------------------
 

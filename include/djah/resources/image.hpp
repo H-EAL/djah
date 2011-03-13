@@ -3,15 +3,13 @@
 
 #include <vector>
 #include "resource_base.hpp"
+#include "../types.hpp"
 
 namespace djah { namespace resources {
 
 	class image
 		: public resource_base
 	{
-	private:
-		typedef unsigned char byte;
-
 	public:
 		image(unsigned int width, unsigned int height, const byte *pixels);
 		~image() {}

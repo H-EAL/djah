@@ -8,7 +8,7 @@ namespace djah { namespace resources {
 		std::vector<std::string> extensions;
 		utils::split_string(ext, extensions, " /\\*.,;|-_\t\n'\"");
 
-		loader_t_ptr p_loader(loader);
+		media_holder<T>::loader_t_ptr p_loader(loader);
 		std::vector<std::string>::const_iterator it;
 		std::vector<std::string>::const_iterator it_end = extensions.end();
 		for(it = extensions.begin(); it != it_end; ++it)

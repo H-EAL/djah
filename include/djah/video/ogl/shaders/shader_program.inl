@@ -9,15 +9,15 @@ namespace djah { namespace video { namespace ogl {
 		template<>
 		struct UniformFunc<float>
 		{
-			typedef void (*PFNGLUNIFORMPROC) (GLint, GLsizei, const GLfloat*);
-			static PFNGLUNIFORMPROC uniform(int i) 
+			//typedef void (*PFNGLUNIFORMPROC) (GLint, GLsizei, const GLfloat*);
+			static PFNGLUNIFORM1FVPROC uniform(int i) 
 			{
-				static const PFNGLUNIFORMPROC uniformTab[] =
+				static const PFNGLUNIFORM1FVPROC uniformTab[] =
 				{
-					(PFNGLUNIFORMPROC) glUniform1fv, 
-					(PFNGLUNIFORMPROC) glUniform2fv,
-					(PFNGLUNIFORMPROC)  glUniform3fv,
-					(PFNGLUNIFORMPROC)  glUniform4fv
+					glUniform1fv, 
+					glUniform2fv,
+					glUniform3fv,
+					glUniform4fv
 				};
 				return uniformTab[i];
 			}

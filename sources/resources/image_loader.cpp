@@ -1,8 +1,8 @@
-#include "resources/loaders/image_loader.hpp"
+#include "resources/image_loader.hpp"
 #include <FreeImage.h>
 #include "filesystem/stream.hpp"
 
-namespace djah { namespace resources { namespace loaders {
+namespace djah { namespace resources {
 
 	//----------------------------------------------------------------------------------------------
 	image_loader::image_loader()
@@ -72,4 +72,4 @@ namespace djah { namespace resources { namespace loaders {
 	}
 	//----------------------------------------------------------------------------------------------
 
-} /*loaders*/ } /*resources*/ } /*djah*/
+} /*resources*/ } /*djah*/
