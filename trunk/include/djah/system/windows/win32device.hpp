@@ -30,8 +30,11 @@ namespace djah { namespace system {
 		virtual void destroyImpl();
 		virtual bool runImpl();
 
+		void createWindow();
+		void createContext();
+
 		// Platform specific
-		void setupPixelFormat(const video_config &cfg);
+		void setupPixelFormat();
 		friend LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 		HINSTANCE	hInstance_;		// Application handler
 		HWND		hWindow_;		// Window handler

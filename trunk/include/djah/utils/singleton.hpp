@@ -13,10 +13,15 @@ namespace djah { namespace utils {
 	{
 	public:
 
-		static T& get()
+		static void create()
 		{
 			if( instance_ == 0 )
 				instance_ = new T;
+		}
+
+		static T& get()
+		{
+			create();
 			return *instance_;
 		}
 

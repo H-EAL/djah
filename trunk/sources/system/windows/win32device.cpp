@@ -71,6 +71,15 @@ namespace djah { namespace system {
 	//----------------------------------------------------------------------------------------------
 	void win32device::createImpl()
 	{
+		createWindow();
+		createContext();
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	void win32device::createWindow()
+	{
 		hInstance_ = GetModuleHandle(0);
 		assert(hInstance_);
 		WNDCLASSEXA window_class =
@@ -121,11 +130,17 @@ namespace djah { namespace system {
 		);
 
 		assert(hWindow_);
+	}
+	//----------------------------------------------------------------------------------------------		
 
+
+	//----------------------------------------------------------------------------------------------
+	void win32device::createContext()
+	{
 		hDC_ = GetDC(hWindow_);
 		assert(hDC_);
 
-		setupPixelFormat(video_config_);
+		setupPixelFormat();
 		hGLRC_ = wglCreateContext(hDC_);
 		assert(hGLRC_);
 		
@@ -140,8 +155,6 @@ namespace djah { namespace system {
 			wglSwapIntervalEXT = (PFNWGLSWAPINTERVALFARPROC)wglGetProcAddress( "wglSwapIntervalEXT" );
 			if( wglSwapIntervalEXT ) wglSwapIntervalEXT(video_config_.vsync ? 1 : 0);
 		}
-
-		UpdateWindow(hWindow_);
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -216,18 +229,18 @@ namespace djah { namespace system {
 
 
 	//----------------------------------------------------------------------------------------------
-	void win32device::setupPixelFormat(const video_config &cfg)
+	void win32device::setupPixelFormat()
 	{
 		PIXELFORMATDESCRIPTOR pfd =
 		{	 
 			sizeof(PIXELFORMATDESCRIPTOR), 1,
 			PFD_SUPPORT_OPENGL | PFD_DRAW_TO_WINDOW | PFD_DOUBLEBUFFER,
 			PFD_TYPE_RGBA,
-			static_cast<BYTE>(cfg.colorBits),	// Bits de couleur
+			static_cast<BYTE>(video_config_.colorBits),	// Bits de couleur
 			0, 0, 0, 0, 0, 0, 0, 0,
 			0, 0, 0, 0, 0,
-			static_cast<BYTE>(cfg.depthBits),	// Bits de profondeur
-			static_cast<BYTE>(cfg.stencilBits),	// Bits du buffer stencil
+			static_cast<BYTE>(video_config_.depthBits),	// Bits de profondeur
+			static_cast<BYTE>(video_config_.stencilBits),	// Bits du buffer stencil
 			0,														// Nombre de buffers auxiliaires
 			0, 0, 0, 0, 0
 		};	 

@@ -1,6 +1,7 @@
 #ifndef DJAH_VIDEO_OGL_TEXTURE_HPP
 #define DJAH_VIDEO_OGL_TEXTURE_HPP
 
+#include "../../../types.hpp"
 #include "../resource.hpp"
 
 namespace djah { namespace video { namespace ogl {
@@ -38,6 +39,8 @@ namespace djah { namespace video { namespace ogl {
 
 		int width() const;
 		int height() const;
+
+		void setPixelBuffer(const byte *pixelBuffer, bool luminance);
 
 	private:
 
