@@ -25,15 +25,21 @@ namespace djah { namespace tests {
 	//----------------------------------------------------------------------------------------------
 	int application_base::exec(int argc, char *argv[])
 	{
+		int retVal = EXIT_FAILURE;
+
+		init();
 		if( device_ && driver_ )
 		{
 			while( device_->run() )
+			{
 				runImpl();
-
-			return EXIT_SUCCESS;
+				device_->swapBuffers();
+			}
+			retVal = EXIT_SUCCESS;
 		}
+		exit();
 
-		return EXIT_FAILURE;
+		return retVal;
 	}
 	//----------------------------------------------------------------------------------------------
 	
@@ -43,14 +49,16 @@ namespace djah { namespace tests {
 		device_ = system::create_device(video_config_);
 		driver_ = device_->videoDriver();
 
-		initImpl();
+		if( device_ && driver_ )
+			initImpl();
 	}
 	//----------------------------------------------------------------------------------------------
 	
 	//----------------------------------------------------------------------------------------------
 	void application_base::exit()
 	{
-		device_->destroy();
+		if( device_ )
+			device_->destroy();
 	}
 	//----------------------------------------------------------------------------------------------
 
