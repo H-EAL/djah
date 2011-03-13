@@ -31,16 +31,21 @@ public:
 //--------------------------------------------------------------------------------------------------
 mesh_builder::mesh_builder(const proxy &obj)
 {
-	const skin						&skn	= *(obj.getControllers()[0]->skin_);
-	const mesh						&m		= *(obj.getGeometries()[0]->mesh_);
-	const triangles_list_t			&tris	= m.triangles_;
-	triangles_list_t::const_iterator it		= tris.begin();
-	triangles_list_t::const_iterator it_end	= tris.end();
-	while(it != it_end)
+	const skin						skn;//	= *(obj.getControllers()[0]->skin_);
+
+	size_t geo = obj.getGeometries().size();
+	for(size_t i = 0; i < geo; ++i)
 	{
-		submesh *sm = new submesh(m, *(*it), skn);
-		submeshes_.push_back(sm);
-		++it;
+		const mesh						&m		= *(obj.getGeometries()[i]->mesh_);
+		const triangles_list_t			&tris	= m.triangles_;
+		triangles_list_t::const_iterator it		= tris.begin();
+		triangles_list_t::const_iterator it_end	= tris.end();
+		while(it != it_end)
+		{
+			submesh *sm = new submesh(m, *(*it), skn);
+			submeshes_.push_back(sm);
+			++it;
+		}
 	}
 }
 //--------------------------------------------------------------------------------------------------
@@ -94,7 +99,7 @@ submesh::submesh(const mesh &m, const triangles &tris, const skin &skn)
 		get_input_by_semantic(ESS_VERTEX,	tris.inputs_),
 		get_input_by_semantic(ESS_NORMAL,	tris.inputs_),
 		get_input_by_semantic(ESS_TEXCOORD, tris.inputs_),
-		get_input_by_semantic(ESS_WEIGHT,	skn.vertex_weights_->inputs_)
+		0//get_input_by_semantic(ESS_WEIGHT,	skn.vertex_weights_->inputs_)
 	};
 
 	std::string pos_src_id = get_source_id_by_semantic(ESS_POSITION, m.vertices_->inputs_);

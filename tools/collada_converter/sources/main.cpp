@@ -4,11 +4,11 @@
 
 int main()
 {
-	collada::proxy obj("astroBoy_walk_Max.dae");
+	collada::proxy obj("cthulhu.dae");
 	if(obj.good())
 	{
 		std::fstream file;
-		file.open("mesh.bdae", std::ios::in | std::ios::binary | std::ios::trunc | std::ios::out);
+		file.open("cthulhu.bdae", std::ios::in | std::ios::binary | std::ios::trunc | std::ios::out);
 		if( !file.good() )
 			return 1;
 
@@ -24,6 +24,8 @@ int main()
 			for(size_t i = 0; i < buffer.size(); i += vertexSize)
 			{
 				file.write((const char*)&buffer[i], 3*4);
+				file.write((const char*)&buffer[i+3], 3*4);
+				file.write((const char*)&buffer[i+6], 2*4);
 			}
 		}
 	}
