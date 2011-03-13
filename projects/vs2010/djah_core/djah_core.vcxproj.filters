@@ -21,15 +21,6 @@
     <Filter Include="include\geometry">
       <UniqueIdentifier>{6e73b30c-89cd-4e27-9fd9-3e369f2fe6db}</UniqueIdentifier>
     </Filter>
-    <Filter Include="include\math\vector">
-      <UniqueIdentifier>{b47d1f16-26d5-4bfe-9869-3eaca96ed485}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="include\math\matrix">
-      <UniqueIdentifier>{2d753a79-2dcd-4d7b-9993-6fccd2e8b9b1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="include\math\quaternion">
-      <UniqueIdentifier>{d3f5cf60-bab0-43be-bb52-ccdd22255de9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="include\utils\detail">
       <UniqueIdentifier>{4a06c7b1-e337-408f-bc64-6d32dc421211}</UniqueIdentifier>
     </Filter>
@@ -38,6 +29,15 @@
     </Filter>
     <Filter Include="sources\utils">
       <UniqueIdentifier>{ccc8cee7-22ff-4bdd-ba7f-c9b41f4b133c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\math\_matrix">
+      <UniqueIdentifier>{2d753a79-2dcd-4d7b-9993-6fccd2e8b9b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\math\_quaternion">
+      <UniqueIdentifier>{d3f5cf60-bab0-43be-bb52-ccdd22255de9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\math\_vector">
+      <UniqueIdentifier>{b47d1f16-26d5-4bfe-9869-3eaca96ed485}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -48,40 +48,40 @@
       <Filter>include\math</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\djah\math\matrix.hpp">
-      <Filter>include\math\matrix</Filter>
+      <Filter>include\math\_matrix</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\djah\math\matrix2.hpp">
-      <Filter>include\math\matrix</Filter>
+      <Filter>include\math\_matrix</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\djah\math\matrix3.hpp">
-      <Filter>include\math\matrix</Filter>
+      <Filter>include\math\_matrix</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\djah\math\matrix4.hpp">
-      <Filter>include\math\matrix</Filter>
+      <Filter>include\math\_matrix</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\djah\math\matrix_utils.hpp">
-      <Filter>include\math\matrix</Filter>
+      <Filter>include\math\_matrix</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\djah\math\quaternion.hpp">
-      <Filter>include\math\quaternion</Filter>
+      <Filter>include\math\_quaternion</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\djah\math\quaternion_utils.hpp">
-      <Filter>include\math\quaternion</Filter>
+      <Filter>include\math\_quaternion</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\djah\math\vector.hpp">
-      <Filter>include\math\vector</Filter>
+      <Filter>include\math\_vector</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\djah\math\vector_utils.hpp">
-      <Filter>include\math\vector</Filter>
+      <Filter>include\math\_vector</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\djah\math\vector2.hpp">
-      <Filter>include\math\vector</Filter>
+      <Filter>include\math\_vector</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\djah\math\vector3.hpp">
-      <Filter>include\math\vector</Filter>
+      <Filter>include\math\_vector</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\djah\math\vector4.hpp">
-      <Filter>include\math\vector</Filter>
+      <Filter>include\math\_vector</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\djah\geometry\plane.hpp">
       <Filter>include\geometry</Filter>
@@ -146,13 +146,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\include\djah\math\matrix.inl">
-      <Filter>include\math\matrix</Filter>
+      <Filter>include\math\_matrix</Filter>
     </None>
     <None Include="..\..\..\include\djah\math\quaternion.inl">
-      <Filter>include\math\quaternion</Filter>
+      <Filter>include\math\_quaternion</Filter>
     </None>
     <None Include="..\..\..\include\djah\math\vector.inl">
-      <Filter>include\math\vector</Filter>
+      <Filter>include\math\_vector</Filter>
     </None>
     <None Include="..\..\..\include\djah\geometry\plane.inl">
       <Filter>include\geometry</Filter>

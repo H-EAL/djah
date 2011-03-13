@@ -108,6 +108,12 @@
     <ClInclude Include="..\..\..\include\djah\video\primitives\triangle.hpp">
       <Filter>include\primitives</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\video\font_engine.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\video\text.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\include\djah\video\ogl\shaders\shader_base.inl">
@@ -147,6 +153,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\sources\video\ogl\gl_caps.cpp">
       <Filter>sources\ogl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\sources\video\font_engine.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\sources\video\text.cpp">
+      <Filter>sources</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

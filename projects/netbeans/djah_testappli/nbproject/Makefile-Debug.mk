@@ -48,7 +48,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-L../../../lib/linux -lGL -lX11 -lXext -ldjah_core_d -ldjah_filesystem_d -ldjah_log_d -ldjah_video_d -ldjah_system_d
+LDLIBSOPTIONS=-L../../../lib/linux -lGL -lX11 -lXext -ldjah_core_d -ldjah_filesystem_d -ldjah_log_d -ldjah_video_d -ldjah_system_d -lboost_filesystem
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
