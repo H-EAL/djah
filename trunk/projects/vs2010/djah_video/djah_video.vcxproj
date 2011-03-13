@@ -75,6 +75,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\include\djah\video\font_engine.hpp" />
     <ClInclude Include="..\..\..\include\djah\video\ogl.hpp" />
     <ClInclude Include="..\..\..\include\djah\video\ogl\buffers.hpp" />
     <ClInclude Include="..\..\..\include\djah\video\ogl\buffers\buffer_base.hpp" />
@@ -100,6 +101,7 @@
     <ClInclude Include="..\..\..\include\djah\video\ogl\shaders\vertex_shader.hpp" />
     <ClInclude Include="..\..\..\include\djah\video\primitives\triangle.hpp" />
     <ClInclude Include="..\..\..\include\djah\video\projection.hpp" />
+    <ClInclude Include="..\..\..\include\djah\video\text.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\include\djah\video\ogl\buffers\buffer_base.inl" />
@@ -107,6 +109,7 @@
     <None Include="..\..\..\include\djah\video\ogl\shaders\shader_program.inl" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\sources\video\font_engine.cpp" />
     <ClCompile Include="..\..\..\sources\video\ogl\buffers\frame_buffer.cpp" />
     <ClCompile Include="..\..\..\sources\video\ogl\buffers\render_buffer.cpp" />
     <ClCompile Include="..\..\..\sources\video\ogl\buffers\texture.cpp" />
@@ -116,6 +119,7 @@
     <ClCompile Include="..\..\..\sources\video\ogl\gl_caps.cpp" />
     <ClCompile Include="..\..\..\sources\video\ogl\shaders\shader_program.cpp" />
     <ClCompile Include="..\..\..\sources\video\primitives\triangle.cpp" />
+    <ClCompile Include="..\..\..\sources\video\text.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

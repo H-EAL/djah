@@ -23,5 +23,8 @@
     <ClCompile Include="..\..\..\tests\sources\main.cpp">
       <Filter>sources</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\tests\sources\application.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

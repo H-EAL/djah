@@ -15,6 +15,7 @@
     <ClInclude Include="..\..\..\tests\sources\application_base.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\tests\sources\application.cpp" />
     <ClCompile Include="..\..\..\tests\sources\application_base.cpp" />
     <ClCompile Include="..\..\..\tests\sources\main.cpp" />
   </ItemGroup>
@@ -71,7 +72,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>djah_system_d.lib;djah_filesystem_d.lib;djah_video_d.lib;djah_log_d.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>djah_system_d.lib;djah_filesystem_d.lib;djah_video_d.lib;djah_log_d.lib;djah_resources_d.lib;djah_core_d.lib;opengl32.lib;FreeImage.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\..\lib\win32\;..\..\..\..\extlibs\lib\win32\</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -91,7 +92,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>djah_system.lib;djah_filesystem.lib;djah_video.lib;djah_log.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>djah_system.lib;djah_filesystem.lib;djah_video.lib;djah_log.lib;djah_resources.lib;djah_core.lib;opengl32.lib;FreeImage.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\..\lib\win32\;..\..\..\..\extlibs\lib\win32\</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>libcmt.lib</IgnoreSpecificDefaultLibraries>
     </Link>

@@ -49,6 +49,7 @@
             <linkerLibLibItem>djah_log_d</linkerLibLibItem>
             <linkerLibLibItem>djah_video_d</linkerLibLibItem>
             <linkerLibLibItem>djah_system_d</linkerLibLibItem>
+            <linkerLibLibItem>boost_filesystem</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>
