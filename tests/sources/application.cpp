@@ -190,7 +190,7 @@ void application::runImpl()
 	else
 	{
 		std::stringstream ss;
-		ss << fps << " FPS";
+		ss << fps+1 << " FPS";
 		fps_str_ = ss.str();
 		clk.restart();
 		fps = 0;
