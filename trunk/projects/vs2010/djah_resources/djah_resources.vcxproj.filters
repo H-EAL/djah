@@ -35,16 +35,10 @@
     <ClInclude Include="..\..\..\include\djah\resources\resource_manager.hpp">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\resources\font_loader.hpp">
-      <Filter>include\_loaders</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\djah\resources\image_loader.hpp">
       <Filter>include\_loaders</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\djah\resources\image.hpp">
-      <Filter>include\_resources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\resources\font.hpp">
       <Filter>include\_resources</Filter>
     </ClInclude>
   </ItemGroup>
@@ -64,12 +58,6 @@
       <Filter>sources\_loaders</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\sources\resources\image.cpp">
-      <Filter>sources\_resources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\sources\resources\font_loader.cpp">
-      <Filter>sources\_loaders</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\sources\resources\font.cpp">
       <Filter>sources\_resources</Filter>
     </ClCompile>
   </ItemGroup>

@@ -5,10 +5,10 @@
 #include <djah/filesystem/memory_stream.hpp>
 #include <djah/video/text.hpp>
 
-#include "application_base.hpp"
+#include <djah/application_base.hpp>
 
 class application
-	: public djah::tests::application_base
+	: public djah::application_base
 {
 public:
 

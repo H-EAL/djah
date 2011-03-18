@@ -5,6 +5,12 @@
 #   define DJAH_COMPILE_WINDOWS
 #   define WIN32_LEAN_AND_MEAN
 #   include <windows.h>
+#	ifdef near
+#		undef near
+#	endif
+#	ifdef far
+#		undef far
+#	endif
 
 #elif defined(linux)
 #   define DJAH_COMPILE_LINUX
