@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{89FD33DA-EE69-477B-8B47-F39BF13B6FE3}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>collada_viewer</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>..\..\..\collada_viewer\binaries\</OutDir>
+    <TargetName>$(ProjectName)_debug</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\..\..\collada_viewer\binaries\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\..\trunk\include;..\..\..\..\extlibs\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>..\..\..\..\trunk\lib\win32;..\..\..\..\extlibs\lib\win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>djah_core_d.lib;djah_system_d.lib;djah_video_d.lib;djah_resources_d.lib;djah_log_d.lib;djah_filesystem_d.lib;FreeImage.lib;freetype.lib;opengl32.lib;tinyxml.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>libcmtd.lib</IgnoreSpecificDefaultLibraries>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\..\trunk\include;..\..\..\..\extlibs\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>..\..\..\..\trunk\lib\win32;..\..\..\..\extlibs\lib\win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>djah_core.lib;djah_system.lib;djah_video.lib;djah_resources.lib;djah_log.lib;djah_filesystem.lib;FreeImage.lib;freetype.lib;opengl32.lib;tinyxml.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>libcmt.lib</IgnoreSpecificDefaultLibraries>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\collada_converter\sources\collada\database.hpp" />
+    <ClInclude Include="..\..\..\collada_converter\sources\collada\fwd_decl.hpp" />
+    <ClInclude Include="..\..\..\collada_converter\sources\collada\library\animations.hpp" />
+    <ClInclude Include="..\..\..\collada_converter\sources\collada\library\common.hpp" />
+    <ClInclude Include="..\..\..\collada_converter\sources\collada\library\controllers.hpp" />
+    <ClInclude Include="..\..\..\collada_converter\sources\collada\library\effects.hpp" />
+    <ClInclude Include="..\..\..\collada_converter\sources\collada\library\geometries.hpp" />
+    <ClInclude Include="..\..\..\collada_converter\sources\collada\library\images.hpp" />
+    <ClInclude Include="..\..\..\collada_converter\sources\collada\library\materials.hpp" />
+    <ClInclude Include="..\..\..\collada_converter\sources\collada\library\visual_scenes.hpp" />
+    <ClInclude Include="..\..\..\collada_converter\sources\collada\proxy.hpp" />
+    <ClInclude Include="..\..\..\collada_converter\sources\collada\utils.hpp" />
+    <ClInclude Include="..\..\..\collada_converter\sources\mesh_builder.hpp" />
+    <ClInclude Include="..\..\..\collada_viewer\sources\viewer.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\collada_converter\sources\collada\database.cpp" />
+    <ClCompile Include="..\..\..\collada_converter\sources\collada\library\animations.cpp" />
+    <ClCompile Include="..\..\..\collada_converter\sources\collada\library\common.cpp" />
+    <ClCompile Include="..\..\..\collada_converter\sources\collada\library\controllers.cpp" />
+    <ClCompile Include="..\..\..\collada_converter\sources\collada\library\effects.cpp" />
+    <ClCompile Include="..\..\..\collada_converter\sources\collada\library\geometries.cpp" />
+    <ClCompile Include="..\..\..\collada_converter\sources\collada\library\images.cpp" />
+    <ClCompile Include="..\..\..\collada_converter\sources\collada\library\materials.cpp" />
+    <ClCompile Include="..\..\..\collada_converter\sources\collada\library\visual_scenes.cpp" />
+    <ClCompile Include="..\..\..\collada_converter\sources\collada\proxy.cpp" />
+    <ClCompile Include="..\..\..\collada_converter\sources\collada\utils.cpp" />
+    <ClCompile Include="..\..\..\collada_converter\sources\mesh_builder.cpp" />
+    <ClCompile Include="..\..\..\collada_viewer\sources\viewer.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

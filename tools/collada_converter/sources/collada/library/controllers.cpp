@@ -1,4 +1,5 @@
 #include "controllers.hpp"
+#include <numeric>
 #include "common.hpp"
 
 namespace collada { namespace library {
@@ -145,9 +146,11 @@ namespace collada { namespace library {
 			const TiXmlElement *v_elem = element.FirstChildElement("v");
 			if( v_elem )
 			{
-				v_ = new unsigned short[count_];
+				const unsigned short count = std::accumulate(vcount_, vcount_+count_, 0) * 2;
+
+				v_ = new unsigned short[count];
 				std::stringstream ss(v_elem->GetText());
-				for(unsigned int i = 0; i < count_ && !ss.eof(); ++i)
+				for(unsigned int i = 0; i < count && !ss.eof(); ++i)
 					ss >> v_[i];
 			}
 		}

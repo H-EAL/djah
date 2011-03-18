@@ -20,6 +20,15 @@ public:
 	submesh(const mesh &m, const triangles &tris, const skin &skn);
 	~submesh();
 
+	struct vertex_t
+	{
+		float position_[3];
+		float normal_[3];
+		float tex_coord[2];
+		int bones_[4];
+		float weights[3];
+	};
+
 	std::vector<float>			buffer_;
 	std::vector<float>			abuffer_;
 	std::vector<unsigned short>	indices_;
@@ -31,7 +40,7 @@ public:
 //--------------------------------------------------------------------------------------------------
 mesh_builder::mesh_builder(const proxy &obj)
 {
-	const skin						skn;//	= *(obj.getControllers()[0]->skin_);
+	const skin &skn = *(obj.getControllers()[0]->skin_);
 
 	size_t geo = obj.getGeometries().size();
 	for(size_t i = 0; i < geo; ++i)
@@ -99,7 +108,7 @@ submesh::submesh(const mesh &m, const triangles &tris, const skin &skn)
 		get_input_by_semantic(ESS_VERTEX,	tris.inputs_),
 		get_input_by_semantic(ESS_NORMAL,	tris.inputs_),
 		get_input_by_semantic(ESS_TEXCOORD, tris.inputs_),
-		0//get_input_by_semantic(ESS_WEIGHT,	skn.vertex_weights_->inputs_)
+		get_input_by_semantic(ESS_WEIGHT,	skn.vertex_weights_->inputs_)
 	};
 
 	std::string pos_src_id = get_source_id_by_semantic(ESS_POSITION, m.vertices_->inputs_);
@@ -113,11 +122,41 @@ submesh::submesh(const mesh &m, const triangles &tris, const skin &skn)
 
 	// Retrieve weights source
 	const source *weights = inputs[++ipt] ? get_source_by_id(inputs[ipt]->source_, skn.sources_) : 0;
-	unsigned short max_influences = 0;
+	const unsigned short max_influences = 4;
+	struct skin_attrib
+	{
+		float bones[max_influences];
+		float weights[max_influences];
+	};
+
+	skin_attrib *skin_attribs = 0;
+
 	if(weights)
 	{
+		/*
 		const unsigned short *influences = skn.vertex_weights_->vcount_;
 		max_influences = *std::max_element(influences, influences+skn.vertex_weights_->count_);
+		*/
+		skin_attribs = new skin_attrib[skn.vertex_weights_->count_];
+		int w = 0;
+		for(unsigned int v = 0; v < skn.vertex_weights_->count_; ++v)
+		{
+			const int influences = skn.vertex_weights_->vcount_[v];
+			for(unsigned short i = 0; i < max_influences; ++i)
+			{
+				if(i < influences)
+				{
+					skin_attribs[v].bones[i] = static_cast<float>(skn.vertex_weights_->v_[w++]);
+					const unsigned short weight_index = skn.vertex_weights_->v_[w++];
+					skin_attribs[v].weights[i] = weights->float_array_->data_[weight_index];
+				}
+				else
+				{
+					skin_attribs[v].bones[i] = -1.0f;
+					skin_attribs[v].weights[i] = 0.0f;
+				}
+			}
+		}
 	}
 
 	// Compute the number of vertex attributes
@@ -143,11 +182,23 @@ submesh::submesh(const mesh &m, const triangles &tris, const skin &skn)
 				buffer_.push_back( srcs[v]->float_array_->data_[index] );
 			}
 		}
+
+		if( skin_attribs )
+		{
+			const unsigned int vertex_index =  tris.indices_[i];
+			for(unsigned int w = 0; w < max_influences; ++w)
+				buffer_.push_back( skin_attribs[vertex_index].bones[w] );
+			for(unsigned int w = 0; w < max_influences; ++w)
+				buffer_.push_back( skin_attribs[vertex_index].weights[w] );
+		}
 	}
 
 	// Compute vertex size
 	for(unsigned int v = 0; v < vertex_attrib_count; ++v)
 		vertex_size_ += srcs[v]->technique_common_->accessor_->stride_;
+	vertex_size_ += 2 * max_influences;
+
+	delete [] skin_attribs;
 }
 //--------------------------------------------------------------------------------------------------
 
