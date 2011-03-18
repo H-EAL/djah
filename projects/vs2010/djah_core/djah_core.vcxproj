@@ -75,12 +75,14 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\include\djah\application_base.hpp" />
     <ClInclude Include="..\..\..\include\djah\geometry\plane.hpp" />
     <ClInclude Include="..\..\..\include\djah\geometry\ray.hpp" />
     <ClInclude Include="..\..\..\include\djah\geometry\rect.hpp" />
     <ClInclude Include="..\..\..\include\djah\geometry\sphere.hpp" />
     <ClInclude Include="..\..\..\include\djah\geometry\triangle.hpp" />
     <ClInclude Include="..\..\..\include\djah\geometry\utils.hpp" />
+    <ClInclude Include="..\..\..\include\djah\math.hpp" />
     <ClInclude Include="..\..\..\include\djah\math\math_utils.hpp" />
     <ClInclude Include="..\..\..\include\djah\math\matrix.hpp" />
     <ClInclude Include="..\..\..\include\djah\math\matrix2.hpp" />
@@ -95,7 +97,9 @@
     <ClInclude Include="..\..\..\include\djah\math\vector3.hpp" />
     <ClInclude Include="..\..\..\include\djah\math\vector4.hpp" />
     <ClInclude Include="..\..\..\include\djah\math\vector_utils.hpp" />
+    <ClInclude Include="..\..\..\include\djah\platform.hpp" />
     <ClInclude Include="..\..\..\include\djah\time\clock.hpp" />
+    <ClInclude Include="..\..\..\include\djah\types.hpp" />
     <ClInclude Include="..\..\..\include\djah\utils\command.hpp" />
     <ClInclude Include="..\..\..\include\djah\utils\detail\command_base.hpp" />
     <ClInclude Include="..\..\..\include\djah\utils\detail\functor_handler.hpp" />
@@ -119,6 +123,7 @@
     <None Include="..\..\..\include\djah\math\vector.inl" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\sources\application_base.cpp" />
     <ClCompile Include="..\..\..\sources\time\clock.cpp" />
     <ClCompile Include="..\..\..\sources\utils\randomizer.cpp" />
   </ItemGroup>

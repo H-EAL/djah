@@ -12,14 +12,8 @@
     <ClInclude Include="..\..\..\tests\sources\application.hpp">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\tests\sources\application_base.hpp">
-      <Filter>include</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\tests\sources\application_base.cpp">
-      <Filter>sources</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\tests\sources\main.cpp">
       <Filter>sources</Filter>
     </ClCompile>

@@ -74,8 +74,6 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\djah\resources\font.hpp" />
-    <ClInclude Include="..\..\..\include\djah\resources\font_loader.hpp" />
     <ClInclude Include="..\..\..\include\djah\resources\image.hpp" />
     <ClInclude Include="..\..\..\include\djah\resources\image_loader.hpp" />
     <ClInclude Include="..\..\..\include\djah\resources\loader.hpp" />
@@ -87,8 +85,6 @@
     <None Include="..\..\..\include\djah\resources\media_manager.inl" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\sources\resources\font.cpp" />
-    <ClCompile Include="..\..\..\sources\resources\font_loader.cpp" />
     <ClCompile Include="..\..\..\sources\resources\image.cpp" />
     <ClCompile Include="..\..\..\sources\resources\image_loader.cpp" />
     <ClCompile Include="..\..\..\sources\resources\resource_base.cpp" />

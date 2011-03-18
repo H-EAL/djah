@@ -1,17 +1,17 @@
-#ifndef DJAH_TESTS_APPLICATION_BASE_HPP
-#define DJAH_TESTS_APPLICATION_BASE_HPP
+#ifndef DJAH_APPLICATION_BASE_HPP
+#define DJAH_APPLICATION_BASE_HPP
 
-#include <djah/system/video_config.hpp>
+#include "system/video_config.hpp"
 
-namespace djah { namespace system {
+namespace djah {
+
+	namespace system {
 
 		class video_config;
 		class device_base;
 		class driver_base;
 
-} /*system*/ } /*djah*/
-
-namespace djah { namespace tests {
+	} /*system*/
 
 	class application_base
 	{
@@ -35,6 +35,8 @@ namespace djah { namespace tests {
 		system::driver_base *driver_;
 	};
 
-} /*tests*/ } /*djah*/
+} /*djah*/
 
-#endif /* DJAH_TESTS_APPLICATION_BASE_HPP */
+extern djah::application_base* djah_new_app();
+
+#endif /* DJAH_APPLICATION_BASE_HPP */

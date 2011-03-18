@@ -12,11 +12,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\tests\sources\application.hpp" />
-    <ClInclude Include="..\..\..\tests\sources\application_base.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\tests\sources\application.cpp" />
-    <ClCompile Include="..\..\..\tests\sources\application_base.cpp" />
     <ClCompile Include="..\..\..\tests\sources\main.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

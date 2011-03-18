@@ -1,10 +1,20 @@
 #include "application_base.hpp"
 
-#include <djah/system/device_base.hpp>
-#include <djah/system/driver_base.hpp>
-#include <djah/system/device_base.hpp>
+#include "system/device_base.hpp"
+#include "system/driver_base.hpp"
+#include "system/device_base.hpp"
 
-namespace djah { namespace tests {
+
+int main(int argc, char *argv[])
+{
+	djah::application_base *app = djah_new_app();
+	int retVal = app->exec(argc, argv);
+	delete app;
+	return retVal;
+}
+
+
+namespace djah {
 
 	//----------------------------------------------------------------------------------------------
 	application_base::application_base(const system::video_config &config)
@@ -62,4 +72,4 @@ namespace djah { namespace tests {
 	}
 	//----------------------------------------------------------------------------------------------
 
-} /*tests*/ } /*djah*/
+} /*djah*/

@@ -1,6 +1,6 @@
 #include "application.hpp"
 
-int main(int argc, char *argv[])
+djah::application_base* djah_new_app()
 {
-	return application().exec(argc, argv);
+	return new application;
 }
