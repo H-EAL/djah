@@ -38,7 +38,7 @@ namespace collada {
 		const library::animation_list_t&		getAnimations()		const;
 		const library::image_list_t&			getImages()			const;
 		const library::material_list_t&			getMaterials()		const;
-		//const library::effect_list_t&			getEffects()		const;
+		const library::effect_list_t&			getEffects()		const;
 		const library::geometry_list_t&			getGeometries()		const;
 		const library::controller_list_t&		getControllers()	const;
 		const library::visual_scene_list_t&		getVisualScenes()	const;

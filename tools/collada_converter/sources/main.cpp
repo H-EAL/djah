@@ -4,7 +4,7 @@
 
 int main()
 {
-	collada::proxy obj("cthulhu.dae");
+	collada::proxy obj("cthulhu_bn.dae");
 	if(obj.good())
 	{
 		std::fstream file;
@@ -23,9 +23,14 @@ int main()
 
 			for(size_t i = 0; i < buffer.size(); i += vertexSize)
 			{
+				// position x3
 				file.write((const char*)&buffer[i], 3*4);
+				// normal x3
 				file.write((const char*)&buffer[i+3], 3*4);
+				// tex coord x3
 				file.write((const char*)&buffer[i+6], 2*4);
+				// tangent x3
+				file.write((const char*)&buffer[i+8], 3*4);
 			}
 		}
 	}

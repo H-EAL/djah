@@ -48,15 +48,16 @@ boost::shared_ptr<T> find_resource(const std::string &url)
 
 struct mesh
 {
-	mesh(const std::string &name, const std::string textureName = "")
+	mesh(const std::string &name, const std::string textureName = "", const std::string &nmap = "", int tc = 2)
 		: mat_world_(math::matrix4f::mat_identity)
 		, vb_(0)
 		, va_(0)
 		, tex_(0)
+		, nmap_(0)
 	{
 		strm_ = new filesystem::memory_stream( filesystem::browser::get().openReadStream("3d/" + name + ".bdae") );
 		if( strm_->size() > 0 )
-			init(textureName);
+			init(textureName, nmap, tc);
 	}
 
 	~mesh()
@@ -65,9 +66,10 @@ struct mesh
 		delete va_;
 		delete vb_;
 		delete tex_;
+		delete nmap_;
 	}
 
-	void init(const std::string &textureName)
+	void init(const std::string &textureName, const std::string &nmap, int tc)
 	{
 		if( !textureName.empty() )
 		{
@@ -78,19 +80,40 @@ struct mesh
 				tex_->setPixelBuffer(img->pixels(), false);
 			}
 		}
+		if( !nmap.empty() )
+		{
+			boost::shared_ptr<resources::image> img = find_resource<resources::image>("textures/" + nmap);
+			if( img )
+			{
+				nmap_ = new video::ogl::texture(img->width(), img->height());
+				nmap_->setPixelBuffer(img->pixels(), false);
+			}
+		}
 
 		video::ogl::vertex_format vf;
-		vf.record()
-			<< video::ogl::format::position<3,float>()
-			<< video::ogl::format::normal<3,float>()
-			<< video::ogl::format::tex_coord<2,float>();
+
+		if( tc == 2 )
+		{
+			vf.record()
+				<< video::ogl::format::position<3,float>()
+				<< video::ogl::format::normal<3,float>()
+				<< video::ogl::format::tex_coord<2,float>()
+				<< video::ogl::format::vertex_attrib<3,float>("Tangent");
+		}
+		else
+		{
+			vf.record()
+				<< video::ogl::format::position<3,float>()
+				<< video::ogl::format::normal<3,float>()
+				<< video::ogl::format::tex_coord<2,float>();
+		}
 		
 		vb_ = new video::ogl::vertex_buffer( strm_->size(), video::ogl::EBU_STATIC_DRAW);
 		va_ = new video::ogl::vertex_array(vf, vb_);
 		vb_->write(strm_->buffer(), strm_->size());
 
-		video::ogl::vertex_shader vs("shaders/test.vert");
-		video::ogl::pixel_shader ps(tex_ ? "shaders/test.frag" : "shaders/lit_no_texture.frag");
+		video::ogl::vertex_shader vs(tc == 2 ? "shaders/bump_mapping.vert" : "shaders/test.vert");
+		video::ogl::pixel_shader ps(tc == 2 ? "shaders/bump_mapping.frag" : "shaders/test.frag");
 
 		vs.compile();
 		ps.compile();
@@ -114,6 +137,12 @@ struct mesh
 		{
 			sp_.sendUniform<4>("in_Color", math::vector4f(0.2f,1.0f,0.35f,1.0f).data);
 		}
+		if( nmap_ )
+		{
+			glEnable(GL_TEXTURE_2D);
+			nmap_->bind(1);
+			sp_.sendUniform("nmap", 1);
+		}
 		sp_.sendUniformMatrix("Projection", (matProj), true);
 		sp_.sendUniformMatrix("ModelView", (matView*mat_world_), true);
 		va_->draw();
@@ -126,13 +155,14 @@ struct mesh
 	video::ogl::vertex_array *va_;
 	video::ogl::shader_program sp_;
 	video::ogl::texture *tex_;
+	video::ogl::texture *nmap_;
 	math::matrix4f mat_world_;
 };
 
 
 application::application(int w, int h)
 	: application_base(djah::system::video_config(w,h,32,24,0,false,true))
-	, eye_(0,21.8f,math::pi_over_2)
+	, eye_(0,11.8f,math::pi_over_2)
 	, center_(0,10,0)
 	, up_(0,1,0)
 {
@@ -163,8 +193,8 @@ void application::initImpl()
 	video::font_engine::create();
 	video::font_engine::get().setFontsPath("fonts/");
 
-	cthulhu_ = new mesh("cthulhu");
-	astroboy_ = new mesh("astroboy", "boy_10.tga");
+	cthulhu_ = new mesh("cthulhu", "cthulhu.jpg", "cthulhu_normalmap.jpg", 2);
+	astroboy_ = new mesh("astroboy", "boy_10.tga", "", 3);
 }
 
 void application::runImpl()
@@ -232,24 +262,6 @@ void application::draw2D()
 	glLoadIdentity();
 
 	fps_str_.draw();
-	/*
-	glBegin(GL_TRIANGLE_STRIP);
-	{
-		static const float s = 50.0f;
-		glColor4f(0.9f, 0.6f, 0.2f, 1.0f);
-		glTexCoord2f(0.0f, 0.0f);
-		glVertex2f(0,0);
-		glTexCoord2f(1.0f*s, 0.0f);
-		glVertex2f(w,0);
-
-		glColor4f(0.9f, 0.6f, 0.25f, 0.5f);
-		glTexCoord2f(0.0f, 0.5f*s);
-		glVertex2f(0,h/2);
-		glTexCoord2f(1.0f*s, 0.5f*s);
-		glVertex2f(w,h/2);
-	}
-	glEnd();
-	*/
 }
 
 void application::drawAxis()
@@ -296,8 +308,8 @@ void application::drawMeshes()
 
 	static const math::matrix4f rotC =
 		math::make_translation(0.0f, 0.0f, -1.0f) *
-		math::make_rotation(math::deg_to_rad(90.0f), 0.0f, 0.0f, 1.0f) *
-		math::make_rotation(math::deg_to_rad(90.0f), 0.0f, 1.0f, 0.0f) *
+		//math::make_rotation(math::deg_to_rad(90.0f), 0.0f, 0.0f, 1.0f) *
+		//math::make_rotation(math::deg_to_rad(90.0f), 0.0f, 1.0f, 0.0f) *
 		math::make_scale(2.0f, 2.0f, 2.0f);
 
 	astroboy_->mat_world_ = math::make_translation(0.0f, 0.0f, 5.0f) * rotA;

@@ -31,8 +31,8 @@ OBJECTDIR=build/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/_ext/_DOTDOT/_DOTDOT/_DOTDOT/tests/sources/main.o \
-	${OBJECTDIR}/_ext/_DOTDOT/_DOTDOT/_DOTDOT/tests/sources/application_base.o
+	${OBJECTDIR}/_ext/_DOTDOT/_DOTDOT/_DOTDOT/tests/sources/application.o \
+	${OBJECTDIR}/_ext/_DOTDOT/_DOTDOT/_DOTDOT/tests/sources/main.o
 
 # C Compiler Flags
 CFLAGS=
@@ -58,15 +58,15 @@ dist/../../../../tests/binaries/djah_testappli: ${OBJECTFILES}
 	${MKDIR} -p dist/../../../../tests/binaries
 	${LINK.cc} -o ${CND_DISTDIR}/../../../../tests/binaries/djah_testappli ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
+${OBJECTDIR}/_ext/_DOTDOT/_DOTDOT/_DOTDOT/tests/sources/application.o: nbproject/Makefile-${CND_CONF}.mk ../../../tests/sources/application.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/_DOTDOT/_DOTDOT/_DOTDOT/tests/sources
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -I../../../include -I../../../../extlibs/include -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/_DOTDOT/_DOTDOT/_DOTDOT/tests/sources/application.o ../../../tests/sources/application.cpp
+
 ${OBJECTDIR}/_ext/_DOTDOT/_DOTDOT/_DOTDOT/tests/sources/main.o: nbproject/Makefile-${CND_CONF}.mk ../../../tests/sources/main.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/_DOTDOT/_DOTDOT/_DOTDOT/tests/sources
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -I../../../include -I../../../../extlibs/include -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/_DOTDOT/_DOTDOT/_DOTDOT/tests/sources/main.o ../../../tests/sources/main.cpp
-
-${OBJECTDIR}/_ext/_DOTDOT/_DOTDOT/_DOTDOT/tests/sources/application_base.o: nbproject/Makefile-${CND_CONF}.mk ../../../tests/sources/application_base.cpp 
-	${MKDIR} -p ${OBJECTDIR}/_ext/_DOTDOT/_DOTDOT/_DOTDOT/tests/sources
-	${RM} $@.d
-	$(COMPILE.cc) -O2 -I../../../include -I../../../../extlibs/include -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/_DOTDOT/_DOTDOT/_DOTDOT/tests/sources/application_base.o ../../../tests/sources/application_base.cpp
 
 # Subprojects
 .build-subprojects:

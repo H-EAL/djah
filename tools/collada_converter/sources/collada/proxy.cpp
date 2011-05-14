@@ -60,8 +60,8 @@ namespace collada {
 	{ return getImagesLib()->images_; }
 	const library::material_list_t&			proxy::getMaterials()		const
 	{ return getMaterialsLib()->materials_; }
-	//const library::effect_list_t&			proxy::getEffects()			const
-	//{ return getEffectsLib()->effects_; }
+	const library::effect_list_t&			proxy::getEffects()			const
+	{ return getEffectsLib()->effects_; }
 	const library::geometry_list_t&			proxy::getGeometries()		const
 	{ return getGeometriesLib()->geometries_; }
 	const library::controller_list_t&		proxy::getControllers()		const

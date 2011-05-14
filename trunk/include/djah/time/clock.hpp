@@ -22,9 +22,9 @@ namespace djah { namespace time {
 
 		u64  getCurrentTime() const;
 
-		u64  startTime_;
-		u64  pausedTime_;
-		u64  deadTime_;
+		u64  start_time_;
+		u64  paused_time_;
+		u64  dead_time_;
 		bool paused_;
 	};
 

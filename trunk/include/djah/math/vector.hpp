@@ -46,10 +46,10 @@ namespace djah { namespace math {
 		vector(T _x, T _y, T _z) : vector_base<N,T>(_x, _y, _z) {}
 		vector(T _w, T _x, T _y, T _z) : vector_base<N,T>(_w, _x, _y, _z) {}
 
-		// Constructors from array
+		// Constructor from array
 		vector(const T (&array)[N]);
 
-		// Assignation from an array operator
+		// Assignation from an array
 		vector<N,T>& operator =(T (&array)[N]);
 
 		typedef typename length_type<T>::float_t float_t;

@@ -12,7 +12,10 @@ namespace collada {
 		"POSITION",
 		"VERTEX",
 		"NORMAL",
+
 		"TEXCOORD",
+		"TEXTANGENT",
+		"TEXBINORMAL",
 
 		"JOINT",
 		"WEIGHT",
@@ -29,13 +32,10 @@ namespace collada {
 
 		input_list_t::const_iterator it;
 		input_list_t::const_iterator it_end = inputs.end();
-		for(it = inputs.begin(); it != it_end; ++it)
+		for(it = inputs.begin(); it != it_end && ipt == 0; ++it)
 		{
 			if((*it)->semantic_ == sem_str)
-			{
 				ipt = (*it);
-				break;
-			}
 		}
 
 		return ipt;
@@ -62,8 +62,10 @@ namespace collada {
 			source_list_t::const_iterator it;
 			source_list_t::const_iterator it_end = sources.end();
 			for(it = sources.begin(); it != it_end && src == 0; ++it)
+			{
 				if((*it)->id_ == source_id)
 					src = (*it);
+			}
 		}
 
 		return src;
@@ -85,13 +87,15 @@ namespace collada {
 	{
 		node *n = 0;
 
-		if(!node_id.empty())
+		if( !node_id.empty() )
 		{
 			node_list_t::const_iterator it;
 			node_list_t::const_iterator it_end = visualscene.nodes_.end();
 			for(it = visualscene.nodes_.begin(); it != it_end && n == 0; ++it)
+			{
 				if((*it)->id_ == node_id)
 					n = (*it);
+			}
 		}
 
 		return n;

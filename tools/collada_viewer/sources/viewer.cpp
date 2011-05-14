@@ -280,34 +280,38 @@ void viewer_app::runImpl()
 
 		for(size_t i = 0; i < buffer.size(); i += vertexSize)
 		{
-			math::vector4f pos(buffer[i], buffer[i+1], buffer[i+2], 1.0f);
-			math::vector4f norm(buffer[i+3], buffer[i+4], buffer[i+5], 1.0f);
-			math::vector4f bones(buffer[i+9], buffer[i+10], buffer[i+11], buffer[i+12]);
-			math::vector4f weights(buffer[i+13], buffer[i+14], buffer[i+15], buffer[i+16]);
-
-			math::vector4f p;
-			math::vector4f n;
 			if( 1 )
-			for(int w = 0; w < 4; ++w)
 			{
-				if( bones.data[w] >= 0.0f && weights.data[w] > 0.0f )
-				{
-					int bone = static_cast<int>(bones.data[w]);
-					const math::matrix4f &mat = BO[bone];
+				math::vector4f pos(buffer[i], buffer[i+1], buffer[i+2], 1.0f);
+				math::vector4f norm(buffer[i+3], buffer[i+4], buffer[i+5], 1.0f);
+				math::vector4f bones(buffer[i+9], buffer[i+10], buffer[i+11], buffer[i+12]);
+				math::vector4f weights(buffer[i+13], buffer[i+14], buffer[i+15], buffer[i+16]);
 
-					p += math::transform(mat, pos) * weights.data[w];
-					n += math::transform(mat, norm) * weights.data[w];
+				math::vector4f p;
+				math::vector4f n;
+
+				for(int w = 0; w < 4; ++w)
+				{
+					if( bones.data[w] >= 0.0f && weights.data[w] > 0.0f )
+					{
+						int bone = static_cast<int>(bones.data[w]);
+						const math::matrix4f &mat = BO[bone];
+
+						p += math::transform(mat, pos) * weights.data[w];
+						n += math::transform(mat, norm) * weights.data[w];
+					}
 				}
+			
+				glTexCoord2fv(&buffer[i+6]);
+				glVertex3fv(p.data);
+				glNormal3fv(n.data);
 			}
 			else
 			{
-				p = pos;
-				n = norm;
+				glTexCoord2fv(&buffer[i+6]);
+				glVertex3fv(&buffer[i]);
+				glNormal3fv(&buffer[i+3]);
 			}
-			
-			glTexCoord2fv(&buffer[i+6]);
-			glVertex3fv(p.data);
-			glNormal3fv(n.data);
 		}
 	}
 	glEnd();

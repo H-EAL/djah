@@ -108,6 +108,8 @@ namespace djah { namespace video { namespace ogl {
 		LOAD_EXTENSION( glUniformMatrix2fv );
 		LOAD_EXTENSION( glUniformMatrix3fv );
 		LOAD_EXTENSION( glUniformMatrix4fv );
+
+		LOAD_EXTENSION( glActiveTexture );
 	}
 
 } /*ogl*/ } /*video*/ } /*djah*/

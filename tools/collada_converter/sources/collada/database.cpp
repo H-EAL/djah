@@ -42,6 +42,7 @@ namespace collada {
 	}
 	//----------------------------------------------------------------------------------------------
 
+
 	template<typename LIB>
 	void deserialize_library(const TiXmlElement &element, const std::string &lib_name, LIB *&lib)
 	{
@@ -61,7 +62,7 @@ namespace collada {
 		deserialize_library(element, "animations",		lib_animations_);
 		deserialize_library(element, "images",			lib_images_);
 		deserialize_library(element, "materials",		lib_materials_);
-		//deserialize_library(element, "effects",			lib_effects_);
+		deserialize_library(element, "effects",			lib_effects_);
 		deserialize_library(element, "geometries",		lib_geometries_);
 		deserialize_library(element, "controllers",		lib_controllers_);
 		deserialize_library(element, "visual_scenes",	lib_visual_scenes_);
@@ -75,7 +76,7 @@ namespace collada {
 		delete lib_animations_;
 		delete lib_images_;
 		delete lib_materials_;
-		//delete lib_effects_;
+		delete lib_effects_;
 		delete lib_geometries_;
 		delete lib_controllers_;
 		delete lib_visual_scenes_;

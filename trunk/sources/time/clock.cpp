@@ -5,10 +5,10 @@ namespace djah { namespace time {
 
 	//----------------------------------------------------------------------------------------------
 	clock::clock(bool startNow)
-		: startTime_(startNow ? getCurrentTime() : 0)
-		, pausedTime_(0)
-		, deadTime_(0)
-		, paused_(true)
+		: start_time_(startNow ? getCurrentTime() : 0)
+		, paused_time_(0)
+		, dead_time_(0)
+		, paused_(!startNow)
 	{
 
 	}
@@ -18,9 +18,9 @@ namespace djah { namespace time {
 	//----------------------------------------------------------------------------------------------
 	void clock::restart()
 	{
-		startTime_	= getCurrentTime();
-		pausedTime_	= 0;
-		deadTime_	= 0;
+		start_time_	= getCurrentTime();
+		paused_time_	= 0;
+		dead_time_	= 0;
 		paused_		= false;
 	}
 	//----------------------------------------------------------------------------------------------
@@ -31,7 +31,7 @@ namespace djah { namespace time {
 	{
 		if(!paused_)
 		{
-			pausedTime_ = getCurrentTime();
+			paused_time_ = getCurrentTime();
 			paused_		= true;
 		}
 	}
@@ -43,8 +43,8 @@ namespace djah { namespace time {
 	{
 		if(paused_)
 		{
-			deadTime_  += getCurrentTime() - pausedTime_;
-			pausedTime_	= 0;
+			dead_time_  += getCurrentTime() - paused_time_;
+			paused_time_	= 0;
 			paused_		= false;
 		}
 	}
@@ -54,7 +54,7 @@ namespace djah { namespace time {
 	//----------------------------------------------------------------------------------------------
 	u64 clock::getElapsedTimeMs() const
 	{
-		return getCurrentTime() - startTime_ - deadTime_;
+		return getCurrentTime() - start_time_ - dead_time_;
 	}
 	//----------------------------------------------------------------------------------------------
 

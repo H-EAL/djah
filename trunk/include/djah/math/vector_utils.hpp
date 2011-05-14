@@ -18,7 +18,7 @@ namespace djah { namespace math {
 	template<typename T>
 	inline vector<4,T> vec3_to_vec4(const vector<3,T> &v)
 	{
-		return vector<4,T>(v.x, v.y, v.z, T(1));
+		return resize<4>(v, T(1));
 	}
 	//--------------------------------------------------------------------------
 
@@ -26,7 +26,7 @@ namespace djah { namespace math {
 	template<typename T>
 	inline vector<4,T> point3_to_point4(const vector<3,T> &p)
 	{
-		return vector<4,T>(p.x, p.y, p.z, T(0));
+		return resize<4>(p, T(0));
 	}
 	//--------------------------------------------------------------------------
 
@@ -34,7 +34,7 @@ namespace djah { namespace math {
 	template<typename T>
 	inline vector<3,T> vec4_to_vec3(const vector<4,T> &v)
 	{
-		return vector<3,T>(v.x, v.y, v.z);
+		return resize<3>(v);
 	}
 	//--------------------------------------------------------------------------
 
@@ -42,7 +42,7 @@ namespace djah { namespace math {
 	template<typename T>
 	inline vector<3,T> point4_to_point3(const vector<4,T> &p)
 	{
-		return vec4_to_vec3(p);
+		return resize<3>(p);
 	}
 	//--------------------------------------------------------------------------
 
@@ -96,6 +96,16 @@ namespace djah { namespace math {
 	inline vector<N,T> reflect(const vector<N,T> &i, const vector<N,T> &n)
 	{
 		return i - T(2) * (i*n) * n;
+	}
+	//--------------------------------------------------------------------------
+
+
+	//--------------------------------------------------------------------------
+	template<int N, typename T>
+	inline float oriented_angle(const vector<N,T> &start, const vector<N,T> &end)
+	{
+		vector<N,T> normal = cross(start, end).normalize();
+		return 0.0f;
 	}
 	//--------------------------------------------------------------------------
 
