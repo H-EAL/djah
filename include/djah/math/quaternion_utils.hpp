@@ -19,7 +19,7 @@ namespace djah { namespace math {
 	template<typename T>
 	inline quaternion<T> make_quaternion(T angle, const vector<4,T> &axis)
 	{
-		return make_quaternion(angle, vec4_to_vec3(axis));
+		return make_quaternion(angle, resize<3>(axis));
 	}
 	//--------------------------------------------------------------------------
 	template<typename T>
@@ -43,7 +43,7 @@ namespace djah { namespace math {
 	template<typename T>
 	inline vector<4,T> rotate(quaternion<T> q, const vector<4,T> &p)
 	{
-		return point3_to_point4( rotate(q, point4_to_point3(p)) );
+		return point3_to_point4( rotate(q, resize<3>(p)) );
 	}
 	//--------------------------------------------------------------------------
 

@@ -22,8 +22,9 @@ namespace djah { namespace video { namespace ogl {
 
 
 	//----------------------------------------------------------------------------------------------
-	void texture::bind() const
+	void texture::bind(int unit) const
 	{
+		glActiveTexture(GL_TEXTURE0 + unit);
 		glBindTexture(GL_TEXTURE_2D, id_);
 	}
 	//----------------------------------------------------------------------------------------------

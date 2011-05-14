@@ -34,7 +34,7 @@ namespace djah { namespace video { namespace ogl {
 		texture(int width, int height);
 		~texture();
 
-		void bind() const;
+		void bind(int unit = 0) const;
 		static void unbind();
 
 		int width() const;

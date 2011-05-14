@@ -95,6 +95,8 @@ namespace djah { namespace video { namespace ogl {
 	DEFINE_EXTENSION( PFNGLUNIFORMMATRIX3FVPROC,		glUniformMatrix3fv			);
 	DEFINE_EXTENSION( PFNGLUNIFORMMATRIX4FVPROC,		glUniformMatrix4fv			);
 
+	DEFINE_EXTENSION( PFNGLACTIVETEXTUREPROC,			glActiveTexture				);
+
 } /*ogl*/ } /*video*/ } /*djah*/
 
 //--------------------------------------------------------------------------------------------------

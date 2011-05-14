@@ -67,6 +67,8 @@ namespace djah {
 	//----------------------------------------------------------------------------------------------
 	void application_base::exit()
 	{
+		exitImpl();
+
 		if( device_ )
 			device_->destroy();
 	}

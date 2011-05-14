@@ -27,8 +27,8 @@ namespace djah { namespace geometry {
 
 	private:
 
-		math::vector<2,T> topLeft_;
-		math::vector<2,T> bottomRight_;
+		math::vector<2,T> top_left_;
+		math::vector<2,T> bottom_right_;
 	};
 
 

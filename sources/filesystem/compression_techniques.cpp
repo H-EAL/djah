@@ -14,7 +14,8 @@ namespace djah { namespace filesystem {
 			char file_name_[FILENAME_MAX_SIZE];
 			u32	 size_;
 			u32	 offset_;
-		} fentry;
+		};
+
 	}
 	//----------------------------------------------------------------------------------------------
 	

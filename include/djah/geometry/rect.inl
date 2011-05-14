@@ -3,8 +3,8 @@ namespace djah { namespace geometry {
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
 	rect<T>::rect(T left, T top, T right, T bottom)
-		: topLeft_(left, top)
-		, bottomRight_(right, bottom)
+		: top_left_(left, top)
+		, bottom_right_(right, bottom)
 	{
 
 	}
@@ -14,8 +14,8 @@ namespace djah { namespace geometry {
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
 	rect<T>::rect(const math::vector<2,T> &topLeft, const math::vector<2,T> &bottomRight)
-		: topLeft_(topLeft)
-		, bottomRight_(bottomRight)
+		: top_left_(topLeft)
+		, bottom_right_(bottomRight)
 	{
 
 	}
@@ -25,8 +25,8 @@ namespace djah { namespace geometry {
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
 	rect<T>::rect(const math::vector<2,T> &topLeftPosition, T width, T height)
-		: topLeft_(topLeftPosition)
-		, bottomRight_(topLeftPosition.x + width, topLeftPosition.y + height)
+		: top_left_(topLeftPosition)
+		, bottom_right_(topLeftPosition.x + width, topLeftPosition.y + height)
 	{
 
 	}
@@ -37,7 +37,7 @@ namespace djah { namespace geometry {
 	template<typename T>
 	inline T rect<T>::width() const
 	{
-		return std::abs(bottomRight_.x - topLeft_.x);
+		return std::abs(bottom_right_.x - top_left_.x);
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -45,7 +45,7 @@ namespace djah { namespace geometry {
 	template<typename T>
 	inline T rect<T>::height() const
 	{
-		return std::abs(bottomRight_.y - topLeft_.y);
+		return std::abs(bottom_right_.y - top_left_.y);
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -54,7 +54,7 @@ namespace djah { namespace geometry {
 	template<typename T>
 	inline math::vector<2,T>& rect<T>::topLeft()
 	{
-		return topLeft_;
+		return top_left_;
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -62,7 +62,7 @@ namespace djah { namespace geometry {
 	template<typename T>
 	inline math::vector<2,T>& rect<T>::bottomRight()
 	{
-		return bottomRight_;
+		return bottom_right_;
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -71,7 +71,7 @@ namespace djah { namespace geometry {
 	template<typename T>
 	inline const math::vector<2,T>& rect<T>::topLeft() const
 	{
-		return topLeft_;
+		return top_left_;
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -79,7 +79,7 @@ namespace djah { namespace geometry {
 	template<typename T>
 	inline const math::vector<2,T>& rect<T>::bottomRight() const
 	{
-		return bottomRight_;
+		return bottom_right_;
 	}
 	//----------------------------------------------------------------------------------------------
 
