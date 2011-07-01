@@ -15,12 +15,11 @@ namespace djah { namespace geometry {
 			: origin_(origin), direction_(direction) {}
 
 		// Read/Write accessors
-		T&                       origin()    { return origin_;    }
-		math::vector<3,T>&       direction() { return direction_; }
+		math::vector<3,T>& origin()    { return origin_;    }
+		math::vector<3,T>& direction() { return direction_; }
 		// Read-only accessors
-		const T&                 origin()    const { return origin_;    }
+		const math::vector<3,T>& origin()    const { return origin_;    }
 		const math::vector<3,T>& direction() const { return direction_; }
-
 
 	private:
 

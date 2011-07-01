@@ -120,7 +120,7 @@ namespace djah { namespace utils {
 	// This generates an immediate hash with a literal string. Do NOT use with a dynamic string.
 	inline u32 static_murmur_hash(const char *str, u32 seed = 0)
 	{
-		return djah::utils::murmur_hash<sizeof(str)>(seed, str);
+		return murmur_hash<sizeof(str)>(seed, str);
 	}
 	//----------------------------------------------------------------------------------------------
 	inline u32 dyamic_murmur_hash(const char *str, u32 len, u32 seed = 0)

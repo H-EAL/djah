@@ -44,7 +44,7 @@ namespace djah { namespace math {
 		// Constructors from values, only the needed one is actually created
 		vector(T _x, T _y) : vector_base<N,T>(_x, _y) {}
 		vector(T _x, T _y, T _z) : vector_base<N,T>(_x, _y, _z) {}
-		vector(T _w, T _x, T _y, T _z) : vector_base<N,T>(_w, _x, _y, _z) {}
+		vector(T _x, T _y, T _z, T _w) : vector_base<N,T>(_x, _y, _z, _w) {}
 
 		// Constructor from array
 		vector(const T (&array)[N]);
