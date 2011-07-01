@@ -9,7 +9,7 @@ namespace djah { namespace filesystem {
 	{
 		std::ios::openmode mode = std::ios::in | std::ios::binary;
 
-		if (overwrite_)
+		if(overwrite_)
 			mode |= std::ios::trunc | std::ios::out;
 
 		stream_.open(file_name_.c_str(), mode);

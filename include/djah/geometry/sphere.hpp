@@ -43,11 +43,11 @@ namespace djah { namespace geometry {
 
 	template<typename T>
 	inline bool operator <=(const sphere<T> &lhs, const sphere<T> &rhs)
-	{ return (lhs < rhs) && !(rhs < lhs); }
+	{ return lhs.radius() <= rhs.radius(); }
 
 	template<typename T>
 	inline bool operator  >(const sphere<T> &lhs, const sphere<T> &rhs)
-	{ return !(lhs < rhs) && (rhs < lhs); }
+	{ return !(lhs <= rhs); }
 
 	template<typename T>
 	inline bool operator >=(const sphere<T> &lhs, const sphere<T> &rhs)
@@ -55,7 +55,7 @@ namespace djah { namespace geometry {
 
 	template<typename T>
 	inline bool operator ==(const sphere<T> &lhs, const sphere<T> &rhs)
-	{ return !(lhs < rhs) && !(rhs < lhs); }
+	{ return lhs.radius() == rhs.radius(); }
 
 	template<typename T>
 	inline bool operator !=(const sphere<T> &lhs, const sphere<T> &rhs)

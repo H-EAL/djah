@@ -89,7 +89,8 @@ namespace djah { namespace math {
 	{
 		for(int i = 0; i < N; ++i)
 			vector_base<N,T>::data[i] -= rhs.data[i];
-		return (*this); }
+		return (*this);
+	}
 	//----------------------------------------------------------------------------------------------
 	
 	//----------------------------------------------------------------------------------------------
@@ -231,7 +232,7 @@ namespace djah { namespace math {
 		V result;
 		
 		for(int i = 0; i < V::size; ++i)
-			result.data[i] = i<N ? static_cast<typename V::value_type>(op.data[i]) : padding;
+			result.data[i] = static_cast<typename V::value_type>(i<N ? op.data[i] : padding);
 		
 		return result;
 	}

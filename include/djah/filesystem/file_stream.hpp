@@ -12,12 +12,12 @@ namespace djah { namespace filesystem {
 	public:
 
 		file_stream(const std::string &file_name, bool overwrite = false);
-		~file_stream();
+		virtual ~file_stream();
 
-		size_t size();
-		bool   eof();
-		void   seek(size_t offset, E_SEEK_DIR dir);
-		void   close();
+		virtual size_t size();
+		virtual bool   eof();
+		virtual void   seek(size_t offset, E_SEEK_DIR dir);
+		virtual void   close();
 
 	private:
 

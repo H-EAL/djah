@@ -11,13 +11,13 @@ namespace djah { namespace filesystem {
 	public:
 
 		directory_source(const std::string &path, bool overwrite = false, unsigned int priority = 0);
-		~directory_source();
+		virtual ~directory_source();
 
-		stream_ptr loadStream(const std::string &url);
-		stream_ptr saveStream(const std::string &url);
+		virtual stream_ptr loadStream(const std::string &url);
+		virtual stream_ptr saveStream(const std::string &url);
 
-		bool isFetchable(const std::string &url) const;
-		bool isWritable (const std::string &url) const;
+		virtual bool isFetchable(const std::string &url) const;
+		virtual bool isWritable (const std::string &url) const;
 
 	private:
 
