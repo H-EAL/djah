@@ -33,6 +33,9 @@
     <ClInclude Include="..\..\..\include\djah\filesystem\stream.hpp">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\filesystem\url.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\include\djah\filesystem\compressed_source.inl">
@@ -56,6 +59,9 @@
       <Filter>sources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\sources\filesystem\memory_stream.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\sources\filesystem\url.cpp">
       <Filter>sources</Filter>
     </ClCompile>
   </ItemGroup>

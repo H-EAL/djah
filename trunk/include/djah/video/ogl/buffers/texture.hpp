@@ -32,7 +32,7 @@ namespace djah { namespace video { namespace ogl {
 	public:
 
 		texture(int width, int height);
-		~texture();
+		virtual ~texture();
 
 		void bind(int unit = 0) const;
 		static void unbind();
@@ -44,9 +44,9 @@ namespace djah { namespace video { namespace ogl {
 
 	private:
 
-		void aquire();
-		void release();
-		bool isValidResource() const;
+		virtual void aquire();
+		virtual void release();
+		virtual bool isValidResource() const;
 
 	protected:
 

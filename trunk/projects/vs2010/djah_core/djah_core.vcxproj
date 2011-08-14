@@ -117,7 +117,6 @@
   <ItemGroup>
     <None Include="..\..\..\include\djah\geometry\plane.inl" />
     <None Include="..\..\..\include\djah\geometry\rect.inl" />
-    <None Include="..\..\..\include\djah\geometry\triangle.inl" />
     <None Include="..\..\..\include\djah\math\matrix.inl" />
     <None Include="..\..\..\include\djah\math\quaternion.inl" />
     <None Include="..\..\..\include\djah\math\vector.inl" />

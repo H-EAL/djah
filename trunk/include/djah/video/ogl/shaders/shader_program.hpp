@@ -16,7 +16,7 @@ namespace djah { namespace video { namespace ogl {
 	public:
 
 		shader_program();
-		~shader_program();
+		virtual ~shader_program();
 
 		template<int ShaderType>
 		void attach(const shader_base<ShaderType> &s) const;
@@ -51,9 +51,9 @@ namespace djah { namespace video { namespace ogl {
 
 	private:
 
-		void aquire();
-		void release();
-		bool isValidResource() const;
+		virtual void aquire();
+		virtual void release();
+		virtual bool isValidResource() const;
 
 		void handleLinkingErrors() const;
 

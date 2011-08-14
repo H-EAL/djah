@@ -24,11 +24,40 @@ namespace djah { namespace geometry {
 
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	rect<T>::rect(const math::vector<2,T> &topLeftPosition, T width, T height)
-		: top_left_(topLeftPosition)
-		, bottom_right_(topLeftPosition.x + width, topLeftPosition.y + height)
+	rect<T>::rect(const math::vector<2,T> &topLeft, T width, T height)
+		: top_left_(topLeft)
+		, bottom_right_(topLeft.x + width, topLeft.y + height)
 	{
 
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	template<typename T>
+	inline void rect<T>::repair()
+	{
+		if( top_left_.x > bottom_right_.x )
+			std::swap(top_left_.x, bottom_right_.x);
+		if( top_left_.y > bottom_right_.y )
+			std::swap(top_left_.y, bottom_right_.y);
+	}
+	//----------------------------------------------------------------------------------------------
+
+	//----------------------------------------------------------------------------------------------
+	template<typename T>
+	inline void rect<T>::invalidate()
+	{
+		top_left_.x = top_left_.y = std::numeric_limits<T>::max();
+		bottom_right_.x = bottom_right_.y = std::numeric_limits<T>::min();
+	}
+	//----------------------------------------------------------------------------------------------
+
+	//----------------------------------------------------------------------------------------------
+	template<typename T>
+	inline bool rect<T>::isValid() const
+	{
+		return (top_left_.x < bottom_right_.x) && (top_left_.y < bottom_right_.y);
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -46,6 +75,14 @@ namespace djah { namespace geometry {
 	inline T rect<T>::height() const
 	{
 		return std::abs(bottom_right_.y - top_left_.y);
+	}
+	//----------------------------------------------------------------------------------------------
+
+	//----------------------------------------------------------------------------------------------
+	template<typename T>
+	inline math::vector<2,T> rect<T>::extent() const
+	{
+		return math::create_vector(top_left_, bottom_right_);
 	}
 	//----------------------------------------------------------------------------------------------
 

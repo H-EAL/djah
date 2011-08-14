@@ -17,16 +17,16 @@ namespace djah { namespace video { namespace ogl {
 	public:
 
 		vertex_array(const vertex_format &format, vertex_buffer *vb, index_buffer *ib = 0);
-		~vertex_array();
+		virtual ~vertex_array();
 
 		void init(const shader_program &sp) const;
 		void draw() const;
 
 	private:
 
-		void aquire();
-		void release();
-		bool isValidResource() const;
+		virtual void aquire();
+		virtual void release();
+		virtual bool isValidResource() const;
 
 		void bind() const;
 		static void unbind();

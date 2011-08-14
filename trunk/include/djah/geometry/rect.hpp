@@ -1,7 +1,10 @@
 #ifndef DJAH_GEOMETRY_RECT_HPP
 #define DJAH_GEOMETRY_RECT_HPP
 
+#include <limits>
+#include <algorithm>
 #include "../math/vector2.hpp"
+#include "../math/vector_utils.hpp"
 
 namespace djah { namespace geometry {
 
@@ -12,10 +15,15 @@ namespace djah { namespace geometry {
 
 		rect(T left = T(0), T top = T(0), T right = T(0), T bottom = T(0));
 		rect(const math::vector<2,T> &topLeft, const math::vector<2,T> &bottomRight);
-		rect(const math::vector<2,T> &topLeftPosition, T width, T height);
+		rect(const math::vector<2,T> &topLeft, T width, T height);
+
+		void repair();
+		void invalidate();
+		bool isValid() const;
 
 		T width() const;
 		T height() const;
+		math::vector<2,T> extent() const;
 
 		// Read/Write accessors
 		math::vector<2,T>& topLeft();

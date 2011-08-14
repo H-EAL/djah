@@ -2,6 +2,7 @@
 
 #include <ctime>
 #include <cstdlib>
+#include <algorithm>
 
 namespace djah { namespace utils {
 
@@ -17,10 +18,10 @@ namespace djah { namespace utils {
 		if( !initialized_ )
 			init_seed();
 
-		if ( min <= max )
-			return rand()%(max-min+1) + min;
-		else
-			return rand()%(min-max+1) + max;
+		if( min > max )
+			std::swap(min, max);
+
+		return rand()%(max-min+1) + min;
 	}
 	//----------------------------------------------------------------------------------------------
 	int randomizer::random(int max)
@@ -36,10 +37,10 @@ namespace djah { namespace utils {
 		if( !initialized_ )
 			init_seed();
 
-		if( min <= max )
-			return static_cast<float>( rand() )/static_cast<float>(RAND_MAX) * (max-min) + min;
-		else
-			return static_cast<float>( rand() )/static_cast<float>(RAND_MAX) * (min-max) + max;
+		if( min > max )
+			std::swap(min, max);
+
+		return static_cast<float>(rand())/static_cast<float>(RAND_MAX) * (max-min) + min;
 	}
 	//----------------------------------------------------------------------------------------------
 	float randomizer::random(float max)

@@ -13,7 +13,7 @@ namespace djah { namespace video { namespace primitives {
 		triangle(const math::point3f (&points)[3]);
 		triangle(const math::point3f (&points)[3], const math::vector3f (&normals)[3]);
 		triangle(const math::point3f (&points)[3], const math::vector3f (&normals)[3], const math::point2f (&texCoords)[3]);
-		triangle(const geometry::triangle_f &model);
+		triangle(const geometry::triangle3f &model);
 
 		void setPoints(const math::point3f (&points)[3]);
 		void setNormals(const math::vector3f (&normals)[3]);

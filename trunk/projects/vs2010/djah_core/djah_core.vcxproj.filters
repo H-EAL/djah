@@ -172,9 +172,6 @@
     <None Include="..\..\..\include\djah\geometry\rect.inl">
       <Filter>include\geometry</Filter>
     </None>
-    <None Include="..\..\..\include\djah\geometry\triangle.inl">
-      <Filter>include\geometry</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\sources\time\clock.cpp">

@@ -24,7 +24,7 @@ namespace djah { namespace video { namespace ogl {
 	public:
 
 		buffer_base(size_t size, E_BUFFER_USAGE usage, bool auto_alloc = true);
-		~buffer_base();
+		virtual ~buffer_base();
 
 		size_t size() const;
 		size_t count() const;
@@ -54,9 +54,9 @@ namespace djah { namespace video { namespace ogl {
 
 	private:
 
-		void aquire();
-		void release();
-		bool isValidResource() const;
+		virtual void aquire();
+		virtual void release();
+		virtual bool isValidResource() const;
 
 		E_BUFFER_USAGE	usage_;
 		const size_t	size_;

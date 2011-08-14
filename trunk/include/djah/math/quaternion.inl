@@ -90,7 +90,6 @@ namespace djah { namespace math {
 	{
 		for(size_t i = 0; i < 4; ++i)
 			data[i] += rhs.data[i];
-
 		return *this;
 	}
 	//----------------------------------------------------------------------------------------------
@@ -101,7 +100,6 @@ namespace djah { namespace math {
 	{
 		for(size_t i = 0; i < 4; ++i)
 			data[i] -= rhs.data[i];
-
 		return *this;
 	}
 	//----------------------------------------------------------------------------------------------

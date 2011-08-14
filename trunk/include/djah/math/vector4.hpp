@@ -37,19 +37,19 @@ namespace djah { namespace math {
 	//----------------------------------------------------------------------------------------------
 	// Cross product
 	template<typename T>
-	inline vector<4,T> cross(const vector<4,T> &lhs, const vector<4,T> &rhs)
+	inline const vector<4,T> cross(const vector<4,T> &lhs, const vector<4,T> &rhs)
 	{
 		return vector<4,T>
 		(
 			lhs.y * rhs.z - lhs.z * rhs.y,
 			lhs.z * rhs.x - lhs.x * rhs.z,
 			lhs.x * rhs.y - lhs.y * rhs.x,
-			0
+			T(0)
 		);
 	}
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	const vector<4,T> operator ^(const vector<4,T> &lhs, const vector<4,T> &rhs)
+	inline const vector<4,T> operator ^(const vector<4,T> &lhs, const vector<4,T> &rhs)
 	{
 		return cross(lhs, rhs);
 	}

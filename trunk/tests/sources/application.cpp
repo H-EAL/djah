@@ -171,7 +171,7 @@ application::application(int w, int h)
 void application::initImpl()
 {
 	log::logger::setLogger(new log::console_logger);
-	DJAH_BEGIN_LOG(EWL_NOTIFICATION) << "application::initImpl()" << DJAH_END_LOG();
+	DJAH_BEGIN_LOG(EWL_NOTIFICATION) << sizeof(u64) << DJAH_END_LOG();
 		
 	filesystem::browser::get().addLoadingChannel(new filesystem::directory_source("."));
 	filesystem::browser::get().addLoadingChannel(new filesystem::directory_source("./data"));
