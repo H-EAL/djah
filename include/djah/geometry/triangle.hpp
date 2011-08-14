@@ -1,41 +1,32 @@
 #ifndef DJAH_GEOMETRY_TRIANGLE_HPP
 #define DJAH_GEOMETRY_TRIANGLE_HPP
 
-#include "math/vector3.hpp"
+#include "math/vector.hpp"
 
 namespace djah { namespace geometry {
 
-	template<typename T>
+	template<int N, typename T>
 	class triangle
 	{
 	public:
 
 		// Init with 3 points
-		triangle(const math::vector<3,T> &a, const math::vector<3,T> &b, const math::vector<3,T> &c);
+		triangle(const math::vector<N,T> &_a, const math::vector<N,T> &_b, const math::vector<N,T> &_c)
+			: a(_a), b(_b), c(_c) {}
 
-		// Read/Write accessors
-		math::vector<3,T>&			a();
-		math::vector<3,T>&			b();
-		math::vector<3,T>&			c();
-		// Read-only accessors
-		const math::vector<3,T>&	a() const;
-		const math::vector<3,T>&	b() const;
-		const math::vector<3,T>&	c() const;
-
-	private:
-
-		math::vector<3,T> a_;
-		math::vector<3,T> b_;
-		math::vector<3,T> c_;
+		math::vector<N,T> a;
+		math::vector<N,T> b;
+		math::vector<N,T> c;
 	};
 
 
 	// Useful type definitions
-	typedef triangle<float>  triangle_f;
-	typedef triangle<double> triangle_d;
+	typedef triangle<2,float>  triangle2f;
+	typedef triangle<2,double> triangle2d;
+
+	typedef triangle<3,float>  triangle3f;
+	typedef triangle<3,double> triangle3d;
 
 } /*geometry*/ } /*djah*/
-
-#include "triangle.inl"
 
 #endif /* DJAH_GEOMETRY_TRIANGLE_HPP */

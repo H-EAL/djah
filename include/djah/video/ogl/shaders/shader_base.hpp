@@ -2,7 +2,12 @@
 #define DJAH_VIDEO_OGL_SHADER_BASE_HPP
 
 #include <string>
+
+#include <boost/smart_ptr/scoped_array.hpp>
+
 #include "../resource.hpp"
+#include "../../../log/logger.hpp"
+#include "../../../filesystem/browser.hpp"
 
 namespace djah { namespace video { namespace ogl {
 
@@ -13,7 +18,7 @@ namespace djah { namespace video { namespace ogl {
 	public:
 
 		explicit shader_base(const std::string &url = "");
-		~shader_base();
+		virtual ~shader_base();
 
 		void loadSourceFromString(const std::string &source);
 		void loadSourceFromUrl(const std::string &url);
@@ -21,9 +26,9 @@ namespace djah { namespace video { namespace ogl {
 
 	protected:
 
-		void aquire();
-		void release();
-		bool isValidResource() const;
+		virtual void aquire();
+		virtual void release();
+		virtual bool isValidResource() const;
 
 		void loadSource() const;
 		void handleCompilationErrors() const;

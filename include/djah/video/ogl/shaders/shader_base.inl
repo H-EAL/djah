@@ -1,8 +1,3 @@
-#include <boost/smart_ptr/scoped_array.hpp>
-
-#include "../../../log/logger.hpp"
-#include "../../../filesystem/browser.hpp"
-
 namespace djah { namespace video { namespace ogl {
 
 	//----------------------------------------------------------------------------------------------

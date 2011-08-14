@@ -1,6 +1,7 @@
 #include "system/opengl_driver.hpp"
 #include "system/opengl_include.hpp"
 #include "video/ogl/gl_caps.hpp"
+#include "math/vector2.hpp"
 
 namespace djah { namespace system {
 

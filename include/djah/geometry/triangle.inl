@@ -1,7 +1,7 @@
 namespace djah { namespace geometry {
 
 	//-----------------------------------------------------------------------------
-	template<typename T>
+	template<int N, typename T>
 	triangle<T>::triangle(const math::vector<3,T> &a, const math::vector<3,T> &b, const math::vector<3,T> &c)
 		: a_(a)
 		, b_(b)
@@ -12,7 +12,7 @@ namespace djah { namespace geometry {
 
 	
 	//-----------------------------------------------------------------------------
-	template<typename T>
+	template<int N, typename T>
 	math::vector<3,T>&			triangle<T>::a()        { return a_; }
 	template<typename T>
 	math::vector<3,T>&			triangle<T>::b()        { return b_; }

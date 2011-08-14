@@ -18,10 +18,10 @@ namespace djah { namespace time {
 	//----------------------------------------------------------------------------------------------
 	void clock::restart()
 	{
-		start_time_	= getCurrentTime();
-		paused_time_	= 0;
-		dead_time_	= 0;
-		paused_		= false;
+		start_time_	 = getCurrentTime();
+		paused_time_ = 0;
+		dead_time_	 = 0;
+		paused_		 = false;
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -32,7 +32,7 @@ namespace djah { namespace time {
 		if(!paused_)
 		{
 			paused_time_ = getCurrentTime();
-			paused_		= true;
+			paused_		 = true;
 		}
 	}
 	//----------------------------------------------------------------------------------------------
@@ -44,8 +44,8 @@ namespace djah { namespace time {
 		if(paused_)
 		{
 			dead_time_  += getCurrentTime() - paused_time_;
-			paused_time_	= 0;
-			paused_		= false;
+			paused_time_ = 0;
+			paused_		 = false;
 		}
 	}
 	//----------------------------------------------------------------------------------------------

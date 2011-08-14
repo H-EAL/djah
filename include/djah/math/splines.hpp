@@ -7,7 +7,7 @@ namespace djah { namespace math {
 
 	//--------------------------------------------------------------------------
 	template<typename T, typename V>
-	V catmull_rom(T t, const V &p0, const V &p1, const V &p2, const V &p3)
+	const V catmull_rom(T t, const V &p0, const V &p1, const V &p2, const V &p3)
 	{
 		const T t2 = t*t;
 		const T t3 = t*t2;

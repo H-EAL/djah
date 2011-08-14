@@ -1,28 +1,28 @@
 #ifndef DJAH_GEOMETRY_SPHERE_HPP
 #define DJAH_GEOMETRY_SPHERE_HPP
 
-#include "math/vector3.hpp"
+#include "math/vector.hpp"
 
 namespace djah { namespace geometry {
 
-	template<typename T>
+	template<int N, typename T>
 	class sphere
 	{
 	public:
 
 		// A sphere is just a 3D point and a radius
-		sphere(T radius = T(1), const math::vector<3,T> &center = math::vector3<T>())
+		sphere(T radius = T(1), const math::vector<N,T> &center = math::vector<N,T>())
 			: radius_(radius), center_(center) {}
 
 		// Read/Write accessors
 		T&                       radius()       { return radius_; }
-		math::vector<3,T>&       center()       { return center_; }
+		math::vector<N,T>&       center()       { return center_; }
 		// Read-only accessors
 		const T&                 radius() const { return radius_; }
-		const math::vector<3,T>& center() const { return center_; }
+		const math::vector<N,T>& center() const { return center_; }
 
 		// Indicates if a point is inside the sphere
-		bool isInside(const math::vector<3,T> &point) const
+		bool isInside(const math::vector<N,T> &point) const
 		{
 			const T distance = math::distance(point, center_);
 			return distance <= radius_;
@@ -32,7 +32,7 @@ namespace djah { namespace geometry {
 	private:
 
 		T                 radius_;
-		math::vector<3,T> center_;
+		math::vector<N,T> center_;
 	};
 
 
@@ -63,8 +63,11 @@ namespace djah { namespace geometry {
 
 
 	// Useful type definitions
-	typedef sphere<float>  sphere_f;
-	typedef sphere<double> sphere_d;
+	typedef sphere<2,float>  circle_f;
+	typedef sphere<2,double> circle_d;
+
+	typedef sphere<3,float>  sphere_f;
+	typedef sphere<3,double> sphere_d;
 
 } /*geometry*/ } /*djah*/
 

@@ -20,7 +20,7 @@ namespace djah { namespace video { namespace ogl {
 	public:
 
 		render_buffer(int width, int height);
-		~render_buffer();
+		virtual ~render_buffer();
 
 		void bind() const;
 		static void unbind();
@@ -29,9 +29,9 @@ namespace djah { namespace video { namespace ogl {
 
 	private:
 
-		void aquire();
-		void release();
-		bool isValidResource() const;
+		virtual void aquire();
+		virtual void release();
+		virtual bool isValidResource() const;
 	};
 
 } /*ogl*/ } /*video*/ } /*djah*/

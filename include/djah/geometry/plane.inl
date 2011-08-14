@@ -2,9 +2,9 @@ namespace djah { namespace geometry {
 
 	//-----------------------------------------------------------------------------
 	template<typename T>
-	plane<T>::plane(T distance, const math::vector<3,T> &normal)
-		: distance_(distance)
-		, normal_(normal)
+	plane<T>::plane(const math::vector<3,T> &normal, T distance)
+		: normal_(normal)
+		, distance_(distance)
 	{
 	}
 	//-----------------------------------------------------------------------------

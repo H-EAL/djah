@@ -11,7 +11,7 @@ namespace djah { namespace geometry {
 	public:
 
 		// Init with a normal and a distance from the origin
-		plane(T distance = T(0), const math::vector3<T> &normal = math::vector3<T>::y_axis);
+		plane(const math::vector3<T> &normal, T distance);
 		// Init with the plane equation ax + by + cz + d = 0
 		plane(T a, T b, T c, T d);
 
@@ -31,13 +31,13 @@ namespace djah { namespace geometry {
 		const T&					d()        const;
 
 		// Solve plane equation
-		T solve(const math::vector3<T> &point) const;
+		T solve(const math::vector<3,T> &point) const;
 
 		// Relative positions
 		enum { BEHIND_PLANE = -1, ON_PLANE, IN_FRONT_OF_PLANE };
 
 		// Indicates if the point is (behind/on/in front of) the plane
-		int relativePosition(const math::vector3<T> &point) const;
+		int relativePosition(const math::vector<3,T> &point) const;
 
 		// Indicates if a point is on the plane
 		bool isOn(const math::vector<3,T> &point)        const;
@@ -49,8 +49,8 @@ namespace djah { namespace geometry {
 
 	private:
 
-		T					distance_;
 		math::vector<3,T>	normal_;
+		T					distance_;
 	};
 
 
@@ -60,8 +60,6 @@ namespace djah { namespace geometry {
 
 } /*geometry*/ } /*djah*/
 
-
 #include "plane.inl"
-
 
 #endif /* DJAH_GEOMETRY_PLANE_HPP */

@@ -37,7 +37,7 @@ namespace djah { namespace math {
 	//----------------------------------------------------------------------------------------------
 	// Cross product
 	template<typename T>
-	inline vector<3,T> cross(const vector<3,T> &lhs, const vector<3,T> &rhs)
+	inline const vector<3,T> cross(const vector<3,T> &lhs, const vector<3,T> &rhs)
 	{
 		return vector<3,T>
 		(
@@ -48,7 +48,7 @@ namespace djah { namespace math {
 	}
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	const vector<3,T> operator ^(const vector<3,T> &lhs, const vector<3,T> &rhs)
+	inline const vector<3,T> operator ^(const vector<3,T> &lhs, const vector<3,T> &rhs)
 	{
 		return cross(lhs, rhs);
 	}

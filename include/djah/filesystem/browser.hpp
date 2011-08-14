@@ -25,7 +25,7 @@ namespace djah { namespace filesystem {
 
 	private:
 
-		~browser();
+		virtual ~browser();
 
 		// Predicate used to compare 2 sources
 		struct source_comp { bool operator ()(const source *lhs, const source *rhs) { return *lhs < *rhs; } };

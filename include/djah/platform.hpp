@@ -11,6 +11,12 @@
 #	ifdef far
 #		undef far
 #	endif
+#	ifdef min
+#		undef min
+#	endif
+#	ifdef max
+#		undef max
+#	endif
 
 #elif defined(linux)
 #   define DJAH_COMPILE_LINUX

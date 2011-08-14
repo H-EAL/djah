@@ -44,7 +44,7 @@ namespace djah { namespace math {
 
 	//--------------------------------------------------------------------------
 	template<typename T>
-	inline matrix<4,T> quat_to_matrix4(const quaternion<T> &q)
+	inline const matrix<4,T> quat_to_matrix4(const quaternion<T> &q)
 	{
 		const T qx = q.x;
 		const T qy = q.y;
@@ -68,7 +68,7 @@ namespace djah { namespace math {
 	
 	//--------------------------------------------------------------------------
 	template<typename T>
-	inline quaternion<T> matrix4_to_quat(const matrix<4,T> &mat)
+	inline const quaternion<T> matrix4_to_quat(const matrix<4,T> &mat)
 	{
 		const T w = sqrt(T(1) + mat._11 + mat._22 + mat._33) / T(2);
 		const T four_w = T(4) * w;
