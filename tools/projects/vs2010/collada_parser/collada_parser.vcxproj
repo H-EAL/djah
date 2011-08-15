@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A7E4A125-E05E-4C43-96C0-85D1A7AB16FD}</ProjectGuid>
+    <RootNamespace>collada_parser</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>..\..\..\collada_parser\lib\win32\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <TargetName>$(ProjectName)_d</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>..\..\..\collada_parser\lib\win32\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\..\collada_parser\include\collada;..\..\..\..\extlibs\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>..\..\..\collada_parser\include\collada;..\..\..\..\extlibs\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\collada_parser\sources\database.cpp" />
+    <ClCompile Include="..\..\..\collada_parser\sources\library\animations.cpp" />
+    <ClCompile Include="..\..\..\collada_parser\sources\library\common.cpp" />
+    <ClCompile Include="..\..\..\collada_parser\sources\library\controllers.cpp" />
+    <ClCompile Include="..\..\..\collada_parser\sources\library\effects.cpp" />
+    <ClCompile Include="..\..\..\collada_parser\sources\library\geometries.cpp" />
+    <ClCompile Include="..\..\..\collada_parser\sources\library\images.cpp" />
+    <ClCompile Include="..\..\..\collada_parser\sources\library\materials.cpp" />
+    <ClCompile Include="..\..\..\collada_parser\sources\library\visual_scenes.cpp" />
+    <ClCompile Include="..\..\..\collada_parser\sources\proxy.cpp" />
+    <ClCompile Include="..\..\..\collada_parser\sources\utils.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\collada_parser\include\collada\database.hpp" />
+    <ClInclude Include="..\..\..\collada_parser\include\collada\fwd_decl.hpp" />
+    <ClInclude Include="..\..\..\collada_parser\include\collada\library\animations.hpp" />
+    <ClInclude Include="..\..\..\collada_parser\include\collada\library\common.hpp" />
+    <ClInclude Include="..\..\..\collada_parser\include\collada\library\controllers.hpp" />
+    <ClInclude Include="..\..\..\collada_parser\include\collada\library\effects.hpp" />
+    <ClInclude Include="..\..\..\collada_parser\include\collada\library\geometries.hpp" />
+    <ClInclude Include="..\..\..\collada_parser\include\collada\library\images.hpp" />
+    <ClInclude Include="..\..\..\collada_parser\include\collada\library\materials.hpp" />
+    <ClInclude Include="..\..\..\collada_parser\include\collada\library\visual_scenes.hpp" />
+    <ClInclude Include="..\..\..\collada_parser\include\collada\proxy.hpp" />
+    <ClInclude Include="..\..\..\collada_parser\include\collada\utils.hpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

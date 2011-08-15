@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="sources\library">
+      <UniqueIdentifier>{aadd254d-0341-4045-a44b-d9271f2b54e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\library">
+      <UniqueIdentifier>{401e642e-e0af-4a4b-8401-2c8b0d297397}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\collada_parser\sources\library\animations.cpp">
+      <Filter>sources\library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\collada_parser\sources\library\common.cpp">
+      <Filter>sources\library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\collada_parser\sources\library\controllers.cpp">
+      <Filter>sources\library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\collada_parser\sources\library\effects.cpp">
+      <Filter>sources\library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\collada_parser\sources\library\geometries.cpp">
+      <Filter>sources\library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\collada_parser\sources\library\images.cpp">
+      <Filter>sources\library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\collada_parser\sources\library\materials.cpp">
+      <Filter>sources\library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\collada_parser\sources\library\visual_scenes.cpp">
+      <Filter>sources\library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\collada_parser\sources\database.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\collada_parser\sources\proxy.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\collada_parser\sources\utils.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\collada_parser\include\collada\library\animations.hpp">
+      <Filter>include\library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\collada_parser\include\collada\library\common.hpp">
+      <Filter>include\library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\collada_parser\include\collada\library\controllers.hpp">
+      <Filter>include\library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\collada_parser\include\collada\library\effects.hpp">
+      <Filter>include\library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\collada_parser\include\collada\library\geometries.hpp">
+      <Filter>include\library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\collada_parser\include\collada\library\images.hpp">
+      <Filter>include\library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\collada_parser\include\collada\library\materials.hpp">
+      <Filter>include\library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\collada_parser\include\collada\library\visual_scenes.hpp">
+      <Filter>include\library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\collada_parser\include\collada\database.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\collada_parser\include\collada\fwd_decl.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\collada_parser\include\collada\proxy.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\collada_parser\include\collada\utils.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
