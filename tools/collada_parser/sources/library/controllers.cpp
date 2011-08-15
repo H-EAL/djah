@@ -1,6 +1,6 @@
-#include "controllers.hpp"
+#include "library/controllers.hpp"
 #include <numeric>
-#include "common.hpp"
+#include "library/common.hpp"
 
 namespace collada { namespace library {
 

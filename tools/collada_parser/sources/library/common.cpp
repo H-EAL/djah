@@ -1,4 +1,4 @@
-#include "common.hpp"
+#include "library/common.hpp"
 
 namespace collada { namespace library {
 

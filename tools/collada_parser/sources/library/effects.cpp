@@ -1,5 +1,5 @@
-#include "effects.hpp"
-#include "common.hpp"
+#include "library/effects.hpp"
+#include "library/common.hpp"
 
 namespace collada { namespace library {
 

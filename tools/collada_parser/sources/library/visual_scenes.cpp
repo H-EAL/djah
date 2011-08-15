@@ -1,5 +1,5 @@
-#include "visual_scenes.hpp"
-#include "common.hpp"
+#include "library/visual_scenes.hpp"
+#include "library/common.hpp"
 
 namespace collada { namespace library {
 

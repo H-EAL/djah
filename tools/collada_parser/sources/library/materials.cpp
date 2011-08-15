@@ -1,5 +1,5 @@
-#include "materials.hpp"
-#include "common.hpp"
+#include "library/materials.hpp"
+#include "library/common.hpp"
 
 namespace collada { namespace library {
 

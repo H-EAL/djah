@@ -1,5 +1,5 @@
-#include "geometries.hpp"
-#include "common.hpp"
+#include "library/geometries.hpp"
+#include "library/common.hpp"
 
 namespace collada { namespace library {
 

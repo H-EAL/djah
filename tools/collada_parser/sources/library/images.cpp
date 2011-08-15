@@ -1,5 +1,5 @@
-#include "images.hpp"
-#include "common.hpp"
+#include "library/images.hpp"
+#include "library/common.hpp"
 
 namespace collada { namespace library {
 
