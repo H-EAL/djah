@@ -11,33 +11,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\collada_converter\sources\collada\database.cpp" />
-    <ClCompile Include="..\..\..\collada_converter\sources\collada\library\animations.cpp" />
-    <ClCompile Include="..\..\..\collada_converter\sources\collada\library\common.cpp" />
-    <ClCompile Include="..\..\..\collada_converter\sources\collada\library\controllers.cpp" />
-    <ClCompile Include="..\..\..\collada_converter\sources\collada\library\effects.cpp" />
-    <ClCompile Include="..\..\..\collada_converter\sources\collada\library\geometries.cpp" />
-    <ClCompile Include="..\..\..\collada_converter\sources\collada\library\images.cpp" />
-    <ClCompile Include="..\..\..\collada_converter\sources\collada\library\materials.cpp" />
-    <ClCompile Include="..\..\..\collada_converter\sources\collada\library\visual_scenes.cpp" />
-    <ClCompile Include="..\..\..\collada_converter\sources\collada\proxy.cpp" />
-    <ClCompile Include="..\..\..\collada_converter\sources\collada\utils.cpp" />
     <ClCompile Include="..\..\..\collada_converter\sources\main.cpp" />
     <ClCompile Include="..\..\..\collada_converter\sources\mesh_builder.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\collada_converter\sources\collada\database.hpp" />
-    <ClInclude Include="..\..\..\collada_converter\sources\collada\fwd_decl.hpp" />
-    <ClInclude Include="..\..\..\collada_converter\sources\collada\library\animations.hpp" />
-    <ClInclude Include="..\..\..\collada_converter\sources\collada\library\common.hpp" />
-    <ClInclude Include="..\..\..\collada_converter\sources\collada\library\controllers.hpp" />
-    <ClInclude Include="..\..\..\collada_converter\sources\collada\library\effects.hpp" />
-    <ClInclude Include="..\..\..\collada_converter\sources\collada\library\geometries.hpp" />
-    <ClInclude Include="..\..\..\collada_converter\sources\collada\library\images.hpp" />
-    <ClInclude Include="..\..\..\collada_converter\sources\collada\library\materials.hpp" />
-    <ClInclude Include="..\..\..\collada_converter\sources\collada\library\visual_scenes.hpp" />
-    <ClInclude Include="..\..\..\collada_converter\sources\collada\proxy.hpp" />
-    <ClInclude Include="..\..\..\collada_converter\sources\collada\utils.hpp" />
     <ClInclude Include="..\..\..\collada_converter\sources\mesh_builder.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -87,13 +64,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\..\extlibs\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\extlibs\include\;..\..\..\collada_parser\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\..\..\..\extlibs\lib\win32\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>tinyxml.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\..\extlibs\lib\win32\;..\..\..\collada_parser\lib\win32\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>tinyxml.lib;collada_parser_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>LIBCMT.lib</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
@@ -106,15 +83,15 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\..\extlibs\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\extlibs\include\;..\..\..\collada_parser\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>..\..\..\..\extlibs\lib\win32\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>tinyxml.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\..\extlibs\lib\win32\;..\..\..\collada_parser\lib\win32\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>tinyxml.lib;collada_parser.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>LIBCMT.lib</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
