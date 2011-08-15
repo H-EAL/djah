@@ -26,7 +26,6 @@ namespace djah { namespace video {
 		};
 
 		text(const std::string &str = "", int x = 0, int y = 0, const properties &props = properties());
-		text& operator =(const std::string &rhs) { std::string::operator=(rhs); return (*this); }
 
 		void setPosition(const math::vector2i &position) { position_ = position; }
 		void setProperties(const properties &props) { properties_ = props; }

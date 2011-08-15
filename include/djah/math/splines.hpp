@@ -10,7 +10,7 @@ namespace djah { namespace math {
 	const V catmull_rom(T t, const V &p0, const V &p1, const V &p2, const V &p3)
 	{
 		const T t2 = t*t;
-		const T t3 = t*t2;
+		const T t3 = t*t*t;
 		return T(0.5) * (
 					        (T(2)*p1) +
 							(-p0 + p2) * t +
