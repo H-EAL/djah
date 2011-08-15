@@ -7,6 +7,7 @@
 
 #include <djah/application_base.hpp>
 
+
 class application
 	: public djah::application_base
 {
@@ -39,5 +40,7 @@ private:
 
 	djah::video::text fps_str_;
 };
+
+DJAH_ENTRY_POINT(application);
 
 #endif /* DJAH_TESTS_APPLICATION_HPP */
