@@ -23,12 +23,12 @@
 #include <djah/log/console_logger.hpp>
 
 
-#include "../../collada_converter/sources/collada/proxy.hpp"
+#include "collada/proxy.hpp"
+#include "collada/library/common.hpp"
+#include "collada/utils.hpp"
+#include "collada/library/visual_scenes.hpp"
+#include "collada/library/controllers.hpp"
 #include "../../collada_converter/sources/mesh_builder.hpp"
-#include "../../collada_converter/sources/collada/library/common.hpp"
-#include "../../collada_converter/sources/collada/utils.hpp"
-#include "../../collada_converter/sources/collada/library/visual_scenes.hpp"
-#include "../../collada_converter/sources/collada/library/controllers.hpp"
 
 using namespace djah;
 
@@ -132,7 +132,7 @@ void CreateBones(collada::library::node *n, const math::matrix4f &pm, vec_list &
 
 //--------------------------------------------------------------------------------------------------
 viewer_app::viewer_app()
-	: djah::application_base(djah::system::video_config(640,480,32,24,0,false,false))
+	: djah::application_base(djah::system::video_config(640,480,32,24,0,false,true))
 	, eye_(0,math::pi_over_2,5.8f)
 	, center_(0,0,3)
 	, up_(0,0,1)
