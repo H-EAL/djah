@@ -3,6 +3,8 @@
 
 #include "system/video_config.hpp"
 
+#define DJAH_ENTRY_POINT(App) djah::application_base* djah_new_app() { return new App; }
+
 namespace djah {
 
 	namespace system {

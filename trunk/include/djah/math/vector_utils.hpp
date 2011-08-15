@@ -7,9 +7,9 @@ namespace djah { namespace math {
 
 	//--------------------------------------------------------------------------
 	template<int N, typename T>
-	inline const vector<N,T> create_vector(const vector<N,T> &from, const vector<N,T> &to)
+	inline const vector<N,T> create_vector(const vector<N,T> &from_point, const vector<N,T> &to_point)
 	{
-		return to - from;
+		return to_point - from_point;
 	}
 	//--------------------------------------------------------------------------
 	
@@ -49,26 +49,26 @@ namespace djah { namespace math {
 
 	//--------------------------------------------------------------------------
 	template<int N, typename T>
-	inline T distance_sq(const vector<N,T> &from, const vector<N,T> &to)
+	inline T distance_sq(const vector<N,T> &from_point, const vector<N,T> &to_point)
 	{
-		return create_vector(from, to).lengthSq();
+		return create_vector(from_point, to_point).lengthSq();
 	}
 	//--------------------------------------------------------------------------
 
 	//--------------------------------------------------------------------------
 	template<int N, typename T>
-	inline typename vector<N,T>::float_t distance(const vector<N,T> &from, const vector<N,T> &to)
+	inline typename vector<N,T>::float_t distance(const vector<N,T> &from_point, const vector<N,T> &to_point)
 	{
-		return create_vector(from, to).length();
+		return create_vector(from_point, to_point).length();
 	}
 	//--------------------------------------------------------------------------
 
 
 	//--------------------------------------------------------------------------
 	template<int N, typename T>
-	inline const vector<N,T> direction(const vector<N,T> &from, const vector<N,T> &to)
+	inline const vector<N,T> direction(const vector<N,T> &from_point, const vector<N,T> &to_point)
 	{
-		return create_vector(from, to).getNormalized();
+		return create_vector(from_point, to_point).getNormalized();
 	}
 	//--------------------------------------------------------------------------
 
@@ -111,9 +111,9 @@ namespace djah { namespace math {
 
 	//--------------------------------------------------------------------------
 	template<int N, typename T>
-	inline float oriented_angle(const vector<N,T> &start, const vector<N,T> &end)
+	inline float oriented_angle(const vector<N,T> &from_vec, const vector<N,T> &to_vec)
 	{
-		vector<N,T> normal = normal(start, end);
+		const vector<N,T> &normal = normal(from_vec, to_vec);
 		return 0.0f;
 	}
 	//--------------------------------------------------------------------------

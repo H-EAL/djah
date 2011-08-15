@@ -54,7 +54,7 @@ pak_compressor::pak_compressor(const std::string &dir_name, const std::string &p
 	, crc_(0)
 {
 	pak_name_ += ".pak";
-	pak_file_ = djah::filesystem::stream_ptr(djah::filesystem::browser::get().openWriteStream(pak_name_));
+	pak_file_ = djah::filesystem::browser::get().openWriteStream(pak_name_);
 }
 //--------------------------------------------------------------------------------------------------
 
@@ -66,7 +66,7 @@ int pak_compressor::compress()
 	if(!pak_file_ || !exists(dir_path))
 		return EXIT_FAILURE;
 
-	directory_iterator it_end;
+	boost::filesystem::directory_iterator it_end;
 	for(directory_iterator it(dir_path); it != it_end; ++it)
 	{
 		if(boost::filesystem::is_regular_file(it->status()))
@@ -101,9 +101,9 @@ bool pak_compressor::addFile(const boost::filesystem::path &file)
 
 	pak_header header;
 	memset(header.file_name_, 0, FILENAME_MAX_SIZE);
-	memcpy(header.file_name_, file.filename().c_str(), FILENAME_MAX_SIZE-1);
+	memcpy(header.file_name_, file.filename().c_str(), file.filename().size());
 
-	header.size_	= static_cast<djah::u32>(file_size(file));
+	header.size_	= static_cast<djah::u32>(boost::filesystem::file_size(file));
 	header.offset_	= 0;
 	
 	files_.push_back(header);

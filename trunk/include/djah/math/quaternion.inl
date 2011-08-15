@@ -119,7 +119,9 @@ namespace djah { namespace math {
 	inline quaternion<T>& quaternion<T>::operator /=(T rhs)
 	{
 		assert(rhs != T(0));
-		return *this *= (T(1)/rhs);
+		for(size_t i = 0; i < 4; ++i)
+			data[i] /= rhs;
+		return *this;
 	}
 	//----------------------------------------------------------------------------------------------
 
