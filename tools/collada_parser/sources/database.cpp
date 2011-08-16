@@ -15,14 +15,15 @@ namespace collada {
 	//----------------------------------------------------------------------------------------------
 	database* database::load(const std::string &filename)
 	{
+		database *new_db = 0;
+
 		TiXmlDocument doc(filename.c_str());
-
-		if( !doc.LoadFile() )
-			return 0;
-
-		database *new_db = new database;
-		TiXmlElement *root_element = doc.RootElement();
-		new_db->deserialize(*root_element);
+		if( doc.LoadFile() )
+		{
+			new_db = new database;
+			TiXmlElement *root_element = doc.RootElement();
+			new_db->deserialize(*root_element);
+		}
 
 		return new_db;
 	}
@@ -42,7 +43,8 @@ namespace collada {
 	}
 	//----------------------------------------------------------------------------------------------
 
-
+	
+	//----------------------------------------------------------------------------------------------
 	template<typename LIB>
 	void deserialize_library(const TiXmlElement &element, const std::string &lib_name, LIB *&lib)
 	{
@@ -54,8 +56,6 @@ namespace collada {
 			lib->deserialize(*lib_elem);
 		}
 	}
-
-
 	//----------------------------------------------------------------------------------------------
 	void database::deserialize(const TiXmlElement &element)
 	{

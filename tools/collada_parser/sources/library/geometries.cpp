@@ -122,7 +122,7 @@ namespace collada { namespace library {
 		{
 			input *new_input = new input;
 			new_input->deserialize(*input_elem);
-			max_offset = new_input->offset_ > max_offset ? new_input->offset_ : max_offset;
+			max_offset = std::max(new_input->offset_, max_offset);
 			inputs_.push_back(new_input);
 			input_elem = input_elem->NextSiblingElement("input");
 		}
@@ -130,7 +130,7 @@ namespace collada { namespace library {
 		const TiXmlElement *p_elem = element.FirstChildElement("p");
 		if( p_elem && count_ )
 		{
-			real_count_ = 3 * count_ * max_offset;
+			real_count_ = 3 * count_ * (max_offset+1);
 			indices_ = new unsigned short[real_count_];
 			std::stringstream ss(p_elem->GetText());
 			for(unsigned int i = 0; i < real_count_ && !ss.eof(); ++i)

@@ -199,7 +199,7 @@ submesh::submesh(const mesh &m, const triangles &tris, skeleton *skel)
 	};
 
 	// For each active input retieve its source
-	std::string pos_src_id = get_source_id_by_semantic(ESS_POSITION, m.vertices_->inputs_);
+	const std::string &pos_src_id = get_source_id_by_semantic(ESS_POSITION, m.vertices_->inputs_);
 	int ipt = 0;
 	const source *srcs[] =
 	{

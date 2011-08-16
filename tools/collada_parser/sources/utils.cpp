@@ -76,7 +76,7 @@ namespace collada {
 	//----------------------------------------------------------------------------------------------
 	source* get_source_by_semantic(E_SOURCE_SEMANTIC semantic, const input_list_t &inputs, const source_list_t &sources)
 	{
-		std::string source_id = get_source_id_by_semantic(semantic, inputs);
+		const std::string &source_id = get_source_id_by_semantic(semantic, inputs);
 		return get_source_by_id(source_id, sources);		
 	}
 	//----------------------------------------------------------------------------------------------

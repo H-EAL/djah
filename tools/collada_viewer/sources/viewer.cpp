@@ -54,14 +54,6 @@ boost::shared_ptr<T> find_resource(const std::string &url)
 }
 //--------------------------------------------------------------------------------------------------
 
-
-//--------------------------------------------------------------------------------------------------
-djah::application_base* djah_new_app()
-{
-	return new viewer_app();
-}
-//--------------------------------------------------------------------------------------------------
-
 void drawAxis()
 {
 	glBegin(GL_LINES);
@@ -132,7 +124,7 @@ void CreateBones(collada::library::node *n, const math::matrix4f &pm, vec_list &
 
 //--------------------------------------------------------------------------------------------------
 viewer_app::viewer_app()
-	: djah::application_base(djah::system::video_config(640,480,32,24,0,false,true))
+	: djah::application_base(djah::system::video_config(480,640,32,24,0,false,true))
 	, eye_(0,math::pi_over_2,5.8f)
 	, center_(0,0,3)
 	, up_(0,0,1)
@@ -297,20 +289,20 @@ void viewer_app::runImpl()
 						int bone = static_cast<int>(bones.data[w]);
 						const math::matrix4f &mat = BO[bone];
 
-						p += math::transform(mat, pos) * weights.data[w];
+						p += math::transform(mat, pos)  * weights.data[w];
 						n += math::transform(mat, norm) * weights.data[w];
 					}
 				}
 			
 				glTexCoord2fv(&buffer[i+6]);
-				glVertex3fv(p.data);
 				glNormal3fv(n.data);
+				glVertex3fv(p.data);
 			}
 			else
 			{
 				glTexCoord2fv(&buffer[i+6]);
-				glVertex3fv(&buffer[i]);
 				glNormal3fv(&buffer[i+3]);
+				glVertex3fv(&buffer[i]);
 			}
 		}
 	}
@@ -327,10 +319,6 @@ void viewer_app::runImpl()
 		clk.restart();
 		fps = 0;
 	}
-
-	
-	const float w = static_cast<float>(device_->videoConfig().width);
-	const float h = static_cast<float>(device_->videoConfig().height);
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();

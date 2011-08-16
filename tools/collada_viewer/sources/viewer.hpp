@@ -33,3 +33,5 @@ private:
 	djah::video::ogl::texture *texture_;
 	djah::video::text fps_str_;
 };
+
+DJAH_ENTRY_POINT(viewer_app);
