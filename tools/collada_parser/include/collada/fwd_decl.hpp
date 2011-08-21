@@ -60,6 +60,59 @@ namespace library {
 	typedef std::vector<visual_scene*>	visual_scene_list_t;
 	//----------------------------------------------------------------------------------------------
 
+	
+	//----------------------------------------------------------------------------------------------
+	// Helpers
+	//----------------------------------------------------------------------------------------------
+	template<typename T>
+	struct type_traits
+	{
+	private:
+		
+		template<typename T> struct base_type			{ typedef T BaseType; };
+		template<typename T> struct base_type<T*>		{ typedef T BaseType; };
+		template<typename T> struct base_type<T&>		{ typedef T BaseType; };
+		template<typename T> struct base_type<const T>	{ typedef T BaseType; };
+		template<typename T> struct base_type<const T&> { typedef T BaseType; };
+		template<typename T> struct base_type<const T*>	{ typedef T BaseType; };
+
+	public:
+
+		typedef typename base_type<T>::BaseType BaseType;
+
+		typedef typename BaseType&				ReferenceType;
+		typedef typename const BaseType&		ConstRefType;
+		typedef typename BaseType*				PointerType;
+		typedef typename const BaseType*		ConstPtrType;
+	};
+	//----------------------------------------------------------------------------------------------
+	template<typename T>
+	inline void new_single_element(const TiXmlElement &element, const std::string &element_name, T *&element_ptr)
+	{
+		const TiXmlElement *elem = element.FirstChildElement(element_name.c_str());
+		if( elem )
+		{
+			element_ptr = new T;
+			element_ptr->deserialize(*elem);
+		}
+	}
+	//----------------------------------------------------------------------------------------------
+	template<typename C>
+	inline void new_multi_elements(const TiXmlElement &element, const std::string &element_name, C &element_container)
+	{
+		typedef typename type_traits<C::value_type>::BaseType T;
+		const TiXmlElement *elem = element.FirstChildElement(element_name.c_str());
+		while( elem )
+		{
+			T *new_T = new T;
+			new_T->deserialize(*elem);
+			element_container.push_back(new_T);
+
+			elem = elem->NextSiblingElement(element_name.c_str());
+		}
+	}
+	//----------------------------------------------------------------------------------------------
+
 } /*library*/ } /*collada*/
 
 #endif /* COLLADA_FWD_DECL_HPP */

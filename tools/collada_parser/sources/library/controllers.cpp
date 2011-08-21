@@ -7,15 +7,7 @@ namespace collada { namespace library {
 	//----------------------------------------------------------------------------------------------
 	void controllers::deserialize(const TiXmlElement &element)
 	{
-		const TiXmlElement *controller_elem = element.FirstChildElement("controller");
-		while( controller_elem )
-		{
-			controller *new_controller = new controller;
-			new_controller->deserialize(*controller_elem);
-			controllers_.push_back(new_controller);
-
-			controller_elem = controller_elem->NextSiblingElement("geometry");
-		}
+		new_multi_elements(element, "controller", controllers_);
 	}
 	//----------------------------------------------------------------------------------------------
 	controllers::~controllers()
@@ -33,12 +25,7 @@ namespace collada { namespace library {
 		if(element.Attribute("name"))
 			name_ = element.Attribute("name");
 
-		const TiXmlElement *skin_elem = element.FirstChildElement("skin");
-		if( skin_elem )
-		{
-			skin_ = new skin;
-			skin_->deserialize(*skin_elem);
-		}
+		new_single_element(element, "skin", skin_);
 	}
 	//----------------------------------------------------------------------------------------------
 	controller::~controller()
@@ -63,35 +50,16 @@ namespace collada { namespace library {
 				ss >> bind_shape_matrix_[i];
 		}
 
-		const TiXmlElement *source_elem = element.FirstChildElement("source");
-		while( source_elem )
-		{
-			source *new_source = new source;
-			new_source->deserialize(*source_elem);
-			sources_.push_back(new_source);
-			source_elem = source_elem->NextSiblingElement("source");
-		}
-
-		const TiXmlElement *joints_elem = element.FirstChildElement("joints");
-		if( joints_elem )
-		{
-			joints_ = new joints;
-			joints_->deserialize(*joints_elem);
-		}
-
-		const TiXmlElement *vertex_weights_elem = element.FirstChildElement("vertex_weights");
-		if( vertex_weights_elem )
-		{
-			vertex_weights_ = new vertex_weights;
-			vertex_weights_->deserialize(*vertex_weights_elem);
-		}
+		new_multi_elements(element, "source", sources_);
+		new_single_element(element, "joints", joints_);
+		new_single_element(element, "vertex_weights", vertex_weights_);
 	}
 	//----------------------------------------------------------------------------------------------
 	skin::~skin()
 	{
-		delete_content(sources_);
-		delete joints_;
 		delete vertex_weights_;
+		delete joints_;
+		delete_content(sources_);
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -99,14 +67,7 @@ namespace collada { namespace library {
 	//----------------------------------------------------------------------------------------------
 	void joints::deserialize(const TiXmlElement &element)
 	{
-		const TiXmlElement *input_elem = element.FirstChildElement("input");
-		while( input_elem )
-		{
-			input *new_input = new input;
-			new_input->deserialize(*input_elem);
-			inputs_.push_back(new_input);
-			input_elem = input_elem->NextSiblingElement("input");
-		}
+		new_multi_elements(element, "input", inputs_);
 	}
 	//----------------------------------------------------------------------------------------------
 	joints::~joints()
@@ -122,15 +83,8 @@ namespace collada { namespace library {
 		int tmp = 0;
 		element.Attribute("count", &tmp);
 		count_ = static_cast<unsigned int>(tmp);
-
-		const TiXmlElement *input_elem = element.FirstChildElement("input");
-		while( input_elem )
-		{
-			input *new_input = new input;
-			new_input->deserialize(*input_elem);
-			inputs_.push_back(new_input);
-			input_elem = input_elem->NextSiblingElement("input");
-		}
+		
+		new_multi_elements(element, "input", inputs_);
 
 		if( count_ )
 		{
@@ -158,9 +112,9 @@ namespace collada { namespace library {
 	//----------------------------------------------------------------------------------------------
 	vertex_weights::~vertex_weights()
 	{
-		delete_content(inputs_);
-		delete [] vcount_;
 		delete [] v_;
+		delete [] vcount_;
+		delete_content(inputs_);
 	}
 	//----------------------------------------------------------------------------------------------
 

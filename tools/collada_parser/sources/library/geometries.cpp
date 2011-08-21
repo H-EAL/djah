@@ -6,15 +6,7 @@ namespace collada { namespace library {
 	//----------------------------------------------------------------------------------------------
 	void geometries::deserialize(const TiXmlElement &element)
 	{
-		const TiXmlElement *geometry_elem = element.FirstChildElement("geometry");
-		while( geometry_elem )
-		{
-			geometry *new_geometry = new geometry;
-			new_geometry->deserialize(*geometry_elem);
-			geometries_.push_back(new_geometry);
-
-			geometry_elem = geometry_elem->NextSiblingElement("geometry");
-		}
+		new_multi_elements(element, "geometry", geometries_);
 	}
 	//----------------------------------------------------------------------------------------------
 	geometries::~geometries()
@@ -32,12 +24,7 @@ namespace collada { namespace library {
 		if(element.Attribute("name"))
 			name_ = element.Attribute("name");
 
-		const TiXmlElement *mesh_elem = element.FirstChildElement("mesh");
-		if( mesh_elem )
-		{
-			mesh_ = new mesh;
-			mesh_->deserialize(*mesh_elem);
-		}
+		new_single_element(element, "mesh", mesh_);
 	}
 	//----------------------------------------------------------------------------------------------
 	geometry::~geometry()
@@ -50,37 +37,16 @@ namespace collada { namespace library {
 	//----------------------------------------------------------------------------------------------
 	void mesh::deserialize(const TiXmlElement &element)
 	{
-		const TiXmlElement *source_elem = element.FirstChildElement("source");
-		while( source_elem )
-		{
-			source *new_source = new source;
-			new_source->deserialize(*source_elem);
-			sources_.push_back(new_source);
-			source_elem = source_elem->NextSiblingElement("source");
-		}
-
-		const TiXmlElement *vertices_elem = element.FirstChildElement("vertices");
-		if( vertices_elem )
-		{
-			vertices_ = new vertices;
-			vertices_->deserialize(*vertices_elem);
-		}
-
-		const TiXmlElement *triangles_elem = element.FirstChildElement("triangles");
-		while( triangles_elem )
-		{
-			triangles *new_triangles = new triangles;
-			new_triangles->deserialize(*triangles_elem);
-			triangles_.push_back(new_triangles);
-			triangles_elem = triangles_elem->NextSiblingElement("triangles");
-		}
+		new_multi_elements(element, "source", sources_);
+		new_single_element(element, "vertices",	vertices_);
+		new_multi_elements(element, "triangles", triangles_);
 	}
 	//----------------------------------------------------------------------------------------------
 	mesh::~mesh()
 	{
-		delete_content(sources_);
-		delete vertices_;
 		delete_content(triangles_);
+		delete vertices_;
+		delete_content(sources_);
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -90,15 +56,8 @@ namespace collada { namespace library {
 	{
 		if(element.Attribute("id"))
 			id_ = element.Attribute("id");
-
-		const TiXmlElement *input_elem = element.FirstChildElement("input");
-		while( input_elem )
-		{
-			input *new_input = new input;
-			new_input->deserialize(*input_elem);
-			inputs_.push_back(new_input);
-			input_elem = input_elem->NextSiblingElement("input");
-		}
+		
+		new_multi_elements(element, "input", inputs_);
 	}
 	//----------------------------------------------------------------------------------------------
 	vertices::~vertices()

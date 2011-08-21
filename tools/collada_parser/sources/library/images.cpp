@@ -6,14 +6,7 @@ namespace collada { namespace library {
 	//----------------------------------------------------------------------------------------------
 	void images::deserialize(const TiXmlElement &element)
 	{
-		const TiXmlElement *image_elem = element.FirstChildElement("image");
-		while( image_elem )
-		{
-			image *new_img = new image;
-			new_img->deserialize(*image_elem);
-			images_.push_back(new_img);
-			image_elem = image_elem->NextSiblingElement("image");
-		}
+		new_multi_elements(element, "image", images_);
 	}
 	//----------------------------------------------------------------------------------------------
 	images::~images()

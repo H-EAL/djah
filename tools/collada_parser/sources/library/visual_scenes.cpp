@@ -6,15 +6,7 @@ namespace collada { namespace library {
 	//----------------------------------------------------------------------------------------------
 	void visual_scenes::deserialize(const TiXmlElement &element)
 	{
-		const TiXmlElement *visual_scene_elem = element.FirstChildElement("visual_scene");
-		while( visual_scene_elem )
-		{
-			visual_scene *new_visual_scene = new visual_scene;
-			new_visual_scene->deserialize(*visual_scene_elem);
-			visual_scenes_.push_back(new_visual_scene);
-
-			visual_scene_elem = visual_scene_elem->NextSiblingElement("visual_scene");
-		}
+		new_multi_elements(element, "visual_scene", visual_scenes_);
 	}
 	//----------------------------------------------------------------------------------------------
 	visual_scenes::~visual_scenes()
@@ -31,15 +23,8 @@ namespace collada { namespace library {
 			id_   = element.Attribute("id");
 		if(element.Attribute("name"))
 			name_ = element.Attribute("name");
-
-		const TiXmlElement *node_elem = element.FirstChildElement("node");
-		while( node_elem )
-		{
-			node *new_node = new node;
-			new_node->deserialize(*node_elem);
-			nodes_.push_back(new_node);
-			node_elem = node_elem->NextSiblingElement("node");
-		}
+		
+		new_multi_elements(element, "node", nodes_);
 	}
 	//----------------------------------------------------------------------------------------------
 	visual_scene::~visual_scene()
@@ -84,7 +69,7 @@ namespace collada { namespace library {
 			for(unsigned int i = 0; i < 16 && !ss.eof(); ++i)
 				ss >> matrix_[i];
 		}
-
+		
 		const TiXmlElement *node_element = element.FirstChildElement("node");
 		while(node_element)
 		{
@@ -93,22 +78,17 @@ namespace collada { namespace library {
 			children_.push_back(new_node);
 			node_element = node_element->NextSiblingElement("node");
 		}
-
-		const TiXmlElement *inst_controller_element = element.FirstChildElement("instance_controller");
-		if(inst_controller_element)
-		{
-			instance_controller_ = new instance_controller;
-			instance_controller_->deserialize(*inst_controller_element);
-		}
+		
+		new_single_element(element, "instance_controller", instance_controller_);
 	}
 	//----------------------------------------------------------------------------------------------
 	node::~node()
 	{
+		delete instance_controller_;
+		delete_content(children_);
+		parent_ = 0;
 		for(int i = 0; i < transformation::ETT_COUNT; ++i)
 			delete_content(transformations_[i]);
-		parent_ = 0;
-		delete_content(children_);
-		delete instance_controller_;
 	}
 	//----------------------------------------------------------------------------------------------
 

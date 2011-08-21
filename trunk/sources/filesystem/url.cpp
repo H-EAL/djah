@@ -35,7 +35,7 @@ namespace djah { namespace filesystem {
 	//----------------------------------------------------------------------------------------------
 	void url::parse()
 	{
-		// protocol:///branch/.../path/fileName.extension
+		// protocol://branch/.../path/fileName.extension
 
 		const size_t protocolEndsAt = url_str_.find("://");
 
@@ -46,7 +46,7 @@ namespace djah { namespace filesystem {
 		{
 			// Protocol found
 			protocol_ = url_str_.substr(0, protocolEndsAt);
-			branchPathBeginsAt = url_str_.find_first_not_of("/\\", protocolEndsAt+1);
+			branchPathBeginsAt = protocolEndsAt+3;
 			fileNameBeginsAt = branchPathBeginsAt+1;
 		}
 
