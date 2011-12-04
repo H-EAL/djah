@@ -3,11 +3,8 @@
 
 #include <string>
 
-#include <boost/smart_ptr/scoped_array.hpp>
-
 #include "../resource.hpp"
 #include "../../../log/logger.hpp"
-#include "../../../filesystem/browser.hpp"
 
 namespace djah { namespace video { namespace ogl {
 
@@ -17,11 +14,10 @@ namespace djah { namespace video { namespace ogl {
 	{
 	public:
 
-		explicit shader_base(const std::string &url = "");
+		explicit shader_base(const std::string &source = "");
 		virtual ~shader_base();
 
-		void loadSourceFromString(const std::string &source);
-		void loadSourceFromUrl(const std::string &url);
+		void loadSource(const std::string &source);
 		void compile() const;
 
 	protected:

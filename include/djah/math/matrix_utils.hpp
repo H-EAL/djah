@@ -15,14 +15,13 @@ namespace djah { namespace math {
 	template<typename T>
 	inline matrix<4,T> make_translation(T t_x, T t_y, T t_z)
 	{
-		const T m[4][4] =
-		{
-			{1,0,0,t_x},
-			{0,1,0,t_y},
-			{0,0,1,t_z},
-			{0,0,0,  1}
-		};
-		return matrix<4,T>(m);
+		return matrix<4,T>
+		(
+			1,0,0,t_x,
+			0,1,0,t_y,
+			0,0,1,t_z,
+			0,0,0,  1
+		);
 	}
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
@@ -43,14 +42,13 @@ namespace djah { namespace math {
 	template<typename T>
 	inline matrix<4,T> make_scale(T t_x, T t_y, T t_z)
 	{
-		const T m[4][4] =
-		{
-			{t_x,   0,   0,   0},
-			{  0, t_y,   0,   0},
-			{  0,   0, t_z,   0},
-			{  0,   0,   0,   1}
-		};
-		return matrix<4,T>(m);
+		return matrix<4,T>
+		(
+			t_x,   0,   0,   0,
+			  0, t_y,   0,   0,
+			  0,   0, t_z,   0,
+			  0,   0,   0,   1
+		);
 	}
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
@@ -81,16 +79,14 @@ namespace djah { namespace math {
 		const T u_z2 = u_z * u_z;
 		const T c    = cos(angle);
 		const T s    = sin(angle);
-
-		T m[4][4] =
-		{
-			{ u_x2 + (1 - u_x2) * c,			u_x * u_y * (1 - c) + u_z * s,		u_x * u_z * (1 - c) - u_y * s,	0	},
-			{ u_x * u_y * (1 - c) - u_z * s,	u_y2 + (1 - u_y2) * c,				u_y * u_z * (1 - c) + u_x * s,	0	},
-			{ u_x * u_z * (1 - c) + u_y * s,	u_y * u_z * (1 - c) - u_x * s,		u_z2 + (1 - u_z2) * c,			0	},
-			{ 0,								0,									0,								1	}
-		};
-
-		return matrix<4,T>(m);
+		
+		return matrix<4,T>
+		(
+			u_x2 + (1 - u_x2) * c,			u_x * u_y * (1 - c) + u_z * s,		u_x * u_z * (1 - c) - u_y * s,	0,
+			u_x * u_y * (1 - c) - u_z * s,	u_y2 + (1 - u_y2) * c,				u_y * u_z * (1 - c) + u_x * s,	0,
+			u_x * u_z * (1 - c) + u_y * s,	u_y * u_z * (1 - c) - u_x * s,		u_z2 + (1 - u_z2) * c,			0,
+			0,								0,									0,								1
+		);
 	}
 	//----------------------------------------------------------------------------------------------
 	template<typename T>

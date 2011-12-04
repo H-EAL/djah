@@ -2,11 +2,11 @@ namespace djah { namespace video { namespace ogl {
 
 	//----------------------------------------------------------------------------------------------
 	template<int ShaderType>
-	shader_base<ShaderType>::shader_base(const std::string &url)
+	shader_base<ShaderType>::shader_base(const std::string &source)
 	{
 		aquire();
-		if( !url.empty() )
-			loadSourceFromUrl(url);
+		if( !source.empty() )
+			loadSource(source);
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -50,29 +50,9 @@ namespace djah { namespace video { namespace ogl {
 
 	//----------------------------------------------------------------------------------------------
 	template<int ShaderType>
-	void shader_base<ShaderType>::loadSourceFromString(const std::string &source)
+	void shader_base<ShaderType>::loadSource(const std::string &source)
 	{
 		source_ = source;
-		loadSource();
-	}
-	//----------------------------------------------------------------------------------------------
-
-
-	//----------------------------------------------------------------------------------------------
-	template<int ShaderType>
-	void shader_base<ShaderType>::loadSourceFromUrl(const std::string &url)
-	{
-		filesystem::stream_ptr strm = filesystem::browser::get().openReadStream(url);
-		if( !strm )
-			return; // Error opening file
-
-		// Allocate a string big enough to contain the source + '\0'
-		unsigned int src_size = strm->size();
-		boost::scoped_array<char> src_str(new char[src_size + 1]);
-		strm->read(src_str.get(), src_size);
-		src_str[src_size] = 0;
-		source_ = src_str.get();
- 
 		loadSource();
 	}
 	//----------------------------------------------------------------------------------------------

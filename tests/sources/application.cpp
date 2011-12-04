@@ -1,5 +1,8 @@
 #include "application.hpp"
 
+#include <boost/smart_ptr/scoped_array.hpp>
+
+
 #include <djah/video/projection.hpp>
 #include <djah/video/ogl.hpp>
 #include <djah/video/text.hpp>
@@ -17,6 +20,7 @@
 #include <djah/filesystem/browser.hpp>
 #include <djah/filesystem/directory_source.hpp>
 #include <djah/filesystem/memory_stream.hpp>
+#include <djah/filesystem/url.hpp>
 
 #include <djah/resources/media_manager.hpp>
 #include <djah/resources/resource_manager.hpp>
@@ -24,9 +28,68 @@
 
 using namespace djah;
 
+
+
+
+
+class ScopedProfile
+{
+public:
+	ScopedProfile(const std::string &sectionName)
+		: section_name_(sectionName)
+		, clock_(true)
+	{
+	}
+
+	~ScopedProfile()
+	{
+		clock_.pause();
+		DJAH_BEGIN_LOG(EWL_NOTIFICATION)
+			<< "[" << section_name_ << "] "
+			<< "(" << clock_.getElapsedTimeMs() << " ms)"
+			<< DJAH_END_LOG();
+	}
+
+private:
+	std::string section_name_;
+	time::clock clock_;
+};
+
+#define DJAH_AUTO_PROFILE(S) ScopedProfile autoScopedProfile(S);
+
+
+void testURL()
+{
+	DJAH_BEGIN_LOG(EWL_NOTIFICATION) << "Begin testURL()" << DJAH_END_LOG();
+
+	filesystem::url aURL1 = "file:///D:/Development/Projects/djah/binaries/data/3d/cthulhu.bdae";
+	DJAH_BEGIN_LOG(EWL_LOW) << aURL1.toString() << DJAH_END_LOG();
+	DJAH_BEGIN_LOG(EWL_LOW) << aURL1.dirName() << DJAH_END_LOG();
+	DJAH_BEGIN_LOG(EWL_LOW) << aURL1.fileName() << DJAH_END_LOG();
+	DJAH_BEGIN_LOG(EWL_LOW) << aURL1.extension() << DJAH_END_LOG();
+	DJAH_BEGIN_LOG(EWL_LOW) << aURL1.baseName() << DJAH_END_LOG();
+
+	filesystem::url aURL2 = "data/3d/cthulhu.bdae";
+	DJAH_BEGIN_LOG(EWL_LOW) << aURL2.toString() << DJAH_END_LOG();
+
+	filesystem::url aURL3 = "cthulhu.bdae";
+	DJAH_BEGIN_LOG(EWL_LOW) << aURL3.toString() << DJAH_END_LOG();
+
+	filesystem::url aURL4 = "truc/blah";
+	DJAH_BEGIN_LOG(EWL_LOW) << aURL4.toString() << DJAH_END_LOG();
+	DJAH_BEGIN_LOG(EWL_LOW) << aURL4.dirName() << DJAH_END_LOG();
+	DJAH_BEGIN_LOG(EWL_LOW) << aURL4.fileName() << DJAH_END_LOG();
+	DJAH_BEGIN_LOG(EWL_LOW) << aURL4.extension() << DJAH_END_LOG();
+	DJAH_BEGIN_LOG(EWL_LOW) << aURL4.baseName() << DJAH_END_LOG();
+
+	DJAH_BEGIN_LOG(EWL_NOTIFICATION) << "End testURL()" << DJAH_END_LOG();
+}
+
+
 template<typename T>
 boost::shared_ptr<T> find_resource(const std::string &url)
 {
+	DJAH_AUTO_PROFILE("RESOURCE MGR " + url);
 	static resources::default_media_manager s_dmm;
 	static bool initialized = false;
 	if(!initialized)
@@ -69,13 +132,34 @@ struct mesh
 		delete nmap_;
 	}
 
+	std::string loadShaderSource(const std::string &url)
+	{
+		std::string source;
+
+		filesystem::stream_ptr strm = filesystem::browser::get().openReadStream(url);
+		if( strm )
+		{
+			// Allocate a string big enough to contain the source + '\0'
+			unsigned int src_size = strm->size();
+			boost::scoped_array<char> src_str(new char[src_size + 1]);
+			strm->read(src_str.get(), src_size);
+			src_str[src_size] = 0;
+			source = src_str.get();
+		}
+
+		return source;
+	}
+
 	void init(const std::string &textureName, const std::string &nmap, int tc)
 	{
+		DJAH_AUTO_PROFILE("INIT MESH " + textureName);
 		if( !textureName.empty() )
 		{
+			DJAH_AUTO_PROFILE("LOAD TEXTURE " + textureName);
 			boost::shared_ptr<resources::image> img = find_resource<resources::image>("textures/" + textureName);
 			if( img )
 			{
+				DJAH_AUTO_PROFILE("CREATING TEXTURE " + textureName);
 				tex_ = new video::ogl::texture(img->width(), img->height());
 				tex_->setPixelBuffer(img->pixels(), false);
 			}
@@ -112,9 +196,11 @@ struct mesh
 		va_ = new video::ogl::vertex_array(vf, vb_);
 		vb_->write(strm_->buffer(), strm_->size());
 
-		video::ogl::vertex_shader vs(tc == 2 ? "shaders/bump_mapping.vert" : "shaders/test.vert");
-		video::ogl::pixel_shader ps(tc == 2 ? "shaders/bump_mapping.frag" : "shaders/test.frag");
+		video::ogl::vertex_shader vs( loadShaderSource(tc == 2 ? "shaders/bump_mapping.vert" : "shaders/test.vert") );
+		video::ogl::pixel_shader  ps( loadShaderSource(tc == 2 ? "shaders/bump_mapping.frag" : "shaders/test.frag") );
 
+		{
+				DJAH_AUTO_PROFILE("VERTEX STUFF " + textureName);
 		vs.compile();
 		ps.compile();
 		sp_.attach(vs);
@@ -122,6 +208,7 @@ struct mesh
 		sp_.link();
 
 		va_->init(sp_);
+		}
 	}
 
 	void draw(const math::matrix4f &matProj, const math::matrix4f &matView)
@@ -135,7 +222,7 @@ struct mesh
 		}
 		else
 		{
-			sp_.sendUniform<4>("in_Color", math::vector4f(0.2f,1.0f,0.35f,1.0f).data);
+			sp_.sendUniform("in_Color", math::vector4f(0.2f,1.0f,0.35f,1.0f));
 		}
 		if( nmap_ )
 		{
@@ -171,7 +258,7 @@ application::application(int w, int h)
 void application::initImpl()
 {
 	log::logger::setLogger(new log::console_logger);
-	DJAH_BEGIN_LOG(EWL_NOTIFICATION) << sizeof(u64) << DJAH_END_LOG();
+	//testURL();
 		
 	filesystem::browser::get().addLoadingChannel(new filesystem::directory_source("."));
 	filesystem::browser::get().addLoadingChannel(new filesystem::directory_source("./data"));
@@ -193,8 +280,8 @@ void application::initImpl()
 	video::font_engine::create();
 	video::font_engine::get().setFontsPath("fonts/");
 
-	cthulhu_ = new mesh("cthulhu", "cthulhu.jpg", "cthulhu_normalmap.jpg", 2);
 	astroboy_ = new mesh("astroboy", "boy_10.tga", "", 3);
+	cthulhu_ = new mesh("cthulhu_1", "cthulhu.jpg", /*"cthulhu_normalmap.jpg"*/"", 3);
 }
 
 void application::runImpl()
@@ -251,9 +338,6 @@ void application::draw3D()
 
 void application::draw2D()
 {
-	const float w = static_cast<float>(device_->videoConfig().width);
-	const float h = static_cast<float>(device_->videoConfig().height);
-
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glMultMatrixf(matOrthoProj_.getTransposed().data);
@@ -308,13 +392,13 @@ void application::drawMeshes()
 
 	static const math::matrix4f rotC =
 		math::make_translation(0.0f, 0.0f, -1.0f) *
-		//math::make_rotation(math::deg_to_rad(90.0f), 0.0f, 0.0f, 1.0f) *
-		//math::make_rotation(math::deg_to_rad(90.0f), 0.0f, 1.0f, 0.0f) *
+		math::make_rotation(math::deg_to_rad(90.0f), 0.0f, 0.0f, 1.0f) *
+		math::make_rotation(math::deg_to_rad(90.0f), 0.0f, 1.0f, 0.0f) *
 		math::make_scale(2.0f, 2.0f, 2.0f);
-
-	astroboy_->mat_world_ = math::make_translation(0.0f, 0.0f, 5.0f) * rotA;
-	astroboy_->draw(matPerspectiveProj_, matView_);
 
 	cthulhu_->mat_world_ = math::make_translation(0.0f, 2.8f, 0.0f) * rotC;
 	cthulhu_->draw(matPerspectiveProj_, matView_);
+
+	astroboy_->mat_world_ = math::make_translation(0.0f, 0.0f, 5.0f) * rotA;
+	astroboy_->draw(matPerspectiveProj_, matView_);
 }

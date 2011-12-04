@@ -22,11 +22,19 @@ namespace djah { namespace filesystem {
 	{
 		return protocol_
 			+ (protocol_.empty() ? "" : "://")
-			+ branch_path_
-			+ (branch_path_.empty() ? "" : "/")
-			+ file_name_
-			+ (file_extension_.empty() ? "" : ".")
-			+ file_extension_; 
+			+ dir_name_
+			+ (dir_name_.empty() ? "" : "/")
+			+ baseName();
+	}
+	//----------------------------------------------------------------------------------------------
+
+	
+	//----------------------------------------------------------------------------------------------
+	const std::string url::baseName() const
+	{
+		return file_name_
+			+ (extension_.empty() ? "" : ".")
+			+ extension_; 
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -39,23 +47,23 @@ namespace djah { namespace filesystem {
 
 		const size_t protocolEndsAt = url_str_.find("://");
 
-		size_t branchPathBeginsAt = 0;
+		size_t dirNameBeginsAt = 0;
 		size_t fileNameBeginsAt = 0;
 
 		if( protocolEndsAt != std::string::npos )
 		{
 			// Protocol found
 			protocol_ = url_str_.substr(0, protocolEndsAt);
-			branchPathBeginsAt = protocolEndsAt+3;
-			fileNameBeginsAt = branchPathBeginsAt+1;
+			dirNameBeginsAt = protocolEndsAt+3;
+			fileNameBeginsAt = dirNameBeginsAt+1;
 		}
 
-		size_t branchPathEndsAt = url_str_.find_last_of("/\\");
-		if( branchPathEndsAt != std::string::npos && branchPathEndsAt > branchPathBeginsAt )
+		size_t dirNameEndsAt = url_str_.find_last_of("/\\");
+		if( dirNameEndsAt != std::string::npos && dirNameEndsAt > dirNameBeginsAt )
 		{
-			// Branch path found
-			branch_path_ = url_str_.substr(branchPathBeginsAt, branchPathEndsAt - branchPathBeginsAt);
-			fileNameBeginsAt = branchPathEndsAt+1;
+			// Dir name found
+			dir_name_ = url_str_.substr(dirNameBeginsAt, dirNameEndsAt - dirNameBeginsAt);
+			fileNameBeginsAt = dirNameEndsAt+1;
 		}
 
 		const size_t extensionBeginsAt = url_str_.find_last_of('.');
@@ -65,7 +73,7 @@ namespace djah { namespace filesystem {
 		if( extensionBeginsAt != std::string::npos )
 		{
 			// Extension found
-			file_extension_ = url_str_.substr(extensionBeginsAt+1);
+			extension_ = url_str_.substr(extensionBeginsAt+1);
 		}
 	}
 	//----------------------------------------------------------------------------------------------
