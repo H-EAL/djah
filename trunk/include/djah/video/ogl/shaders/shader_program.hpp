@@ -42,6 +42,8 @@ namespace djah { namespace video { namespace ogl {
 
 		template<int N, typename T>
 		void sendUniform(const std::string &name, const T *data, int count = 1) const;
+		template<int N, typename T>
+		void sendUniform(const std::string &name, const math::vector<N,T> &vec) const;
 
 		template<int N>
 		void sendUniformMatrix(const std::string &name, const float *data, int count = 1, bool transpose = false) const;

@@ -54,14 +54,13 @@ namespace djah { namespace math {
 		const T qy2 = qy * qy;
 		const T qz2 = qz * qz;
 		
-		const T m[4][4] =
-		{
-			{1 - 2*qy2 - 2*qz2, 2*qx*qy - 2*qz*qw, 2*qx*qz + 2*qy*qw, 0},
-			{2*qx*qy + 2*qz*qw, 1 - 2*qx2 - 2*qz2, 2*qy*qz - 2*qx*qw, 0},
-			{2*qx*qz - 2*qy*qw, 2*qy*qz + 2*qx*qw, 1 - 2*qx2 - 2*qy2, 0},
-			{                0,                 0,                 0, 1}
-		};
-		return matrix<4,T>(m);
+		return matrix<4,T>
+		(
+			1 - 2*qy2 - 2*qz2,	2*qx*qy - 2*qz*qw,	2*qx*qz + 2*qy*qw,	0,
+			2*qx*qy + 2*qz*qw,	1 - 2*qx2 - 2*qz2,	2*qy*qz - 2*qx*qw,	0,
+			2*qx*qz - 2*qy*qw,	2*qy*qz + 2*qx*qw,	1 - 2*qx2 - 2*qy2,	0,
+			                0,                  0,                  0,	1
+		);
 	}
 	//--------------------------------------------------------------------------
 	

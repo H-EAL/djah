@@ -14,9 +14,9 @@ public:
 
 protected:
 
-	void initImpl();
-	void runImpl();
-	void exitImpl();
+	virtual void initImpl();
+	virtual void runImpl();
+	virtual void exitImpl();
 
 private:
 

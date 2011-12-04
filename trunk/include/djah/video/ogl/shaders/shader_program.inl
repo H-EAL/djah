@@ -52,6 +52,12 @@ namespace djah { namespace video { namespace ogl {
 		priv::UniformFunc<T>::uniform(N-1)(location, count, data);
 	}
 	//----------------------------------------------------------------------------------------------
+	template<int N, typename T>
+	void shader_program::sendUniform(const std::string &name, const math::vector<N,T> &vec) const
+	{
+		sendUniform<N>(name, vec.data, 1);
+	}
+	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
