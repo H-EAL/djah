@@ -60,6 +60,9 @@ namespace djah { namespace math {
 		vector<N,T>&	normalize();
 		vector<N,T>		getNormalized()	const;
 
+		// Dot product
+		T dot(const vector<N,T> &v) const;
+
 		// Unary minus
 		const vector<N,T> operator -() const;
 
@@ -68,6 +71,10 @@ namespace djah { namespace math {
 		vector<N,T>& operator -=(const vector<N,T> &rhs);
 		vector<N,T>& operator *=(T rhs);
 		vector<N,T>& operator /=(T rhs);
+
+		// Accessors
+		T&		 operator [](unsigned int i);
+		const T& operator [](unsigned int i) const;
 
 		// Usefull constants
 		static const vector<N,T> null_vector;
@@ -92,15 +99,12 @@ namespace djah { namespace math {
 
 	template<int N, typename T>
 	inline const vector<N,T> operator *(const vector<N,T> &lhs, T rhs);
-
-	template<typename T, int N>
+	
+	template<int N, typename T>
 	inline const vector<N,T> operator *(T lhs, const vector<N,T> &rhs);
 
 	template<int N, typename T>
 	inline const vector<N,T> operator /(const vector<N,T> &lhs, T rhs);
-
-	template<typename T, int N>
-	inline T dot(const vector<N,T> &lhs, const vector<N,T> &rhs);
 
 	template<int N, typename T>
 	inline T operator *(const vector<N,T> &lhs, const vector<N,T> &rhs);

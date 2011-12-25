@@ -77,7 +77,7 @@ namespace djah { namespace math {
 	template<int N, typename T>
 	inline const vector<N,T> normal(const vector<N,T> &u, const vector<N,T> &v)
 	{
-		return cross(u, v).getNormalized();
+		return u.cross(v).getNormalized();
 	}
 	//--------------------------------------------------------------------------
 
@@ -113,8 +113,18 @@ namespace djah { namespace math {
 	template<int N, typename T>
 	inline float oriented_angle(const vector<N,T> &from_vec, const vector<N,T> &to_vec)
 	{
-		const vector<N,T> &normal = normal(from_vec, to_vec);
-		return 0.0f;
+		float angle = 0.0f;
+		if( from_vec != to_vec )
+		{
+			const vector<N,T> &norm = normal(from_vec, to_vec);
+			const vector<N,T> &orientation = to_vec.getNormalized();
+			const float dotResult = orientation * norm;
+			// If dot result is -1 then from and to vectors form a 180 degree angle
+			angle =	(dotResult == -1.0f) 
+					?	pi
+					:	atan2( norm * (orientation ^ from_vec), orientation * from_vec );
+		}
+		return angle;
 	}
 	//--------------------------------------------------------------------------
 

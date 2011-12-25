@@ -100,7 +100,7 @@ namespace djah { namespace video {
 		{
 			const font_data::char_metrics &c = current_font_->metrics[*it];
 			glPushMatrix();
-			glTranslatef(x, y - c.offset.y, 0.0f);
+			glTranslatef((float)x, y - c.offset.y, 0.0f);
 			if( c.tex && c.tex->isValid() )
 			{
 				c.tex->bind();
