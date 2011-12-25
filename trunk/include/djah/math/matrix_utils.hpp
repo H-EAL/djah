@@ -101,6 +101,14 @@ namespace djah { namespace math {
 		return make_rotation(angle, vector<3,T>(t_x, t_y, t_z));
 	}
 	//----------------------------------------------------------------------------------------------
+	template<typename T>
+	inline const matrix<4,4,T> make_rotation(const vector<3,T> &from_vec, const vector<3,T> &to_vec)
+	{
+		const float angle = oriented_angle(from_vec, to_vec);
+		const vector<3,T> &axis = from_vec.cross(to_vec);
+		return make_rotation(angle, axis);
+	}
+	//----------------------------------------------------------------------------------------------
 
 	
 	//----------------------------------------------------------------------------------------------
