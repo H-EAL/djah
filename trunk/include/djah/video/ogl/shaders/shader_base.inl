@@ -85,27 +85,27 @@ namespace djah { namespace video { namespace ogl {
 		// First of all check if the compilation went well
 		int status = GL_TRUE;
 		glGetShaderiv(id_, GL_COMPILE_STATUS, &status);
-		if( status == GL_TRUE )
-			return; // No error
+		if( status != GL_TRUE )
+		{
+			// Retrieve log size
+			int log_size = 0;
+			glGetShaderiv(id_, GL_INFO_LOG_LENGTH, &log_size);
 
-		// Retrieve log size
-		int log_size = 0;
-		glGetShaderiv(id_, GL_INFO_LOG_LENGTH, &log_size);
+			// Allocate a string big enough to contain the log + '\0'
+			boost::scoped_array<char> log_str(new char[log_size + 1]);
 
-		// Allocate a string big enough to contain the log + '\0'
-		boost::scoped_array<char> log_str(new char[log_size + 1]);
+			// Retrieve the log
+			glGetShaderInfoLog(id_, log_size, &log_size, log_str.get());
 
-		// Retrieve the log
-		glGetShaderInfoLog(id_, log_size, &log_size, log_str.get());
-
-		// TODO : throw some exception
-		log::logger::log(log::EWL_CRITICAL)
-			<< "====================================================================\n"
-			<< "                    SHADER COMPILATION ERROR(S)                     \n"
-			<< "--------------------------------------------------------------------\n"
-			<< log_str.get()
-			<< "===================================================================="
-			<< log::logger::endl();
+			// TODO : throw some exception
+			log::logger::log(log::EWL_CRITICAL)
+				<< "====================================================================\n"
+				<< "                    SHADER COMPILATION ERROR(S)                     \n"
+				<< "--------------------------------------------------------------------\n"
+				<< log_str.get()
+				<< "===================================================================="
+				<< log::logger::endl();
+		}
 	}
 	//----------------------------------------------------------------------------------------------
 

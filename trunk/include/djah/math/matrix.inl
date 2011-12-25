@@ -1,45 +1,47 @@
 namespace djah { namespace math {
 	
 	//----------------------------------------------------------------------------------------------
-	template<int N, typename T>
-	matrix<N,T>::matrix()
+	template<int M, int N, typename T>
+	matrix<M,N,T>::matrix()
 	{
 	}
 	//----------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------
-	template<int N, typename T>
-	matrix<N,T>::matrix(const T (&array)[N*N])
+	template<int M, int N, typename T>
+	matrix<M,N,T>::matrix(const T (&array)[M*N])
 	{
-		memcpy(matrix_base<N,T>::data, array, N*N*sizeof(T));
+		memcpy(matrix_base<M,N,T>::data, array, M*N*sizeof(T));
 	}
 	//----------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------
-	template<int N, typename T>
-	matrix<N,T>::matrix(const T (&array)[N][N])
+	template<int M, int N, typename T>
+	matrix<M,N,T>::matrix(const T (&array)[M][N])
 	{
-		memcpy(matrix_base<N,T>::data, array, N*N*sizeof(T));
+		memcpy(matrix_base<M,N,T>::data, array, M*N*sizeof(T));
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	template<int N, typename T>
-	inline matrix<N,T>& matrix<N,T>::identity()
+	template<int M, int N, typename T>
+	inline matrix<M,N,T>& matrix<M,N,T>::toIdentity()
 	{
-		memset(matrix_base<N,T>::data, 0, N*N*sizeof(T));
-		for(int i = 0; i < N; ++i)
+		assert(M==N);
+		memset(matrix_base<M,N,T>::data, 0, M*N*sizeof(T));
+		for(int i = 0; i < M; ++i)
 			m(i,i) = T(1);
 		return (*this);
 	}
 	//----------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------
-	template<int N, typename T>
-	inline matrix<N,T>& matrix<N,T>::transpose()
+	template<int M, int N, typename T>
+	inline matrix<M,N,T>& matrix<M,N,T>::transpose()
 	{
-		for(int r = 0; r < N; ++r)
+		assert(M==N);
+		for(int r = 0; r < M; ++r)
 			for(int c = r+1; c < N; ++c)
 				std::swap(m(r,c), m(c,r));
 		return (*this);
@@ -47,24 +49,24 @@ namespace djah { namespace math {
 	//----------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------
-	template<int N, typename T>
-	inline matrix<N,T>& matrix<N,T>::adjugate()
+	template<int M, int N, typename T>
+	inline matrix<M,N,T>& matrix<M,N,T>::adjugate()
 	{
 		return (*this);
 	}
 	//----------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------
-	template<int N, typename T>
-	inline matrix<N,T>& matrix<N,T>::invert()
+	template<int M, int N, typename T>
+	inline matrix<M,N,T>& matrix<M,N,T>::invert()
 	{
-		const T determinant = determinant();
-		assert( determinant != T(0) );
+		const T det = determinant();
+		assert( det != T(0) );
 		
 		adjugate();
 		transpose();
 
-		*this *= T(1) / determinant;
+		*this *= T(1) / det;
 
 		return (*this);
 	}
@@ -72,49 +74,51 @@ namespace djah { namespace math {
 
 
 	//----------------------------------------------------------------------------------------------
-	template<int N, typename T>
-	inline matrix<N,T> matrix<N,T>::getTransposed() const
+	template<int M, int N, typename T>
+	inline matrix<M,N,T> matrix<M,N,T>::getTransposed() const
 	{
-		return matrix<N,T>(*this).transpose();
+		return matrix<M,N,T>(*this).transpose();
 	}
 	//----------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------
-	template<int N, typename T>
-	inline matrix<N,T> matrix<N,T>::getAdjugate() const
+	template<int M, int N, typename T>
+	inline matrix<M,N,T> matrix<M,N,T>::getAdjugate() const
 	{
-		return matrix<N,T>(*this).adjugate();
+		return matrix<M,N,T>(*this).adjugate();
 	}
 	//----------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------
-	template<int N, typename T>
-	inline matrix<N,T> matrix<N,T>::getInvert() const
+	template<int M, int N, typename T>
+	inline matrix<M,N,T> matrix<M,N,T>::getInvert() const
 	{
-		return matrix<N,T>(*this).invert();
+		return matrix<M,N,T>(*this).invert();
 	}
 	//----------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------
-	template<int N, typename T>
-	inline T matrix<N,T>::determinant() const
+	template<int M, int N, typename T>
+	inline T matrix<M,N,T>::determinant() const
 	{
+		assert(M==N);
+
 		if(N==2)
 			return (m<1,1>() * m<2,2>()) - (m<1,2>() * m<2,1>());
 
 		T det = T(0);
 
-		for(int i = 0; i < N; ++i)
+		for(int r = 0; r < M; ++r)
 		{
 			T diag = T(1);
 			T counter_diag = T(1);
-			for(int j = 0; j < N; ++j)
+			for(int c = 0; c < N; ++c)
 			{
-				const int kdi = (i+j) % N;
-				const int kci = ((N-1) + (i-j)) % N;
+				const int kdr = (r+c) % M;
+				const int kcr = ((M-1) + (r-c)) % M;
 
-				diag         *= matrix_base<N,T>::data[kdi + j*N];
-				counter_diag *= matrix_base<N,T>::data[kci + j*N];
+				diag         *= matrix_base<M,N,T>::data[kdr + c*N];
+				counter_diag *= matrix_base<M,N,T>::data[kcr + c*N];
 			}
 			det += diag - counter_diag;
 		}
@@ -125,8 +129,8 @@ namespace djah { namespace math {
 
 
 	//----------------------------------------------------------------------------------------------
-	template<int N, typename T>
-	inline typename matrix<N,T>::row_t matrix<N,T>::row(int r) const
+	template<int M, int N, typename T>
+	inline typename matrix<M,N,T>::row_t matrix<M,N,T>::row(int r) const
 	{
 		row_t result;
 		for(int c = 0; c < N; ++c)
@@ -136,11 +140,11 @@ namespace djah { namespace math {
 	//----------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------
-	template<int N, typename T>
-	inline typename matrix<N,T>::col_t matrix<N,T>::col(int c) const
+	template<int M, int N, typename T>
+	inline typename matrix<M,N,T>::col_t matrix<M,N,T>::col(int c) const
 	{
 		col_t result;
-		for(int r = 0; r < N; ++r)
+		for(int r = 0; r < M; ++r)
 			result.data[r] = m(r,c);
 		return result;
 	}
@@ -148,71 +152,72 @@ namespace djah { namespace math {
 
 
 	//----------------------------------------------------------------------------------------------
-	template<int N, typename T>
+	template<int M, int N, typename T>
 	template<int Row, int Col>
-	inline T& matrix<N,T>::m()
+	inline T& matrix<M,N,T>::m()
 	{
-		return matrix_base<N,T>::data[Row*N + Col];
+		return matrix_base<M,N,T>::data[Row*M + Col];
 	}
 	//----------------------------------------------------------------------------------------------
-	template<int N, typename T>
+	template<int M, int N, typename T>
 	template<int Row, int Col>
-	inline const T& matrix<N,T>::m() const
+	inline const T& matrix<M,N,T>::m() const
 	{
-		return matrix_base<N,T>::data[Row*N + Col];
+		return matrix_base<M,N,T>::data[Row*M + Col];
 	}
 	//----------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------
-	template<int N, typename T>
-	inline T& matrix<N,T>::m(int at_row, int at_col)
+	template<int M, int N, typename T>
+	inline T& matrix<M,N,T>::m(int at_row, int at_col)
 	{
-		return matrix_base<N,T>::data[at_row*N + at_col];
+		return matrix_base<M,N,T>::data[at_row*M + at_col];
 	}
 	//----------------------------------------------------------------------------------------------
-	template<int N, typename T>
-	inline const T& matrix<N,T>::m(int at_row, int at_col) const
+	template<int M, int N, typename T>
+	inline const T& matrix<M,N,T>::m(int at_row, int at_col) const
 	{
-		return matrix_base<N,T>::data[at_row*N + at_col];
+		return matrix_base<M,N,T>::data[at_row*M + at_col];
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	template<int N, typename T>
-	inline const matrix<N,T> matrix<N,T>::operator -() const
+	template<int M, int N, typename T>
+	inline const matrix<M,N,T> matrix<M,N,T>::operator -() const
 	{
 		return (*this) * T(-1);
 	}
 	//----------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------
-	template<int N, typename T>
-	inline matrix<N,T>& matrix<N,T>::operator +=(const matrix<N,T> &rhs)
+	template<int M, int N, typename T>
+	inline matrix<M,N,T>& matrix<M,N,T>::operator +=(const matrix<M,N,T> &rhs)
 	{
-		for(int i = 0; i < N*N; ++i)
-			matrix_base<N,T>::data[i] += rhs.data[i];
+		for(int i = 0; i < M*N; ++i)
+			matrix_base<M,N,T>::data[i] += rhs.data[i];
 		return (*this);
 	}
 	//----------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------
-	template<int N, typename T>
-	inline matrix<N,T>& matrix<N,T>::operator -=(const matrix<N,T> &rhs)
+	template<int M, int N, typename T>
+	inline matrix<M,N,T>& matrix<M,N,T>::operator -=(const matrix<M,N,T> &rhs)
 	{
-		for(int i = 0; i < N*N; ++i)
-			matrix_base<N,T>::data[i] -= rhs.data[i];
+		for(int i = 0; i < M*N; ++i)
+			matrix_base<M,N,T>::data[i] -= rhs.data[i];
 		return (*this);
 	}
 	//----------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------
-	template<int N, typename T>
-	inline matrix<N,T>& matrix<N,T>::operator *=(const matrix<N,T> &rhs)
+	template<int M, int N, typename T>
+	inline matrix<M,N,T>& matrix<M,N,T>::operator *=(const matrix<M,N,T> &rhs)
 	{
-		matrix<N,T> rhsT(rhs.getTransposed());
+		assert(M==N);
+		matrix<M,N,T> rhsT(rhs.getTransposed());
 
-		for(int r = 0; r < N; ++r)
+		for(int r = 0; r < M; ++r)
 		{
 			const row_t row_lhs( row(r) );
 			for(int c = 0; c < N; ++c)
@@ -229,22 +234,22 @@ namespace djah { namespace math {
 	//----------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------
-	template<int N, typename T>
-	inline matrix<N,T>& matrix<N,T>::operator *=(T rhs)
+	template<int M, int N, typename T>
+	inline matrix<M,N,T>& matrix<M,N,T>::operator *=(T rhs)
 	{
-		for(int i = 0; i < N*N; ++i)
-			matrix_base<N,T>::data[i] *= rhs;
+		for(int i = 0; i < M*N; ++i)
+			matrix_base<M,N,T>::data[i] *= rhs;
 		return (*this);
 	}
 	//----------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------
-	template<int N, typename T>
-	inline matrix<N,T>& matrix<N,T>::operator /=(T rhs)
+	template<int M, int N, typename T>
+	inline matrix<M,N,T>& matrix<M,N,T>::operator /=(T rhs)
 	{
 		assert(rhs != T(0));
-		for(int i = 0; i < N*N; ++i)
-			matrix_base<N,T>::data[i] /= rhs;
+		for(int i = 0; i < M*N; ++i)
+			matrix_base<M,N,T>::data[i] /= rhs;
 		return (*this);
 	}
 	//----------------------------------------------------------------------------------------------
@@ -254,50 +259,72 @@ namespace djah { namespace math {
 
 
 	//----------------------------------------------------------------------------------------------
-	template<int N, typename T>
-	inline const matrix<N,T> operator +(const matrix<N,T> &lhs, const matrix<N,T> &rhs)
+	template<int M, int N, typename T>
+	inline const matrix<M,N,T> operator +(const matrix<M,N,T> &lhs, const matrix<M,N,T> &rhs)
 	{
-		return matrix<N,T>(lhs) += rhs;
+		return matrix<M,N,T>(lhs) += rhs;
 	}
 	//----------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------
-	template<int N, typename T>
-	inline const matrix<N,T> operator -(const matrix<N,T> &lhs, const matrix<N,T> &rhs)
+	template<int M, int N, typename T>
+	inline const matrix<M,N,T> operator -(const matrix<M,N,T> &lhs, const matrix<M,N,T> &rhs)
 	{
-		return matrix<N,T>(lhs) -= rhs;
+		return matrix<M,N,T>(lhs) -= rhs;
 	}
 	//----------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------
-	template<int N, typename T>
-	inline const matrix<N,T> operator *(const matrix<N,T> &lhs, T rhs)
+	template<int M, int N, typename T>
+	inline const matrix<M,N,T> operator *(const matrix<M,N,T> &lhs, T rhs)
 	{
-		return matrix<N,T>(lhs) *= rhs;
+		return matrix<M,N,T>(lhs) *= rhs;
 	}
 	//----------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------
-	template<int N, typename T>
-	inline const matrix<N,T> operator *(T lhs, const matrix<N,T> &rhs)
+	template<int M, int N, typename T>
+	inline const matrix<M,N,T> operator *(T lhs, const matrix<M,N,T> &rhs)
 	{
 		return rhs * lhs;
 	}
 	//----------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------
-	template<int N, typename T>
-	inline const matrix<N,T> operator /(const matrix<N,T> &lhs, T rhs)
+	template<int M, int N, typename T>
+	inline const matrix<M,N,T> operator /(const matrix<M,N,T> &lhs, T rhs)
 	{
-		return matrix<N,T>(lhs) /= rhs;
+		return matrix<M,N,T>(lhs) /= rhs;
 	}
 	//----------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------
 	template<int N, typename T>
-	const matrix<N,T> operator *(const matrix<N,T> &lhs, const matrix<N,T> &rhs)
+	const matrix<N,N,T> operator *(const matrix<N,N,T> &lhs, const matrix<N,N,T> &rhs)
 	{
-		return matrix<N,T>(lhs) *= rhs;
+		return matrix<N,N,T>(lhs) *= rhs;
+	}
+	//----------------------------------------------------------------------------------------------
+
+	//----------------------------------------------------------------------------------------------
+	template<int M, int N, int P, typename T>
+	const matrix<M,P,T> operator *(const matrix<M,N,T> &lhs, const matrix<P,M,T> &rhs)
+	{
+		matrix<M,P,T> result;
+
+		for(int r = 0; r < M; ++r)
+		{
+			const row_t row_lhs( row(r) );
+			for(int c = 0; c < N; ++c)
+			{
+				result.m(r,c) = T(0);
+				const col_t col_rhs( rhs.col(c) );
+				for(int k = 0; k < M; ++k)
+					m(r,c) += row_lhs.data[k] * col_rhs.data[k];
+			}
+		}
+
+		return result;
 	}
 	//----------------------------------------------------------------------------------------------
 	
@@ -306,10 +333,10 @@ namespace djah { namespace math {
 
 
 	//----------------------------------------------------------------------------------------------
-	template<int N, typename T>
-	inline std::ostream& operator <<(std::ostream &out, const matrix<N,T> &rhs)
+	template<int M, int N, typename T>
+	inline std::ostream& operator <<(std::ostream &out, const matrix<M,N,T> &rhs)
 	{
-		for(int r = 0; r < N; ++r)
+		for(int r = 0; r < M; ++r)
 		{
 			out << "[ ";
 			for(int c = 0; c < N; ++c)

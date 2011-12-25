@@ -86,8 +86,14 @@
     <ClInclude Include="..\..\..\include\djah\math\math_utils.hpp" />
     <ClInclude Include="..\..\..\include\djah\math\matrix.hpp" />
     <ClInclude Include="..\..\..\include\djah\math\matrix2.hpp" />
+    <ClInclude Include="..\..\..\include\djah\math\matrix2x3.hpp" />
+    <ClInclude Include="..\..\..\include\djah\math\matrix2x4.hpp" />
     <ClInclude Include="..\..\..\include\djah\math\matrix3.hpp" />
+    <ClInclude Include="..\..\..\include\djah\math\matrix3x2.hpp" />
+    <ClInclude Include="..\..\..\include\djah\math\matrix3x4.hpp" />
     <ClInclude Include="..\..\..\include\djah\math\matrix4.hpp" />
+    <ClInclude Include="..\..\..\include\djah\math\matrix4x2.hpp" />
+    <ClInclude Include="..\..\..\include\djah\math\matrix4x3.hpp" />
     <ClInclude Include="..\..\..\include\djah\math\matrix_utils.hpp" />
     <ClInclude Include="..\..\..\include\djah\math\quaternion.hpp" />
     <ClInclude Include="..\..\..\include\djah\math\quaternion_utils.hpp" />

@@ -13,9 +13,9 @@ namespace djah { namespace math {
 
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline matrix<4,T> make_translation(T t_x, T t_y, T t_z)
+	inline const matrix<4,4,T> make_translation(T t_x, T t_y, T t_z)
 	{
-		return matrix<4,T>
+		return matrix<4,4,T>
 		(
 			1,0,0,t_x,
 			0,1,0,t_y,
@@ -25,13 +25,13 @@ namespace djah { namespace math {
 	}
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline matrix<4,T> make_translation(const vector<3,T> &v)
+	inline const matrix<4,4,T> make_translation(const vector<3,T> &v)
 	{
 		return make_translation(v.x, v.y, v.z);
 	}
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline matrix<4,T> make_translation(const vector<4,T> &v)
+	inline const matrix<4,4,T> make_translation(const vector<4,T> &v)
 	{
 		return make_translation(v.x, v.y, v.z);
 	}
@@ -40,9 +40,9 @@ namespace djah { namespace math {
 	
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline matrix<4,T> make_scale(T t_x, T t_y, T t_z)
+	inline const matrix<4,4,T> make_scale(T t_x, T t_y, T t_z)
 	{
-		return matrix<4,T>
+		return matrix<4,4,T>
 		(
 			t_x,   0,   0,   0,
 			  0, t_y,   0,   0,
@@ -52,13 +52,13 @@ namespace djah { namespace math {
 	}
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline matrix<4,T> make_scale(const vector<3,T> &v)
+	inline const matrix<4,4,T> make_scale(const vector<3,T> &v)
 	{
 		return make_scale(v.x, v.y, v.z);
 	}
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline matrix<4,T> make_scale(const vector<4,T> &v)
+	inline const matrix<4,4,T> make_scale(const vector<4,T> &v)
 	{
 		return make_scale(v.x, v.y, v.z);
 	}
@@ -67,7 +67,7 @@ namespace djah { namespace math {
 	
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline matrix<4,T> make_rotation(T angle, vector<3,T> axis)
+	inline const matrix<4,4,T> make_rotation(T angle, vector<3,T> axis)
 	{
 		axis.normalize();
 
@@ -80,7 +80,7 @@ namespace djah { namespace math {
 		const T c    = cos(angle);
 		const T s    = sin(angle);
 		
-		return matrix<4,T>
+		return matrix<4,4,T>
 		(
 			u_x2 + (1 - u_x2) * c,			u_x * u_y * (1 - c) + u_z * s,		u_x * u_z * (1 - c) - u_y * s,	0,
 			u_x * u_y * (1 - c) - u_z * s,	u_y2 + (1 - u_y2) * c,				u_y * u_z * (1 - c) + u_x * s,	0,
@@ -90,13 +90,13 @@ namespace djah { namespace math {
 	}
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline matrix<4,T> make_rotation(T angle, const vector<4,T> &axis)
+	inline const matrix<4,4,T> make_rotation(T angle, const vector<4,T> &axis)
 	{
 		return make_rotation(angle, resize<3>(axis));
 	}
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline matrix<4,T> make_rotation(T angle, T t_x, T t_y, T t_z)
+	inline const matrix<4,4,T> make_rotation(T angle, T t_x, T t_y, T t_z)
 	{
 		return make_rotation(angle, vector<3,T>(t_x, t_y, t_z));
 	}
@@ -104,8 +104,8 @@ namespace djah { namespace math {
 
 	
 	//----------------------------------------------------------------------------------------------
-	template<int N, typename T>
-	inline vector<N,T> transform(const matrix<N,T> &m, const vector<N,T> &v)
+	template<int M, int N, typename T>
+	inline const vector<N,T> transform(const matrix<M,N,T> &m, const vector<N,T> &v)
 	{
 		vector<N,T> result;
 
@@ -118,8 +118,8 @@ namespace djah { namespace math {
 		return result;
 	}
 	//----------------------------------------------------------------------------------------------
-	template<int N, typename T>
-	inline vector<N,T> operator *(const matrix<N,T> &m, const vector<N,T> &v)
+	template<int M, int N, typename T>
+	inline const vector<N,T> operator *(const matrix<M,N,T> &m, const vector<N,T> &v)
 	{
 		return transform(m,v);
 	}

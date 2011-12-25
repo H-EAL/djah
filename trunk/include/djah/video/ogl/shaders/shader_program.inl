@@ -79,27 +79,27 @@ namespace djah { namespace video { namespace ogl {
 
 
 	//----------------------------------------------------------------------------------------------
-	template<int N>
+	template<int M, int N>
 	void shader_program::sendUniformMatrix(const std::string &name, const float *data, int count, bool transpose) const
 	{
 		//typedef void (*PFNGLUNIFORMMATRIXPROC) (GLint, GLsizei, GLboolean, const GLfloat*); 
-		static const PFNGLUNIFORMMATRIX2FVPROC uniformMatrixFuncTab[] = 
+		static const PFNGLUNIFORMMATRIX2FVPROC uniformMatrixFuncTab[3][3] = 
 		{
-			glUniformMatrix2fv,
-			glUniformMatrix3fv,
-			glUniformMatrix4fv
+			{ glUniformMatrix2fv,	glUniformMatrix2x3fv,	glUniformMatrix2x4fv	},
+			{ glUniformMatrix3x2fv,	glUniformMatrix3fv,		glUniformMatrix3x4fv	},
+			{ glUniformMatrix4x2fv, glUniformMatrix4x3fv,	glUniformMatrix4fv		}
 		};
 
-		static const PFNGLUNIFORMMATRIX2FVPROC uniformMatrix = uniformMatrixFuncTab[N-2];
+		static const PFNGLUNIFORMMATRIX2FVPROC uniformMatrix = uniformMatrixFuncTab[M-2][N-2];
 
 		unsigned int location = getUniformLocation(name);
 		uniformMatrix(location, count, transpose, data);
 	}
 	//----------------------------------------------------------------------------------------------
-	template<int N>
-	void shader_program::sendUniformMatrix(const std::string &name, const math::matrix<N,float> &mat, bool transpose) const
+	template<int M, int N>
+	void shader_program::sendUniformMatrix(const std::string &name, const math::matrix<M,N,float> &mat, bool transpose) const
 	{
-		sendUniformMatrix<N>(name, mat.data, 1, transpose);
+		sendUniformMatrix<M,N>(name, mat.data, 1, transpose);
 	}
 	//----------------------------------------------------------------------------------------------
 

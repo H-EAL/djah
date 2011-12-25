@@ -155,6 +155,24 @@
     <ClInclude Include="..\..\..\include\djah\types.hpp">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\math\matrix2x3.hpp">
+      <Filter>include\math\_matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\math\matrix2x4.hpp">
+      <Filter>include\math\_matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\math\matrix3x2.hpp">
+      <Filter>include\math\_matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\math\matrix3x4.hpp">
+      <Filter>include\math\_matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\math\matrix4x2.hpp">
+      <Filter>include\math\_matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\math\matrix4x3.hpp">
+      <Filter>include\math\_matrix</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\include\djah\math\matrix.inl">
