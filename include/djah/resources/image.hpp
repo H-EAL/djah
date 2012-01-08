@@ -24,6 +24,8 @@ namespace djah { namespace resources {
 		std::vector<byte>	pixels_;
 	};
 
+	typedef boost::shared_ptr<image> image_ptr;
+
 } /*resources*/ } /*djah*/
 
 #endif /* DJAH_RESOURCES_IMAGE_HPP */
