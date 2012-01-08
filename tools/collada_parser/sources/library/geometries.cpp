@@ -73,7 +73,8 @@ namespace collada { namespace library {
 		int tmp = 0;
 		element.Attribute("count", &tmp);
 		count_ = static_cast<unsigned int>(tmp);
-		material_ = element.Attribute("material");
+		if( element.Attribute("material") )
+			material_ = element.Attribute("material");
 
 		unsigned int max_offset = 0;
 		const TiXmlElement *input_elem = element.FirstChildElement("input");
@@ -89,10 +90,11 @@ namespace collada { namespace library {
 		const TiXmlElement *p_elem = element.FirstChildElement("p");
 		if( p_elem && count_ )
 		{
-			real_count_ = 3 * count_ * (max_offset+1);
-			indices_ = new unsigned short[real_count_];
+			vertex_count_ = 3 * count_;
+			elements_count_ = vertex_count_ * (max_offset+1);
+			indices_ = new unsigned int[elements_count_];
 			std::stringstream ss(p_elem->GetText());
-			for(unsigned int i = 0; i < real_count_ && !ss.eof(); ++i)
+			for(unsigned int i = 0; i < elements_count_ && !ss.eof(); ++i)
 				ss >> indices_[i];
 		}
 	}

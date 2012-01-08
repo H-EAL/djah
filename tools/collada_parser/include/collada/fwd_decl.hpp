@@ -44,14 +44,21 @@ namespace library {
 	// Libraries components
 	//----------------------------------------------------------------------------------------------
 	class animation;
+	class sampler;
+	class channel;
 	class image;
 	class material;
 	class effect;
 	class geometry;
+	class mesh;
+	class triangles;
 	class controller;
+	class skin;
 	class visual_scene;
 	//----------------------------------------------------------------------------------------------
 	typedef std::vector<animation*>		animation_list_t;
+	typedef std::vector<sampler*>		sampler_list_t;
+	typedef std::vector<channel*>		channel_list_t;
 	typedef std::vector<image*>			image_list_t;
 	typedef std::vector<material*>		material_list_t;
 	typedef std::vector<effect*>		effect_list_t;

@@ -20,6 +20,10 @@ namespace collada {
 		ESS_WEIGHT,
 		ESS_INV_BIND_MATRIX,
 
+		ESS_INPUT,
+		ESS_OUTPUT,
+		ESS_INTERPOLATION,
+
 		ESS_COUNT
 	};
 	//----------------------------------------------------------------------------------------------
@@ -48,13 +52,25 @@ namespace collada {
 
 
 	//----------------------------------------------------------------------------------------------
-	std::string find_root_node_id(const library::visual_scene &visualscene);
+	library::node* get_node_by_sid(			const std::string &node_sid,
+											const library::node_list_t &nodes);
+	//----------------------------------------------------------------------------------------------
+	
+	//----------------------------------------------------------------------------------------------
+	library::controller* get_controller_by_skin_source(	const std::string &skin_source,
+														const library::controller_list_t &ctrlers);
 	//----------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------
-	library::node* find_node_by_id(const library::visual_scene &visualscene, const std::string &node_id);
+	library::animation_list_t get_animations_by_target_id(	const std::string &target_id,
+															const library::animation_list_t &anims);
 	//----------------------------------------------------------------------------------------------
 
+	//----------------------------------------------------------------------------------------------
+	library::sampler* get_sampler_by_id(	const std::string &sampler_id,
+											const library::sampler_list_t &samplers);
+	//----------------------------------------------------------------------------------------------
+	
 } /*collada*/
 
 #endif /* COLLADA_UTILS_HPP */

@@ -11,7 +11,7 @@ namespace collada { namespace library {
 			name_ = element.Attribute("name");
 
 		new_single_element(element, "float_array", float_array_);
-		new_single_element(element, "name_array", name_array_);
+		new_single_element(element, "Name_array", name_array_);
 		new_single_element(element, "technique_common", technique_common_);
 	}
 	//----------------------------------------------------------------------------------------------

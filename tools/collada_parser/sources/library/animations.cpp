@@ -23,14 +23,14 @@ namespace collada { namespace library {
 			id_   = element.Attribute("id");
 		
 		new_multi_elements(element, "source", sources_);
-		new_single_element(element, "sampler", sampler_);
-		new_single_element(element, "channel", channel_);
+		new_multi_elements(element, "sampler", samplers_);
+		new_multi_elements(element, "channel", channels_);
 	}
 	//----------------------------------------------------------------------------------------------
 	animation::~animation()
 	{
-		delete sampler_;
-		delete channel_;
+		delete_content(samplers_);
+		delete_content(channels_);
 		delete_content(sources_);
 	}
 	//----------------------------------------------------------------------------------------------

@@ -63,6 +63,7 @@ namespace collada { namespace library {
 		}
 
 		const TiXmlElement *matrix_elem = element.FirstChildElement("matrix");
+		memset(matrix_, 0, sizeof(matrix_));
 		if( matrix_elem )
 		{
 			std::stringstream ss(matrix_elem->GetText());
@@ -98,7 +99,8 @@ namespace collada { namespace library {
 	{
 		if(element.Attribute("sid"))
 			sid_ = element.Attribute("sid");
-
+		
+		memset(values_, 0, sizeof(values_));
 		std::stringstream ss(element.GetText());
 		ss >> values_[0] >> values_[1] >> values_[2];
 		if(type_ == ETT_ROTATE)

@@ -67,6 +67,7 @@ namespace collada { namespace library {
 	class technique
 	{
 	public:
+		technique() : phong_(0) {}
 		void deserialize(const TiXmlElement &element);
 		~technique();
 

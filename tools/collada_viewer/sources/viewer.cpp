@@ -2,6 +2,7 @@
 
 #include <djah/application_base.hpp>
 #include <djah/time/clock.hpp>
+#include <djah/utils/randomizer.hpp>
 #include <djah/math.hpp>
 
 #include <djah/system/video_config.hpp>
@@ -31,6 +32,17 @@
 #include "../../collada_converter/sources/mesh_builder.hpp"
 
 using namespace djah;
+
+const bool bAstro = true;
+std::string dae_file = "data/3d/cow.dae";
+std::string tex_file = "textures/cow.jpg";
+const float scale = 0.5f;
+const bool bRotate = false;
+const bool bScale = true;
+const float rotSpeed = 1.0f*360.0f / 10.0; //(deg/s)
+const float camRadius = 7.0f;
+const bool bSkin = true;
+const bool drawModel = true;
 
 //--------------------------------------------------------------------------------------------------
 template<typename T>
@@ -76,9 +88,11 @@ void drawAxis()
 
 void drawFloor()
 {
+	glPushMatrix();
 	static const float s = 50.0f;
 	static const float c = 0.8f;
 	static const float h = -0.1f;
+	glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
 	glScalef(s, 1.0f, s);
 	glBegin(GL_QUADS);
 	{
@@ -89,6 +103,54 @@ void drawFloor()
 		glVertex3f( 0.5f, h, -0.5f);
 	}
 	glEnd();
+	glPopMatrix();
+}
+
+void drawGrid(int w = 4, int h = 4, float cw = 1.0f, float ch = 1.0f)
+{
+	glPushMatrix();
+	glBegin(GL_LINES);
+	static const float e = -0.0001f;
+	static const float c = 0.3f;
+	glColor3f(c,c,c);
+	for(int x = -w/2; x < w/2+1; ++x)
+	{
+		glVertex3f((float)x*cw, (float)h/2*ch, e);
+		glVertex3f((float)x*cw, (float)-h/2*ch, e);
+	}
+	for(int y = -h/2; y < h/2+1; ++y)
+	{
+		glVertex3f((float)w/2*cw, (float)y*ch, e);
+		glVertex3f((float)-w/2*cw, (float)y*ch, e);
+	}
+	glEnd();
+	glPopMatrix();
+}
+
+math::matrix4f tomat(const collada::library::transformation_list_t (&trans)[3])
+{
+	math::matrix4f mat;
+	mat.toIdentity();
+
+	for(unsigned int r = 0; r < trans[collada::library::transformation::ETT_ROTATE].size(); ++r)
+	{
+		const collada::library::transformation &rot = *trans[collada::library::transformation::ETT_ROTATE][r];
+		mat *= math::make_rotation(math::deg_to_rad(rot.values_[2]), rot.values_[0], rot.values_[1], rot.values_[2]);
+	}
+
+	for(unsigned int t = 0; t < trans[collada::library::transformation::ETT_TRANSLATE].size(); ++t)
+	{
+		const collada::library::transformation &tr = *trans[collada::library::transformation::ETT_TRANSLATE][t];
+		mat *= math::make_translation(tr.values_[0], tr.values_[1], tr.values_[2]);
+	}
+
+	for(unsigned int s = 0; s < trans[collada::library::transformation::ETT_SCALE].size(); ++s)
+	{
+		const collada::library::transformation &sc = *trans[collada::library::transformation::ETT_SCALE][s];
+		mat *= math::make_scale(sc.values_[0], sc.values_[1], sc.values_[2]);
+	}
+
+	return mat;
 }
 
 struct bone_t
@@ -101,9 +163,10 @@ typedef std::map<std::string, bone_t> bones_map_t;
 bones_map_t bones_map;
 static vec_list v;
 static math::matrix4f BO[44];
-void CreateBones(collada::library::node *n, const math::matrix4f &pm, vec_list &v)
+void CreateBones(collada::library::node *n, const math::matrix4f &pm/*, vec_list &v*/)
 {
 	math::matrix4f m(n->matrix_);
+	//math::matrix4f m = tomat(n->transformations_);
 	m=pm*m;
 
 	bone_t b = { m, math::matrix4f::mat_identity };
@@ -119,16 +182,19 @@ void CreateBones(collada::library::node *n, const math::matrix4f &pm, vec_list &
 	collada::library::node_list_t::const_iterator it;
 	collada::library::node_list_t::const_iterator it_end = n->children_.end();
 	for(it = n->children_.begin(); it != it_end; ++it)
-		CreateBones(*it, m, v);
+		CreateBones(*it, m/*, v*/);
 }
-
+collada::proxy *obj = 0;
 //--------------------------------------------------------------------------------------------------
 viewer_app::viewer_app()
-	: djah::application_base(djah::system::video_config(480,640,32,24,0,false,true))
-	, eye_(0,math::pi_over_2,5.8f)
-	, center_(0,0,3)
+	: djah::application_base(djah::system::video_config(1440,810,32,24,0,false,true))
+	, texture_(0)
+	, eye_(0,0,1.85f)
+	, center_(0,0,1.5f)
 	, up_(0,0,1)
 {	
+	utils::randomizer::random(1.0f);
+
 	// File System
 	filesystem::browser::get().addSavingChannel (new filesystem::directory_source("."));
 	filesystem::browser::get().addLoadingChannel(new filesystem::directory_source("./data"));
@@ -137,36 +203,32 @@ viewer_app::viewer_app()
 	log::logger::setLogger(new djah::log::console_logger);
 
 	time::clock clk;
-	collada::proxy obj("data/3d/astroBoy_walk_Max.dae");
+	obj = new collada::proxy(bAstro ? "data/3d/astroBoy_walk_Max.dae" : dae_file);
 	u64 msL = clk.getElapsedTimeMs();
 
-	if( obj.good() )
+	if( obj->good() )
 	{
 		clk.restart();
 
-		builder_ = new mesh_builder(obj);
-
-		collada::library::node *root = collada::find_node_by_id(*(obj.getVisualScenes()[0]), "astroBoy_newSkeleton_deformation_rig");
-		root = root->children_[0];
+		builder_ = new mesh_builder(*obj);
+		/**
+		collada::library::node *root = collada::find_node_by_sid(*(obj.getVisualScenes()[0]), "Bone1");
+		//collada::library::node *root = collada::find_node_by_id(*(obj.getVisualScenes()[0]), "Root");
+		//root = root->children_[0];
 		root->parent_ = 0;
 
 		//math::matrix4f id(math::make_rotation(math::deg_to_rad(90.0f), 1.0f, 0.0f, 0.0f));
 		math::matrix4f id(math::matrix4f::mat_identity);
 		CreateBones(root, id, v);
-
-		collada::library::source *src = collada::get_source_by_id("boyShape-skin-skin-bind_poses", obj.getControllers()[0]->skin_->sources_);
-
-		int bones = 44;
-		for(int i = 0; i < bones; ++i)
+		
+		skeleton *skel = builder_->getMesh(0)->skeleton_;
+		if( skel )
 		{
-			std::stringstream ss;
-			ss << "Bone" << i+1;
-			BO[i] = bones_map[ss.str()].bind_shape;
-			float m[16];
-			memcpy(m, src->float_array_->data_ + (i*16), sizeof(float)*16);
-			BO[i] *= math::matrix4f(m);
+			int bones = skel->bones_.size();
+			for(int i = 0; i < bones; ++i)
+				BO[i] = bones_map[ skel->bones_[i].name_ ].bind_shape * skel->bones_[i].inv_bind_matrix_;
 		}
-
+		/**/
 		u64 msB = clk.getElapsedTimeMs();
 
 		DJAH_BEGIN_LOG(EWL_NOTIFICATION) << "Loading time : " << msL << " ms" << DJAH_END_LOG();
@@ -190,7 +252,7 @@ void viewer_app::initImpl()
 {
 	const float w = static_cast<float>(device_->videoConfig().width);
 	const float h = static_cast<float>(device_->videoConfig().height);
-	matPerspectiveProj_ = video::make_perspective_projection(60.0f, w/h, 0.1f, 1000.f);
+	matPerspectiveProj_ = video::make_perspective_projection(60.0f, w/h, 0.1f, 10000.f);
 	matOrthoProj_ = video::make_orthographic_projection(0.0f, w, h, 0.0f, -1.0f, 1.0f);
 		
 	glClearDepth(1.f);
@@ -202,7 +264,7 @@ void viewer_app::initImpl()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	boost::shared_ptr<resources::image> img = find_resource<resources::image>("textures/boy_10.jpg");
+	resources::image_ptr img = find_resource<resources::image>(bAstro ? "textures/boy_10.jpg" : tex_file);
 	if( img )
 	{
 		texture_ = new video::ogl::texture(img->width(), img->height());
@@ -224,12 +286,15 @@ void viewer_app::runImpl()
 {
 	static int fps = 0;
 	static time::clock clk;
+	static time::clock clkDT;
 
+	float dt = clkDT.getElapsedTimeSec();
+	clkDT.restart();
 	static float angle = 0.0f;
-	eye_.x = 7*cos(angle);
-	eye_.y = 7*sin(angle);
-	const float da = 0.075f;
-	angle = (angle+da > math::pi_times_2) ? 0.0f : angle+da;
+	eye_.x = camRadius*cos(angle+math::pi_over_2);
+	eye_.y = camRadius*sin(angle+math::pi_over_2);
+	const float da = math::deg_to_rad( dt * rotSpeed );
+	angle = (angle+da > math::pi_times_2) ? angle+da-math::pi_times_2 : angle+da;
 	matView_ = video::make_look_at(eye_, center_, up_);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -243,72 +308,126 @@ void viewer_app::runImpl()
 	glMultMatrixf(matView_.getTransposed().data);
 
 	drawAxis();
+	drawGrid();
 
-	/*
-	glBegin(GL_LINES);
-	glColor3f(1,1,0);
-	for(vec_list::iterator it = v.begin(); it != v.end(); ++it)
-	{
-		glVertex3fv(it->data);
-	}
-	glEnd();
-	*/
+	float times[] = {0.0f,0.033333f,0.066666f,0.1f,0.133333f,0.166667f,0.2f,0.233333f,0.266667f,0.3f,0.333333f,0.366667f,0.4f,0.433333f,0.466667f,0.5f,0.533333f,0.566667f,0.6f,0.633333f,0.666667f,0.7f,0.733333f,0.766667f,0.8f,0.833333f,0.866667f,0.9f,0.933333f,0.966667f,1.0f,1.03333f,1.06667f,1.1f,1.13333f,1.16667f};
+	static int k = -1;
+	static const int nbk = sizeof(times)/sizeof(float);
+	if(++k >= nbk)
+		k = 0;
+
 	static float t = 0.0f;
 	static float s = 1.0f;
 	t += 0.1f * s;
 	if( t >= 1.0f && s > 0.0f || t <= 0.0f && s < 0.0f )
 		s *= -1.0f;
-	
+
+	glPushMatrix();
+	glLineWidth(3.0f);
+	if(bRotate)
+		glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+	if(bScale)
+		glScalef(scale,scale,scale);
+	static bool done = false;
+	const int nbModels = (int)builder_->getModelCount();
+	for(int m = 0; m < nbModels; ++m)
+	{
+		model *mod = builder_->getModel(m);
+		const int nbMeshes = (int)mod->getMeshCount();
+		for(int b = 0; b < nbMeshes; ++b)
+		{
+			mesh_t *msh = mod->getMesh(b);
+			if( msh->skeleton_ != 0 )
+			{
+				if(!done){
+				msh->skeleton_->setupBonesHierarchy(*(obj->getVisualScenesLib()), true, times[k]);
+				done = true;
+				}
+				msh->setupBindPose();
+
+				glBegin(GL_LINES);
+				skeleton::bone_list_t::const_iterator it;
+				int i = -1;
+				for(it = msh->skeleton_->bones_.begin(); it != msh->skeleton_->bones_.end(); ++it)
+				{
+					if( ++i == 0 )
+						continue;
+					glColor3f(0,1,0);
+					glVertex3fv(it->start_.data);
+					glColor3f(1,0,0);
+					glVertex3fv(it->end_.data);
+				}
+				glEnd();
+			}
+		}
+	}
+	done = false;
+	glLineWidth(1.0f);
+	glPopMatrix();
+	/**/
+	if( drawModel )
+	{
 	glEnable(GL_TEXTURE_2D);
 	if( texture_ )
 		texture_->bind();
 	glColor3f(1,1,1);
+	glPushMatrix();
+	if(bRotate)
+		glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+	if(bScale)
+		glScalef(scale,scale,scale);
 	glBegin(GL_TRIANGLES);
-	const int nbSubMeshes = (int)builder_->getSubMeshesCount();
-	for(int b = 0; b < nbSubMeshes; ++b)
+
+	for(int m = 0; m < nbModels; ++m)
 	{
-		const std::vector<float> &buffer = builder_->getBuffer(b);
-		const size_t vertexSize = builder_->getVertexSize(b);
-
-		for(size_t i = 0; i < buffer.size(); i += vertexSize)
+		model *mod = builder_->getModel(m);
+		const int nbMeshes = (int)mod->getMeshCount();
+		for(int b = 0; b < nbMeshes; ++b)
 		{
-			if( 1 )
+			mesh_t *msh = mod->getMesh(b);
+			bool skined = msh->skeleton_ != 0;//rand() % 101 > 20;
+
+			int pos_stride		= msh->getPositionStride();
+			int norm_stride		= msh->getNormalStride();
+			int tex_stride		= msh->getTexCoordStride();
+			int weight_stride	= msh->getWeightStride();
+			int infl_stride		= msh->getInfluenceStride();
+
+			const std::vector<float> &positions				= msh->positions_;
+			const std::vector<float> &normals				= msh->normals_;
+			const std::vector<float> &tex_coords			= msh->tex_coords_;
+			const std::vector<float> &skinned_positions		= msh->skinned_positions_;
+			const std::vector<float> &skinned_normals		= msh->skinned_normals_;
+			const std::vector<float> &weights				= msh->weights_;
+			const std::vector<unsigned short> &influences	= msh->influences_;
+
+			const int nbVertex = msh->vertex_count_;
+			for(int i = 0; i < nbVertex; ++i)
 			{
-				math::vector4f pos(buffer[i], buffer[i+1], buffer[i+2], 1.0f);
-				math::vector4f norm(buffer[i+3], buffer[i+4], buffer[i+5], 1.0f);
-				math::vector4f bones(buffer[i+9], buffer[i+10], buffer[i+11], buffer[i+12]);
-				math::vector4f weights(buffer[i+13], buffer[i+14], buffer[i+15], buffer[i+16]);
-
-				math::vector4f p;
-				math::vector4f n;
-
-				for(int w = 0; w < 4; ++w)
+				if( bSkin && skined )
 				{
-					if( bones.data[w] >= 0.0f && weights.data[w] > 0.0f )
-					{
-						int bone = static_cast<int>(bones.data[w]);
-						const math::matrix4f &mat = BO[bone];
-
-						p += math::transform(mat, pos)  * weights.data[w];
-						n += math::transform(mat, norm) * weights.data[w];
-					}
+					if(!tex_coords.empty())
+						glTexCoord2fv(&tex_coords[i*tex_stride]);
+					if(!skinned_normals.empty())
+						glNormal3fv(&skinned_normals[i*norm_stride]);
+					glVertex3fv(&skinned_positions[i*pos_stride]);
 				}
-			
-				glTexCoord2fv(&buffer[i+6]);
-				glNormal3fv(n.data);
-				glVertex3fv(p.data);
-			}
-			else
-			{
-				glTexCoord2fv(&buffer[i+6]);
-				glNormal3fv(&buffer[i+3]);
-				glVertex3fv(&buffer[i]);
+				else
+				{
+					if(!tex_coords.empty())
+						glTexCoord2fv(&tex_coords[i*tex_stride]);
+					if(!normals.empty())
+						glNormal3fv(&normals[i*norm_stride]);
+					glVertex3fv(&positions[i*pos_stride]);
+				}
 			}
 		}
 	}
 	glEnd();
+	glPopMatrix();
 	glDisable(GL_TEXTURE_2D);
-
+	}
+	/**/
 	if( clk.getElapsedTimeMs() < 1000 )
 		++fps;
 	else

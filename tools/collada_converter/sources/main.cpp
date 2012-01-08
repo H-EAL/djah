@@ -4,35 +4,70 @@
 
 int main()
 {
-	collada::proxy obj("cthulhu_bn.dae");
+	collada::proxy obj("data/3d/cow.dae");
 	if(obj.good())
 	{
 		std::fstream file;
-		file.open("cthulhu.bdae", std::ios::in | std::ios::binary | std::ios::trunc | std::ios::out);
+		file.open("data/3d/cow.bdae", std::ios::in | std::ios::binary | std::ios::trunc | std::ios::out);
 		if( !file.good() )
 			return 1;
 
-		mesh_builder mesh(obj);
-		const int nbSubMeshes = (int)mesh.getSubMeshesCount();
-		for(int b = 0; b < nbSubMeshes; ++b)
+		mesh_builder builder(obj);
+
+		int nbModels = (int)builder.getModelCount();
+		for(int m = 0; m < nbModels; ++m)
 		{
-			const std::vector<float> &buffer = mesh.getBuffer(b);
-			const size_t vertexSize = mesh.getVertexSize(b);
-
-			//file.write((const char*)&buffer[0], 4*buffer.size());
-
-			for(size_t i = 0; i < buffer.size(); i += vertexSize)
+			model *mod = builder.getModel(m);
+			const int nbMeshes = (int)mod->getMeshCount();
+			for(int b = 0; b < nbMeshes; ++b)
 			{
-				// position x3
-				file.write((const char*)&buffer[i], 3*4);
-				// normal x3
-				file.write((const char*)&buffer[i+3], 3*4);
-				// tex coord x3
-				file.write((const char*)&buffer[i+6], 2*4);
-				// tangent x3
-				file.write((const char*)&buffer[i+8], 3*4);
+				mesh_t *msh = mod->getMesh(b);
+				const std::vector<float>			&positions		= msh->positions_;
+				const std::vector<float>			&normals		= msh->normals_;
+				const std::vector<float>			&tex_coords		= msh->tex_coords_;
+				const std::vector<float>			&tex_tangents	= msh->tex_tangents_;
+				const std::vector<float>			&tex_binormals	= msh->tex_binormals_;
+				const std::vector<float>			&weights		= msh->weights_;
+				const std::vector<unsigned short>	&influences		= msh->influences_;
+				const size_t vertexSize								= msh->vertex_size_;
+
+				int pos_stride			= msh->getPositionStride();
+				int norm_stride			= msh->getNormalStride();
+				int tex_coord_stride	= msh->getTexCoordStride();
+				int tex_tangent_stride	= msh->getTexTangentStride();
+				int tex_binormal_stride	= msh->getTexBinormalStride();
+				int weight_stride		= msh->getWeightStride();
+				int infl_stride			= msh->getInfluenceStride();
+
+				if( !positions.empty() )
+				{
+					for(size_t i = 0; i < msh->vertex_count_; ++i)
+					{
+						file.write((const char*)&positions[i], pos_stride * sizeof(float));
+
+						if( !normals.empty() )
+							file.write((const char*)&normals[i], norm_stride * sizeof(float));
+
+						if( !tex_coords.empty() )
+							file.write((const char*)&tex_coords[i], tex_coord_stride * sizeof(float));
+						/**
+						if( !tex_tangents.empty() )
+							file.write((const char*)&tex_tangents[i], tex_tangent_stride * sizeof(float));
+
+						if( !tex_binormals.empty() )
+							file.write((const char*)&tex_binormals[i], tex_binormal_stride * sizeof(float));
+
+						if( !weights.empty() )
+							file.write((const char*)&weights[i], weight_stride * sizeof(float));
+
+						if( !influences.empty() )
+							file.write((const char*)&influences[i], infl_stride * sizeof(unsigned short));
+						/**/
+					}
+				}
 			}
 		}
+		
 	}
 	return 0;
 }

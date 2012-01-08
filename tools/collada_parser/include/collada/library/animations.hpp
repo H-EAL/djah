@@ -26,14 +26,13 @@ namespace collada { namespace library {
 	class animation
 	{
 	public:
-		animation() : sampler_(0), channel_(0) {}
 		void deserialize(const TiXmlElement &element);
 		~animation();
 
 		std::string		id_;
 		source_list_t	sources_;
-		sampler			*sampler_;
-		channel			*channel_;
+		sampler_list_t	samplers_;
+		channel_list_t	channels_;
 	};
 	//----------------------------------------------------------------------------------------------
 

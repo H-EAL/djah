@@ -69,15 +69,16 @@ namespace collada { namespace library {
 	class triangles
 	{
 	public:
-		triangles() : indices_(0) {}
+		triangles() : indices_(0), vertex_count_(0), elements_count_(0) {}
 		void deserialize(const TiXmlElement &element);
 		~triangles();
 
 		unsigned int   count_;
-		unsigned int   real_count_;
+		unsigned int   vertex_count_;
+		unsigned int   elements_count_;
 		std::string    material_;
 		input_list_t   inputs_;
-		unsigned short *indices_;
+		unsigned int  *indices_;
 	};
 	//----------------------------------------------------------------------------------------------
 
