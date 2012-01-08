@@ -59,6 +59,10 @@ namespace djah { namespace math {
 		// Constructors from array
 		matrix(const T (&array)[M*N]);
 		matrix(const T (&array)[M][N]);
+
+		// Assignations from an array
+		matrix<M,N,T>& operator =(T (&array)[M*N]);
+		matrix<M,N,T>& operator =(T (&array)[M][N]);
 		
 		// Matrix math
 		// Those functions change the current state
@@ -86,6 +90,10 @@ namespace djah { namespace math {
 		// Easy dynamic access
 		T&		 m(int at_row, int at_col);
 		const T& m(int at_row, int at_col) const;
+
+		// Accessors
+		T*		 operator [](unsigned int r);
+		const T* operator [](unsigned int r) const;
 
 		// Unary minus : doesn't change the current state
 		const matrix<M,N,T> operator -() const;
@@ -123,7 +131,7 @@ namespace djah { namespace math {
 
 	// Matrix product
 	template<int M, int N, int P, typename T>
-	const matrix<M,P,T> operator *(const matrix<M,N,T> &lhs, const matrix<P,M,T> &rhs);
+	const matrix<M,P,T> operator *(const matrix<M,N,T> &lhs, const matrix<N,P,T> &rhs);
 	//----------------------------------------------------------------------------------------------
 
 
