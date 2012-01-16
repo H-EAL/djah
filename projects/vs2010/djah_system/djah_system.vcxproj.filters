@@ -60,9 +60,6 @@
     <ClInclude Include="..\..\..\include\djah\system\device.hpp">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\system\win32_device.hpp">
-      <Filter>include</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\sources\system\driver_base.cpp">
@@ -88,9 +85,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\sources\system\opengl\opengl_driver.cpp">
       <Filter>sources\opengl</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\sources\system\device.cpp">
-      <Filter>sources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\sources\system\win32_device.cpp">
       <Filter>sources</Filter>
