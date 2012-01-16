@@ -1587,7 +1587,7 @@ limitations under the License.
             <skin source="#boyShape-lib">
                 <bind_shape_matrix>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</bind_shape_matrix>
                 <source id="boyShape-lib-skin-joints">
-                    <IDREF_array id="boyShape-lib-skin-joints-array" count="19">root l_hip l_knee l_ankle l_null_toe pelvis spine l_humerus l_ulna l_wrist r_humerus r_ulna r_wrist neck null_head r_hip r_knee r_ankle r_null_toe</IDREF_array>
+                    <Name_array id="boyShape-lib-skin-joints-array" count="19">root l_hip l_knee l_ankle l_null_toe pelvis spine l_humerus l_ulna l_wrist r_humerus r_ulna r_wrist neck null_head r_hip r_knee r_ankle r_null_toe</Name_array>
                     <technique_common>
                         <accessor count="19" offset="0" source="#boyShape-lib-skin-joints-array" stride="1">
                             <param name="JOINT" type="IDREF"></param>
