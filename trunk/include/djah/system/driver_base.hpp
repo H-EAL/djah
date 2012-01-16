@@ -7,14 +7,14 @@
 namespace djah { namespace system {
 
 	// Forward declaration
-	class device_base;
+	class device;
 	
 	//----------------------------------------------------------------------------------------------
 	class driver_base
 	{
 	public:
 
-		driver_base(device_base *device);
+		driver_base(device *device);
 		virtual ~driver_base();
 
 		virtual void create() = 0;
@@ -30,7 +30,7 @@ namespace djah { namespace system {
 
 		virtual void updateViewport() = 0;
 
-		device_base			*device_;
+		device				*device_;
 
 		geometry::rect_i	viewport_;
 	};

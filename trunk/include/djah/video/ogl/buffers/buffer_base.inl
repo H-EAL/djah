@@ -157,7 +157,7 @@ namespace djah { namespace video { namespace ogl {
 		unbind();
 
 		bytes_per_elem_ = sizeof(T);
-		data_type_ = gl_type<T>::Type;
+		data_type_ = system::opengl::type<T>::Type;
 
 		return count;
 	}

@@ -89,9 +89,6 @@
     <ClInclude Include="..\..\..\include\djah\video\ogl\buffers\vertex_buffer.hpp" />
     <ClInclude Include="..\..\..\include\djah\video\ogl\buffers\vertex_format.hpp" />
     <ClInclude Include="..\..\..\include\djah\video\ogl\errors.hpp" />
-    <ClInclude Include="..\..\..\include\djah\video\ogl\extensions.hpp" />
-    <ClInclude Include="..\..\..\include\djah\video\ogl\gl_caps.hpp" />
-    <ClInclude Include="..\..\..\include\djah\video\ogl\gl_types.hpp" />
     <ClInclude Include="..\..\..\include\djah\video\ogl\resource.hpp" />
     <ClInclude Include="..\..\..\include\djah\video\ogl\shaders.hpp" />
     <ClInclude Include="..\..\..\include\djah\video\ogl\shaders\geometry_shader.hpp" />
@@ -115,8 +112,6 @@
     <ClCompile Include="..\..\..\sources\video\ogl\buffers\texture.cpp" />
     <ClCompile Include="..\..\..\sources\video\ogl\buffers\vertex_array.cpp" />
     <ClCompile Include="..\..\..\sources\video\ogl\buffers\vertex_format.cpp" />
-    <ClCompile Include="..\..\..\sources\video\ogl\extensions.cpp" />
-    <ClCompile Include="..\..\..\sources\video\ogl\gl_caps.cpp" />
     <ClCompile Include="..\..\..\sources\video\ogl\shaders\shader_program.cpp" />
     <ClCompile Include="..\..\..\sources\video\primitives\triangle.cpp" />
     <ClCompile Include="..\..\..\sources\video\text.cpp" />

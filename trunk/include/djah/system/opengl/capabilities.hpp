@@ -1,10 +1,10 @@
-#ifndef DJAH_VIDEO_OGL_GL_CAPS_HPP
-#define DJAH_VIDEO_OGL_GL_CAPS_HPP
+#ifndef DJAH_SYSTEM_OPENGL_CAPABILITIES_HPP
+#define DJAH_SYSTEM_OPENGL_CAPABILITIES_HPP
 
 #include <vector>
 #include <string>
 
-namespace djah { namespace video { namespace ogl {
+namespace djah { namespace system { namespace opengl {
 
 	class capabilities
 	{
@@ -21,6 +21,6 @@ namespace djah { namespace video { namespace ogl {
 		static string_list_t s_extensions_;
 	};
 
-} /*ogl*/ } /*video*/ } /*djah*/
+} /*opengl*/ } /*system*/ } /*djah*/
 
-#endif /* DJAH_VIDEO_OGL_GL_CAPS_HPP */
+#endif /* DJAH_SYSTEM_OPENGL_CAPABILITIES_HPP */

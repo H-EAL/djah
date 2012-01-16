@@ -4,6 +4,9 @@
 #include <djah/math.hpp>
 #include <djah/filesystem/memory_stream.hpp>
 #include <djah/video/text.hpp>
+#include <djah/system/input/mouse.hpp>
+#include <djah/system/input/keyboard.hpp>
+#include <djah/system/input/gamepad.hpp>
 
 #include <djah/application_base.hpp>
 
@@ -37,8 +40,14 @@ private:
 
 	struct mesh *cthulhu_;
 	struct mesh *astroboy_;
+	struct mesh *cow_;
+
+	djah::system::input::mouse		mouse_;
+	djah::system::input::keyboard	keyboard_;
+	djah::system::input::gamepad	gamepad_;
 
 	djah::video::text fps_str_;
+	djah::video::text mouse_pos_;
 };
 
 DJAH_ENTRY_POINT(application);

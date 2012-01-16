@@ -1,39 +1,41 @@
-#ifndef DJAH_VIDEO_OGL_GL_TYPES_HPP
-#define DJAH_VIDEO_OGL_GL_TYPES_HPP
+#ifndef DJAH_SYSTEM_OPENGL_TYPES_HPP
+#define DJAH_SYSTEM_OPENGL_TYPES_HPP
 
-#include "../../system/opengl_include.hpp"
+#include "gl.hpp"
 
-namespace djah { namespace video { namespace ogl {
+namespace djah { namespace system { namespace opengl {
 
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	struct gl_type;
+	struct type;
 	//----------------------------------------------------------------------------------------------
 	template<>
-	struct gl_type<char>			{ enum { Type = GL_BYTE };				};
+	struct type<char>			{ enum { Type = GL_BYTE };				};
 	//----------------------------------------------------------------------------------------------
 	template<>
-	struct gl_type<unsigned char>	{ enum { Type = GL_UNSIGNED_BYTE };		};
+	struct type<unsigned char>	{ enum { Type = GL_UNSIGNED_BYTE };		};
 	//----------------------------------------------------------------------------------------------
 	template<>
-	struct gl_type<short>			{ enum { Type = GL_SHORT };				};
+	struct type<short>			{ enum { Type = GL_SHORT };				};
 	//----------------------------------------------------------------------------------------------
 	template<>
-	struct gl_type<unsigned short>	{ enum { Type = GL_UNSIGNED_SHORT };	};
+	struct type<unsigned short>	{ enum { Type = GL_UNSIGNED_SHORT };	};
 	//----------------------------------------------------------------------------------------------
 	template<>
-	struct gl_type<int>				{ enum { Type = GL_INT };				};
+	struct type<int>			{ enum { Type = GL_INT };				};
 	//----------------------------------------------------------------------------------------------
 	template<>
-	struct gl_type<unsigned int>	{ enum { Type = GL_UNSIGNED_INT };		};
+	struct type<unsigned int>	{ enum { Type = GL_UNSIGNED_INT };		};
 	//----------------------------------------------------------------------------------------------
 	template<>
-	struct gl_type<float>			{ enum { Type = GL_FLOAT };				};
+	struct type<float>			{ enum { Type = GL_FLOAT };				};
 	//----------------------------------------------------------------------------------------------
-	//template<>
-	//struct gl_type<double>			{ enum { Type = GL_DOUBLE };			};
+	#ifdef GL_DOUBLE
+	template<>
+	struct type<double>			{ enum { Type = GL_DOUBLE };			};
+	#endif
 	//----------------------------------------------------------------------------------------------
 
-} /*ogl*/ } /*video*/ } /*djah*/
+} /*opengl*/ } /*system*/ } /*djah*/
 
-#endif /* DJAH_VIDEO_OGL_GL_TYPES_HPP */
+#endif /* DJAH_SYSTEM_OPENGL_TYPES_HPP */

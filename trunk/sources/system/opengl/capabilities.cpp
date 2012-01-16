@@ -1,61 +1,69 @@
-#include "system/opengl_driver.hpp"
-#include "system/opengl_include.hpp"
-#include "video/ogl/gl_caps.hpp"
-#include "math/vector2.hpp"
+#include "system/opengl/capabilities.hpp"
+#include <algorithm>
+#include "utils/string_utils.hpp"
+#include "system/opengl/gl.hpp"
 
-namespace djah { namespace system {
+namespace djah { namespace system { namespace opengl {
 
 	//----------------------------------------------------------------------------------------------
-    opengl_driver::opengl_driver(device_base *device)
-		: driver_base(device)
+	std::string safe_gl_get_string(GLenum name)
 	{
+		const GLubyte *buf = glGetString(name);
+		return buf ? reinterpret_cast<const char*>(buf) : "";
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	opengl_driver::~opengl_driver()
+	capabilities::string_list_t capabilities::s_extensions_;
+	//----------------------------------------------------------------------------------------------
+
+	//----------------------------------------------------------------------------------------------
+	void capabilities::init()
 	{
+		std::string extensions = safe_gl_get_string(GL_EXTENSIONS);
+		utils::split_string(extensions, s_extensions_, " ");
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	void opengl_driver::create()
+	std::string capabilities::vendor()
 	{
-		video::ogl::capabilities::init();
-		video::ogl::load_extensions();
+		return safe_gl_get_string(GL_VENDOR);
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	void opengl_driver::destroy()
+	std::string capabilities::renderer()
 	{
+		return safe_gl_get_string(GL_RENDERER);
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	void opengl_driver::beginScene()
+	std::string capabilities::opengl_version()
 	{
+		return safe_gl_get_string(GL_VERSION);
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	void opengl_driver::endScene()
+	std::string capabilities::glsl_version()
 	{
+		return safe_gl_get_string(GL_SHADING_LANGUAGE_VERSION);
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	void opengl_driver::updateViewport()
+	bool capabilities::has_extension(const std::string &extension)
 	{
-		const math::vector2i &topLeft = viewport_.topLeft();
-		glViewport(topLeft.x, topLeft.y, viewport_.width(), viewport_.height());
+		return std::find(s_extensions_.begin(), s_extensions_.end(), extension) != s_extensions_.end();
 	}
 	//----------------------------------------------------------------------------------------------
 
-} /*system*/ } /*djah*/
+} /*opengl*/ } /*system*/ } /*djah*/

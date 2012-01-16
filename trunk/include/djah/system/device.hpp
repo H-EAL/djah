@@ -1,5 +1,5 @@
-#ifndef DJAH_SYSTEM_DEVICE_BASE_HPP
-#define DJAH_SYSTEM_DEVICE_BASE_HPP
+#ifndef DJAH_SYSTEM_DEVICE_HPP
+#define DJAH_SYSTEM_DEVICE_HPP
 
 #include <string>
 #include "video_config.hpp"
@@ -8,14 +8,14 @@
 namespace djah { namespace system {
 	
 	//----------------------------------------------------------------------------------------------
-	class device_base
+	class device
 	{
 	public:
 
-		device_base();
-		virtual ~device_base();
+		device();
+		virtual ~device();
 
-		static device_base* get_current();
+		static device* get_current();
 		
 		const video_config& videoConfig() const;
 
@@ -50,14 +50,16 @@ namespace djah { namespace system {
 		// Current config
 		video_config video_config_;
 
+		//
+
 		// Last created device
-		static device_base *s_device_inst_;
+		static device *s_device_inst_;
 	};
 	//----------------------------------------------------------------------------------------------
 	
 	//----------------------------------------------------------------------------------------------
 	// Pointer to a device : should be reference counted
-	typedef device_base* device_ptr;
+	typedef device* device_ptr;
 	//----------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------
@@ -76,4 +78,4 @@ namespace djah { namespace system {
 
 } /*system*/ } /*djah*/
 
-#endif /* DJAH_SYSTEM_DEVICE_BASE_HPP */
+#endif /* DJAH_SYSTEM_DEVICE_HPP */

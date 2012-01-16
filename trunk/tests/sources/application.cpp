@@ -9,7 +9,7 @@
 #include <djah/video/font_engine.hpp>
 
 #include <djah/system/video_config.hpp>
-#include <djah/system/device_base.hpp>
+#include <djah/system/device.hpp>
 #include <djah/system/driver_base.hpp>
 
 #include <djah/log/logger.hpp>
@@ -246,12 +246,56 @@ struct mesh
 	math::matrix4f mat_world_;
 };
 
+void testVec()
+{
+	float xy = math::rad_to_deg(math::oriented_angle(math::vector3f::x_axis, math::vector3f::y_axis));
+	DJAH_BEGIN_LOG(EWL_LOW) << xy << DJAH_END_LOG();
+}
+
+void testMat()
+{
+	math::matrix4x3f A
+	(
+		14,  9,  3,
+		 2, 11, 15,
+		 0, 12, 17,
+		 5,  2,  3
+	);
+
+	math::matrix3x2f B
+	(
+		12, 25,
+		 9, 10,
+		 8,  5
+	);
+
+	math::matrix2x3i C
+	(
+		1, 2, 0,
+		4, 3, -1
+	);
+
+	math::matrix3x2i D
+	(
+		5, 1,
+		2, 3,
+		3, 4
+	);
+
+	B[2][1] = 4.2f;
+
+	std::cout << A*B << std::endl;
+	std::cout << C*D << std::endl;
+	std::cout << B[2][1] << std::endl;
+}
+
 
 application::application(int w, int h)
 	: application_base(djah::system::video_config(w,h,32,24,0,false,true))
 	, eye_(0,11.8f,math::pi_over_2)
 	, center_(0,10,0)
 	, up_(0,1,0)
+	, gamepad_(0)
 {
 }
 
@@ -259,6 +303,7 @@ void application::initImpl()
 {
 	log::logger::setLogger(new log::console_logger);
 	//testURL();
+	testMat();
 		
 	filesystem::browser::get().addLoadingChannel(new filesystem::directory_source("."));
 	filesystem::browser::get().addLoadingChannel(new filesystem::directory_source("./data"));
@@ -282,12 +327,19 @@ void application::initImpl()
 
 	astroboy_ = new mesh("astroboy", "boy_10.tga", "", 3);
 	cthulhu_ = new mesh("cthulhu_1", "cthulhu.jpg", /*"cthulhu_normalmap.jpg"*/"", 3);
+	cow_ = new mesh("cow", "cow.jpg", "", 3);
+
+	mouse_pos_.setPosition(math::vector2i(100,200));
 }
 
 void application::runImpl()
 {
 	static int fps = 0;
 	static time::clock clk;
+
+	mouse_.update();
+	keyboard_.update();
+	gamepad_.update();
 	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	/**/
@@ -311,6 +363,17 @@ void application::runImpl()
 		fps_str_ = ss.str();
 		clk.restart();
 		fps = 0;
+	}
+	
+	if( device_->hasWindowFocus() && gamepad_.nbButtonsDown() > 2 )
+	{
+		std::stringstream ss;
+		ss << "Mouse | " << mouse_.leftButton().isDown() << " | " << mouse_.middleButton().isDown() << " | " << mouse_.rightButton().isDown() << " |";
+		mouse_pos_ = ss.str();
+	}
+	else
+	{
+		mouse_pos_.clear();
 	}
 }
 
@@ -345,7 +408,8 @@ void application::draw2D()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	fps_str_.draw();
+	//fps_str_.draw();
+	mouse_pos_.draw();
 }
 
 void application::drawAxis()
@@ -401,4 +465,7 @@ void application::drawMeshes()
 
 	astroboy_->mat_world_ = math::make_translation(0.0f, 0.0f, 5.0f) * rotA;
 	astroboy_->draw(matPerspectiveProj_, matView_);
+	
+	cow_->mat_world_ = math::make_translation(0.0f, 0.0f, -5.0f);
+	cow_->draw(matPerspectiveProj_, matView_);
 }

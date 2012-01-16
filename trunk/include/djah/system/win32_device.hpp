@@ -1,20 +1,20 @@
-#ifndef DJAH_SYSTEM_WINDOWS_WIN32DEVICE_HPP
-#define DJAH_SYSTEM_WINDOWS_WIN32DEVICE_HPP
+#ifndef DJAH_SYSTEM_WINDOWS_WIN32_DEVICE_HPP
+#define DJAH_SYSTEM_WINDOWS_WIN32_DEVICE_HPP
 
 #include <string>
 
-#include "../../platform.hpp"
-#include "../device_base.hpp"
+#include "../platform.hpp"
+#include "device.hpp"
 
 namespace djah { namespace system {
 
-	class win32device 
-		: public device_base
+	class win32_device 
+		: public device
 	{
 	public:
 
-		win32device();
-		~win32device();
+		win32_device();
+		~win32_device();
 
 		virtual void show();
 		virtual bool isWindowActive();
@@ -44,4 +44,4 @@ namespace djah { namespace system {
 
 } /*system*/ } /*djah*/
 
-#endif /* DJAH_SYSTEM_WINDOWS_WIN32DEVICE_HPP */
+#endif /* DJAH_SYSTEM_WINDOWS_WIN32_DEVICE_HPP */

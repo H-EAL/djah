@@ -1,4 +1,4 @@
-#include "system/opengl_include.hpp"
+#include "system/opengl/gl.hpp"
 #include "video/ogl/buffers/texture.hpp"
 
 namespace djah { namespace video { namespace ogl {

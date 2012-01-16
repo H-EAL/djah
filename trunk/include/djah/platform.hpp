@@ -5,6 +5,7 @@
 #   define DJAH_COMPILE_WINDOWS
 #   define WIN32_LEAN_AND_MEAN
 #   include <windows.h>
+#	include <MMSystem.h>
 #	ifdef near
 #		undef near
 #	endif

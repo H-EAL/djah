@@ -1,17 +1,17 @@
-#include "system/device_base.hpp"
-#include "system/opengl_driver.hpp"
+#include "system/device.hpp"
+#include "system//opengl/opengl_driver.hpp"
 
 namespace djah { namespace system {
 
 	//----------------------------------------------------------------------------------------------
 	device_ptr create_device(const video_config &cfg)
 	{
-		device_ptr device = new_platform_specific_device();
-		driver_ptr driver = new opengl_driver(device);
-		device->setVideoDriver(driver);
-		device->create(cfg);
+		device_ptr dev	  = new_platform_specific_device();
+		driver_ptr driver = new opengl_driver(dev);
+		dev->setVideoDriver(driver);
+		dev->create(cfg);
 		driver->create();
-		return device;
+		return dev;
 	}
 	//----------------------------------------------------------------------------------------------
 	device_ptr create_device(int width, int height,
@@ -26,11 +26,11 @@ namespace djah { namespace system {
 
 
 	//----------------------------------------------------------------------------------------------
-	device_ptr device_base::s_device_inst_ = 0;
+	device_ptr device::s_device_inst_ = 0;
 	//----------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------
-	device_ptr device_base::get_current()
+	device_ptr device::get_current()
 	{
 		return s_device_inst_;
 	}
@@ -38,7 +38,7 @@ namespace djah { namespace system {
 
 
 	//----------------------------------------------------------------------------------------------
-	device_base::device_base()
+	device::device()
 		: hasToQuit_(false)
 		, driver_(0)
 	{
@@ -47,14 +47,14 @@ namespace djah { namespace system {
 
 
 	//----------------------------------------------------------------------------------------------
-	device_base::~device_base()
+	device::~device()
 	{
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	const video_config& device_base::videoConfig() const
+	const video_config& device::videoConfig() const
 	{
 		return video_config_;
 	}
@@ -62,7 +62,7 @@ namespace djah { namespace system {
 
 
 	//----------------------------------------------------------------------------------------------
-	void device_base::setVideoDriver(driver_ptr driver)
+	void device::setVideoDriver(driver_ptr driver)
 	{
 		driver_ = driver;
 	}
@@ -70,7 +70,7 @@ namespace djah { namespace system {
 
 
 	//----------------------------------------------------------------------------------------------
-	driver_ptr device_base::videoDriver() const
+	driver_ptr device::videoDriver() const
 	{
 		return driver_;
 	}
@@ -78,7 +78,7 @@ namespace djah { namespace system {
 
 
 	//----------------------------------------------------------------------------------------------
-	void device_base::create(const video_config &cfg)
+	void device::create(const video_config &cfg)
 	{
 		s_device_inst_ = this;
 		video_config_ = cfg;
@@ -88,7 +88,7 @@ namespace djah { namespace system {
 
 
 	//----------------------------------------------------------------------------------------------
-	void device_base::destroy()
+	void device::destroy()
 	{
 		driver_->destroy();
 		delete driver_;
@@ -101,7 +101,7 @@ namespace djah { namespace system {
 
 
 	//----------------------------------------------------------------------------------------------
-	bool device_base::run()
+	bool device::run()
 	{
 		return !hasToQuit_ && runImpl();
 	}
@@ -109,7 +109,7 @@ namespace djah { namespace system {
 
 
 	//----------------------------------------------------------------------------------------------
-	void device_base::shutDown()
+	void device::shutDown()
 	{
 		hasToQuit_ = true;
 	}
@@ -117,7 +117,7 @@ namespace djah { namespace system {
 
 
 	//----------------------------------------------------------------------------------------------
-	void device_base::resize(int width, int height)
+	void device::resize(int width, int height)
 	{
 		driver_->setViewport(geometry::rect_i(0,0,width,height));
 	}
