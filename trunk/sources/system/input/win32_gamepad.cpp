@@ -114,11 +114,11 @@ namespace djah { namespace system { namespace input {
 			for(u32 b = 0; b < nb_buttons; ++b)
 			{
 				buttons_[b].setState( (jie.dwButtons & buttons_[b].id()) != 0 );
-				std::cout << buttons_[b].isDown() << std::endl;
+				//std::cout << buttons_[b].isDown() << std::endl;
 			}
 
 			// POV
-			std::cout << jie.dwPOV << std::endl;
+			//std::cout << jie.dwPOV << std::endl;
 
 			// Axis
 			const int axis_values[] = 

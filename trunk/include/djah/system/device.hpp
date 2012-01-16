@@ -2,10 +2,14 @@
 #define DJAH_SYSTEM_DEVICE_HPP
 
 #include <string>
+#include "../platform.hpp"
 #include "video_config.hpp"
 #include "driver_base.hpp"
 
 namespace djah { namespace system {
+
+	// Forward declaration
+	class device_impl;
 	
 	//----------------------------------------------------------------------------------------------
 	class device
@@ -13,47 +17,45 @@ namespace djah { namespace system {
 	public:
 
 		device();
-		virtual ~device();
+		~device();
 
-		static device* get_current();
+		static device* get_current()				{ return sp_device_inst_;	}
+		device_impl* impl()					const	{ return p_impl_;			}
 		
-		const video_config& videoConfig() const;
+		const video_config& videoConfig()	const	{ return video_config_;		}
 
-		void setVideoDriver(driver_ptr driver);
-		driver_ptr videoDriver() const;
+		void setVideoDriver(driver_ptr driver)		{ p_driver_ = driver;			} 
+		driver_ptr videoDriver()			const	{ return p_driver_;			}
 
-		virtual void create(const video_config &cfg);
-		virtual void destroy();
-		virtual bool run();
-		virtual void shutDown();
-		virtual void resize(int width, int height);
+		void create(const video_config &cfg);
+		void destroy();
+		bool run();
+		void shutDown();
+		void resize(int width, int height);
 
-		virtual void show() = 0;
-		virtual bool isWindowActive() = 0;
-		virtual bool hasWindowFocus() = 0;
+		void show();
+		bool isWindowActive();
+		bool hasWindowFocus();
 
-		virtual void setWindowTitle(const std::string &title) = 0;
+		void setWindowTitle(const std::string &title);
 
-		virtual void swapBuffers() = 0;
+		void swapBuffers();
 
-	protected:
-
-		virtual void createImpl() = 0;
-		virtual void destroyImpl() = 0;
-		virtual bool runImpl() = 0;
+	private:
 
 		bool hasToQuit_;
 
 		// Video driver used
-		driver_ptr driver_;
+		driver_ptr p_driver_;
 
 		// Current config
 		video_config video_config_;
 
-		//
+		// Private implementation, platform dependant
+		device_impl	*p_impl_;
 
 		// Last created device
-		static device *s_device_inst_;
+		static device *sp_device_inst_;
 	};
 	//----------------------------------------------------------------------------------------------
 	
@@ -68,12 +70,6 @@ namespace djah { namespace system {
 	device_ptr create_device(int width, int height,
 							 int colorBits = 32, int depthBits = 24, int stencilBits = 0,
 							 bool fullscreen = false, bool vsync = true);
-	//----------------------------------------------------------------------------------------------
-	
-	//----------------------------------------------------------------------------------------------
-	// Prototype of the actual instance creator (platform specific)
-	//----------------------------------------------------------------------------------------------
-	extern device_ptr new_platform_specific_device();
 	//----------------------------------------------------------------------------------------------
 
 } /*system*/ } /*djah*/
