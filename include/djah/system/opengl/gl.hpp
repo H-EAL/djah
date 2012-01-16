@@ -1,7 +1,7 @@
-#ifndef DJAH_SYSTEM_OPENGL_INCLUDE_HPP
-#define DJAH_SYSTEM_OPENGL_INCLUDE_HPP
+#ifndef DJAH_SYSTEM_OPENGL_GL_HPP
+#define DJAH_SYSTEM_OPENGL_GL_HPP
 
-#include "../platform.hpp"
+#include "../../platform.hpp"
 
 //#define DJAH_COMPILE_IPHONEOS 1
 
@@ -20,7 +20,7 @@
 #endif
 
 #ifndef DJAH_COMPILE_IPHONEOS
-#	include "../video/ogl/extensions.hpp"
+#	include "extensions.hpp"
 #endif
 
-#endif /* DJAH_SYSTEM_OPENGL_INCLUDE_HPP */
+#endif /* DJAH_SYSTEM_OPENGL_GL_HPP */

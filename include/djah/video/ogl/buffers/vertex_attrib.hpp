@@ -4,7 +4,7 @@
 #include <string>
 
 #include "../../../types.hpp"
-#include "../gl_types.hpp"
+#include "../../../system/opengl/types.hpp"
 
 namespace djah { namespace video { namespace ogl {
 
@@ -43,7 +43,7 @@ namespace djah { namespace video { namespace ogl {
 		struct vertex_attrib : public vertex_attrib_base
 		{
 			vertex_attrib(const std::string &name)
-				: vertex_attrib_base(name, sizeof(T), Count, gl_type<T>::Type) {}
+				: vertex_attrib_base(name, sizeof(T), Count, system::opengl::type<T>::Type) {}
 		};
 		//------------------------------------------------------------------------------------------
 

@@ -1,5 +1,5 @@
-#include "system/windows/win32device.hpp"
-#include "system/opengl_include.hpp"
+#include "system/win32_device.hpp"
+#include "system/opengl/gl.hpp"
 
 #include <cassert>
 
@@ -11,7 +11,7 @@ namespace djah { namespace system {
 	//----------------------------------------------------------------------------------------------
 	device_ptr new_platform_specific_device()
 	{
-		return new win32device;
+		return new win32_device;
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -19,15 +19,15 @@ namespace djah { namespace system {
 	//----------------------------------------------------------------------------------------------
 	LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
-		win32device* device = dynamic_cast<win32device*>(device_base::get_current());
+		win32_device* dev = dynamic_cast<win32_device*>(device::get_current());
 
-		assert(device);
-		assert(device->driver_);
+		assert(dev);
+		assert(dev->driver_);
 
 		switch(msg)
 		{	
 		case WM_CLOSE:
-			device->shutDown();
+			dev->shutDown();
 			break;
 			/*
 		case WM_CREATE:
@@ -36,12 +36,12 @@ namespace djah { namespace system {
 			break;*/
 
 		case WM_SIZE:
-			device->resize(LOWORD(lParam), HIWORD(lParam));
+			dev->resize(LOWORD(lParam), HIWORD(lParam));
 			break;
 
 		case WM_KEYUP:
 			if(wParam == VK_ESCAPE)
-				device->shutDown();
+				dev->shutDown();
 			break;
 		}
 
@@ -51,7 +51,7 @@ namespace djah { namespace system {
 
 
 	//----------------------------------------------------------------------------------------------
-	win32device::win32device()
+	win32_device::win32_device()
 		: hInstance_(0)
 		, hWindow_(0)
 		, hDC_(0)
@@ -62,14 +62,14 @@ namespace djah { namespace system {
 
 
 	//----------------------------------------------------------------------------------------------
-	win32device::~win32device()
+	win32_device::~win32_device()
 	{
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	void win32device::createImpl()
+	void win32_device::createImpl()
 	{
 		createWindow();
 		createContext();
@@ -78,7 +78,7 @@ namespace djah { namespace system {
 
 
 	//----------------------------------------------------------------------------------------------
-	void win32device::createWindow()
+	void win32_device::createWindow()
 	{
 		hInstance_ = GetModuleHandle(0);
 		assert(hInstance_);
@@ -112,8 +112,7 @@ namespace djah { namespace system {
 		}
 		else
 		{
-			ex_style |= WS_EX_OVERLAPPEDWINDOW;
-			style    |= WS_OVERLAPPEDWINDOW;
+			style |= WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX;
 		}
 
 		hWindow_ = CreateWindowExA
@@ -135,7 +134,7 @@ namespace djah { namespace system {
 
 
 	//----------------------------------------------------------------------------------------------
-	void win32device::createContext()
+	void win32_device::createContext()
 	{
 		hDC_ = GetDC(hWindow_);
 		assert(hDC_);
@@ -160,7 +159,7 @@ namespace djah { namespace system {
 
 
 	//----------------------------------------------------------------------------------------------
-	void win32device::destroyImpl()
+	void win32_device::destroyImpl()
 	{
 		wglMakeCurrent(0,0);
 		ReleaseDC(hWindow_, hDC_);
@@ -169,7 +168,7 @@ namespace djah { namespace system {
 
 
 	//----------------------------------------------------------------------------------------------
-	void win32device::show()
+	void win32_device::show()
 	{
 		ShowWindow(hWindow_, SW_SHOW);
 	}
@@ -177,7 +176,7 @@ namespace djah { namespace system {
 
 
 	//----------------------------------------------------------------------------------------------
-	bool win32device::isWindowActive()
+	bool win32_device::isWindowActive()
 	{
 		return GetActiveWindow() == hWindow_;
 	}
@@ -185,7 +184,7 @@ namespace djah { namespace system {
 
 
 	//----------------------------------------------------------------------------------------------
-	bool win32device::hasWindowFocus()
+	bool win32_device::hasWindowFocus()
 	{
 		return GetFocus() == hWindow_;
 	}
@@ -193,7 +192,7 @@ namespace djah { namespace system {
 
 
 	//----------------------------------------------------------------------------------------------
-	void win32device::setWindowTitle(const std::string &title)
+	void win32_device::setWindowTitle(const std::string &title)
 	{
 		SetWindowTextA(hWindow_, title.c_str());
 	}
@@ -201,7 +200,7 @@ namespace djah { namespace system {
 
 
 	//----------------------------------------------------------------------------------------------
-	void win32device::swapBuffers()
+	void win32_device::swapBuffers()
 	{
 		SwapBuffers(hDC_);
 	}
@@ -209,7 +208,7 @@ namespace djah { namespace system {
 
 
 	//----------------------------------------------------------------------------------------------
-	bool win32device::runImpl()
+	bool win32_device::runImpl()
 	{
 		MSG msg;
 		while( PeekMessage(&msg, hWindow_, 0, 0, PM_NOREMOVE) )
@@ -229,7 +228,7 @@ namespace djah { namespace system {
 
 
 	//----------------------------------------------------------------------------------------------
-	void win32device::setupPixelFormat()
+	void win32_device::setupPixelFormat()
 	{
 		PIXELFORMATDESCRIPTOR pfd =
 		{	 

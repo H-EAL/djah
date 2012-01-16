@@ -1,10 +1,10 @@
 #include "system/driver_base.hpp"
-#include "system/device_base.hpp"
+#include "system/device.hpp"
 
 namespace djah { namespace system {
 
 	//-------------------------------------------------------------------------------------------------
-	driver_base::driver_base(device_base *device)
+	driver_base::driver_base(device *device)
 		: device_(device)
 	{
 	}

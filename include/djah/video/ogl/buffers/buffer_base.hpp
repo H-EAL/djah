@@ -3,8 +3,8 @@
 
 #include <cassert>
 #include "../../../types.hpp"
-#include "../../../system/opengl_include.hpp"
-#include "../gl_types.hpp"
+#include "../../../system/opengl/gl.hpp"
+#include "../../../system/opengl/types.hpp"
 #include "../errors.hpp"
 #include "../resource.hpp"
 

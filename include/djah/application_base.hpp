@@ -10,7 +10,7 @@ namespace djah {
 	namespace system {
 
 		class video_config;
-		class device_base;
+		class device;
 		class driver_base;
 
 	} /*system*/
@@ -33,7 +33,7 @@ namespace djah {
 		virtual void exitImpl() = 0;
 
 		system::video_config video_config_;
-		system::device_base *device_;
+		system::device		*device_;
 		system::driver_base *driver_;
 	};
 

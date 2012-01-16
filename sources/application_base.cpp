@@ -1,8 +1,7 @@
 #include "application_base.hpp"
 
-#include "system/device_base.hpp"
+#include "system/device.hpp"
 #include "system/driver_base.hpp"
-#include "system/device_base.hpp"
 
 
 int main(int argc, char *argv[])

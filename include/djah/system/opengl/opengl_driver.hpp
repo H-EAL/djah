@@ -1,7 +1,7 @@
 #ifndef DJAH_SYSTEM_OPENGL_DRIVER_HPP
 #define DJAH_SYSTEM_OPENGL_DRIVER_HPP
 
-#include "driver_base.hpp"
+#include "../driver_base.hpp"
 
 namespace djah { namespace system {
 
@@ -9,7 +9,7 @@ namespace djah { namespace system {
 		: public driver_base
 	{
 	public:
-		opengl_driver(device_base *device);
+		opengl_driver(device *device);
 		virtual ~opengl_driver();
 
 		virtual void create();

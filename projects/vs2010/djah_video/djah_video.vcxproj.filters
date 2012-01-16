@@ -45,15 +45,6 @@
     <ClInclude Include="..\..\..\include\djah\video\ogl\errors.hpp">
       <Filter>include\ogl</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\video\ogl\extensions.hpp">
-      <Filter>include\ogl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\video\ogl\gl_caps.hpp">
-      <Filter>include\ogl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\video\ogl\gl_types.hpp">
-      <Filter>include\ogl</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\djah\video\ogl\resource.hpp">
       <Filter>include\ogl</Filter>
     </ClInclude>
@@ -147,12 +138,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\sources\video\ogl\shaders\shader_program.cpp">
       <Filter>sources\ogl\shaders</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\sources\video\ogl\extensions.cpp">
-      <Filter>sources\ogl</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\sources\video\ogl\gl_caps.cpp">
-      <Filter>sources\ogl</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\sources\video\font_engine.cpp">
       <Filter>sources</Filter>

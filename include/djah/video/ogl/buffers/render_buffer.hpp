@@ -1,7 +1,7 @@
 #ifndef DJAH_VIDEO_OGL_RENDER_BUFFER_HPP
 #define DJAH_VIDEO_OGL_RENDER_BUFFER_HPP
 
-#include "../../../system/opengl_include.hpp"
+#include "../../../system/opengl/gl.hpp"
 #include "texture.hpp"
 
 namespace djah { namespace video { namespace ogl {

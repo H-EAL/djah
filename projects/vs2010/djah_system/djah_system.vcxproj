@@ -75,19 +75,32 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\djah\system\device_base.hpp" />
+    <ClInclude Include="..\..\..\include\djah\system\device.hpp" />
     <ClInclude Include="..\..\..\include\djah\system\driver_base.hpp" />
-    <ClInclude Include="..\..\..\include\djah\system\opengl_driver.hpp" />
-    <ClInclude Include="..\..\..\include\djah\system\opengl_include.hpp" />
+    <ClInclude Include="..\..\..\include\djah\system\input\axis.hpp" />
+    <ClInclude Include="..\..\..\include\djah\system\input\button.hpp" />
+    <ClInclude Include="..\..\..\include\djah\system\input\gamepad.hpp" />
+    <ClInclude Include="..\..\..\include\djah\system\input\keyboard.hpp" />
+    <ClInclude Include="..\..\..\include\djah\system\input\mouse.hpp" />
+    <ClInclude Include="..\..\..\include\djah\system\opengl\capabilities.hpp" />
+    <ClInclude Include="..\..\..\include\djah\system\opengl\extensions.hpp" />
+    <ClInclude Include="..\..\..\include\djah\system\opengl\gl.hpp" />
+    <ClInclude Include="..\..\..\include\djah\system\opengl\opengl_driver.hpp" />
+    <ClInclude Include="..\..\..\include\djah\system\opengl\types.hpp" />
     <ClInclude Include="..\..\..\include\djah\system\video_config.hpp" />
-    <ClInclude Include="..\..\..\include\djah\system\windows\win32device.hpp" />
+    <ClInclude Include="..\..\..\include\djah\system\win32_device.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\sources\system\device_base.cpp" />
+    <ClCompile Include="..\..\..\sources\system\device.cpp" />
     <ClCompile Include="..\..\..\sources\system\driver_base.cpp" />
-    <ClCompile Include="..\..\..\sources\system\opengl_driver.cpp" />
+    <ClCompile Include="..\..\..\sources\system\input\win32_gamepad.cpp" />
+    <ClCompile Include="..\..\..\sources\system\input\win32_keyboard.cpp" />
+    <ClCompile Include="..\..\..\sources\system\input\win32_mouse.cpp" />
+    <ClCompile Include="..\..\..\sources\system\opengl\capabilities.cpp" />
+    <ClCompile Include="..\..\..\sources\system\opengl\extensions.cpp" />
+    <ClCompile Include="..\..\..\sources\system\opengl\opengl_driver.cpp" />
     <ClCompile Include="..\..\..\sources\system\video_config.cpp" />
-    <ClCompile Include="..\..\..\sources\system\windows\win32device.cpp" />
+    <ClCompile Include="..\..\..\sources\system\win32_device.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,4 +1,4 @@
-#include "system/opengl_include.hpp"
+#include "system/opengl/gl.hpp"
 #include "video/ogl/buffers/render_buffer.hpp"
 
 #include "log/logger.hpp"
