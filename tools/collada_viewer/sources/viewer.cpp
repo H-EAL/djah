@@ -6,8 +6,8 @@
 #include <djah/math.hpp>
 
 #include <djah/system/video_config.hpp>
-#include <djah/system/opengl_include.hpp>
-#include <djah/system/device_base.hpp>
+#include <djah/system/opengl/gl.hpp>
+#include <djah/system/device.hpp>
 
 #include <djah/video/ogl.hpp>
 #include <djah/video/projection.hpp>

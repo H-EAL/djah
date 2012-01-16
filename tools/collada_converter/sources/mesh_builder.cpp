@@ -403,15 +403,6 @@ void bone::setupAnimation(const animations &anim_lib)
 			}
 		}
 	}
-	/**
-	//std::cout << id_ << std::endl;
-	//float a = utils::randomizer::random(50.0f,100.0f);
-	key_frame_list_t::iterator ito, ito_end = key_frames_.end();
-	//int iI = 0;
-	for(ito = key_frames_.begin(); ito != ito_end; ++ito)
-	{
-		ito->second.transformation_.transpose();
-	}*/
 }
 //--------------------------------------------------------------------------------------------------
 
@@ -567,9 +558,7 @@ void mesh_t::setupBindPose()
 			if( bones.data[w] != (unsigned short)-1 && weight.data[w] > 0.0f )
 			{
 				unsigned short bone = bones.data[w];
-				//const math::matrix4f &mat = math::matrix4f::mat_identity;;
-				const math::matrix4f &mat = skeleton_->bones_[bone].skinning_matrix_ /* skeleton_->bind_shape_matrix_*/;
-				//const math::matrix4f &mat = skeleton_->bones_[bone].bind_shape_matrix_ * skeleton_->bones_[bone].inv_bind_matrix_ * skeleton_->bones_[bone].key_frames_[0.0f].transformation_;
+				const math::matrix4f &mat = skeleton_->bones_[bone].skinning_matrix_;// * skeleton_->bind_shape_matrix_;
 
 				skinned_pos  += math::transform(mat, pos)  * weight.data[w];
 				if( !normals_.empty() )
