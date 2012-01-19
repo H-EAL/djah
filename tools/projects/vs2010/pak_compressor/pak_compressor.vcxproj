@@ -69,7 +69,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>djah_filesystem_d.lib;djah_core_d.lib;djah_log_d.lib</AdditionalDependencies>
+      <AdditionalDependencies>djah_filesystem_d.lib;djah_core_d.lib;djah_log_d.lib;djah_system_d.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\..\..\extlibs\lib\win32\;..\..\..\..\trunk\lib\win32\</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -89,7 +89,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>djah_filesystem.lib;djah_core.lib;djah_log.lib</AdditionalDependencies>
+      <AdditionalDependencies>djah_filesystem.lib;djah_core.lib;djah_log.lib;djah_system.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\..\..\extlibs\lib\win32\;..\..\..\..\trunk\lib\win32\</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>

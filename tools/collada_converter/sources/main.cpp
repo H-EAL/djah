@@ -43,25 +43,25 @@ int main()
 				{
 					for(size_t i = 0; i < msh->vertex_count_; ++i)
 					{
-						file.write((const char*)&positions[i], pos_stride * sizeof(float));
+						file.write((const char*)&positions[i*pos_stride], pos_stride * sizeof(float));
 
 						if( !normals.empty() )
-							file.write((const char*)&normals[i], norm_stride * sizeof(float));
+							file.write((const char*)&normals[i*norm_stride], norm_stride * sizeof(float));
 
 						if( !tex_coords.empty() )
-							file.write((const char*)&tex_coords[i], tex_coord_stride * sizeof(float));
-						/**
+							file.write((const char*)&tex_coords[i*tex_coord_stride], tex_coord_stride * sizeof(float));
+						/**/
 						if( !tex_tangents.empty() )
-							file.write((const char*)&tex_tangents[i], tex_tangent_stride * sizeof(float));
+							file.write((const char*)&tex_tangents[i*tex_tangent_stride], tex_tangent_stride * sizeof(float));
 
 						if( !tex_binormals.empty() )
-							file.write((const char*)&tex_binormals[i], tex_binormal_stride * sizeof(float));
+							file.write((const char*)&tex_binormals[i*tex_binormal_stride], tex_binormal_stride * sizeof(float));
 
 						if( !weights.empty() )
-							file.write((const char*)&weights[i], weight_stride * sizeof(float));
+							file.write((const char*)&weights[i*weight_stride], weight_stride * sizeof(float));
 
 						if( !influences.empty() )
-							file.write((const char*)&influences[i], infl_stride * sizeof(unsigned short));
+							file.write((const char*)&influences[i*infl_stride], infl_stride * sizeof(unsigned short));
 						/**/
 					}
 				}

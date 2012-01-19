@@ -5,7 +5,7 @@
 #include <djah/filesystem/browser.hpp>
 #include <djah/filesystem/directory_source.hpp>
 #include <djah/filesystem/memory_stream.hpp>
-#include <djah/time/clock.hpp>
+#include <djah/time/timer.hpp>
 
 #include "pak_compressor.hpp"
 
@@ -150,7 +150,7 @@ void pak_compressor::writeFiles()
 			DJAH_BEGIN_LOG(EWL_LOW)				<< it->file_name_;
 			DJAH_BEGIN_LOG(EWL_NOTIFICATION)	<< " ... ";
 
-			djah::time::clock clk;
+			djah::time::timer clk;
 			djah::filesystem::memory_stream buff(file);
 			pak_file_->write(buff.buffer(), buff.size());
 			djah::u64 dt = clk.getElapsedTimeMs();

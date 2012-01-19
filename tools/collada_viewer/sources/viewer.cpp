@@ -1,7 +1,7 @@
 #include "viewer.hpp"
 
 #include <djah/application_base.hpp>
-#include <djah/time/clock.hpp>
+#include <djah/time/timer.hpp>
 #include <djah/utils/randomizer.hpp>
 #include <djah/math.hpp>
 
@@ -33,12 +33,12 @@
 
 using namespace djah;
 
-const bool bAstro = true;
+const bool bAstro = false;
 std::string dae_file = "data/3d/cow.dae";
 std::string tex_file = "textures/cow.jpg";
 const float scale = 0.5f;
 const bool bRotate = false;
-const bool bScale = true;
+const bool bScale = false;
 const float rotSpeed = 1.0f*360.0f / 10.0; //(deg/s)
 const float camRadius = 7.0f;
 const bool bSkin = true;
@@ -202,7 +202,7 @@ viewer_app::viewer_app()
 	// Logger
 	log::logger::setLogger(new djah::log::console_logger);
 
-	time::clock clk;
+	time::timer clk;
 	obj = new collada::proxy(bAstro ? "data/3d/astroBoy_walk_Max.dae" : dae_file);
 	u64 msL = clk.getElapsedTimeMs();
 
@@ -285,8 +285,8 @@ T interpolate(T a, T b, float t)
 void viewer_app::runImpl()
 {
 	static int fps = 0;
-	static time::clock clk;
-	static time::clock clkDT;
+	static time::timer clk;
+	static time::timer clkDT;
 
 	float dt = clkDT.getElapsedTimeSec();
 	clkDT.restart();
