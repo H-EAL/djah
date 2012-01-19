@@ -15,7 +15,7 @@
 #include <djah/log/logger.hpp>
 #include <djah/log/console_logger.hpp>
 
-#include <djah/time/clock.hpp>
+#include <djah/time/timer.hpp>
 
 #include <djah/filesystem/browser.hpp>
 #include <djah/filesystem/directory_source.hpp>
@@ -52,11 +52,12 @@ public:
 
 private:
 	std::string section_name_;
-	time::clock clock_;
+	time::timer clock_;
 };
 
 #define DJAH_AUTO_PROFILE(S) ScopedProfile autoScopedProfile(S);
 
+math::vector3f lpos;
 
 void testURL()
 {
@@ -232,6 +233,7 @@ struct mesh
 		}
 		sp_.sendUniformMatrix("Projection", (matProj), true);
 		sp_.sendUniformMatrix("ModelView", (matView*mat_world_), true);
+		//sp_.sendUniform("lpos", lpos);
 		va_->draw();
 		sp_.end();
 		glDisable(GL_TEXTURE_2D);
@@ -293,7 +295,7 @@ void testMat()
 application::application(int w, int h)
 	: application_base(djah::system::video_config(w,h,32,24,0,false,true))
 	, eye_(0,11.8f,math::pi_over_2)
-	, center_(0,10,0)
+	, center_(0,0,0)
 	, up_(0,1,0)
 	, gamepad_(0)
 {
@@ -335,7 +337,7 @@ void application::initImpl()
 void application::runImpl()
 {
 	static int fps = 0;
-	static time::clock clk;
+	static time::timer clk;
 
 	mouse_.update();
 	keyboard_.update();
@@ -343,12 +345,19 @@ void application::runImpl()
 	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	/**/
-	static float angle = 0.0f;
-	eye_.x = 20*cos(angle);
-	eye_.z = 20*sin(angle);
-	const float da = 0.0075f;
-	angle = (angle+da > math::pi_times_2) ? 0.0f : angle+da;
+	static float radius = 20.0f;
+	radius += gamepad_.getAxis(1).scaledValue() * 0.5f;
+	static float alpha = 0.0f;
+	static float theta = 0.0f;
+	const float da = gamepad_.getAxis(2).scaledValue() * 0.07f; //0.0075f;
+	const float dt = gamepad_.getAxis(3).scaledValue() * 0.07f; //0.0075f;
+	alpha = (alpha+da > math::pi_times_2) ? 0.0f : alpha+da;
+	theta = (theta+dt > math::pi_times_2) ? 0.0f : theta+dt;
+	eye_.x = radius*cos(alpha)*sin(theta);
+	eye_.y = radius*cos(theta);
+	eye_.z = radius*sin(alpha)*sin(theta);
 	matView_ = video::make_look_at(eye_, center_, up_);
+	lpos = eye_;
 
 	draw3D();
 	/**/
@@ -365,7 +374,7 @@ void application::runImpl()
 		fps = 0;
 	}
 	
-	if( device_->hasWindowFocus() && gamepad_.nbButtonsDown() > 2 )
+	if( device_->hasWindowFocus() )
 	{
 		std::stringstream ss;
 		ss << "Mouse | " << mouse_.leftButton().isDown() << " | " << mouse_.middleButton().isDown() << " | " << mouse_.rightButton().isDown() << " |";
@@ -408,7 +417,7 @@ void application::draw2D()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	//fps_str_.draw();
+	fps_str_.draw();
 	mouse_pos_.draw();
 }
 
@@ -448,24 +457,37 @@ void application::drawAxis()
 
 void application::drawMeshes()
 {
-	static const math::matrix4f rotA = 
+	static const math::matrix4f rotA =
+		math::make_translation(0.0f, 0.0f, 5.0f) * 
 		math::make_rotation(math::deg_to_rad(90.0f), 0.0f, 0.0f, 1.0f) *
 		math::make_rotation(math::deg_to_rad(90.0f), 0.0f, 1.0f, 0.0f) *
-		math::make_rotation(math::deg_to_rad(90.0f), 0.0f, 0.0f, 1.0f) *
-		math::make_scale(0.2f, 0.2f, 0.2f);
+		math::make_rotation(math::deg_to_rad(90.0f), 0.0f, 0.0f, 1.0f); /*
+		math::make_scale(0.2f, 0.2f, 0.2f);*/
 
 	static const math::matrix4f rotC =
-		math::make_translation(0.0f, 0.0f, -1.0f) *
+		math::make_translation(0.0f, 2.8f, -1.0f) *
 		math::make_rotation(math::deg_to_rad(90.0f), 0.0f, 0.0f, 1.0f) *
-		math::make_rotation(math::deg_to_rad(90.0f), 0.0f, 1.0f, 0.0f) *
-		math::make_scale(2.0f, 2.0f, 2.0f);
+		math::make_rotation(math::deg_to_rad(90.0f), 0.0f, 1.0f, 0.0f); /*
+		math::make_scale(2.0f, 2.0f, 2.0f);*/
 
-	cthulhu_->mat_world_ = math::make_translation(0.0f, 2.8f, 0.0f) * rotC;
+	static const math::matrix4f rotCow =
+		math::make_translation(0.0f, 0.0f, -5.0f) *
+		math::make_rotation(math::deg_to_rad(90.0f), 0.0f, 0.0f, 1.0f) *
+		math::make_rotation(math::deg_to_rad(90.0f), 0.0f, 1.0f, 0.0f); /*
+		math::make_scale(2.0f, 2.0f, 2.0f);*/
+
+	static bool init = false;
+	if( !init )
+	{
+		cthulhu_->mat_world_ =  rotC;
+		astroboy_->mat_world_ = rotA;
+		cow_->mat_world_ = rotCow;
+		init = true;
+	}
+
 	cthulhu_->draw(matPerspectiveProj_, matView_);
 
-	astroboy_->mat_world_ = math::make_translation(0.0f, 0.0f, 5.0f) * rotA;
 	astroboy_->draw(matPerspectiveProj_, matView_);
 	
-	cow_->mat_world_ = math::make_translation(0.0f, 0.0f, -5.0f);
 	cow_->draw(matPerspectiveProj_, matView_);
 }

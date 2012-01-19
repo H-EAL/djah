@@ -23,7 +23,7 @@ namespace djah { namespace system {
 	//----------------------------------------------------------------------------------------------
 	void opengl_driver::create()
 	{
-		system::opengl::capabilities::init();
+		opengl::capabilities::init();
 		load_opengl_extensions();
 	}
 	//----------------------------------------------------------------------------------------------

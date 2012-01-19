@@ -1,10 +1,10 @@
-#include "time/clock.hpp"
-#include <ctime>
+#include "time/timer.hpp"
+#include "system/clock.hpp"
 
 namespace djah { namespace time {
 
 	//----------------------------------------------------------------------------------------------
-	clock::clock(bool startNow)
+	timer::timer(bool startNow)
 		: start_time_(startNow ? getCurrentTime() : 0)
 		, paused_time_(0)
 		, dead_time_(0)
@@ -16,7 +16,7 @@ namespace djah { namespace time {
 
 
 	//----------------------------------------------------------------------------------------------
-	void clock::restart()
+	void timer::restart()
 	{
 		start_time_	 = getCurrentTime();
 		paused_time_ = 0;
@@ -27,7 +27,7 @@ namespace djah { namespace time {
 
 
 	//----------------------------------------------------------------------------------------------
-	void clock::pause()
+	void timer::pause()
 	{
 		if(!paused_)
 		{
@@ -39,7 +39,7 @@ namespace djah { namespace time {
 
 
 	//----------------------------------------------------------------------------------------------
-	void clock::unpause()
+	void timer::unpause()
 	{
 		if(paused_)
 		{
@@ -52,7 +52,7 @@ namespace djah { namespace time {
 
 
 	//----------------------------------------------------------------------------------------------
-	u64 clock::getElapsedTimeMs() const
+	u64 timer::getElapsedTimeMs() const
 	{
 		return getCurrentTime() - start_time_ - dead_time_;
 	}
@@ -60,17 +60,17 @@ namespace djah { namespace time {
 
 
 	//----------------------------------------------------------------------------------------------
-	f32 clock::getElapsedTimeSec() const
+	f32 timer::getElapsedTimeSec() const
 	{
-		return static_cast<f32>(getElapsedTimeMs()) / (f32)CLOCKS_PER_SEC;
+		return static_cast<f32>(getElapsedTimeMs()) / 1000.0f;
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	u64 clock::getCurrentTime() const
+	u64 timer::getCurrentTime() const
 	{
-		return static_cast<u64>(::clock());
+		return static_cast<u64>(system::clock::getCurrentTimeInMs());
 	}
 	//----------------------------------------------------------------------------------------------
 

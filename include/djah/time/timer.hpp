@@ -1,15 +1,15 @@
-#ifndef DJAH_TIME_CLOCK_HPP
-#define DJAH_TIME_CLOCK_HPP
+#ifndef DJAH_TIME_TIMER_HPP
+#define DJAH_TIME_TIMER_HPP
 
 #include "../types.hpp"
 
 namespace djah { namespace time { 
 
-	class clock
+	class timer
 	{
 	public:
 
-		clock(bool startNow = true);
+		timer(bool startNow = true);
 
 		void restart();
 		void pause();
@@ -30,4 +30,4 @@ namespace djah { namespace time {
 
 } /*time*/ } /*djah*/
 
-#endif /* DJAH_TIME_CLOCK_HPP */
+#endif /* DJAH_TIME_TIMER_HPP */
