@@ -101,9 +101,6 @@
     <ClInclude Include="..\..\..\include\djah\geometry\utils.hpp">
       <Filter>include\geometry</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\time\clock.hpp">
-      <Filter>include\time</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\djah\utils\command.hpp">
       <Filter>include\utils</Filter>
     </ClInclude>
@@ -173,6 +170,9 @@
     <ClInclude Include="..\..\..\include\djah\math\matrix4x3.hpp">
       <Filter>include\math\_matrix</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\time\timer.hpp">
+      <Filter>include\time</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\include\djah\math\matrix.inl">
@@ -192,14 +192,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\sources\time\clock.cpp">
-      <Filter>sources\time</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\sources\utils\randomizer.cpp">
       <Filter>sources\utils</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\sources\application_base.cpp">
       <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\sources\time\timer.cpp">
+      <Filter>sources\time</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

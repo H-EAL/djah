@@ -60,6 +60,9 @@
     <ClInclude Include="..\..\..\include\djah\system\device.hpp">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\system\clock.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\sources\system\driver_base.cpp">
@@ -87,6 +90,9 @@
       <Filter>sources\opengl</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\sources\system\win32_device.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\sources\system\win32_clock.cpp">
       <Filter>sources</Filter>
     </ClCompile>
   </ItemGroup>
