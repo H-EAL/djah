@@ -97,7 +97,6 @@
     <ClInclude Include="..\..\..\include\djah\video\ogl\shaders\shader_program.hpp" />
     <ClInclude Include="..\..\..\include\djah\video\ogl\shaders\vertex_shader.hpp" />
     <ClInclude Include="..\..\..\include\djah\video\primitives\triangle.hpp" />
-    <ClInclude Include="..\..\..\include\djah\video\projection.hpp" />
     <ClInclude Include="..\..\..\include\djah\video\text.hpp" />
   </ItemGroup>
   <ItemGroup>

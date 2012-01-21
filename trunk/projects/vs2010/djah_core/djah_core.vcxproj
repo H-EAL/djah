@@ -95,9 +95,11 @@
     <ClInclude Include="..\..\..\include\djah\math\matrix4x2.hpp" />
     <ClInclude Include="..\..\..\include\djah\math\matrix4x3.hpp" />
     <ClInclude Include="..\..\..\include\djah\math\matrix_utils.hpp" />
+    <ClInclude Include="..\..\..\include\djah\math\projection.hpp" />
     <ClInclude Include="..\..\..\include\djah\math\quaternion.hpp" />
     <ClInclude Include="..\..\..\include\djah\math\quaternion_utils.hpp" />
     <ClInclude Include="..\..\..\include\djah\math\splines.hpp" />
+    <ClInclude Include="..\..\..\include\djah\math\transformation.hpp" />
     <ClInclude Include="..\..\..\include\djah\math\vector.hpp" />
     <ClInclude Include="..\..\..\include\djah\math\vector2.hpp" />
     <ClInclude Include="..\..\..\include\djah\math\vector3.hpp" />
@@ -125,6 +127,7 @@
     <None Include="..\..\..\include\djah\geometry\rect.inl" />
     <None Include="..\..\..\include\djah\math\matrix.inl" />
     <None Include="..\..\..\include\djah\math\quaternion.inl" />
+    <None Include="..\..\..\include\djah\math\transformation.inl" />
     <None Include="..\..\..\include\djah\math\vector.inl" />
   </ItemGroup>
   <ItemGroup>
