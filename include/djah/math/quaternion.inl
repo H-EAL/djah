@@ -175,7 +175,7 @@ namespace djah { namespace math {
 	{
 		const vector<3,T> v1(lhs.x, lhs.y, lhs.z);
 		const vector<3,T> v2(rhs.x, rhs.y, rhs.z);
-		const vector<3,T> vR(v2*lhs.w + v1*rhs.w + cross(v1,v2));
+		const vector<3,T> vR(v2*lhs.w + v1*rhs.w + v1.cross(v2));
 
 		return quaternion<T>(vR.x, vR.y, vR.z, lhs.w*rhs.w - v1*v2);
 	}

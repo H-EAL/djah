@@ -16,5 +16,7 @@
 #include "math/vector4.hpp"
 #include "math/quaternion.hpp"
 #include "math/math_utils.hpp"
+#include "math/projection.hpp"
+#include "math/transformation.hpp"
 
 #endif /* MATH_HPP */

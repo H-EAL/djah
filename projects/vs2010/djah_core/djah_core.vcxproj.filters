@@ -173,6 +173,12 @@
     <ClInclude Include="..\..\..\include\djah\time\timer.hpp">
       <Filter>include\time</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\math\projection.hpp">
+      <Filter>include\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\math\transformation.hpp">
+      <Filter>include\math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\include\djah\math\matrix.inl">
@@ -189,6 +195,9 @@
     </None>
     <None Include="..\..\..\include\djah\geometry\rect.inl">
       <Filter>include\geometry</Filter>
+    </None>
+    <None Include="..\..\..\include\djah\math\transformation.inl">
+      <Filter>include\math</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

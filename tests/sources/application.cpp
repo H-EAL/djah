@@ -3,7 +3,6 @@
 #include <boost/smart_ptr/scoped_array.hpp>
 
 
-#include <djah/video/projection.hpp>
 #include <djah/video/ogl.hpp>
 #include <djah/video/text.hpp>
 #include <djah/video/font_engine.hpp>
@@ -29,7 +28,74 @@
 using namespace djah;
 
 
+class Camera
+{
+public:
 
+	Camera()
+	{
+		trans_.setTranslation( math::vector3f(0.0f,-5.0f,0.0f) );
+		trans_.setRotation( math::quatf(0.0f,0.0f,0.0f,1.0f) );
+	}
+	void movex(float xmmod)
+	{
+		if( xmmod != 0.0f )
+			trans_.translate( math::vector3f(-xmmod, 0.0f, 0.0f) );
+	}
+ 
+	void movey(float ymmod)
+	{
+		if( ymmod != 0.0f )
+			trans_.translate( math::vector3f(0.0f, -ymmod, 0.0f) );
+	}
+ 
+	void movez(float zmmod)
+	{
+		if( zmmod != 0.0f )
+			trans_.translate( math::vector3f(0.0f, 0.0f, -zmmod) );
+	}
+ 
+	void rotatex(float xrmod)
+	{
+		if( xrmod != 0.0f )
+		{
+			const math::quatf &nrot = math::make_quaternion(math::deg_to_rad(xrmod), math::vector3f(-1.0f, 0.0f, 0.0f));
+			//trans_.setRotation( trans_.rotation() * nrot );
+			//trans_.setRotation( nrot * trans_.rotation() );
+			trans_.rotate( nrot );
+		}
+	}
+ 
+	void rotatey(float yrmod)
+	{
+		if( yrmod != 0.0f )
+		{
+			const math::quatf &nrot = math::make_quaternion(math::deg_to_rad(yrmod), math::vector3f(0.0f, -1.0f, 0.0f));
+			//trans_.setRotation( nrot * trans_.rotation() );
+			//trans_.setRotation( trans_.rotation() * nrot );
+			trans_.rotate( nrot );
+		}
+	}
+
+	math::vector3f eye() const
+	{
+		return math::vec4_to_vec3( math::transform( trans_.toMatrix4(), math::vector4f(0.0f, 0.0f, 0.0f, 1.0f) ) );
+	}
+
+	math::vector3f center() const
+	{
+		return math::vec4_to_vec3( math::transform( trans_.toMatrix4(), math::vector4f(0.0f, 0.0f, -1.0f, 0.0f) ) );
+	}
+
+	math::vector3f up() const
+	{
+		return math::vector3f(0.0f, 1.0f, 0.0f);
+	}
+
+	math::transformation_f trans_;
+};
+
+static Camera cam;
 
 
 class ScopedProfile
@@ -56,8 +122,6 @@ private:
 };
 
 #define DJAH_AUTO_PROFILE(S) ScopedProfile autoScopedProfile(S);
-
-math::vector3f lpos;
 
 void testURL()
 {
@@ -233,7 +297,6 @@ struct mesh
 		}
 		sp_.sendUniformMatrix("Projection", (matProj), true);
 		sp_.sendUniformMatrix("ModelView", (matView*mat_world_), true);
-		//sp_.sendUniform("lpos", lpos);
 		va_->draw();
 		sp_.end();
 		glDisable(GL_TEXTURE_2D);
@@ -312,8 +375,8 @@ void application::initImpl()
 
 	const float w = static_cast<float>(device_->videoConfig().width);
 	const float h = static_cast<float>(device_->videoConfig().height);
-	matPerspectiveProj_ = video::make_perspective_projection(60.0f, w/h, 0.1f, 1000.f);
-	matOrthoProj_ = video::make_orthographic_projection(0.0f, w, h, 0.0f, -1.0f, 1.0f);
+	matPerspectiveProj_ = math::make_perspective_projection(60.0f, w/h, 0.1f, 1000.f);
+	matOrthoProj_ = math::make_orthographic_projection(0.0f, w, h, 0.0f, -1.0f, 1.0f);
 		
 	glClearDepth(1.f);
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -344,21 +407,39 @@ void application::runImpl()
 	gamepad_.update();
 	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	/**/
+	/**
 	static float radius = 20.0f;
-	radius += gamepad_.getAxis(1).scaledValue() * 0.5f;
+	radius += gamepad_.getButton(1).isDown() ? 0.5f : 0.0f;
+	radius -= gamepad_.getButton(2).isDown() ? 0.5f : 0.0f;
 	static float alpha = 0.0f;
-	static float theta = 0.0f;
-	const float da = gamepad_.getAxis(2).scaledValue() * 0.07f; //0.0075f;
-	const float dt = gamepad_.getAxis(3).scaledValue() * 0.07f; //0.0075f;
+	static float theta = math::pi_over_4;
+	float sca = gamepad_.getAxis(0).scaledValue();
+	float sct = gamepad_.getAxis(1).scaledValue();
+	sca = std::abs(sca) < 0.1f ? 0.0f : sca;
+	sct = std::abs(sct) < 0.1f ? 0.0f : sct;
+	const float da = sca * 0.04f; //0.0075f;
+	const float dt = sct * 0.04f; //0.0075f;
 	alpha = (alpha+da > math::pi_times_2) ? 0.0f : alpha+da;
 	theta = (theta+dt > math::pi_times_2) ? 0.0f : theta+dt;
 	eye_.x = radius*cos(alpha)*sin(theta);
 	eye_.y = radius*cos(theta);
 	eye_.z = radius*sin(alpha)*sin(theta);
-	matView_ = video::make_look_at(eye_, center_, up_);
-	lpos = eye_;
+	matView_ = math::make_look_at(eye_, center_, up_);
+	/**/
 
+	float xm = gamepad_.getAxis(0).scaledValue(0.1f);
+	float zm = gamepad_.getAxis(1).scaledValue(0.1f);
+	float xr = gamepad_.getAxis(3).scaledValue(0.1f);
+	float yr = gamepad_.getAxis(2).scaledValue(0.1f);
+	cam.movex(xm);
+	cam.movez(zm);
+	cam.rotatex(xr);
+	cam.rotatey(yr);
+	matView_ = cam.trans_.toMatrix4();
+	
+	//matView_ = math::make_look_at(cam.eye(), cam.center(), cam.up());
+
+	/**/
 	draw3D();
 	/**/
 	draw2D();
@@ -457,6 +538,11 @@ void application::drawAxis()
 
 void application::drawMeshes()
 {
+	static const math::vector3f tr(-15.0f, 0.0f, 0.0f);
+	static const math::vector3f sc(2.0f, 2.0f, 2.0f);
+	static const math::quatf rot = math::make_quaternion(math::deg_to_rad(-90.0f), math::vector3f::x_axis);
+	static const math::transformation_f transCow(tr, rot, sc*2.0f);
+
 	static const math::matrix4f rotA =
 		math::make_translation(0.0f, 0.0f, 5.0f) * 
 		math::make_rotation(math::deg_to_rad(90.0f), 0.0f, 0.0f, 1.0f) *
@@ -465,13 +551,13 @@ void application::drawMeshes()
 		math::make_scale(0.2f, 0.2f, 0.2f);*/
 
 	static const math::matrix4f rotC =
-		math::make_translation(0.0f, 2.8f, -1.0f) *
+		math::make_translation(0.0f, 2.8f, -15.0f) *
 		math::make_rotation(math::deg_to_rad(90.0f), 0.0f, 0.0f, 1.0f) *
 		math::make_rotation(math::deg_to_rad(90.0f), 0.0f, 1.0f, 0.0f); /*
 		math::make_scale(2.0f, 2.0f, 2.0f);*/
 
 	static const math::matrix4f rotCow =
-		math::make_translation(0.0f, 0.0f, -5.0f) *
+		math::make_translation(0.0f, 0.0f, -15.0f) *
 		math::make_rotation(math::deg_to_rad(90.0f), 0.0f, 0.0f, 1.0f) *
 		math::make_rotation(math::deg_to_rad(90.0f), 0.0f, 1.0f, 0.0f); /*
 		math::make_scale(2.0f, 2.0f, 2.0f);*/
@@ -481,7 +567,7 @@ void application::drawMeshes()
 	{
 		cthulhu_->mat_world_ =  rotC;
 		astroboy_->mat_world_ = rotA;
-		cow_->mat_world_ = rotCow;
+		cow_->mat_world_ = transCow.toMatrix4();//rotCow;
 		init = true;
 	}
 

@@ -36,9 +36,6 @@
     <ClInclude Include="..\..\..\include\djah\video\ogl.hpp">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\video\projection.hpp">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\djah\video\ogl\buffers.hpp">
       <Filter>include\ogl</Filter>
     </ClInclude>

@@ -17,7 +17,11 @@ namespace djah { namespace system { namespace input {
 		unsigned int		id()			const	{ return id_;					}
 		const std::string&	name()			const	{ return name_;					}
 		float				rawValue()		const	{ return value_;				}
-		float				scaledValue()	const	{ return value_ * scale_coeff_ - 1.0f; }
+		float				scaledValue(float deadZone = 0.0f)	const
+		{
+			float v = value_ * scale_coeff_ - 1.0f;
+			return std::abs(v) < deadZone ? 0.0f : v;
+		}
 
 		void				setValue(float value)	{ value_ = value;				}
 
