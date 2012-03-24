@@ -1,5 +1,3 @@
-#include <boost/smart_ptr/scoped_array.hpp>
-
 #include "video/ogl/shaders/shader_program.hpp"
 #include "video/ogl/errors.hpp"
 #include "log/logger.hpp"
@@ -101,19 +99,22 @@ namespace djah { namespace video { namespace ogl {
 			glGetProgramiv(id_, GL_INFO_LOG_LENGTH, &log_size);
 
 			// Allocate a string big enough to contain the log + '\0'
-			boost::scoped_array<char> log_str(new char[log_size + 1]);
+			char *log_str = new char[log_size + 1];
 
 			// Retrieve the log
-			glGetProgramInfoLog(id_, log_size, &log_size, log_str.get());
+			glGetProgramInfoLog(id_, log_size, &log_size, log_str);
+			log_str[log_size] = '\0';
 
 			// TODO : let the error policy handle this
 			log::logger::log(log::EWL_CRITICAL)
 				<< "====================================================================\n"
 				<< "                      SHADER LINKING ERROR(S)                       \n"
 				<< "--------------------------------------------------------------------\n"
-				<< log_str.get()
+				<< log_str
 				<< "===================================================================="
 				<< log::logger::endl();
+
+			delete [] log_str;
 		}
 	}
 	//----------------------------------------------------------------------------------------------
