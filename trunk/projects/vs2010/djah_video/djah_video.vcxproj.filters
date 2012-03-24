@@ -142,5 +142,8 @@
     <ClCompile Include="..\..\..\sources\video\text.cpp">
       <Filter>sources</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\sources\video\ogl\buffers\buffer_base.cpp">
+      <Filter>sources\ogl\buffers</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

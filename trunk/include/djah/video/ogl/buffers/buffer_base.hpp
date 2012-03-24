@@ -17,15 +17,10 @@ namespace djah { namespace video { namespace ogl {
 		EBU_DYNAMIC_DRAW = GL_DYNAMIC_DRAW
 	};
 
-	template<int Target>
 	class buffer_base
 		: public resource
 	{
 	public:
-
-		buffer_base(size_t size, E_BUFFER_USAGE usage, bool auto_alloc = true);
-		virtual ~buffer_base();
-
 		size_t size() const;
 		size_t count() const;
 		u32	   dataType() const;	
@@ -33,7 +28,7 @@ namespace djah { namespace video { namespace ogl {
 		void allocMemory();
 
 		void bind() const;
-		static void unbind();
+		void unbind();
 
 		template<typename T>
 		size_t read(T *data_ptr, size_t count, int offset = 0);
@@ -47,17 +42,30 @@ namespace djah { namespace video { namespace ogl {
 
 		void lock();
 		template<typename T>
-		buffer_base<Target>& operator >>(T &toRead);
+		buffer_base& operator >>(T &toRead);
 		template<typename T>
-		buffer_base<Target>& operator <<(const T &toWrite);
+		buffer_base& operator <<(const T &toWrite);
 		void unlock();
 
-	private:
+	protected:
+		enum E_BUFFER_TARGET
+		{
+			EBT_VERTEX_BUFFER  = GL_ARRAY_BUFFER,
+			EBT_INDEX_BUFFER   = GL_ELEMENT_ARRAY_BUFFER,
+			EBT_UNIFORM_BUFFER = GL_UNIFORM_BUFFER
+		};
 
+	protected:
+		buffer_base(E_BUFFER_TARGET target, E_BUFFER_USAGE usage, size_t size, bool auto_alloc = true);
+		virtual ~buffer_base();
+
+	private:
 		virtual void aquire();
 		virtual void release();
 		virtual bool isValidResource() const;
 
+	private:
+		E_BUFFER_TARGET	target_;
 		E_BUFFER_USAGE	usage_;
 		const size_t	size_;
 		size_t			bytes_per_elem_;
