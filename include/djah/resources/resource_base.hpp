@@ -2,7 +2,7 @@
 #define DJAH_RESOURCES_RESOURCE_BASE_HPP
 
 #include <string>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 namespace djah { namespace resources {
 
@@ -20,7 +20,7 @@ namespace djah { namespace resources {
 		std::string name_;
 	};
 
-	typedef boost::shared_ptr<resource_base> resource_ptr;
+	typedef std::shared_ptr<resource_base> resource_ptr;
 
 } /*resources*/ } /*djah*/
 

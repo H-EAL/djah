@@ -3,7 +3,7 @@
 
 #include <map>
 #include <string>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include "../utils/hierarchy_generation.hpp"
 #include "../utils/string_utils.hpp"
 #include "../filesystem/browser.hpp"
@@ -16,7 +16,7 @@ namespace djah { namespace resources {
 	template<typename T>
 	struct media_holder
 	{
-		typedef boost::shared_ptr< loader<T> > loader_t_ptr;
+		typedef std::shared_ptr< loader<T> > loader_t_ptr;
 		typedef std::map<std::string, loader_t_ptr> loaders_map_t;
 		loaders_map_t loaders_;
 	};

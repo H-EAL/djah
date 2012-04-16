@@ -1,7 +1,6 @@
 #include "filesystem/directory_source.hpp"
 
 #include <boost/filesystem.hpp>
-#include <boost/shared_ptr.hpp>
 
 #include "filesystem/file_stream.hpp"
 

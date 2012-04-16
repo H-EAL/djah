@@ -1,8 +1,5 @@
 #include "application.hpp"
 
-#include <boost/smart_ptr/scoped_array.hpp>
-
-
 #include <djah/video/ogl.hpp>
 #include <djah/video/text.hpp>
 #include <djah/video/font_engine.hpp>
