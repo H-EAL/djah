@@ -9,6 +9,7 @@
 #include <djah/system/input/gamepad.hpp>
 
 #include <djah/application_base.hpp>
+#include "camera.hpp"
 
 
 class application
@@ -16,7 +17,7 @@ class application
 {
 public:
 
-	explicit application(int w = 960, int h = 640);
+	explicit application(int w = 1280, int h = 720);
 
 private:
 
@@ -41,6 +42,8 @@ private:
 	struct mesh *cthulhu_;
 	struct mesh *astroboy_;
 	struct mesh *cow_;
+	struct mesh *dude_;
+	Camera cam;
 
 	djah::system::input::mouse		mouse_;
 	djah::system::input::keyboard	keyboard_;

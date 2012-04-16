@@ -29,7 +29,7 @@ namespace djah { namespace system { namespace input {
 
 		void update();
 
-		bool isKeyDown(E_KEY_CODE key_code) { return (keys_state_[key_code] & 0x8000) != 0; }
+		bool isKeyDown(E_KEY_CODE key_code);
 
 	private:
 		std::vector<unsigned char> keys_state_;
