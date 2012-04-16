@@ -12,6 +12,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\tests\sources\application.hpp" />
+    <ClInclude Include="..\..\..\tests\sources\camera.hpp" />
+    <ClInclude Include="..\..\..\tests\sources\model.hpp" />
+    <ClInclude Include="..\..\..\tests\sources\profiler.hpp" />
+    <ClInclude Include="..\..\..\tests\sources\resource_finder.hpp" />
+    <ClInclude Include="..\..\..\tests\sources\test.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\tests\sources\application.cpp" />

@@ -32,43 +32,45 @@ namespace djah { namespace resources {
 		buffer = new BYTE[buffer_size];
 		strm.read(buffer, buffer_size);
 
+		image *p_img = 0;
+
 		// Load image from memory
 		FIMEMORY *memory = FreeImage_OpenMemory(buffer, static_cast<DWORD>(buffer_size));
 		// Reading and parsing image header
 		FREE_IMAGE_FORMAT fif = FreeImage_GetFileTypeFromMemory(memory, 0);
 		// If unknown, return failure
-		if(fif == FIF_UNKNOWN)
-			return 0;
+		if(fif != FIF_UNKNOWN)
+		{
+			//pointer to the image, once loaded
+			FIBITMAP *dib = 0;
+			//check that the plug-in has reading capabilities and load the file
+			if(FreeImage_FIFSupportsReading(fif))
+				dib = FreeImage_LoadFromMemory(fif, memory, 0);
+			//if the image failed to load, return failure
+			if(dib)
+			{
+				//retrieve the image data
+				BYTE* bits = FreeImage_GetBits(dib);
+				//get the image width and height
+				unsigned int width  = FreeImage_GetWidth(dib);
+				unsigned int height = FreeImage_GetHeight(dib);
+				//if this somehow one of these failed (they shouldn't), return failure
+				if((bits == 0) || (width == 0) || (height == 0))
+					return 0;
 
-		//pointer to the image, once loaded
-		FIBITMAP *dib = 0;
-		//check that the plug-in has reading capabilities and load the file
-		if(FreeImage_FIFSupportsReading(fif))
-			dib = FreeImage_LoadFromMemory(fif, memory, 0);
-		//if the image failed to load, return failure
-		if(!dib)
-			return 0;
+				// Create the actual image
+				p_img = new image(width, height, bits);
 
-		//retrieve the image data
-		BYTE* bits = FreeImage_GetBits(dib);
-		//get the image width and height
-		unsigned int width  = FreeImage_GetWidth(dib);
-		unsigned int height = FreeImage_GetHeight(dib);
-		//if this somehow one of these failed (they shouldn't), return failure
-		if((bits == 0) || (width == 0) || (height == 0))
-			return 0;
-
-		// Create the actual image
-		image *img = new image(width, height, bits);
-
-		// Free FreeImage's copy of the data
-		FreeImage_Unload(dib);
-		FreeImage_CloseMemory(memory);
+				// Free FreeImage's copy of the data
+				FreeImage_Unload(dib);
+			}
+		}
 
 		// Release memory
+		FreeImage_CloseMemory(memory);
 		delete [] buffer;
 
-		return img;
+		return p_img;
 	}
 	//----------------------------------------------------------------------------------------------
 

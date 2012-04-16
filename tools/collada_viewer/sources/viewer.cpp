@@ -10,7 +10,6 @@
 #include <djah/system/device.hpp>
 
 #include <djah/video/ogl.hpp>
-#include <djah/video/projection.hpp>
 #include <djah/video/font_engine.hpp>
 
 #include <djah/resources/resource_manager.hpp>
@@ -33,12 +32,12 @@
 
 using namespace djah;
 
-const bool bAstro = false;
-std::string dae_file = "data/3d/cow.dae";
-std::string tex_file = "textures/cow.jpg";
+const bool bAstro = true;
+std::string dae_file = "data/3d/dude.dae";
+std::string tex_file = "textures/bb.jpg";
 const float scale = 0.5f;
 const bool bRotate = false;
-const bool bScale = false;
+const bool bScale = true;
 const float rotSpeed = 1.0f*360.0f / 10.0; //(deg/s)
 const float camRadius = 7.0f;
 const bool bSkin = true;
@@ -193,8 +192,6 @@ viewer_app::viewer_app()
 	, center_(0,0,1.5f)
 	, up_(0,0,1)
 {	
-	utils::randomizer::random(1.0f);
-
 	// File System
 	filesystem::browser::get().addSavingChannel (new filesystem::directory_source("."));
 	filesystem::browser::get().addLoadingChannel(new filesystem::directory_source("./data"));
@@ -252,11 +249,11 @@ void viewer_app::initImpl()
 {
 	const float w = static_cast<float>(device_->videoConfig().width);
 	const float h = static_cast<float>(device_->videoConfig().height);
-	matPerspectiveProj_ = video::make_perspective_projection(60.0f, w/h, 0.1f, 10000.f);
-	matOrthoProj_ = video::make_orthographic_projection(0.0f, w, h, 0.0f, -1.0f, 1.0f);
+	matPerspectiveProj_ = math::make_perspective_projection(60.0f, w/h, 0.1f, 10000.f);
+	matOrthoProj_ = math::make_orthographic_projection(0.0f, w, h, 0.0f, -1.0f, 1.0f);
 		
 	glClearDepth(1.f);
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClearColor(0.0f,1.0f, 0.0f, 1.0f);
 
 	glEnable(GL_DEPTH_TEST);
 	glDepthMask(GL_TRUE);
@@ -295,7 +292,7 @@ void viewer_app::runImpl()
 	eye_.y = camRadius*sin(angle+math::pi_over_2);
 	const float da = math::deg_to_rad( dt * rotSpeed );
 	angle = (angle+da > math::pi_times_2) ? angle+da-math::pi_times_2 : angle+da;
-	matView_ = video::make_look_at(eye_, center_, up_);
+	matView_ = math::make_look_at(eye_, center_, up_);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -367,9 +364,11 @@ void viewer_app::runImpl()
 	/**/
 	if( drawModel )
 	{
-	glEnable(GL_TEXTURE_2D);
 	if( texture_ )
+	{
+		glEnable(GL_TEXTURE_2D);
 		texture_->bind();
+	}
 	glColor3f(1,1,1);
 	glPushMatrix();
 	if(bRotate)

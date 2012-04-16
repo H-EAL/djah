@@ -39,6 +39,12 @@
     <Filter Include="include\math\_vector">
       <UniqueIdentifier>{b47d1f16-26d5-4bfe-9869-3eaca96ed485}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include\dataobject">
+      <UniqueIdentifier>{fd76b756-c100-4f83-be8c-0743934a2679}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sources\dataobject">
+      <UniqueIdentifier>{5f1dca48-01e0-400c-95c3-385aa8f80211}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\djah\math\math_utils.hpp">
@@ -178,6 +184,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\djah\math\transformation.hpp">
       <Filter>include\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\dataobject\data_object.hpp">
+      <Filter>include\dataobject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
