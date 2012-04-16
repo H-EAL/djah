@@ -2,7 +2,6 @@
 #define DJAH_FILESYSTEM_SOURCE_HPP
 
 #include <string>
-#include <boost/shared_ptr.hpp>
 #include "stream.hpp"
 
 namespace djah { namespace filesystem {

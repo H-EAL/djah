@@ -2,6 +2,7 @@
 #define DJAH_RESOURCES_IMAGE_HPP
 
 #include <vector>
+#include <memory>
 #include "resource_base.hpp"
 #include "../types.hpp"
 
@@ -24,7 +25,7 @@ namespace djah { namespace resources {
 		std::vector<byte>	pixels_;
 	};
 
-	typedef boost::shared_ptr<image> image_ptr;
+	typedef std::shared_ptr<image> image_ptr;
 
 } /*resources*/ } /*djah*/
 

@@ -3,7 +3,7 @@
 
 #include <ios>
 #include <string>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include "../types.hpp"
 
 namespace djah { namespace filesystem {
@@ -54,7 +54,7 @@ namespace djah { namespace filesystem {
 		virtual size_t writeImpl(const char* buff, size_t size) = 0;
 	};
 
-	typedef boost::shared_ptr<stream> stream_ptr;
+	typedef std::shared_ptr<stream> stream_ptr;
 
 } /*filesystem*/ } /*djah*/
 

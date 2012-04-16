@@ -1,6 +1,7 @@
 #ifndef MODEL_HPP
 #define MODEL_HPP
 
+#include <memory>
 #include "profiler.hpp"
 #include "resource_finder.hpp"
 
@@ -34,12 +35,9 @@ struct mesh
 		filesystem::stream_ptr strm = filesystem::browser::get().openReadStream(url);
 		if( strm )
 		{
-			// Allocate a string big enough to contain the source + '\0'
 			unsigned int src_size = strm->size();
-			boost::scoped_array<char> src_str(new char[src_size + 1]);
-			strm->read(src_str.get(), src_size);
-			src_str[src_size] = 0;
-			source = src_str.get();
+			source.resize(src_size);
+			strm->read(&source[0], src_size);
 		}
 
 		return source;
@@ -51,7 +49,7 @@ struct mesh
 		if( !textureName.empty() )
 		{
 			DJAH_AUTO_PROFILE("LOAD TEXTURE " + textureName);
-			boost::shared_ptr<resources::image> img = find_resource<resources::image>("textures/" + textureName);
+			std::shared_ptr<resources::image> img = find_resource<resources::image>("textures/" + textureName);
 			if( img )
 			{
 				DJAH_AUTO_PROFILE("CREATING TEXTURE " + textureName);
@@ -61,7 +59,7 @@ struct mesh
 		}
 		if( !nmap.empty() )
 		{
-			boost::shared_ptr<resources::image> img = find_resource<resources::image>("textures/" + nmap);
+			std::shared_ptr<resources::image> img = find_resource<resources::image>("textures/" + nmap);
 			if( img )
 			{
 				nmap_ = new video::ogl::texture(img->width(), img->height());

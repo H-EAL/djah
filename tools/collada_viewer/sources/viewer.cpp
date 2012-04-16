@@ -45,7 +45,7 @@ const bool drawModel = true;
 
 //--------------------------------------------------------------------------------------------------
 template<typename T>
-boost::shared_ptr<T> find_resource(const std::string &url)
+std::shared_ptr<T> find_resource(const std::string &url)
 {
 	static resources::default_media_manager s_dmm;
 	static bool initialized = false;
@@ -55,8 +55,8 @@ boost::shared_ptr<T> find_resource(const std::string &url)
 		initialized = true;
 	}
 
-	boost::shared_ptr<T> res = resources::resource_manager::get().find<T>(url);
-	if(!res && (res = boost::shared_ptr<T>(s_dmm.loadFromUrl<T>(url))))
+	std::shared_ptr<T> res = resources::resource_manager::get().find<T>(url);
+	if(!res && (res = std::shared_ptr<T>(s_dmm.loadFromUrl<T>(url))))
 		resources::resource_manager::get().add(url, res);
 	else
 		DJAH_BEGIN_LOG(EWL_CRITICAL) << "[ResourceManager] Unable to find the following resource: " << url << DJAH_END_LOG();
