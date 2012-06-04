@@ -8,23 +8,21 @@ namespace djah { namespace time {
 	class timer
 	{
 	public:
-
 		timer(bool startNow = true);
 
 		void restart();
 		void pause();
 		void unpause();
 
-		u64  getElapsedTimeMs() const;
+		f32  getElapsedTimeMs() const;
 		f32  getElapsedTimeSec() const;
 
 	private:
+		f32  getCurrentTime() const;
 
-		u64  getCurrentTime() const;
-
-		u64  start_time_;
-		u64  paused_time_;
-		u64  dead_time_;
+		f32  start_time_;
+		f32  paused_time_;
+		f32  dead_time_;
 		bool paused_;
 	};
 

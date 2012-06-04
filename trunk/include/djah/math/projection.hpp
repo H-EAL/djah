@@ -18,10 +18,10 @@ namespace djah { namespace math {
 
 		return matrix<4,4,T>
 		(
-			F/aspect,	0,            0,                   0,
-			       0,	F,            0,                   0,
-			       0,	0,	n_p_f/n_m_f,	T(2)*n_t_f/n_m_f,
-			       0,	0,		  T(-1),                   0
+			F/aspect,	0,                 0,       0,
+			       0,	F,                 0,       0,
+			       0,	0,	     n_p_f/n_m_f,	T(-1),
+			       0,	0,	T(2)*n_t_f/n_m_f,       0
 		);
 	}
 	//----------------------------------------------------------------------------------------------
@@ -40,10 +40,10 @@ namespace djah { namespace math {
 		
 		return matrix<4,4,T>
 		(
-			T(2)/r_m_l,          0,           0, -(r_p_l/r_m_l),
-			         0, T(2)/t_m_b,           0, -(t_p_b/t_m_b),
-			         0,          0, T(-2)/f_m_n, -(f_p_n/f_m_n),
-			         0,          0,           0,              1
+			    T(2)/r_m_l,              0,              0,  0,
+			             0,     T(2)/t_m_b,              0,  0,
+			             0,              0,    T(-2)/f_m_n,  0,
+			-(r_p_l/r_m_l), -(t_p_b/t_m_b), -(f_p_n/f_m_n),  1
 		);
 	}
 	//----------------------------------------------------------------------------------------------
@@ -54,16 +54,16 @@ namespace djah { namespace math {
 	inline const matrix<4,4,T> make_look_at(const vector<3,T> &eye, const vector<3,T> &center, vector<3,T> up)
 	{
 		up.normalize();
-		math::vector<3,T> forward = math::direction(eye, center);
-		math::vector<3,T> side = forward.cross(up).getNormalized();
-		up = side.cross(forward).getNormalized();
-		
+		const math::vector<3,T> &forward = math::direction(eye, center);
+		const math::vector<3,T> &side = (forward.cross(up)).getNormalized();
+		up = (side.cross(forward)).getNormalized();
+
 		return matrix<4,4,T>
 		(
-			    side.x,     side.y,     side.z,    -(side * eye),
-			      up.x,       up.y,       up.z,      -(up * eye),
-			-forward.x, -forward.y, -forward.z,  (forward * eye),
-			         0,          0,          0,                1
+			       side.x,        up.x,      -forward.x,  0,
+			       side.y,        up.y,      -forward.y,  0,
+			       side.z,        up.z,      -forward.z,  0,
+			-(side * eye), -(up * eye), (forward * eye),  1
 		);
 	}
 	//----------------------------------------------------------------------------------------------

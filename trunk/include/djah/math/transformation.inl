@@ -117,7 +117,7 @@ namespace djah { namespace math {
 	template<typename T>
 	inline const matrix<4,4,T> transformation<T>::toMatrix4() const
 	{
-		return make_translation(translation_) * quat_to_matrix4(rotation_) * make_scale(scale_);
+		return quat_to_matrix4(rotation_) * make_scale(scale_) * make_translation(translation_);
 	}
 	//----------------------------------------------------------------------------------------------
 

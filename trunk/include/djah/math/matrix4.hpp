@@ -26,7 +26,7 @@ namespace djah { namespace math {
 				T _31, _32, _33, _34;
 				T _41, _42, _43, _44;
 			};
-			T data[4*4];
+			T data[4][4];
 		};
 
 		// Useful constant

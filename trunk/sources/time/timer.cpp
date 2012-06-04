@@ -6,8 +6,8 @@ namespace djah { namespace time {
 	//----------------------------------------------------------------------------------------------
 	timer::timer(bool startNow)
 		: start_time_(startNow ? getCurrentTime() : 0)
-		, paused_time_(0)
-		, dead_time_(0)
+		, paused_time_(0.0f)
+		, dead_time_(0.0f)
 		, paused_(!startNow)
 	{
 
@@ -19,8 +19,8 @@ namespace djah { namespace time {
 	void timer::restart()
 	{
 		start_time_	 = getCurrentTime();
-		paused_time_ = 0;
-		dead_time_	 = 0;
+		paused_time_ = 0.0f;
+		dead_time_	 = 0.0f;
 		paused_		 = false;
 	}
 	//----------------------------------------------------------------------------------------------
@@ -44,7 +44,7 @@ namespace djah { namespace time {
 		if(paused_)
 		{
 			dead_time_  += getCurrentTime() - paused_time_;
-			paused_time_ = 0;
+			paused_time_ = 0.0f;
 			paused_		 = false;
 		}
 	}
@@ -52,7 +52,7 @@ namespace djah { namespace time {
 
 
 	//----------------------------------------------------------------------------------------------
-	u64 timer::getElapsedTimeMs() const
+	f32 timer::getElapsedTimeMs() const
 	{
 		return getCurrentTime() - start_time_ - dead_time_;
 	}
@@ -62,15 +62,15 @@ namespace djah { namespace time {
 	//----------------------------------------------------------------------------------------------
 	f32 timer::getElapsedTimeSec() const
 	{
-		return static_cast<f32>(getElapsedTimeMs()) / 1000.0f;
+		return getElapsedTimeMs() / 1000.0f;
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	u64 timer::getCurrentTime() const
+	f32 timer::getCurrentTime() const
 	{
-		return static_cast<u64>(system::clock::getCurrentTimeInMs());
+		return system::clock::getCurrentTimeInMs<f32>();
 	}
 	//----------------------------------------------------------------------------------------------
 

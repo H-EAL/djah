@@ -99,7 +99,7 @@ namespace djah { namespace video { namespace ogl {
 	template<int M, int N>
 	void shader_program::sendUniformMatrix(const std::string &name, const math::matrix<M,N,float> &mat, bool transpose) const
 	{
-		sendUniformMatrix<M,N>(name, mat.data, 1, transpose);
+		sendUniformMatrix<M,N>(name, &mat.data[0][0], 1, transpose);
 	}
 	//----------------------------------------------------------------------------------------------
 
