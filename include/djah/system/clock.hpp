@@ -9,14 +9,16 @@ namespace djah { namespace system {
 	{
 	public:
 
-		static u64 getCurrentTimeInMs()
+		template<typename Precision>
+		static Precision getCurrentTimeInMs()
 		{
-			return getCurrentTime() * 1000 / getScaleToSecondsFactor();
+			return Precision(getCurrentTime() * 1000) / Precision(getScaleToSecondsFactor());
 		}
-
-		static f64 getCurrentTimeInSec()
+		
+		template<typename Precision>
+		static Precision getCurrentTimeInSec()
 		{
-			return static_cast<f64>(getCurrentTime()) / getScaleToSecondsFactor();
+			return Precision(getCurrentTime()) / Precision(getScaleToSecondsFactor());
 		}
 
 	private:

@@ -25,7 +25,8 @@ namespace djah { namespace video {
 			math::vector3f font_color;
 		};
 
-		text(const std::string &str = "", int x = 0, int y = 0, const properties &props = properties());
+		explicit text(const std::string &str = "", int x = 0, int y = 0, const properties &props = properties());
+		text& operator =(const std::string &str) { std::string::operator=(str); return (*this); }
 
 		void setPosition(const math::vector2i &position) { position_ = position; }
 		void setProperties(const properties &props) { properties_ = props; }

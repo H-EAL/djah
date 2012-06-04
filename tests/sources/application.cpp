@@ -69,7 +69,7 @@ void application::initImpl()
 	cow_ = new mesh("cow", "cow.jpg", "", 2);
 	dude_ = new mesh("dude", "", "", 3);
 
-	mouse_pos_.setPosition(math::vector2i(100,200));
+	mouse_pos_.setPosition(math::vector2i(100,0));
 }
 
 void application::runImpl()
@@ -101,19 +101,23 @@ void application::runImpl()
 	}
 	else
 	{
-		if( keyboard_.isKeyDown(djah::system::input::EKC_W) )
-			m.z -= 1.0f;
-		if( keyboard_.isKeyDown(djah::system::input::EKC_S) )
-			m.z += 1.0f;
 		if( keyboard_.isKeyDown(djah::system::input::EKC_A) )
 			m.x -= 1.0f;
 		if( keyboard_.isKeyDown(djah::system::input::EKC_D) )
 			m.x += 1.0f;
+		if( keyboard_.isKeyDown(djah::system::input::EKC_Q) )
+			m.y -= 1.0f;
+		if( keyboard_.isKeyDown(djah::system::input::EKC_E) )
+			m.y += 1.0f;
+		if( keyboard_.isKeyDown(djah::system::input::EKC_W) )
+			m.z -= 1.0f;
+		if( keyboard_.isKeyDown(djah::system::input::EKC_S) )
+			m.z += 1.0f;
 
 		if( mouse_.leftButton().isDown() )
 		{
-			rx = static_cast<float>(mouse_.delta().y) * 0.5f;
-			ry = static_cast<float>(mouse_.delta().x) * 0.5f;
+			rx = static_cast<float>(mouse_.delta().y) * 1.0f;
+			ry = static_cast<float>(mouse_.delta().x) * 1.0f;
 		}
 	}
 
@@ -172,11 +176,11 @@ void application::draw3D()
 {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glMultMatrixf(matPerspectiveProj_.getTransposed().data);
+	glMultMatrixf(matPerspectiveProj_[0]);
 		
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	glMultMatrixf(matView_.getTransposed().data);
+	glMultMatrixf(matView_[0]);
 
 	drawAxis();
 	drawMeshes();
@@ -186,7 +190,7 @@ void application::draw2D()
 {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glMultMatrixf(matOrthoProj_.getTransposed().data);
+	glMultMatrixf(matOrthoProj_[0]);
 		
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -234,28 +238,28 @@ void application::drawMeshes()
 	static const math::transformation_f transCow
 	(
 		math::vector3f(-20.0f, 0.0f, 0.0f),
-		math::make_quaternion(math::deg_to_rad(-90.0f), math::vector3f::y_axis) * math::make_quaternion(math::deg_to_rad(-90.0f), math::vector3f::x_axis),
+		math::make_quaternion(math::deg_to_rad(90.0f), math::vector3f::x_axis) * math::make_quaternion(math::deg_to_rad(90.0f), math::vector3f::y_axis),
 		math::vector3f(1.0f, 1.0f, 1.0f)
 	);
 
 	static const math::transformation_f transAstro
 	(
 		math::vector3f(20.0f, 0.0f, 0.0f),
-		math::make_quaternion(math::deg_to_rad(-90.0f), math::vector3f::x_axis),
+		math::make_quaternion(math::deg_to_rad(90.0f), math::vector3f::x_axis),
 		math::vector3f(1.0f, 1.0f, 1.0f)
 	);
 
 	static const math::transformation_f transCthulhu
 	(
-		math::vector3f(-10.0f, 0.0f, 0.0f),
-		math::make_quaternion(math::deg_to_rad(-90.0f), math::vector3f::y_axis) * math::make_quaternion(math::deg_to_rad(-90.0f), math::vector3f::x_axis),
+		math::vector3f(-10.0f, 1.2f, 0.0f),
+		math::make_quaternion(math::deg_to_rad(90.0f), math::vector3f::x_axis) * math::make_quaternion(math::deg_to_rad(90.0f), math::vector3f::y_axis),
 		math::vector3f(1.0f, 1.0f, 1.0f)
 	);
 
 	static const math::transformation_f transDude
 	(
 		math::vector3f(10.0f, 5.0f, 0.0f),
-		math::make_quaternion(math::deg_to_rad(-90.0f), math::vector3f::x_axis),
+		math::make_quaternion(math::deg_to_rad(90.0f), math::vector3f::x_axis),
 		math::vector3f(0.02f, 0.02f, 0.02f)
 	);
 
@@ -269,12 +273,15 @@ void application::drawMeshes()
 		init = true;
 	}
 
-	cthulhu_->draw(matPerspectiveProj_, matView_, cam.eye());
+	//const math::vector3f lightPos(0.0f, 0.0f, -100.0f);
+	const math::vector3f lightPos(-cam.center());
 
-	astroboy_->draw(matPerspectiveProj_, matView_, cam.eye());
+	cthulhu_->draw(matPerspectiveProj_, matView_, lightPos);
+
+	astroboy_->draw(matPerspectiveProj_, matView_, lightPos);
 	
-	cow_->draw(matPerspectiveProj_, matView_, cam.eye());
+	cow_->draw(matPerspectiveProj_, matView_, lightPos);
 
-	dude_->draw(matPerspectiveProj_, matView_, cam.eye());
-	DJAH_BEGIN_LOG(EWL_NOTIFICATION) << cam.eye() << DJAH_END_LOG();
+	dude_->draw(matPerspectiveProj_, matView_, lightPos);
+	DJAH_BEGIN_LOG(EWL_NOTIFICATION) << cam.center() << DJAH_END_LOG();
 }

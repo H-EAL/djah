@@ -39,7 +39,7 @@ public:
 	{
 		if( xrmod != 0.0f )
 		{
-			const math::quatf &nrot = math::make_quaternion(math::deg_to_rad(xrmod*2.0f), math::vector3f(-1.0f, 0.0f, 0.0f));
+			const math::quatf &nrot = math::make_quaternion(math::deg_to_rad(xrmod), math::vector3f(-1.0f, 0.0f, 0.0f));
 			trans_.rotate( nrot );
 		}
 	}
@@ -48,7 +48,7 @@ public:
 	{
 		if( yrmod != 0.0f )
 		{
-			const math::quatf &nrot = math::make_quaternion(math::deg_to_rad(yrmod*2.0f), math::vector3f(0.0f, -1.0f, 0.0f));
+			const math::quatf &nrot = math::make_quaternion(math::deg_to_rad(yrmod), math::vector3f(0.0f, -1.0f, 0.0f));
 			trans_.setRotation( nrot * trans_.rotation() );
 		}
 	}

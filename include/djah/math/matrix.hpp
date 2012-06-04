@@ -13,7 +13,7 @@ namespace djah { namespace math {
 	struct matrix_base
 	{
 		matrix_base() { memset(data, 0, M*N*sizeof(T)); }
-		T data[M*N];
+		T data[M][N];
 	};
 	//----------------------------------------------------------------------------------------------
 

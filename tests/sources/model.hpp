@@ -48,11 +48,14 @@ struct mesh
 		DJAH_AUTO_PROFILE("INIT MESH " + textureName);
 		if( !textureName.empty() )
 		{
-			DJAH_AUTO_PROFILE("LOAD TEXTURE " + textureName);
-			std::shared_ptr<resources::image> img = find_resource<resources::image>("textures/" + textureName);
+			std::shared_ptr<resources::image> img;
+			{
+				//DJAH_AUTO_PROFILE("LOAD TEXTURE " + textureName);
+				img = find_resource<resources::image>("textures/" + textureName);
+			}
 			if( img )
 			{
-				DJAH_AUTO_PROFILE("CREATING TEXTURE " + textureName);
+				//DJAH_AUTO_PROFILE("CREATING TEXTURE " + textureName);
 				tex_ = new video::ogl::texture(img->width(), img->height());
 				tex_->setPixelBuffer(img->pixels(), false);
 			}
@@ -84,15 +87,19 @@ struct mesh
 				<< video::ogl::format::tex_coord<3,float>();
 		}
 		
-		vb_ = new video::ogl::vertex_buffer( strm_->size(), video::ogl::EBU_STATIC_DRAW);
-		va_ = new video::ogl::vertex_array(vf, vb_);
-		vb_->write(strm_->buffer(), strm_->size());
+		{
+			//DJAH_AUTO_PROFILE("VERTEX STUFF " + textureName);
+			vb_ = new video::ogl::vertex_buffer( strm_->size(), video::ogl::EBU_STATIC_DRAW);
+			va_ = new video::ogl::vertex_array(vf, vb_);
+			vb_->write(strm_->buffer(), strm_->size());
+		}
 
+
+		{
+		//DJAH_AUTO_PROFILE("SHADERS STUFF " + textureName);
 		video::ogl::vertex_shader vs( loadShaderSource("shaders/test.vert") );
 		video::ogl::pixel_shader  ps( loadShaderSource("shaders/test.frag") );
 
-		{
-		DJAH_AUTO_PROFILE("VERTEX STUFF " + textureName);
 		vs.compile();
 		ps.compile();
 		sp_.attach(vs);
@@ -103,7 +110,7 @@ struct mesh
 		}
 	}
 
-	void draw(const math::matrix4f &matProj, const math::matrix4f &matView, const math::vector3f lightPos)
+	void draw(const math::matrix4f &matProj, const math::matrix4f &matView, const math::vector3f &lightPos)
 	{
 		sp_.begin();
 
@@ -127,9 +134,9 @@ struct mesh
 			nmap_->bind(1);
 			sp_.sendUniform("nmap", 1);
 		}
-		sp_.sendUniformMatrix("Projection", matProj, true);
-		sp_.sendUniformMatrix("Model", mat_world_, true);
-		sp_.sendUniformMatrix("View", matView, true);
+		sp_.sendUniformMatrix("Projection", matProj);
+		sp_.sendUniformMatrix("Model", mat_world_);
+		sp_.sendUniformMatrix("View", matView);
 		va_->draw();
 		sp_.end();
 		glDisable(GL_TEXTURE_2D);

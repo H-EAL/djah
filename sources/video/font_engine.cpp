@@ -95,12 +95,11 @@ namespace djah { namespace video {
 		
 		glEnable(GL_TEXTURE_2D);
 		glPushMatrix();
+		glTranslatef((float)x, (float)y, 0.0f);
 		glColor3fv(color_.data);
 		for(it = text.begin(); it != it_end; ++it)
 		{
 			const font_data::char_metrics &c = current_font_->metrics[*it];
-			glPushMatrix();
-			glTranslatef((float)x, y - c.offset.y, 0.0f);
 			if( c.tex && c.tex->isValid() )
 			{
 				c.tex->bind();
@@ -120,7 +119,6 @@ namespace djah { namespace video {
 				}
 				glEnd();
 			}
-			glPopMatrix();
 			glTranslatef(c.dimension.x, 0.0f, 0.0f);
 		}
 		glPopMatrix();

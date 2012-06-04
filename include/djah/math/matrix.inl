@@ -175,14 +175,14 @@ namespace djah { namespace math {
 	template<int Row, int Col>
 	inline T& matrix<M,N,T>::m()
 	{
-		return matrix_base<M,N,T>::data[Row*N + Col];
+		return matrix_base<M,N,T>::data[Row][Col];
 	}
 	//----------------------------------------------------------------------------------------------
 	template<int M, int N, typename T>
 	template<int Row, int Col>
 	inline const T& matrix<M,N,T>::m() const
 	{
-		return matrix_base<M,N,T>::data[Row*N + Col];
+		return matrix_base<M,N,T>::data[Row][Col];
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -190,13 +190,13 @@ namespace djah { namespace math {
 	template<int M, int N, typename T>
 	inline T& matrix<M,N,T>::m(int at_row, int at_col)
 	{
-		return matrix_base<M,N,T>::data[at_row*N + at_col];
+		return matrix_base<M,N,T>::data[at_row][at_col];
 	}
 	//----------------------------------------------------------------------------------------------
 	template<int M, int N, typename T>
 	inline const T& matrix<M,N,T>::m(int at_row, int at_col) const
 	{
-		return matrix_base<M,N,T>::data[at_row*N + at_col];
+		return matrix_base<M,N,T>::data[at_row][at_col];
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -205,13 +205,13 @@ namespace djah { namespace math {
 	template<int M, int N, typename T>
 	inline T* matrix<M,N,T>::operator [](unsigned int r)
 	{
-		return matrix_base<M,N,T>::data + (r*N);
+		return &matrix_base<M,N,T>::data[r][0];
 	}
 	//----------------------------------------------------------------------------------------------
 	template<int M, int N, typename T>
 	inline const T* matrix<M,N,T>::operator [](unsigned int r) const
 	{
-		return matrix_base<M,N,T>::data + (r*N);
+		return &matrix_base<M,N,T>::data[r][0];
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -238,8 +238,9 @@ namespace djah { namespace math {
 	template<int M, int N, typename T>
 	inline matrix<M,N,T>& matrix<M,N,T>::operator -=(const matrix<M,N,T> &rhs)
 	{
-		for(int i = 0; i < M*N; ++i)
-			matrix_base<M,N,T>::data[i] -= rhs.data[i];
+		for(int r = 0; r < M; ++r)
+			for(int c = 0; c < N; ++c)
+				matrix_base<M,N,T>::data[r][c] -= rhs.data[r][c];
 		return (*this);
 	}
 	//----------------------------------------------------------------------------------------------
@@ -271,8 +272,9 @@ namespace djah { namespace math {
 	template<int M, int N, typename T>
 	inline matrix<M,N,T>& matrix<M,N,T>::operator *=(T rhs)
 	{
-		for(int i = 0; i < M*N; ++i)
-			matrix_base<M,N,T>::data[i] *= rhs;
+		for(int r = 0; r < M; ++r)
+			for(int c = 0; c < N; ++c)
+				matrix_base<M,N,T>::data[r][c] *= rhs;
 		return (*this);
 	}
 	//----------------------------------------------------------------------------------------------
@@ -282,8 +284,9 @@ namespace djah { namespace math {
 	inline matrix<M,N,T>& matrix<M,N,T>::operator /=(T rhs)
 	{
 		assert(rhs != T(0));
-		for(int i = 0; i < M*N; ++i)
-			matrix_base<M,N,T>::data[i] /= rhs;
+		for(int r = 0; r < M; ++r)
+			for(int c = 0; c < N; ++c)
+				matrix_base<M,N,T>::data[r][c] /= rhs;
 		return (*this);
 	}
 	//----------------------------------------------------------------------------------------------
