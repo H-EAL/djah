@@ -13,6 +13,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{63CC4E65-85DD-40B7-832E-C24874A3A392}</ProjectGuid>
     <RootNamespace>djah_log</RootNamespace>
+    <ProjectName>djah_debug</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
