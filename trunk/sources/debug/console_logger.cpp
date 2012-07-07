@@ -1,9 +1,9 @@
-#include "log/console_logger.hpp"
+#include "debug/console_logger.hpp"
 #include <iostream>
 #include <cstdio>
 #include "platform.hpp"
 
-namespace djah { namespace log {
+namespace djah { namespace debug {
 
 	namespace
 	{
@@ -109,4 +109,4 @@ namespace djah { namespace log {
 	}
 	//--------------------------------------------------------------------------
 
-} /*log*/ } /*djah*/
+} /*debug*/ } /*djah*/

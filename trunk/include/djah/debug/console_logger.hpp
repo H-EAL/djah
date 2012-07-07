@@ -1,9 +1,9 @@
-#ifndef DJAH_LOG_CONSOLE_LOGGER_HPP
-#define DJAH_LOG_CONSOLE_LOGGER_HPP
+#ifndef DJAH_DEBUG_CONSOLE_LOGGER_HPP
+#define DJAH_DEBUG_CONSOLE_LOGGER_HPP
 
 #include "logger.hpp"
 
-namespace djah { namespace log {
+namespace djah { namespace debug {
 	
 	class console_logger
 		: public logger_impl
@@ -16,6 +16,6 @@ namespace djah { namespace log {
 		std::string endLog() const;
 	};
 
-} /*log*/ } /*djah*/
+} /*debug*/ } /*djah*/
 
-#endif /* DJAH_LOG_CONSOLE_LOGGER_HPP */
+#endif /* DJAH_DEBUG_CONSOLE_LOGGER_HPP */

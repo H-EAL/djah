@@ -1,5 +1,5 @@
-#ifndef DJAH_LOG_LOGGER_HPP
-#define DJAH_LOG_LOGGER_HPP
+#ifndef DJAH_DEBUG_LOGGER_HPP
+#define DJAH_DEBUG_LOGGER_HPP
 
 #include <string>
 #include <sstream>
@@ -16,12 +16,12 @@
 #endif
 //------------------------------------------------------------------------------
 // Macro to ease the logging
-#define DJAH_BEGIN_LOG(level)	djah::log::logger::log(djah::log::level)
-#define DJAH_END_LOG()			djah::log::logger::endl()
+#define DJAH_BEGIN_LOG(level)	djah::debug::logger::log(djah::debug::level)
+#define DJAH_END_LOG()			djah::debug::logger::endl()
 //------------------------------------------------------------------------------
 
 
-namespace djah { namespace log {
+namespace djah { namespace debug {
 
 	enum E_WARNING_LEVEL
 	{
@@ -98,8 +98,8 @@ namespace djah { namespace log {
 		virtual std::string endLog() const { return ""; };
 	};
 
-} /*log*/ } /*djah*/
+} /*debug*/ } /*djah*/
 
 #include "logger.inl"
 
-#endif /* DJAH_LOG_LOGGER_HPP */
+#endif /* DJAH_DEBUG_LOGGER_HPP */

@@ -1,11 +1,11 @@
-#ifndef DJAH_LOG_HTML_LOGGER_HPP
-#define DJAH_LOG_HTML_LOGGER_HPP
+#ifndef DJAH_DEBUG_HTML_LOGGER_HPP
+#define DJAH_DEBUG_HTML_LOGGER_HPP
 
 #include <fstream>
 #include "../filesystem/stream.hpp"
 #include "logger.hpp"
 
-namespace djah { namespace log {
+namespace djah { namespace debug {
 	
 	class html_logger
 		: public logger_impl
@@ -24,6 +24,6 @@ namespace djah { namespace log {
 		filesystem::stream_ptr log_stream_;
 	};
 
-} /*log*/ } /*djah*/
+} /*debug*/ } /*djah*/
 
-#endif /* DJAH_LOG_HTML_LOGGER_HPP */
+#endif /* DJAH_DEBUG_HTML_LOGGER_HPP */

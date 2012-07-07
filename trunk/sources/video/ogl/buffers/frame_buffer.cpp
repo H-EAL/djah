@@ -1,7 +1,7 @@
 #include "video/ogl/buffers/frame_buffer.hpp"
 #include "video/ogl/buffers/render_buffer.hpp"
 
-#include "log/logger.hpp"
+#include "debug/logger.hpp"
 
 namespace djah { namespace video { namespace ogl {
 

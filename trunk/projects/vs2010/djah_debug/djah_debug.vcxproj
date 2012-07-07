@@ -10,6 +10,19 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\include\djah\debug\console_logger.hpp" />
+    <ClInclude Include="..\..\..\include\djah\debug\html_logger.hpp" />
+    <ClInclude Include="..\..\..\include\djah\debug\logger.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\include\djah\debug\logger.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\sources\debug\console_logger.cpp" />
+    <ClCompile Include="..\..\..\sources\debug\html_logger.cpp" />
+    <ClCompile Include="..\..\..\sources\debug\logger.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{63CC4E65-85DD-40B7-832E-C24874A3A392}</ProjectGuid>
     <RootNamespace>djah_log</RootNamespace>
@@ -75,19 +88,6 @@
       <AdditionalLibraryDirectories>..\..\..\..\extlibs\lib\win32\;</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\include\djah\log\console_logger.hpp" />
-    <ClInclude Include="..\..\..\include\djah\log\html_logger.hpp" />
-    <ClInclude Include="..\..\..\include\djah\log\logger.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\..\include\djah\log\logger.inl" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\..\sources\log\console_logger.cpp" />
-    <ClCompile Include="..\..\..\sources\log\html_logger.cpp" />
-    <ClCompile Include="..\..\..\sources\log\logger.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

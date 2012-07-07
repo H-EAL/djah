@@ -1,7 +1,7 @@
 #ifndef DJAH_VIDEO_OGL_ERRORS_HPP
 #define DJAH_VIDEO_OGL_ERRORS_HPP
 
-#include "../../log/logger.hpp"
+#include "../../debug/logger.hpp"
 
 //--------------------------------------------------------------------------------------------------
 #define DJAH_TEST_FOR_OPENGL_ERRORS(func)	\
@@ -37,12 +37,12 @@ namespace djah { namespace video { namespace ogl {
 		if(error == GL_NO_ERROR)
 			return;
 
-		log::logger::log(log::EWL_CRITICAL)	<< get_error_str(error)	<< " "
+		debug::logger::log(debug::EWL_CRITICAL)	<< get_error_str(error)	<< " "
 											<< call					<< " "
 											<< file					<< " "
 											<< function				<< " "
 											<< line-1
-											<< log::logger::endl();
+											<< debug::logger::endl();
 	}
 	//----------------------------------------------------------------------------------------------
 

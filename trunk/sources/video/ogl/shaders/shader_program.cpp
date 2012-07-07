@@ -1,6 +1,6 @@
 #include "video/ogl/shaders/shader_program.hpp"
 #include "video/ogl/errors.hpp"
-#include "log/logger.hpp"
+#include "debug/logger.hpp"
 
 
 namespace djah { namespace video { namespace ogl {
@@ -106,13 +106,13 @@ namespace djah { namespace video { namespace ogl {
 			log_str[log_size] = '\0';
 
 			// TODO : let the error policy handle this
-			log::logger::log(log::EWL_CRITICAL)
+			debug::logger::log(debug::EWL_CRITICAL)
 				<< "====================================================================\n"
 				<< "                      SHADER LINKING ERROR(S)                       \n"
 				<< "--------------------------------------------------------------------\n"
 				<< log_str
 				<< "===================================================================="
-				<< log::logger::endl();
+				<< debug::logger::endl();
 
 			delete [] log_str;
 		}

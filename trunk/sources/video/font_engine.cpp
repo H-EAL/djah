@@ -6,7 +6,7 @@
 #include "video/ogl/buffers/texture.hpp"
 #include "system/opengl/gl.hpp"
 #include "filesystem/browser.hpp"
-#include "log/logger.hpp"
+#include "debug/logger.hpp"
 
 namespace djah { namespace video {
 	

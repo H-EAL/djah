@@ -1,13 +1,14 @@
-#include "log/html_logger.hpp"
+#include "debug/html_logger.hpp"
 #include "filesystem/browser.hpp"
 
-namespace djah { namespace log {
+namespace djah { namespace debug {
 	
 	//--------------------------------------------------------------------------
 	html_logger::html_logger(const std::string &url)
 		: log_stream_(filesystem::browser::get().openWriteStream(url))
 	{
-		DJAH_LOG_TODO(Use std::stream instead of djah::fs::stream);
+		DJAH_LOG_TODO("Use std::stream instead of djah::fs::stream");
+		DJAH_LOG_TODO("Log to an internal log queue instead of a file");
 
 		write("<html><head><title>djah Log File</title>\
 				<link rel=\"stylesheet\" type=\"text/css\" href=\"log_style.css\"/>\
@@ -63,4 +64,4 @@ namespace djah { namespace log {
 	}
 	//--------------------------------------------------------------------------
 
-} /*log*/ } /*djah*/
+} /*debug*/ } /*djah*/

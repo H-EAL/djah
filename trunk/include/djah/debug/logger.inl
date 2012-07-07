@@ -1,4 +1,4 @@
-namespace djah { namespace log {
+namespace djah { namespace debug {
 
 	//--------------------------------------------------------------------------
 	template<typename T>
@@ -11,4 +11,4 @@ namespace djah { namespace log {
 	}
 	//--------------------------------------------------------------------------
 
-} /*log*/ } /*djah*/
+} /*debug*/ } /*djah*/
