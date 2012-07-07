@@ -1,9 +1,9 @@
 #include <cstdarg>
 #include <cassert>
 #include <cstdio>
-#include "log/logger.hpp"
+#include "debug/logger.hpp"
 
-namespace djah { namespace log {
+namespace djah { namespace debug {
 
 	//--------------------------------------------------------------------------
 	E_WARNING_LEVEL logger_impl::level_ = EWL_MEDIUM;
@@ -85,4 +85,4 @@ namespace djah { namespace log {
 	}
 	//--------------------------------------------------------------------------
 
-} /*log*/ } /*djah*/
+} /*debug*/ } /*djah*/

@@ -99,13 +99,13 @@ namespace djah { namespace video { namespace ogl {
 			log_str[log_size] = '\0';
 
 			// TODO : throw some exception
-			log::logger::log(log::EWL_CRITICAL)
+			debug::logger::log(debug::EWL_CRITICAL)
 				<< "====================================================================\n"
 				<< "                    SHADER COMPILATION ERROR(S)                     \n"
 				<< "--------------------------------------------------------------------\n"
 				<< log_str
 				<< "===================================================================="
-				<< log::logger::endl();
+				<< debug::logger::endl();
 
 			delete [] log_str;
 		}

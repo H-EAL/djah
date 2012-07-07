@@ -8,8 +8,8 @@
 #include <djah/system/device.hpp>
 #include <djah/system/driver_base.hpp>
 
-#include <djah/log/logger.hpp>
-#include <djah/log/console_logger.hpp>
+#include <djah/debug/logger.hpp>
+#include <djah/debug/console_logger.hpp>
 
 #include <djah/time/timer.hpp>
 
@@ -40,7 +40,7 @@ application::application(int w, int h)
 
 void application::initImpl()
 {
-	log::logger::setLogger(new log::console_logger);
+	debug::logger::setLogger(new debug::console_logger);
 	//testURL();
 	testMat();
 		

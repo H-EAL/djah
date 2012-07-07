@@ -8,7 +8,7 @@
 
 #include "video/ogl/shaders/shader_program.hpp"
 
-#include "log/logger.hpp"
+#include "debug/logger.hpp"
 
 namespace djah { namespace video { namespace ogl {
 

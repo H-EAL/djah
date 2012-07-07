@@ -1,7 +1,7 @@
 #ifndef PROFILER_HPP
 #define PROFILER_HPP
 
-#include <djah/log/logger.hpp>
+#include <djah/debug/logger.hpp>
 #include <djah/time/timer.hpp>
 
 class ScopedProfile

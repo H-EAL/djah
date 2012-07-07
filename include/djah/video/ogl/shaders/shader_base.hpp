@@ -4,7 +4,7 @@
 #include <string>
 
 #include "../resource.hpp"
-#include "../../../log/logger.hpp"
+#include "../../../debug/logger.hpp"
 
 namespace djah { namespace video { namespace ogl {
 

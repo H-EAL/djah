@@ -11,29 +11,29 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\djah\log\console_logger.hpp">
+    <ClInclude Include="..\..\..\include\djah\debug\console_logger.hpp">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\log\html_logger.hpp">
+    <ClInclude Include="..\..\..\include\djah\debug\html_logger.hpp">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\log\logger.hpp">
+    <ClInclude Include="..\..\..\include\djah\debug\logger.hpp">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\include\djah\log\logger.inl">
+    <None Include="..\..\..\include\djah\debug\logger.inl">
       <Filter>include</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\sources\log\console_logger.cpp">
+    <ClCompile Include="..\..\..\sources\debug\console_logger.cpp">
       <Filter>sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\sources\log\html_logger.cpp">
+    <ClCompile Include="..\..\..\sources\debug\html_logger.cpp">
       <Filter>sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\sources\log\logger.cpp">
+    <ClCompile Include="..\..\..\sources\debug\logger.cpp">
       <Filter>sources</Filter>
     </ClCompile>
   </ItemGroup>
