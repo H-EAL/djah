@@ -10,7 +10,7 @@ namespace djah { namespace filesystem {
 		: public stream
 	{
 	public:
-		memory_stream(void *buffer, size_t size);
+		memory_stream(const void *buffer, size_t size);
 		memory_stream(stream_ptr other_stream);
 		memory_stream(stream_ptr other_stream, size_t size, size_t offset = 0);
 		virtual ~memory_stream();

@@ -53,11 +53,11 @@ namespace djah { namespace system { namespace input {
 			initPOV();
 			
 			// Axis
-			static const char* axis_names[] =
+			static const char axis_names[] =
 			{
-				"X", "Y",
-				"Z", "R",
-				"U", "V",
+				'X', 'Y',
+				'Z', 'R',
+				'U', 'V',
 			};
 			const unsigned int min_values[] =
 			{
@@ -110,7 +110,7 @@ namespace djah { namespace system { namespace input {
 		{
 			// Buttons
 			nb_buttons_down_ = jie.dwButtonNumber;
-			u32 nb_buttons = buttons_.size();
+			const u32 nb_buttons = buttons_.size();
 			for(u32 b = 0; b < nb_buttons; ++b)
 			{
 				buttons_[b].setState( (jie.dwButtons & buttons_[b].id()) != 0 );
@@ -127,10 +127,10 @@ namespace djah { namespace system { namespace input {
 				jie.dwZpos, jie.dwRpos,
 				jie.dwUpos, jie.dwVpos,
 			};
-			u32 nb_axis = axis_.size();
+			const u32 nb_axis = axis_.size();
 			for(u32 a = 0; a < nb_axis; ++a)
 			{
-				axis_[a].setValue((float)axis_values[a]);
+				axis_[a].setValue( static_cast<float>(axis_values[a]) );
 			}
 		}
 	}

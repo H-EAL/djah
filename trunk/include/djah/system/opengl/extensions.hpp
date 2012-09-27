@@ -11,11 +11,15 @@
 #define DEFINE_EXTENSION(PFN, EXT) EXTERN PFN EXT
 //--------------------------------------------------------------------------------------------------
 
+
+//--------------------------------------------------------------------------------------------------
 void load_opengl_extensions();
-	
-//----------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
+
+
+//--------------------------------------------------------------------------------------------------
 // BUFFERS
-//----------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 DEFINE_EXTENSION( PFNGLGENVERTEXARRAYSPROC,			glGenVertexArrays			);
 DEFINE_EXTENSION( PFNGLDELETEVERTEXARRAYSPROC,		glDeleteVertexArrays		);
 DEFINE_EXTENSION( PFNGLISVERTEXARRAYPROC,			glIsVertexArray				);
@@ -44,9 +48,9 @@ DEFINE_EXTENSION( PFNGLISFRAMEBUFFERPROC,			glIsFramebuffer				);
 DEFINE_EXTENSION( PFNGLBINDFRAMEBUFFERPROC,			glBindFramebuffer			);
 DEFINE_EXTENSION( PFNGLFRAMEBUFFERRENDERBUFFERPROC,	glFramebufferRenderbuffer	);
 
-//----------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // Shaders
-//----------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 DEFINE_EXTENSION( PFNGLCREATESHADERPROC,			glCreateShader				);
 DEFINE_EXTENSION( PFNGLDELETESHADERPROC,			glDeleteShader				);
 DEFINE_EXTENSION( PFNGLISSHADERPROC,				glIsShader					);
@@ -66,9 +70,9 @@ DEFINE_EXTENSION( PFNGLGETPROGRAMIVPROC,			glGetProgramiv				);
 DEFINE_EXTENSION( PFNGLGETPROGRAMINFOLOGPROC,		glGetProgramInfoLog			);
 DEFINE_EXTENSION( PFNGLGETUNIFORMLOCATIONPROC,		glGetUniformLocation		);
 
-//----------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // Uniforms
-//----------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 DEFINE_EXTENSION( PFNGLUNIFORM1FPROC,				glUniform1f					);
 DEFINE_EXTENSION( PFNGLUNIFORM2FPROC,				glUniform2f					);
 DEFINE_EXTENSION( PFNGLUNIFORM3FPROC,				glUniform3f					);
@@ -99,7 +103,11 @@ DEFINE_EXTENSION( PFNGLUNIFORMMATRIX4X2FVPROC,		glUniformMatrix4x2fv		);
 DEFINE_EXTENSION( PFNGLUNIFORMMATRIX3X4FVPROC,		glUniformMatrix3x4fv		);
 DEFINE_EXTENSION( PFNGLUNIFORMMATRIX4X3FVPROC,		glUniformMatrix4x3fv		);
 
+//--------------------------------------------------------------------------------------------------
+// Textures
+//--------------------------------------------------------------------------------------------------
 DEFINE_EXTENSION( PFNGLACTIVETEXTUREPROC,			glActiveTexture				);
+
 
 //--------------------------------------------------------------------------------------------------
 #undef DEFINE_EXTENSION

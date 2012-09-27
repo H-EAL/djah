@@ -12,7 +12,8 @@ namespace djah { namespace math {
 	inline const quaternion<T> make_quaternion(T angle, vector<3,T> axis)
 	{
 		const T theta = angle / T(2);
-		axis.normalize() *= sin(theta);
+		if( axis != vector<3,T>::null_vector )
+			axis.normalize() *= sin(theta);
 		return quaternion<T>(axis.x, axis.y, axis.z, cos(theta));
 	}
 	//----------------------------------------------------------------------------------------------

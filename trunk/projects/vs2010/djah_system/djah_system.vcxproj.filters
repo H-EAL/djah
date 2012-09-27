@@ -95,5 +95,8 @@
     <ClCompile Include="..\..\..\sources\system\win32_clock.cpp">
       <Filter>sources</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\sources\system\device.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

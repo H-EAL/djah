@@ -16,10 +16,15 @@
     <ClInclude Include="..\..\..\tests\sources\model.hpp" />
     <ClInclude Include="..\..\..\tests\sources\profiler.hpp" />
     <ClInclude Include="..\..\..\tests\sources\resource_finder.hpp" />
+    <ClInclude Include="..\..\..\tests\sources\ShellOpenGL.h" />
+    <ClInclude Include="..\..\..\tests\sources\ShellRenderInterfaceOpenGL.h" />
+    <ClInclude Include="..\..\..\tests\sources\ShellSystemInterface.h" />
     <ClInclude Include="..\..\..\tests\sources\test.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\tests\sources\application.cpp" />
+    <ClCompile Include="..\..\..\tests\sources\ShellRenderInterfaceOpenGL.cpp" />
+    <ClCompile Include="..\..\..\tests\sources\ShellSystemInterface.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7AAB6E15-003B-4255-A923-7D8A8C11F47E}</ProjectGuid>
@@ -51,7 +56,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>..\..\..\tests\binaries\</OutDir>
-    <TargetName>$(ProjectName)_debug</TargetName>
+    <TargetName>$(ProjectName)-debug</TargetName>
     <IncludePath>D:\Development\Boost\1_44;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;</IncludePath>
     <LibraryPath>D:\Development\Boost\1_44\lib;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib</LibraryPath>
   </PropertyGroup>
@@ -74,7 +79,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>djah_system_d.lib;djah_filesystem_d.lib;djah_video_d.lib;djah_debug_d.lib;djah_resources_d.lib;djah_core_d.lib;opengl32.lib;FreeImage.lib;freetype.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>djah_system-d.lib;djah_filesystem-d.lib;djah_video-d.lib;djah_debug-d.lib;djah_resources-d.lib;djah_core-d.lib;RocketCore_d.lib;RocketDebugger_d.lib;opengl32.lib;FreeImage.lib;freetype.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\..\lib\win32\;..\..\..\..\extlibs\lib\win32\</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>

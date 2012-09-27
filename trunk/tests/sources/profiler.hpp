@@ -23,7 +23,7 @@ public:
 		while(j-- > 0)
 			DJAH_BEGIN_LOG(EWL_NOTIFICATION) << "    ";
 
-		DJAH_BEGIN_LOG(EWL_USELAST)
+		DJAH_BEGIN_LOG(EWL_NOTIFICATION)
 			<< "[" << section_name_ << "] "
 			<< "(" << clock_.getElapsedTimeMs() << " ms)"
 			<< DJAH_END_LOG();

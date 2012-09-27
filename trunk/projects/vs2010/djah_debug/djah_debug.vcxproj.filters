@@ -20,6 +20,18 @@
     <ClInclude Include="..\..\..\include\djah\debug\logger.hpp">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\debug\memory_tracker.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\debug\enable_debug_new.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\debug\disable_debug_new.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\debug\assertion.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\include\djah\debug\logger.inl">
@@ -34,6 +46,9 @@
       <Filter>sources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\sources\debug\logger.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\sources\debug\memory_tracker.cpp">
       <Filter>sources</Filter>
     </ClCompile>
   </ItemGroup>

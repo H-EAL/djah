@@ -37,7 +37,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <TargetName>$(ProjectName)_d</TargetName>
+    <TargetName>$(ProjectName)-d</TargetName>
     <OutDir>..\..\..\lib\win32\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -76,7 +76,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\djah\application_base.hpp" />
+    <ClInclude Include="..\..\..\include\djah\dataobject\attribute.hpp" />
     <ClInclude Include="..\..\..\include\djah\dataobject\data_object.hpp" />
+    <ClInclude Include="..\..\..\include\djah\dataobject\global_registry.hpp" />
+    <ClInclude Include="..\..\..\include\djah\dataobject\ini_serializer.hpp" />
+    <ClInclude Include="..\..\..\include\djah\dataobject\registry.hpp" />
+    <ClInclude Include="..\..\..\include\djah\dataobject\serializer.hpp" />
     <ClInclude Include="..\..\..\include\djah\geometry\plane.hpp" />
     <ClInclude Include="..\..\..\include\djah\geometry\ray.hpp" />
     <ClInclude Include="..\..\..\include\djah\geometry\rect.hpp" />

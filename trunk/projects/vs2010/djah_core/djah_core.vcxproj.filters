@@ -42,9 +42,6 @@
     <Filter Include="include\dataobject">
       <UniqueIdentifier>{fd76b756-c100-4f83-be8c-0743934a2679}</UniqueIdentifier>
     </Filter>
-    <Filter Include="sources\dataobject">
-      <UniqueIdentifier>{5f1dca48-01e0-400c-95c3-385aa8f80211}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\djah\math\math_utils.hpp">
@@ -185,7 +182,22 @@
     <ClInclude Include="..\..\..\include\djah\math\transformation.hpp">
       <Filter>include\math</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\dataobject\attribute.hpp">
+      <Filter>include\dataobject</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\include\djah\dataobject\data_object.hpp">
+      <Filter>include\dataobject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\dataobject\ini_serializer.hpp">
+      <Filter>include\dataobject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\dataobject\registry.hpp">
+      <Filter>include\dataobject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\dataobject\serializer.hpp">
+      <Filter>include\dataobject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\dataobject\global_registry.hpp">
       <Filter>include\dataobject</Filter>
     </ClInclude>
   </ItemGroup>

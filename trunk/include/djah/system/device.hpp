@@ -2,6 +2,7 @@
 #define DJAH_SYSTEM_DEVICE_HPP
 
 #include <string>
+#include <memory>
 #include "../platform.hpp"
 #include "video_config.hpp"
 #include "driver_base.hpp"
@@ -20,7 +21,6 @@ namespace djah { namespace system {
 		~device();
 
 		static device* get_current()				{ return sp_device_inst_;	}
-		device_impl* impl()					const	{ return p_impl_;			}
 		
 		const video_config& videoConfig()	const	{ return video_config_;		}
 
@@ -34,12 +34,14 @@ namespace djah { namespace system {
 		void resize(int width, int height);
 
 		void show();
-		bool isWindowActive();
-		bool hasWindowFocus();
+		bool isWindowActive() const;
+		bool hasWindowFocus() const;
 
 		void setWindowTitle(const std::string &title);
 
 		void swapBuffers();
+
+		math::vector2i correctedMousePosition(const math::vector2i &absoluteMousePosition) const;
 
 	private:
 
@@ -51,8 +53,8 @@ namespace djah { namespace system {
 		// Current config
 		video_config video_config_;
 
-		// Private implementation, platform dependant
-		device_impl	*p_impl_;
+		// Private implementation, platform dependent
+		std::unique_ptr<device_impl> p_impl_;
 
 		// Last created device
 		static device *sp_device_inst_;
