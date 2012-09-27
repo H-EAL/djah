@@ -186,33 +186,6 @@ namespace djah { namespace system {
 namespace djah { namespace system {
 
 	//----------------------------------------------------------------------------------------------
-	device_ptr create_device(const video_config &cfg)
-	{
-		device_ptr dev	  = new device;
-		driver_ptr driver = new opengl_driver(dev);
-		dev->setVideoDriver(driver);
-		dev->create(cfg);
-		driver->create();
-		return dev;
-	}
-	//----------------------------------------------------------------------------------------------
-	device_ptr create_device(int width, int height,
-							 int colorBits, int depthBits, int stencilBits,
-							 bool fullscreen, bool vsync)
-	{
-		return create_device( video_config(width, height, colorBits, depthBits, stencilBits, fullscreen, vsync) );
-	}
-	//----------------------------------------------------------------------------------------------
-
-
-
-
-	//----------------------------------------------------------------------------------------------
-	device_ptr device::sp_device_inst_ = 0;
-	//----------------------------------------------------------------------------------------------
-
-
-	//----------------------------------------------------------------------------------------------
 	device::device()
 		: hasToQuit_(false)
 		, p_driver_(0)
@@ -225,7 +198,6 @@ namespace djah { namespace system {
 	//----------------------------------------------------------------------------------------------
 	device::~device()
 	{
-		delete p_impl_;
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -301,7 +273,7 @@ namespace djah { namespace system {
 
 	
 	//----------------------------------------------------------------------------------------------
-	bool device::isWindowActive()
+	bool device::isWindowActive() const
 	{
 		return GetActiveWindow() == p_impl_->hWindow_;
 	}
@@ -309,7 +281,7 @@ namespace djah { namespace system {
 
 
 	//----------------------------------------------------------------------------------------------
-	bool device::hasWindowFocus()
+	bool device::hasWindowFocus() const
 	{
 		return GetFocus() == p_impl_->hWindow_;
 	}
@@ -328,6 +300,16 @@ namespace djah { namespace system {
 	void device::swapBuffers()
 	{
 		SwapBuffers(p_impl_->hDC_);
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	math::vector2i device::correctedMousePosition(const math::vector2i &absoluteMousePosition) const
+	{
+		POINT p = {absoluteMousePosition.x, absoluteMousePosition.y};
+		ScreenToClient(p_impl_->hWindow_, &p);
+		return math::vector2i(p.x, p.y);
 	}
 	//----------------------------------------------------------------------------------------------
 

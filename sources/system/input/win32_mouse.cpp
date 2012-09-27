@@ -1,4 +1,5 @@
 #include "system/input/mouse.hpp"
+#include "system/device.hpp"
 #include <cstring>
 #include "platform.hpp"
 #include <iostream>
@@ -29,6 +30,7 @@ namespace djah { namespace system { namespace input {
 		if( GetCursorInfo(&ci) )
 		{
 			math::vector2i ptScreenPos(ci.ptScreenPos.x, ci.ptScreenPos.y);
+			ptScreenPos = system::device::get_current()->correctedMousePosition(ptScreenPos);
 			delta_		= ptScreenPos - position_;
 			position_	= ptScreenPos;
 		}

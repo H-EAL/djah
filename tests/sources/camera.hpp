@@ -14,6 +14,14 @@ public:
 		h = 1.8f;
 		trans_.setRotation( math::quatf(0.0f,0.0f,0.0f,1.0f) );
 	}
+
+	void move(const math::vector3f &newPosition)
+	{
+		movex(newPosition.x);
+		movey(newPosition.y);
+		movez(newPosition.z);
+	}
+
 	void movex(float xmmod)
 	{
 		if( xmmod != 0.0f )

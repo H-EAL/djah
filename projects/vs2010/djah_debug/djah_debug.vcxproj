@@ -11,9 +11,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\include\djah\debug\assertion.hpp" />
     <ClInclude Include="..\..\..\include\djah\debug\console_logger.hpp" />
+    <ClInclude Include="..\..\..\include\djah\debug\disable_debug_new.hpp" />
+    <ClInclude Include="..\..\..\include\djah\debug\enable_debug_new.hpp" />
     <ClInclude Include="..\..\..\include\djah\debug\html_logger.hpp" />
     <ClInclude Include="..\..\..\include\djah\debug\logger.hpp" />
+    <ClInclude Include="..\..\..\include\djah\debug\memory_tracker.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\include\djah\debug\logger.inl" />
@@ -22,6 +26,7 @@
     <ClCompile Include="..\..\..\sources\debug\console_logger.cpp" />
     <ClCompile Include="..\..\..\sources\debug\html_logger.cpp" />
     <ClCompile Include="..\..\..\sources\debug\logger.cpp" />
+    <ClCompile Include="..\..\..\sources\debug\memory_tracker.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{63CC4E65-85DD-40B7-832E-C24874A3A392}</ProjectGuid>
@@ -51,7 +56,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <TargetName>$(ProjectName)_d</TargetName>
+    <TargetName>$(ProjectName)-d</TargetName>
     <OutDir>..\..\..\lib\win32\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -63,6 +68,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\..\include\djah\;..\..\..\..\extlibs\include\</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>MEMORY_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

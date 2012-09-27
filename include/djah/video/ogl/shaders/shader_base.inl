@@ -70,17 +70,17 @@ namespace djah { namespace video { namespace ogl {
 
 	//----------------------------------------------------------------------------------------------
 	template<int ShaderType>
-	void shader_base<ShaderType>::compile() const
+	bool shader_base<ShaderType>::compile() const
 	{
 		glCompileShader(id_);
-		handleCompilationErrors();
+		return handleCompilationErrors();
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
 	template<int ShaderType>
-	void shader_base<ShaderType>::handleCompilationErrors() const
+	bool shader_base<ShaderType>::handleCompilationErrors() const
 	{
 		// First of all check if the compilation went well
 		int status = GL_TRUE;
@@ -92,10 +92,10 @@ namespace djah { namespace video { namespace ogl {
 			glGetShaderiv(id_, GL_INFO_LOG_LENGTH, &log_size);
 
 			// Allocate a string big enough to contain the log + '\0'
-			char *log_str = new char[log_size + 1];
+			std::unique_ptr<char[]> log_str(new char[log_size + 1]);
 
 			// Retrieve the log
-			glGetShaderInfoLog(id_, log_size, &log_size, log_str);
+			glGetShaderInfoLog(id_, log_size, &log_size, log_str.get());
 			log_str[log_size] = '\0';
 
 			// TODO : throw some exception
@@ -103,12 +103,11 @@ namespace djah { namespace video { namespace ogl {
 				<< "====================================================================\n"
 				<< "                    SHADER COMPILATION ERROR(S)                     \n"
 				<< "--------------------------------------------------------------------\n"
-				<< log_str
+				<< log_str.get()
 				<< "===================================================================="
 				<< debug::logger::endl();
-
-			delete [] log_str;
 		}
+		return (status == GL_TRUE);
 	}
 	//----------------------------------------------------------------------------------------------
 

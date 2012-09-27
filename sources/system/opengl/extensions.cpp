@@ -1,7 +1,8 @@
-#include <cassert>
+#include "debug/assertion.hpp"
 #include "platform.hpp"
+
 #define DEFINE_EXTENSIONS_AS_LOCAL
-#include "system/opengl/gl.hpp"
+#	include "system/opengl/gl.hpp"
 #undef DEFINE_EXTENSIONS_AS_LOCAL
 
 namespace {
@@ -11,11 +12,11 @@ namespace {
 	inline void load_extension(T& func, const char *name)
 	{
         #if defined(DJAH_COMPILE_LINUX)
-        func = reinterpret_cast<T>( glXGetProcAddress(reinterpret_cast<const GLubyte *>(name)) );
+			func = reinterpret_cast<T>( glXGetProcAddress(reinterpret_cast<const GLubyte *>(name)) );
         #elif defined(DJAH_COMPILE_WINDOWS)
-		func = reinterpret_cast<T>( wglGetProcAddress(name) );
+			func = reinterpret_cast<T>( wglGetProcAddress(name) );
         #endif
-		assert(func != 0);
+		DJAH_ASSERT_MSG(func != 0, "Unable to load extension");
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -25,11 +26,13 @@ namespace {
 #define LOAD_EXTENSION(EXT) load_extension(EXT, #EXT)
 //--------------------------------------------------------------------------------------------------
 
+
+//--------------------------------------------------------------------------------------------------
 void load_opengl_extensions()
 {
-	//------------------------------------------------------------------------------------------
-	// BUFFERS
-	//------------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------------------------
+	// Buffers
+	//----------------------------------------------------------------------------------------------
 	LOAD_EXTENSION( glGenVertexArrays			);
 	LOAD_EXTENSION( glDeleteVertexArrays		);
 	LOAD_EXTENSION( glIsVertexArray				);
@@ -58,9 +61,9 @@ void load_opengl_extensions()
 	LOAD_EXTENSION( glBindFramebuffer			);
 	LOAD_EXTENSION( glFramebufferRenderbuffer	);
 
-	//------------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------------------------
 	// Shaders
-	//------------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------------------------
 	LOAD_EXTENSION( glCreateShader		 );
 	LOAD_EXTENSION( glDeleteShader		 );
 	LOAD_EXTENSION( glIsShader			 );
@@ -80,9 +83,9 @@ void load_opengl_extensions()
 	LOAD_EXTENSION( glGetProgramInfoLog	 );
 	LOAD_EXTENSION( glGetUniformLocation );
 
-	//------------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------------------------
 	// Uniforms
-	//------------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------------------------
 	LOAD_EXTENSION( glUniform1f	 );
 	LOAD_EXTENSION( glUniform2f	 );
 	LOAD_EXTENSION( glUniform3f	 );
@@ -113,8 +116,13 @@ void load_opengl_extensions()
 	LOAD_EXTENSION( glUniformMatrix3x4fv	);
 	LOAD_EXTENSION( glUniformMatrix4x3fv	);
 
+	//--------------------------------------------------------------------------------------------------
+	// Uniforms
+	//--------------------------------------------------------------------------------------------------
 	LOAD_EXTENSION( glActiveTexture );
 }
+//--------------------------------------------------------------------------------------------------
+
 
 //--------------------------------------------------------------------------------------------------
 #undef LOAD_EXTENSION

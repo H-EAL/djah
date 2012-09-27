@@ -21,7 +21,7 @@ namespace djah { namespace system { namespace opengl {
 	//----------------------------------------------------------------------------------------------
 	void capabilities::init()
 	{
-		std::string extensions = safe_gl_get_string(GL_EXTENSIONS);
+		const std::string &extensions = safe_gl_get_string(GL_EXTENSIONS);
 		utils::split_string(extensions, s_extensions_, " ");
 	}
 	//----------------------------------------------------------------------------------------------

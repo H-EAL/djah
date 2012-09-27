@@ -2,6 +2,7 @@
 #define DJAH_VIDEO_OGL_SHADER_BASE_HPP
 
 #include <string>
+#include <memory>
 
 #include "../resource.hpp"
 #include "../../../debug/logger.hpp"
@@ -18,7 +19,7 @@ namespace djah { namespace video { namespace ogl {
 		virtual ~shader_base();
 
 		void loadSource(const std::string &source);
-		void compile() const;
+		bool compile() const;
 
 	protected:
 
@@ -27,7 +28,7 @@ namespace djah { namespace video { namespace ogl {
 		virtual bool isValidResource() const;
 
 		void loadSource() const;
-		void handleCompilationErrors() const;
+		bool handleCompilationErrors() const;
 
 		std::string source_;
 	};

@@ -4,7 +4,7 @@
 namespace djah { namespace filesystem {
 
 	//----------------------------------------------------------------------------------------------
-	memory_stream::memory_stream(void *buffer, size_t size)
+	memory_stream::memory_stream(const void *buffer, size_t size)
 		: buffer_(new byte[size])
 		, buffer_size_(size)
 		, r_cursor_(buffer_)

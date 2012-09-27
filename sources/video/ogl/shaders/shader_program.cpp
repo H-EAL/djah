@@ -50,14 +50,14 @@ namespace djah { namespace video { namespace ogl {
 
 
 	//----------------------------------------------------------------------------------------------
-	void shader_program::link() const
+	bool shader_program::link() const
 	{
 		cache_.clear();
 		DJAH_TEST_FOR_OPENGL_ERRORS
 		(
 			glLinkProgram(id_)
 		);
-		handleLinkingErrors();
+		return handleLinkingErrors();
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -87,7 +87,7 @@ namespace djah { namespace video { namespace ogl {
 
 
 	//----------------------------------------------------------------------------------------------
-	void shader_program::handleLinkingErrors() const
+	bool shader_program::handleLinkingErrors() const
 	{
 		// First of all check if the linking went well
 		int status = GL_TRUE;
@@ -99,10 +99,10 @@ namespace djah { namespace video { namespace ogl {
 			glGetProgramiv(id_, GL_INFO_LOG_LENGTH, &log_size);
 
 			// Allocate a string big enough to contain the log + '\0'
-			char *log_str = new char[log_size + 1];
+			std::unique_ptr<char[]> log_str(new char[log_size + 1]);
 
 			// Retrieve the log
-			glGetProgramInfoLog(id_, log_size, &log_size, log_str);
+			glGetProgramInfoLog(id_, log_size, &log_size, log_str.get());
 			log_str[log_size] = '\0';
 
 			// TODO : let the error policy handle this
@@ -110,12 +110,11 @@ namespace djah { namespace video { namespace ogl {
 				<< "====================================================================\n"
 				<< "                      SHADER LINKING ERROR(S)                       \n"
 				<< "--------------------------------------------------------------------\n"
-				<< log_str
+				<< log_str.get()
 				<< "===================================================================="
 				<< debug::logger::endl();
-
-			delete [] log_str;
 		}
+		return (status == GL_TRUE);
 	}
 	//----------------------------------------------------------------------------------------------
 

@@ -30,7 +30,7 @@ namespace djah {
 		template<typename T> struct shift { enum { value = sizeof(T) * 8 }; };
 
 		template<typename ToType, typename FromType>
-		inline ToType concat_bytes(FromType low, FromType high)
+		inline ToType concat_bytes(FromType high, FromType low)
 		{
 			return static_cast<ToType>(low | ((ToType)high) << shift<FromType>::value);
 		}
@@ -49,9 +49,9 @@ namespace djah {
 	}
 
 	// Words baking
-	inline  word make_word	( byte high,  byte low) { return concat_bytes< word>(low, high);	}
-	inline dword make_dword	( word high,  word low) { return concat_bytes<dword>(low, high);	}
-	inline qword make_qword	(dword high, dword low) { return concat_bytes<qword>(low, high);	}
+	inline  word make_word	( byte high,  byte low) { return concat_bytes< word>(high, low);	}
+	inline dword make_dword	( word high,  word low) { return concat_bytes<dword>(high, low);	}
+	inline qword make_qword	(dword high, dword low) { return concat_bytes<qword>(high, low);	}
 
 	// Low bytes
 	inline  byte low_byte	( word  w)				{ return low_bytes< byte>	( w);			}

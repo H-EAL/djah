@@ -30,9 +30,10 @@ namespace djah { namespace filesystem {
 	//----------------------------------------------------------------------------------------------
 	size_t file_stream::size()
 	{
+		std::istream::pos_type prevPos = stream_.tellg();
 		stream_.seekg(0, std::ios::end);
 		std::istream::pos_type length = stream_.tellg();
-		stream_.seekg(0, std::ios::beg);
+		stream_.seekg(prevPos, std::ios::beg);
 
 		return static_cast<size_t>(length);
 	}

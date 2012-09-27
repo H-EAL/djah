@@ -3,6 +3,7 @@
 
 #include <map>
 #include <string>
+#include <memory>
 
 #include "../../../math/matrix.hpp"
 #include "../../../system/opengl/gl.hpp"
@@ -23,7 +24,7 @@ namespace djah { namespace video { namespace ogl {
 		template<int ShaderType>
 		void detach(const shader_base<ShaderType> &s) const;
 
-		void link() const;
+		bool link() const;
 
 		void begin() const;
 		static void end();
@@ -57,7 +58,7 @@ namespace djah { namespace video { namespace ogl {
 		virtual void release();
 		virtual bool isValidResource() const;
 
-		void handleLinkingErrors() const;
+		bool handleLinkingErrors() const;
 
 		unsigned int getUniformLocation(const std::string &name) const;
 

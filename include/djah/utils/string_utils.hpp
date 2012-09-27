@@ -10,6 +10,11 @@
 namespace djah { namespace utils {
 
 	//----------------------------------------------------------------------------------------------
+	typedef std::vector<std::string> string_list_t;
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
 	template<typename T1>
 	inline void extract_params_from_string(const std::string &params, T1 &t1)
 	{
@@ -76,7 +81,7 @@ namespace djah { namespace utils {
 
 
 	//----------------------------------------------------------------------------------------------
-	inline void split_string(const std::string &str, std::vector<std::string> &tokens, const std::string &delimiters = " ")
+	inline void split_string(const std::string &str, string_list_t &tokens, const std::string &delimiters = " ")
 	{
 		// Skip delimiters at beginning.
 		std::string::size_type lastPos = str.find_first_not_of(delimiters, 0);
@@ -92,6 +97,19 @@ namespace djah { namespace utils {
 			// Find next "non-delimiter"
 			pos = str.find_first_of(delimiters, lastPos);
 		}
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	inline std::string trimmed(const std::string &str)
+	{
+		std::string::size_type firstChar = str.find_first_not_of(" \t\r\n");
+		std::string::size_type lastChar  = str.find_last_not_of(" \t\r\n");
+		if( firstChar == std::string::npos )
+			firstChar = 0;
+
+		return str.substr(firstChar, lastChar == std::string::npos ? std::string::npos : (lastChar - firstChar + 1) );
 	}
 	//----------------------------------------------------------------------------------------------
 
