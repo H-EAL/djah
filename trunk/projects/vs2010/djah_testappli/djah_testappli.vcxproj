@@ -12,19 +12,33 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\tests\sources\application.hpp" />
+    <ClInclude Include="..\..\..\tests\sources\basic_test.hpp" />
+    <ClInclude Include="..\..\..\tests\sources\bump_mapping_test.hpp" />
     <ClInclude Include="..\..\..\tests\sources\camera.hpp" />
+    <ClInclude Include="..\..\..\tests\sources\deferred_shading_test.hpp" />
+    <ClInclude Include="..\..\..\tests\sources\font_test.hpp" />
     <ClInclude Include="..\..\..\tests\sources\model.hpp" />
     <ClInclude Include="..\..\..\tests\sources\profiler.hpp" />
     <ClInclude Include="..\..\..\tests\sources\resource_finder.hpp" />
+    <ClInclude Include="..\..\..\tests\sources\shadow_test.hpp" />
     <ClInclude Include="..\..\..\tests\sources\ShellOpenGL.h" />
     <ClInclude Include="..\..\..\tests\sources\ShellRenderInterfaceOpenGL.h" />
     <ClInclude Include="..\..\..\tests\sources\ShellSystemInterface.h" />
+    <ClInclude Include="..\..\..\tests\sources\solar_system_test.hpp" />
     <ClInclude Include="..\..\..\tests\sources\test.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\sources\video\font_engine.cpp" />
+    <ClCompile Include="..\..\..\sources\video\text.cpp" />
     <ClCompile Include="..\..\..\tests\sources\application.cpp" />
+    <ClCompile Include="..\..\..\tests\sources\basic_test.cpp" />
+    <ClCompile Include="..\..\..\tests\sources\bump_mapping_test.cpp" />
+    <ClCompile Include="..\..\..\tests\sources\deferred_shading_test.cpp" />
+    <ClCompile Include="..\..\..\tests\sources\font_test.cpp" />
+    <ClCompile Include="..\..\..\tests\sources\shadow_test.cpp" />
     <ClCompile Include="..\..\..\tests\sources\ShellRenderInterfaceOpenGL.cpp" />
     <ClCompile Include="..\..\..\tests\sources\ShellSystemInterface.cpp" />
+    <ClCompile Include="..\..\..\tests\sources\solar_system_test.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7AAB6E15-003B-4255-A923-7D8A8C11F47E}</ProjectGuid>
@@ -79,7 +93,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>djah_system-d.lib;djah_filesystem-d.lib;djah_video-d.lib;djah_debug-d.lib;djah_resources-d.lib;djah_core-d.lib;RocketCore_d.lib;RocketDebugger_d.lib;opengl32.lib;FreeImage.lib;freetype.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>djah_system-d.lib;djah_filesystem-d.lib;djah_opengl-d.lib;djah_debug-d.lib;djah_resources-d.lib;djah_core-d.lib;RocketCore_d.lib;RocketDebugger_d.lib;opengl32.lib;FreeImage.lib;freetype.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\..\lib\win32\;..\..\..\..\extlibs\lib\win32\</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -99,7 +113,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>djah_system.lib;djah_filesystem.lib;djah_video.lib;djah_debug.lib;djah_resources.lib;djah_core.lib;opengl32.lib;FreeImage.lib;freetype.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>djah_system.lib;djah_filesystem.lib;djah_opengl.lib;djah_debug.lib;djah_resources.lib;djah_core.lib;opengl32.lib;FreeImage.lib;freetype.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\..\lib\win32\;..\..\..\..\extlibs\lib\win32\</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>libcmt.lib</IgnoreSpecificDefaultLibraries>
     </Link>

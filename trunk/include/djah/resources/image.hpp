@@ -12,17 +12,19 @@ namespace djah { namespace resources {
 		: public resource_base
 	{
 	public:
-		image(unsigned int width, unsigned int height, const byte *pixels);
+		image(unsigned int _width, u32 _height, u32 _channels, const byte *pPixels);
 		~image() {}
 
-		unsigned int			width()  const { return width_;  }
-		unsigned int			height() const { return height_; }
-		const unsigned char*	pixels() const { return &pixels_[0]; }
+		u32			width()    const { return width_;  }
+		u32			height()   const { return height_; }
+		u32			channels() const { return channels_; }
+		const byte*	pixels()   const { return &pPixels_[0]; }
 
 	private:
 		unsigned int		width_;
 		unsigned int		height_;
-		std::vector<byte>	pixels_;
+		unsigned int		channels_;
+		std::vector<byte>	pPixels_;
 	};
 
 	typedef std::shared_ptr<image> image_ptr;

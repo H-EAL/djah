@@ -3,10 +3,10 @@
 
 #include <map>
 #include <string>
-#include <cassert>
+#include "../debug/assertion.hpp"
+#include "../core/typelist.hpp"
+#include "../core/hierarchy_generation.hpp"
 #include "attribute.hpp"
-#include "../utils/typelist.hpp"
-#include "../utils/hierarchy_generation.hpp"
 
 namespace djah { namespace dataobject {
 
@@ -43,13 +43,11 @@ namespace djah { namespace dataobject {
 
 		//------------------------------------------------------------------------------------------
 		template<typename T>
-		T get(const std::string &attribute_name, const T &default_value = T())
+		T get(const std::string &attribute_name, const T &default_value = T()) const
 		{
 			T result = default_value;
 
-			typedef typename attribute_holder<T>::attribute_map_t::const_iterator attributes_const_iterator;
-			attributes_const_iterator it = attribute_holder<T>::attributes_.find(attribute_name);
-
+			auto it = attribute_holder<T>::attributes_.find(attribute_name);
 			if( it != attribute_holder<T>::attributes_.end() )
 				result = it->second.value;
 
@@ -59,11 +57,9 @@ namespace djah { namespace dataobject {
 
 		//------------------------------------------------------------------------------------------
 		template<typename T>
-		bool has(const std::string &attribute_name)
+		bool has(const std::string &attribute_name) const
 		{
-			typedef typename attribute_holder<T>::attribute_map_t::const_iterator attributes_const_iterator;
-			attributes_const_iterator it = attribute_holder<T>::attributes_.find(attribute_name);
-
+			auto it = attribute_holder<T>::attributes_.find(attribute_name);
 			return (it != attribute_holder<T>::attributes_.end());
 		}
 		//------------------------------------------------------------------------------------------
@@ -72,7 +68,7 @@ namespace djah { namespace dataobject {
 		template<typename T>
 		void add(const attribute<T> &attr)
 		{
-			assert( !has<T>(attr.name) );
+			DJAH_ASSERT_MSG( !has<T>(attr.name), "data_object::add(), trying to add an already existing attribute" );
 			attribute_holder<T>::attributes_[attr.name] = attr;
 		}
 		//----------------------------------------------------------------------------------------------

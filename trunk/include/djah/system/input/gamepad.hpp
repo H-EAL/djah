@@ -8,13 +8,34 @@
 
 namespace djah { namespace system { namespace input {
 
-	enum E_POV_DIRECTION
+	enum ePovDirection
 	{
-		EPD_NEUTRAL = -1,
-		EPD_DOWN,
-		EPD_UP,
-		EPD_LEFT,
-		EPD_RIGHT
+		ePD_Neutral = -1,
+		ePD_Down,
+		ePD_Up,
+		ePD_Left,
+		ePD_Right
+	};
+
+	enum eXbox360Buttons
+	{
+		eX360_A,
+		eX360_B,
+		eX360_X,
+		eX360_Y,
+		eX360_LB,
+		eX360_RB,
+		eX360_Select,
+		eX360_Start,
+	};
+
+	enum eXbox360Axis
+	{
+		eX360_LeftX,
+		eX360_LeftY,
+		eX360_LeftRightTrigger,
+		eX360_RightX,
+		eX360_RightY,
 	};
 
 	class gamepad

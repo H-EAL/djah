@@ -9,7 +9,7 @@ namespace djah { namespace resources {
 		if( it == resources_.end() )
 		{
 			res->setName(name);
-			resources_.insert( resource_map_t::value_type(name, res.get()) );
+			resources_.insert( resource_map_t::value_type(name, res) );
 		}
 	}
 	//----------------------------------------------------------------------------------------------
@@ -31,7 +31,29 @@ namespace djah { namespace resources {
 	void resource_manager::remove(resource_ptr res)
 	{
 		if( res )
+		{
 			remove(res->name());
+		}
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	void resource_manager::cleanUp()
+	{
+		auto it    = resources_.begin();
+		auto itEnd = resources_.end();
+		while(it != itEnd)
+		{
+			if( it->second.unique() )
+			{
+				it = resources_.erase(it);
+			}
+			else
+			{
+				++it;
+			}
+		}
 	}
 	//----------------------------------------------------------------------------------------------
 

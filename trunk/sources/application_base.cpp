@@ -34,6 +34,9 @@ namespace djah {
 	//----------------------------------------------------------------------------------------------
 	int application_base::exec(int argc, char *argv[])
 	{
+		(void)argc;
+		(void)argv;
+
 		int retVal = EXIT_FAILURE;
 
 		init();

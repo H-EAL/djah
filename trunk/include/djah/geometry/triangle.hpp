@@ -1,7 +1,7 @@
 #ifndef DJAH_GEOMETRY_TRIANGLE_HPP
 #define DJAH_GEOMETRY_TRIANGLE_HPP
 
-#include "math/vector.hpp"
+#include "../math/vector.hpp"
 
 namespace djah { namespace geometry {
 

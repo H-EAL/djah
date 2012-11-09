@@ -2,14 +2,28 @@
 #define DJAH_TESTS_APPLICATION_HPP
 
 #include <djah/math.hpp>
+
 #include <djah/filesystem/memory_stream.hpp>
+
 #include <djah/video/text.hpp>
+
+#include <djah/opengl.hpp>
+
 #include <djah/system/input/mouse.hpp>
 #include <djah/system/input/keyboard.hpp>
 #include <djah/system/input/gamepad.hpp>
 
+#include <djah/dataobject/global_registry.hpp>
+
 #include <djah/application_base.hpp>
+
 #include "camera.hpp"
+#include "shadow_test.hpp"
+#include "basic_test.hpp"
+#include "deferred_shading_test.hpp"
+#include "solar_system_test.hpp"
+#include "bump_mapping_test.hpp"
+#include "font_test.hpp"
 
 
 class application
@@ -25,24 +39,11 @@ private:
 	virtual void runImpl();
 	virtual void exitImpl();
 
-	void draw3D();
 	void draw2D();
 
-	void drawAxis();
-	void drawMeshes();
+	djah::dataobject::default_registry::data_object_ptr screenCfgDo_;
 
-	djah::math::vector3f eye_;
-	djah::math::vector3f center_;
-	djah::math::vector3f up_;
-
-	djah::math::matrix4f matPerspectiveProj_;
 	djah::math::matrix4f matOrthoProj_;
-	djah::math::matrix4f matView_;
-
-	struct mesh *cthulhu_;
-	struct mesh *astroboy_;
-	struct mesh *cow_;
-	struct mesh *dude_;
 	Camera cam;
 
 	djah::system::input::mouse		mouse_;
@@ -51,6 +52,16 @@ private:
 
 	djah::video::text fps_str_;
 	djah::video::text mouse_pos_;
+	djah::video::text cam_pos_;
+	djah::video::text test_name_;
+
+	ShadowTest			 *pShadowTest_;
+	BasicTest			 *pBasicTest_;
+	DeferredShadingTest  *pDeferredShadingTest_;
+	SolarSystemTest		 *pSolarSystemTest_;
+	BumpMappingTest		 *pBumpMappingTest_;
+	FontTest			 *pFontTest_;
+	test_base			 *pCurrentTest_;
 };
 
 DJAH_ENTRY_POINT(application);

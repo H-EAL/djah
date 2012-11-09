@@ -1,5 +1,5 @@
-#include "video/text.hpp"
-#include "video/font_engine.hpp"
+#include "djah/video/text.hpp"
+#include "djah/video/font_engine.hpp"
 
 namespace djah { namespace video {
 

@@ -1,8 +1,8 @@
 #ifndef DJAH_DATA_OBJECT_GLOBAL_REGISTRY_HPP
 #define DJAH_DATA_OBJECT_GLOBAL_REGISTRY_HPP
 
-#include "../utils/typelist.hpp"
-#include "../utils/singleton.hpp"
+#include "../core/typelist.hpp"
+#include "../core/singleton.hpp"
 #include "registry.hpp"
 #include "ini_serializer.hpp"
 

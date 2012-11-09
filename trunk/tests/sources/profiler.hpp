@@ -1,8 +1,8 @@
 #ifndef PROFILER_HPP
 #define PROFILER_HPP
 
-#include <djah/debug/logger.hpp>
-#include <djah/time/timer.hpp>
+#include <djah/debug/log.hpp>
+#include <djah/core/time/timer.hpp>
 
 class ScopedProfile
 {
@@ -21,9 +21,9 @@ public:
 		int j = i;
 
 		while(j-- > 0)
-			DJAH_BEGIN_LOG(EWL_NOTIFICATION) << "    ";
+			DJAH_BEGIN_LOG(notification) << "    ";
 
-		DJAH_BEGIN_LOG(EWL_NOTIFICATION)
+		DJAH_BEGIN_LOG(notification)
 			<< "[" << section_name_ << "] "
 			<< "(" << clock_.getElapsedTimeMs() << " ms)"
 			<< DJAH_END_LOG();
@@ -35,7 +35,7 @@ private:
 	static int i;
 };
 
-int ScopedProfile::i = 0;
+//int ScopedProfile::i = 0;
 
 #define DJAH_AUTO_PROFILE(S) ScopedProfile autoScopedProfile(S);
 

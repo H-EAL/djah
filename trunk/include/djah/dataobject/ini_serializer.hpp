@@ -7,7 +7,7 @@
 #include "serializer.hpp"
 #include "../filesystem/stream.hpp"
 #include "../filesystem/memory_stream.hpp"
-#include "../utils/string_utils.hpp"
+#include "../core/string_utils.hpp"
 
 namespace djah { namespace dataobject {
 
@@ -118,9 +118,8 @@ namespace djah { namespace dataobject {
 			
 			attribute_set_t attributeSet;
 
-			utils::string_list_t::const_iterator it;
-			utils::string_list_t::const_iterator itEnd = lines.end();
-			for(it = lines.begin(); it != itEnd; ++it)
+			auto itEnd = lines.end();
+			for(auto it = lines.begin(); it != itEnd; ++it)
 			{
 				const std::string &trimmedLine = utils::trimmed( *it );
 				

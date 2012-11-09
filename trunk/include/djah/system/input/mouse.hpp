@@ -21,6 +21,8 @@ namespace djah { namespace system { namespace input {
 		const math::vector2i&	position()		const { return position_;		}
 		const math::vector2i&	delta()			const { return delta_;			}
 
+		void					setPosition(const math::vector2i &clientPos);
+
 		bool					hasMoved()		const { return delta_.x != 0 || delta_.y != 0; }
 
 	private:

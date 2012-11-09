@@ -3,12 +3,13 @@
 namespace djah { namespace resources {
 
 	//----------------------------------------------------------------------------------------------
-	image::image(unsigned int width, unsigned int height, const byte *pixels)
-		: width_(width)
-		, height_(height)
-		, pixels_(width * height * 3)
+	image::image(u32 _width, u32 _height, u32 _channels, const byte *pPixels)
+		: width_(_width)
+		, height_(_height)
+		, channels_(_channels)
+		, pPixels_(_width * _height * _channels)
 	{
-		std::copy(pixels, pixels + width * height * 3, pixels_.begin());
+		std::copy(pPixels, pPixels + pPixels_.size(), pPixels_.begin());
 	}
 	//----------------------------------------------------------------------------------------------
 

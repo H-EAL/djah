@@ -125,13 +125,30 @@ namespace djah { namespace math {
 	}
 	//----------------------------------------------------------------------------------------------
 
+	//----------------------------------------------------------------------------------------------
+	template<typename T>
+	inline quaternion<T>& quaternion<T>::operator *=(const quaternion<T> &rhs)
+	{
+		const vector<3,T> v1(x, y, z);
+		const vector<3,T> v2(rhs.x, rhs.y, rhs.z);
+		const vector<3,T> vR(v2*w + v1*rhs.w + v1.cross(v2));
+
+		x = vR.x;
+		y = vR.y;
+		z = vR.z;
+		w = w*rhs.w - v1*v2;
+
+		return *this;
+	}
+	//----------------------------------------------------------------------------------------------
+
 
 	/**********************************************************************************************/
 
 
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline const quaternion<T> operator +(const quaternion<T> &lhs, const quaternion<T> &rhs)
+	inline quaternion<T> operator +(const quaternion<T> &lhs, const quaternion<T> &rhs)
 	{
 		return quaternion<T>(lhs) += rhs;
 	}
@@ -139,7 +156,7 @@ namespace djah { namespace math {
 
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline const quaternion<T> operator -(const quaternion<T> &lhs, const quaternion<T> &rhs)
+	inline quaternion<T> operator -(const quaternion<T> &lhs, const quaternion<T> &rhs)
 	{
 		return quaternion<T>(lhs) -= rhs;
 	}
@@ -147,7 +164,7 @@ namespace djah { namespace math {
 	
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline const quaternion<T> operator *(const quaternion<T> &lhs, T rhs)
+	inline quaternion<T> operator *(const quaternion<T> &lhs, T rhs)
 	{
 		return quaternion<T>(lhs) *= rhs;
 	}
@@ -155,7 +172,7 @@ namespace djah { namespace math {
 
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline const quaternion<T> operator *(T lhs, const quaternion<T> &rhs)
+	inline quaternion<T> operator *(T lhs, const quaternion<T> &rhs)
 	{
 		return rhs * lhs;
 	}
@@ -163,7 +180,7 @@ namespace djah { namespace math {
 
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline const quaternion<T> operator /(const quaternion<T> &lhs, T rhs)
+	inline quaternion<T> operator /(const quaternion<T> &lhs, T rhs)
 	{
 		return quaternion<T>(lhs) /= rhs;
 	}
@@ -171,13 +188,9 @@ namespace djah { namespace math {
 	
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline const quaternion<T> operator *(const quaternion<T> &lhs, const quaternion<T> &rhs)
+	inline quaternion<T> operator *(const quaternion<T> &lhs, const quaternion<T> &rhs)
 	{
-		const vector<3,T> v1(lhs.x, lhs.y, lhs.z);
-		const vector<3,T> v2(rhs.x, rhs.y, rhs.z);
-		const vector<3,T> vR(v2*lhs.w + v1*rhs.w + v1.cross(v2));
-
-		return quaternion<T>(vR.x, vR.y, vR.z, lhs.w*rhs.w - v1*v2);
+		return quaternion<T>(lhs) *= rhs;
 	}
 	//----------------------------------------------------------------------------------------------
 

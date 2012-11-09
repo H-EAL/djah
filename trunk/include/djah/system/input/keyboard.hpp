@@ -5,20 +5,22 @@
 
 namespace djah { namespace system { namespace input {
 
-	enum E_KEY_CODE
+	enum eKeyCode
 	{
-		EKC_BACKSPACE	= 0x08,
-		EKC_TAB			= 0x09,
-		EKC_RETURN		= 0x0D,
-		EKC_SPACE		= 0x20,
+		eKC_BACKSPACE	= 0x08,
+		eKC_TAB			= 0x09,
+		eKC_RETURN		= 0x0D,
+		eKC_SHIFT		= 0x10,
+		eKC_ESCAPE		= 0x1B,
+		eKC_SPACE		= 0x20,
 
-		EKC_0			= 0x30,
-		EKC_1, EKC_2, EKC_3, EKC_4, EKC_5, EKC_6, EKC_7, EKC_8, EKC_9,
+		eKC_0			= 0x30,
+		eKC_1, eKC_2, eKC_3, eKC_4, eKC_5, eKC_6, eKC_7, eKC_8, eKC_9,
 
-		EKC_A			= 0x41,
-		EKC_B, EKC_C, EKC_D, EKC_E, EKC_F, EKC_G, EKC_H, EKC_I, EKC_J,
-		EKC_K, EKC_L, EKC_M, EKC_N, EKC_O, EKC_P, EKC_Q, EKC_R, EKC_S,
-		EKC_T, EKC_U, EKC_V, EKC_W, EKC_X, EKC_Y, EKC_Z,
+		eKC_A			= 0x41,
+		eKC_B, eKC_C, eKC_D, eKC_E, eKC_F, eKC_G, eKC_H, eKC_I, eKC_J,
+		eKC_K, eKC_L, eKC_M, eKC_N, eKC_O, eKC_P, eKC_Q, eKC_R, eKC_S,
+		eKC_T, eKC_U, eKC_V, eKC_W, eKC_X, eKC_Y, eKC_Z,
 	};
 
 	class keyboard
@@ -29,10 +31,15 @@ namespace djah { namespace system { namespace input {
 
 		void update();
 
-		bool isKeyDown(E_KEY_CODE key_code);
+		bool isKeyDown (eKeyCode keyCode) const;
+		bool wasKeyDown(eKeyCode keyCode) const;
+
+		bool pressed (eKeyCode keyCode) const;
+		bool released(eKeyCode keyCode) const;
 
 	private:
-		std::vector<unsigned char> keys_state_;
+		unsigned int				currentState_;
+		std::vector<unsigned char>	keysState_[2];
 	};
 
 } /*input*/ } /*system*/ } /*djah*/

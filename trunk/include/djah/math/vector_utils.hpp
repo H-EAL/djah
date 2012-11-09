@@ -1,13 +1,14 @@
 #ifndef DJAH_MATH_VECTOR_UTILS_HPP
 #define DJAH_MATH_VECTOR_UTILS_HPP
 
+#include <tuple>
 #include "vector.hpp"
 
 namespace djah { namespace math {
 
 	//--------------------------------------------------------------------------
 	template<int N, typename T>
-	inline const vector<N,T> create_vector(const vector<N,T> &from_point, const vector<N,T> &to_point)
+	inline vector<N,T> create_vector(const vector<N,T> &from_point, const vector<N,T> &to_point)
 	{
 		return to_point - from_point;
 	}
@@ -16,7 +17,7 @@ namespace djah { namespace math {
 	
 	//--------------------------------------------------------------------------
 	template<typename T>
-	inline const vector<4,T> vec3_to_vec4(const vector<3,T> &v)
+	inline vector<4,T> vec3_to_vec4(const vector<3,T> &v)
 	{
 		return resize<4>(v, T(1));
 	}
@@ -24,7 +25,7 @@ namespace djah { namespace math {
 
 	//--------------------------------------------------------------------------
 	template<typename T>
-	inline const vector<4,T> point3_to_point4(const vector<3,T> &p)
+	inline vector<4,T> point3_to_point4(const vector<3,T> &p)
 	{
 		return resize<4>(p, T(0));
 	}
@@ -32,7 +33,7 @@ namespace djah { namespace math {
 
 	//--------------------------------------------------------------------------
 	template<typename T>
-	inline const vector<3,T> vec4_to_vec3(const vector<4,T> &v)
+	inline vector<3,T> vec4_to_vec3(const vector<4,T> &v)
 	{
 		return resize<3>(v);
 	}
@@ -40,7 +41,7 @@ namespace djah { namespace math {
 
 	//--------------------------------------------------------------------------
 	template<typename T>
-	inline const vector<3,T> point4_to_point3(const vector<4,T> &p)
+	inline vector<3,T> point4_to_point3(const vector<4,T> &p)
 	{
 		return resize<3>(p);
 	}
@@ -66,25 +67,25 @@ namespace djah { namespace math {
 
 	//--------------------------------------------------------------------------
 	template<int N, typename T>
-	inline const vector<N,T> direction(const vector<N,T> &from_point, const vector<N,T> &to_point)
+	inline vector<N,T> direction(const vector<N,T> &from_point, const vector<N,T> &to_point)
 	{
-		return create_vector(from_point, to_point).getNormalized();
+		return create_vector(from_point, to_point).normalize();
 	}
 	//--------------------------------------------------------------------------
 
 
 	//--------------------------------------------------------------------------
 	template<int N, typename T>
-	inline const vector<N,T> normal(const vector<N,T> &u, const vector<N,T> &v)
+	inline vector<N,T> normal(const vector<N,T> &u, const vector<N,T> &v)
 	{
-		return u.cross(v).getNormalized();
+		return u.cross(v).normalize();
 	}
 	//--------------------------------------------------------------------------
 
 
 	//--------------------------------------------------------------------------
 	template<int N, typename T>
-	inline const vector<N,T> project(const vector<N,T> &v, const vector<N,T> &proj_axis)
+	inline vector<N,T> project(const vector<N,T> &v, const vector<N,T> &proj_axis)
 	{
 		return ((v * proj_axis) / proj_axis.length()) * proj_axis;
 	}
@@ -93,7 +94,7 @@ namespace djah { namespace math {
 
 	//--------------------------------------------------------------------------
 	template<int N, typename T>
-	inline const vector<N,T> face_forward(const vector<N,T> &n, const vector<N,T> &v, const vector<N,T> &n_ref)
+	inline vector<N,T> face_forward(const vector<N,T> &n, const vector<N,T> &v, const vector<N,T> &n_ref)
 	{
 		return (n_ref * v) < T(0) ? n : -n;
 	}
@@ -102,7 +103,7 @@ namespace djah { namespace math {
 
 	//--------------------------------------------------------------------------
 	template<int N, typename T>
-	inline const vector<N,T> reflect(const vector<N,T> &i, const vector<N,T> &n)
+	inline vector<N,T> reflect(const vector<N,T> &i, const vector<N,T> &n)
 	{
 		return i - T(2) * (i*n) * n;
 	}
@@ -111,20 +112,32 @@ namespace djah { namespace math {
 
 	//--------------------------------------------------------------------------
 	template<int N, typename T>
-	inline float oriented_angle(const vector<N,T> &from_vec, const vector<N,T> &to_vec)
+	inline std::tuple< float, vector<N,T> >
+		oriented_angle(const vector<N,T> &from_vec, const vector<N,T> &to_vec)
 	{
-		float angle = 0.0f;
+		std::tuple< float, vector<N,T> > angle_axis;
+
 		if( from_vec != to_vec )
 		{
 			const vector<N,T> &norm = normal(from_vec, to_vec);
 			const vector<N,T> &orientation = to_vec.getNormalized();
 			const float dotResult = orientation * norm;
-			// If dot result is -1 then from and to vectors form a 180 degree angle
-			angle =	(dotResult == -1.0f) 
-					?	pi
-					:	atan2( norm * (orientation ^ from_vec), orientation * from_vec );
+
+			float &angle	  = std::get<0>(angle_axis);
+			vector<N,T> &axis = std::get<1>(angle_axis);
+			if(dotResult == -1.0f)
+			{
+				// If dot result is -1 then from and to vectors form a 180 degree angle
+				angle = pi;
+			}
+			else
+			{
+				axis  = orientation.cross(from_vec);
+				angle = atan2( norm * -axis, orientation * from_vec );
+			}
 		}
-		return angle;
+
+		return angle_axis;
 	}
 	//--------------------------------------------------------------------------
 

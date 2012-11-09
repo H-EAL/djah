@@ -15,16 +15,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "djah_system", "djah_system\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "djah_filesystem", "djah_filesystem\djah_filesystem.vcxproj", "{DC426C2C-85A1-43A0-A8CF-282072C25D71}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "djah_video", "djah_video\djah_video.vcxproj", "{7A05DD56-1939-488D-9E6D-F5DEA55ACAA4}"
-	ProjectSection(ProjectDependencies) = postProject
-		{AFA71315-A65A-4309-AEB3-AB7788E32E4F} = {AFA71315-A65A-4309-AEB3-AB7788E32E4F}
-	EndProjectSection
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "djah_core", "djah_core\djah_core.vcxproj", "{E6AD5850-0F26-4F2B-923E-8F9CBF8037F8}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "djah_resources", "djah_resources\djah_resources.vcxproj", "{E553EFC9-96B6-46B1-844F-E33388018025}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "djah_debug", "djah_debug\djah_debug.vcxproj", "{63CC4E65-85DD-40B7-832E-C24874A3A392}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "djah_opengl", "djah_opengl\djah_opengl.vcxproj", "{7A05DD56-1939-488D-9E6D-F5DEA55ACAA4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,10 +41,6 @@ Global
 		{DC426C2C-85A1-43A0-A8CF-282072C25D71}.Debug|Win32.Build.0 = Debug|Win32
 		{DC426C2C-85A1-43A0-A8CF-282072C25D71}.Release|Win32.ActiveCfg = Release|Win32
 		{DC426C2C-85A1-43A0-A8CF-282072C25D71}.Release|Win32.Build.0 = Release|Win32
-		{7A05DD56-1939-488D-9E6D-F5DEA55ACAA4}.Debug|Win32.ActiveCfg = Debug|Win32
-		{7A05DD56-1939-488D-9E6D-F5DEA55ACAA4}.Debug|Win32.Build.0 = Debug|Win32
-		{7A05DD56-1939-488D-9E6D-F5DEA55ACAA4}.Release|Win32.ActiveCfg = Release|Win32
-		{7A05DD56-1939-488D-9E6D-F5DEA55ACAA4}.Release|Win32.Build.0 = Release|Win32
 		{E6AD5850-0F26-4F2B-923E-8F9CBF8037F8}.Debug|Win32.ActiveCfg = Debug|Win32
 		{E6AD5850-0F26-4F2B-923E-8F9CBF8037F8}.Debug|Win32.Build.0 = Debug|Win32
 		{E6AD5850-0F26-4F2B-923E-8F9CBF8037F8}.Release|Win32.ActiveCfg = Release|Win32
@@ -60,6 +53,10 @@ Global
 		{63CC4E65-85DD-40B7-832E-C24874A3A392}.Debug|Win32.Build.0 = Debug|Win32
 		{63CC4E65-85DD-40B7-832E-C24874A3A392}.Release|Win32.ActiveCfg = Release|Win32
 		{63CC4E65-85DD-40B7-832E-C24874A3A392}.Release|Win32.Build.0 = Release|Win32
+		{7A05DD56-1939-488D-9E6D-F5DEA55ACAA4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7A05DD56-1939-488D-9E6D-F5DEA55ACAA4}.Debug|Win32.Build.0 = Debug|Win32
+		{7A05DD56-1939-488D-9E6D-F5DEA55ACAA4}.Release|Win32.ActiveCfg = Release|Win32
+		{7A05DD56-1939-488D-9E6D-F5DEA55ACAA4}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

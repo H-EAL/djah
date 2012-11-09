@@ -4,7 +4,7 @@
 #if defined(_WIN32)
 #   define DJAH_COMPILE_WINDOWS
 #   define WIN32_LEAN_AND_MEAN
-#   include <windows.h>
+#	include <Windows.h>
 #	include <MMSystem.h>
 #	ifdef near
 #		undef near

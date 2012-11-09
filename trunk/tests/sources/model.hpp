@@ -4,151 +4,145 @@
 #include <memory>
 #include "profiler.hpp"
 #include "resource_finder.hpp"
+#include "djah/dataobject/global_registry.hpp"
+#include "djah/opengl.hpp"
+#include "djah/resources/media_manager.hpp"
 
-struct mesh
+struct model
 {
-	mesh(const std::string &name, const std::string textureName = "", const std::string &nmap = "", int tc = 2)
-		: mat_world_(math::matrix4f::mat_identity)
-		, vb_(0)
-		, va_(0)
-		, tex_(0)
-		, nmap_(0)
+	model(const std::string &doName)
+		: mat_world_(djah::math::matrix4f::identity)
+		, sp_(nullptr)
+		, vb_(nullptr)
+		, va_(nullptr)
+		, tex_(nullptr)
+		, nmap_(nullptr)
+		, pDo_( djah::dataobject::default_registry::get().getDO(doName) )
 	{
-		strm_ = new filesystem::memory_stream( filesystem::browser::get().openReadStream("3d/" + name + ".bdae") );
-		if( strm_->size() > 0 )
-			init(textureName, nmap, tc);
+		assert( pDo_ );
+
+		djah::filesystem::stream_ptr fstrm = djah::filesystem::browser::get().openReadStream(pDo_->get<std::string>("model_file"));
+
+		if( fstrm && fstrm->size() > 0 )
+		{
+			djah::filesystem::memory_stream strm( fstrm );
+			init
+			(
+				strm,
+				pDo_->get<std::string>("texture_file", ""),
+				pDo_->get<std::string>("nmap_file", ""),
+				pDo_->get<int>("tex_coords", 2)
+			);
+
+			trans_ = djah::math::transformation_f
+			(
+				pDo_->get<djah::math::vector3f>("position"),
+				pDo_->get<djah::math::quatf>("orientation"),
+				pDo_->get<djah::math::vector3f>( "scale", math::vector3f(1.0f, 1.0f, 1.0f) )
+			);
+		}
 	}
 
-	~mesh()
+	~model()
 	{
-		delete strm_;
-		delete va_;
+		delete sp_;
 		delete vb_;
+		delete va_;
 		delete tex_;
 		delete nmap_;
 	}
 
-	std::string loadShaderSource(const std::string &url)
+	void init(djah::filesystem::memory_stream &strm, const std::string &textureName, const std::string &nmap, int tc)
 	{
-		std::string source;
-
-		filesystem::stream_ptr strm = filesystem::browser::get().openReadStream(url);
-		if( strm )
-		{
-			unsigned int src_size = strm->size();
-			source.resize(src_size);
-			strm->read(&source[0], src_size);
-		}
-
-		return source;
-	}
-
-	void init(const std::string &textureName, const std::string &nmap, int tc)
-	{
-		DJAH_AUTO_PROFILE("INIT MESH " + textureName);
 		if( !textureName.empty() )
 		{
-			std::shared_ptr<resources::image> img;
-			{
-				//DJAH_AUTO_PROFILE("LOAD TEXTURE " + textureName);
-				img = find_resource<resources::image>("textures/" + textureName);
-			}
+			djah::resources::image_ptr img = find_resource<resources::image>(textureName);
 			if( img )
 			{
-				//DJAH_AUTO_PROFILE("CREATING TEXTURE " + textureName);
-				tex_ = new video::ogl::texture(img->width(), img->height());
-				tex_->setPixelBuffer(img->pixels(), false);
-			}
-		}
-		if( !nmap.empty() )
-		{
-			std::shared_ptr<resources::image> img = find_resource<resources::image>("textures/" + nmap);
-			if( img )
-			{
-				nmap_ = new video::ogl::texture(img->width(), img->height());
-				nmap_->setPixelBuffer(img->pixels(), false);
+				tex_ = new opengl::texture(GL_RGB, img->width(), img->height());
+				tex_->bind();
+				tex_->setBestFiltering();
+				tex_->setPixelBuffer(GL_BGR, GL_UNSIGNED_BYTE, img->pixels());
 			}
 		}
 
-		video::ogl::vertex_format vf;
+		djah::opengl::vertex_format vf;
 
 		if( tc == 2 )
 		{
 			vf.record()
-				<< video::ogl::format::position<3,float>()
-				<< video::ogl::format::normal<3,float>()
-				<< video::ogl::format::tex_coord<2,float>();
-		}
-		else
-		{
-			vf.record()
-				<< video::ogl::format::position<3,float>()
-				<< video::ogl::format::normal<3,float>()
-				<< video::ogl::format::tex_coord<3,float>();
+				<< djah::opengl::format::position<3,float>()
+				<< djah::opengl::format::normal<3,float>()
+				<< djah::opengl::format::tex_coord<2,float>();
 		}
 		
 		{
-			//DJAH_AUTO_PROFILE("VERTEX STUFF " + textureName);
-			vb_ = new video::ogl::vertex_buffer( strm_->size(), video::ogl::EBU_STATIC_DRAW);
-			va_ = new video::ogl::vertex_array(vf, vb_);
-			vb_->write(strm_->buffer(), strm_->size());
+			vb_ = new djah::opengl::vertex_buffer(strm.size(), opengl::eBU_StaticDraw);
+			va_ = new djah::opengl::vertex_array(vf, vb_);
+			vb_->write(strm.buffer(), strm.size());
 		}
 
-
-		{
-		//DJAH_AUTO_PROFILE("SHADERS STUFF " + textureName);
-		video::ogl::vertex_shader vs( loadShaderSource("shaders/test.vert") );
-		video::ogl::pixel_shader  ps( loadShaderSource("shaders/test.frag") );
-
-		vs.compile();
-		ps.compile();
-		sp_.attach(vs);
-		sp_.attach(ps);
-		sp_.link();
-
-		va_->init(sp_);
-		}
+		compileShader();
 	}
 
-	void draw(const math::matrix4f &matProj, const math::matrix4f &matView, const math::vector3f &lightPos)
+	void compileShader()
 	{
-		sp_.begin();
+		if( sp_ )
+		{
+			delete sp_;
+			sp_ = 0;
+		}
+		const std::string &vertexShaderFile = pDo_->get<std::string>("vertex_shader");
+		const std::string &pixelShaderFile  = pDo_->get<std::string>("pixel_shader");
+		
+		djah::opengl::vertex_shader vs( loadShaderSource(vertexShaderFile) );
+		djah::opengl::pixel_shader  ps( loadShaderSource(pixelShaderFile)  );
 
-		sp_.sendUniform("in_LightPos", lightPos);
+		sp_ = new djah::opengl::shader_program( filesystem::url(vertexShaderFile).baseName() );
 
-		if( tex_ )
-		{
-			glEnable(GL_TEXTURE_2D);
-			tex_->bind();
-			sp_.sendUniform("tex", 0);
-			sp_.sendUniform("hasTexture", 1);
-		}
-		else
-		{
-			sp_.sendUniform("in_Color", math::vector4f(0.2f,1.0f,0.35f,1.0f));
-			sp_.sendUniform("hasTexture", 0);
-		}
-		if( nmap_ )
-		{
-			glEnable(GL_TEXTURE_2D);
-			nmap_->bind(1);
-			sp_.sendUniform("nmap", 1);
-		}
-		sp_.sendUniformMatrix("Projection", matProj);
-		sp_.sendUniformMatrix("Model", mat_world_);
-		sp_.sendUniformMatrix("View", matView);
-		va_->draw();
-		sp_.end();
-		glDisable(GL_TEXTURE_2D);
+		if( vs.compile() )
+			sp_->attach(vs);
+
+		if( ps.compile() )
+			sp_->attach(ps);
+
+		sp_->link();
+
+		va_->init(*sp_);
 	}
 
-	filesystem::memory_stream *strm_;
-	video::ogl::vertex_buffer *vb_;
-	video::ogl::vertex_array *va_;
-	video::ogl::shader_program sp_;
-	video::ogl::texture *tex_;
-	video::ogl::texture *nmap_;
-	math::matrix4f mat_world_;
+	//----------------------------------------------------------------------------------------------
+	void draw(const djah::math::matrix4f &matProj, const djah::math::matrix4f &matView, const djah::math::matrix4f &lightVP, const djah::math::vector3f &spotPosition, const djah::math::vector3f &spotDirection)
+	{
+		sp_->begin();
+
+		djah::opengl::texture::set_active_unit(0);
+		tex_->bind();
+
+		sp_->sendUniform("in_DiffuseSampler", 0);
+		sp_->sendUniform("in_ShadowMapSampler", 1);
+		sp_->sendUniform("in_SpotPosition", spotPosition);
+		sp_->sendUniform("in_SpotDirection", spotDirection);
+
+		mat_world_ = trans_.toMatrix4();
+		sp_->sendUniformMatrix("in_WorldViewProjection", mat_world_ * matView * matProj);
+		sp_->sendUniformMatrix("in_World", mat_world_);
+		sp_->sendUniformMatrix("in_LightWVP", mat_world_ * lightVP);
+		va_->draw();
+		sp_->end();
+
+		tex_->unbind();
+	}
+	//----------------------------------------------------------------------------------------------
+
+	djah::opengl::shader_program *sp_;
+	djah::opengl::vertex_buffer *vb_;
+	djah::opengl::vertex_array *va_;
+	djah::opengl::texture *tex_;
+	djah::opengl::texture *nmap_;
+	djah::math::matrix4f mat_world_;
+	djah::math::transformation_f trans_;
+	djah::dataobject::default_registry::data_object_ptr pDo_;
 };
 
 #endif /* MODEL_HPP */

@@ -25,7 +25,7 @@ namespace djah {
 	typedef u64	qword;
 
 	// Helpers
-	namespace {
+	namespace detail {
 
 		template<typename T> struct shift { enum { value = sizeof(T) * 8 }; };
 
@@ -44,24 +44,26 @@ namespace djah {
 		template<typename ToType, typename FromType>
 		inline ToType high_bytes(FromType bytes)
 		{
-			return static_cast<ToType>(bytes >> shift<ToType>::value) & (ToType)((u32)(-1));
+			return static_cast<ToType>(bytes >> shift<ToType>::value) & static_cast<ToType>(-1);
 		}
-	}
+
+	} /*detail*/
+
 
 	// Words baking
-	inline  word make_word	( byte high,  byte low) { return concat_bytes< word>(high, low);	}
-	inline dword make_dword	( word high,  word low) { return concat_bytes<dword>(high, low);	}
-	inline qword make_qword	(dword high, dword low) { return concat_bytes<qword>(high, low);	}
+	inline  word make_word	( byte high,  byte low) { return detail::concat_bytes< word>(high, low);	}
+	inline dword make_dword	( word high,  word low) { return detail::concat_bytes<dword>(high, low);	}
+	inline qword make_qword	(dword high, dword low) { return detail::concat_bytes<qword>(high, low);	}
 
 	// Low bytes
-	inline  byte low_byte	( word  w)				{ return low_bytes< byte>	( w);			}
-	inline  word low_word	(dword dw)				{ return low_bytes< word>	(dw);			}
-	inline dword low_dword	(qword qw)				{ return low_bytes<dword>	(qw);			}
+	inline  byte low_byte	( word  w)				{ return detail::low_bytes< byte>	( w);			}
+	inline  word low_word	(dword dw)				{ return detail::low_bytes< word>	(dw);			}
+	inline dword low_dword	(qword qw)				{ return detail::low_bytes<dword>	(qw);			}
 
 	// High bytes
-	inline  byte high_byte	( word  w)				{ return high_bytes< byte>	( w);			}
-	inline  word high_word	(dword dw)				{ return high_bytes< word>	(dw);			}
-	inline dword high_dword	(qword qw)				{ return high_bytes<dword>	(qw);			}
+	inline  byte high_byte	( word  w)				{ return detail::high_bytes< byte>	( w);			}
+	inline  word high_word	(dword dw)				{ return detail::high_bytes< word>	(dw);			}
+	inline dword high_dword	(qword qw)				{ return detail::high_bytes<dword>	(qw);			}
 
 } /*djah*/
 

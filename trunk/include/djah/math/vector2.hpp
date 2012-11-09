@@ -18,7 +18,7 @@ namespace djah { namespace math {
 			T data[2];
 		};
 
-		// Usefull constants
+		// Useful constants
 		static const vector<2,T> x_axis;
 		static const vector<2,T> y_axis;
 	};

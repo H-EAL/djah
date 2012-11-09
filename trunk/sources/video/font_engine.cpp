@@ -1,12 +1,12 @@
-#include "video/font_engine.hpp"
+#include "djah/video/font_engine.hpp"
 
 #include <vector>
 #include <cassert>
 
-#include "video/ogl/buffers/texture.hpp"
-#include "system/opengl/gl.hpp"
-#include "filesystem/browser.hpp"
-#include "debug/logger.hpp"
+#include "djah/opengl.hpp"
+#include "djah/system/gl.hpp"
+#include "djah/filesystem/browser.hpp"
+#include "djah/debug/log.hpp"
 
 namespace djah { namespace video {
 	
@@ -87,6 +87,8 @@ namespace djah { namespace video {
 	//----------------------------------------------------------------------------------------------
 	void font_engine::print(const std::string &text, int x, int y) const
 	{
+		return;
+		/*
 		if( !current_font_ )
 			return;
 
@@ -106,16 +108,17 @@ namespace djah { namespace video {
 				glBegin(GL_QUADS);
 				{
 					glTexCoord2f(0.0f, c.tex_coord.y);
-					glVertex2f(0.0f, 0.0f);
+					//glVertex2f(0.0f, 0.0f);
+					glVertex2f(0.0f, -c.offset.y);
 
 					glTexCoord2f(c.tex_coord.x, c.tex_coord.y);
-					glVertex2f(c.dimension.x, 0.0f);
+					glVertex2f(c.dimension.x, 0.0f - c.offset.y);
 
 					glTexCoord2f(c.tex_coord.x, 0.0f);
-					glVertex2f(c.dimension.x, -c.dimension.y);
+					glVertex2f(c.dimension.x, -c.dimension.y - c.offset.y);
 
 					glTexCoord2f(0,0);
-					glVertex2f(0.0f, -c.dimension.y);
+					glVertex2f(0.0f, -c.dimension.y - c.offset.y);
 				}
 				glEnd();
 			}
@@ -123,6 +126,7 @@ namespace djah { namespace video {
 		}
 		glPopMatrix();
 		glDisable(GL_TEXTURE_2D);
+		*/
 	}
 	//----------------------------------------------------------------------------------------------
 	
@@ -137,6 +141,7 @@ namespace djah { namespace video {
 	font_data* font_engine::newFont(const font_traits &traits)
 	{
 		font_data *new_font = 0;
+		/*
 		filesystem::stream_ptr strm = filesystem::browser::get().openReadStream(fonts_path_ + traits.name);
 
 		if( strm )
@@ -180,8 +185,6 @@ namespace djah { namespace video {
 						bitmap.resize(size);
 						memcpy(&bitmap[0], slot->bitmap.buffer, size);
 
-						new_font->metrics[c].tex = new video::ogl::texture(width, height);
-
 						byte *expanded = new byte[2*width*height];
 						for(int j = 0; j < height; ++j)
 						{
@@ -190,7 +193,11 @@ namespace djah { namespace video {
 								expanded[2*(i+j*width)] = expanded[2*(i+j*width)+1] = (i>=w||j>=h) ? 0 : bitmap[i+w*j];
 							}
 						}
-						new_font->metrics[c].tex->setPixelBuffer(expanded, true);
+
+						new_font->metrics[c].tex = new video::ogl::texture(GL_ALPHA16, width, height);
+						new_font->metrics[c].tex->setNoFiltering();
+						new_font->metrics[c].tex->setPixelBuffer(GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, expanded);
+
 						delete [] expanded;
 					}
 					else
@@ -205,9 +212,14 @@ namespace djah { namespace video {
 
 			delete [] buffer;
 		}
-
+		*/
 		return new_font;
 	}
 	//----------------------------------------------------------------------------------------------
+
+
+	void newFontAtlas()
+	{
+	}
 
 } /*video*/ } /*djah*/

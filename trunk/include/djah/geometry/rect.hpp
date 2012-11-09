@@ -12,10 +12,9 @@ namespace djah { namespace geometry {
 	class rect
 	{
 	public:
-
 		rect(T left = T(0), T top = T(0), T right = T(0), T bottom = T(0));
-		rect(const math::vector<2,T> &topLeft, const math::vector<2,T> &bottomRight);
-		rect(const math::vector<2,T> &topLeft, T width, T height);
+		rect(const math::vector<2,T> &top_left, const math::vector<2,T> &bottom_right);
+		rect(const math::vector<2,T> &top_left, T _width, T _height);
 
 		void repair();
 		void invalidate();
@@ -34,9 +33,8 @@ namespace djah { namespace geometry {
 		const math::vector<2,T>& bottomRight() const;
 
 	private:
-
-		math::vector<2,T> top_left_;
-		math::vector<2,T> bottom_right_;
+		math::vector<2,T> topLeft_;
+		math::vector<2,T> bottomRight_;
 	};
 
 
