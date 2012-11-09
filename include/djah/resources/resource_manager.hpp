@@ -2,7 +2,8 @@
 #define DJAH_RESOURCES_RESOURCE_MANAGER_HPP
 
 #include <map>
-#include "../utils/singleton.hpp"
+#include <memory>
+#include "../core/singleton.hpp"
 #include "resource_base.hpp"
 
 namespace djah { namespace resources {
@@ -20,9 +21,10 @@ namespace djah { namespace resources {
 		void add(const std::string &name, resource_ptr res);
 		void remove(const std::string &name);
 		void remove(resource_ptr res);
+		void cleanUp();
 
 	private:
-		typedef std::map<std::string, resource_base*> resource_map_t;
+		typedef std::map<std::string, resource_ptr> resource_map_t;
 		resource_map_t resources_;
 	};
 	//----------------------------------------------------------------------------------------------
@@ -36,7 +38,7 @@ namespace djah { namespace resources {
 		resource_map_t::const_iterator it = resources_.find(name);
 		if( it != resources_.end() )
 		{
-			res = std::shared_ptr<T>(static_cast<T*>(it->second));
+			res = std::shared_ptr<T>(std::dynamic_pointer_cast<T>(it->second));
 		}
 
 		return res;

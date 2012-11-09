@@ -3,8 +3,8 @@ namespace djah { namespace geometry {
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
 	rect<T>::rect(T left, T top, T right, T bottom)
-		: top_left_(left, top)
-		, bottom_right_(right, bottom)
+		: topLeft_(left, top)
+		, bottomRight_(right, bottom)
 	{
 
 	}
@@ -13,9 +13,9 @@ namespace djah { namespace geometry {
 
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	rect<T>::rect(const math::vector<2,T> &topLeft, const math::vector<2,T> &bottomRight)
-		: top_left_(topLeft)
-		, bottom_right_(bottomRight)
+	rect<T>::rect(const math::vector<2,T> &top_left, const math::vector<2,T> &bottom_right)
+		: topLeft_(top_left)
+		, bottomRight_(bottom_right)
 	{
 
 	}
@@ -24,9 +24,9 @@ namespace djah { namespace geometry {
 
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	rect<T>::rect(const math::vector<2,T> &topLeft, T width, T height)
-		: top_left_(topLeft)
-		, bottom_right_(topLeft.x + width, topLeft.y + height)
+	rect<T>::rect(const math::vector<2,T> &top_left, T width, T height)
+		: topLeft_(top_left)
+		, bottomRight_(top_left.x + width, top_left.y + height)
 	{
 
 	}
@@ -37,10 +37,10 @@ namespace djah { namespace geometry {
 	template<typename T>
 	inline void rect<T>::repair()
 	{
-		if( top_left_.x > bottom_right_.x )
-			std::swap(top_left_.x, bottom_right_.x);
-		if( top_left_.y > bottom_right_.y )
-			std::swap(top_left_.y, bottom_right_.y);
+		if( topLeft_.x > bottomRight_.x )
+			std::swap(topLeft_.x, bottomRight_.x);
+		if( topLeft_.y > bottomRight_.y )
+			std::swap(topLeft_.y, bottomRight_.y);
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -48,8 +48,8 @@ namespace djah { namespace geometry {
 	template<typename T>
 	inline void rect<T>::invalidate()
 	{
-		top_left_.x = top_left_.y = std::numeric_limits<T>::max();
-		bottom_right_.x = bottom_right_.y = std::numeric_limits<T>::min();
+		topLeft_.x = topLeft_.y = std::numeric_limits<T>::max();
+		bottomRight_.x = bottomRight_.y = -std::numeric_limits<T>::max();
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -57,7 +57,7 @@ namespace djah { namespace geometry {
 	template<typename T>
 	inline bool rect<T>::isValid() const
 	{
-		return (top_left_.x < bottom_right_.x) && (top_left_.y < bottom_right_.y);
+		return (topLeft_.x < bottomRight_.x) && (topLeft_.y < bottomRight_.y);
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -66,7 +66,7 @@ namespace djah { namespace geometry {
 	template<typename T>
 	inline T rect<T>::width() const
 	{
-		return std::abs(bottom_right_.x - top_left_.x);
+		return std::abs(bottomRight_.x - topLeft_.x);
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -74,7 +74,7 @@ namespace djah { namespace geometry {
 	template<typename T>
 	inline T rect<T>::height() const
 	{
-		return std::abs(bottom_right_.y - top_left_.y);
+		return std::abs(bottomRight_.y - topLeft_.y);
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -82,7 +82,7 @@ namespace djah { namespace geometry {
 	template<typename T>
 	inline math::vector<2,T> rect<T>::extent() const
 	{
-		return math::create_vector(top_left_, bottom_right_);
+		return math::create_vector(topLeft_, bottomRight_);
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -91,7 +91,7 @@ namespace djah { namespace geometry {
 	template<typename T>
 	inline math::vector<2,T>& rect<T>::topLeft()
 	{
-		return top_left_;
+		return topLeft_;
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -99,7 +99,7 @@ namespace djah { namespace geometry {
 	template<typename T>
 	inline math::vector<2,T>& rect<T>::bottomRight()
 	{
-		return bottom_right_;
+		return bottomRight_;
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -108,7 +108,7 @@ namespace djah { namespace geometry {
 	template<typename T>
 	inline const math::vector<2,T>& rect<T>::topLeft() const
 	{
-		return top_left_;
+		return topLeft_;
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -116,7 +116,7 @@ namespace djah { namespace geometry {
 	template<typename T>
 	inline const math::vector<2,T>& rect<T>::bottomRight() const
 	{
-		return bottom_right_;
+		return bottomRight_;
 	}
 	//----------------------------------------------------------------------------------------------
 

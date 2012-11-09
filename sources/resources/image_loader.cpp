@@ -32,7 +32,7 @@ namespace djah { namespace resources {
 		buffer = new BYTE[buffer_size];
 		strm.read(buffer, buffer_size);
 
-		image *p_img = 0;
+		image *p_img = nullptr;
 
 		// Load image from memory
 		FIMEMORY *memory = FreeImage_OpenMemory(buffer, static_cast<DWORD>(buffer_size));
@@ -42,7 +42,7 @@ namespace djah { namespace resources {
 		if(fif != FIF_UNKNOWN)
 		{
 			//pointer to the image, once loaded
-			FIBITMAP *dib = 0;
+			FIBITMAP *dib = nullptr;
 			//check that the plug-in has reading capabilities and load the file
 			if(FreeImage_FIFSupportsReading(fif))
 				dib = FreeImage_LoadFromMemory(fif, memory, 0);
@@ -51,15 +51,18 @@ namespace djah { namespace resources {
 			{
 				//retrieve the image data
 				BYTE* bits = FreeImage_GetBits(dib);
-				//get the image width and height
-				unsigned int width  = FreeImage_GetWidth(dib);
-				unsigned int height = FreeImage_GetHeight(dib);
-				//if this somehow one of these failed (they shouldn't), return failure
-				if((bits == 0) || (width == 0) || (height == 0))
-					return 0;
 
-				// Create the actual image
-				p_img = new image(width, height, bits);
+				//get the image width and height
+				const unsigned int width  = FreeImage_GetWidth(dib);
+				const unsigned int height = FreeImage_GetHeight(dib);
+				//if this somehow one of these failed (they shouldn't), return failure
+				if((bits != nullptr) && (width != 0) && (height != 0))
+				{
+					const unsigned int dibSize = FreeImage_GetDIBSize(dib);
+					const unsigned int channels = dibSize / (width * height);
+					// Create the actual image
+					p_img = new image(width, height, channels, bits);
+				}
 
 				// Free FreeImage's copy of the data
 				FreeImage_Unload(dib);

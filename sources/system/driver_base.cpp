@@ -4,8 +4,8 @@
 namespace djah { namespace system {
 
 	//-------------------------------------------------------------------------------------------------
-	driver_base::driver_base(device *device)
-		: device_(device)
+	driver_base::driver_base()
+		: glContext_( gl_format(OpenGL_Version_4_0, true) )
 	{
 	}
 	//-------------------------------------------------------------------------------------------------

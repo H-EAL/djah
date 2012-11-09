@@ -8,7 +8,6 @@ namespace djah { namespace system {
 	class clock
 	{
 	public:
-
 		template<typename Precision>
 		static Precision getCurrentTimeInMs()
 		{
@@ -22,7 +21,6 @@ namespace djah { namespace system {
 		}
 
 	private:
-
 		// Platform dependent
 		static u64 getCurrentTime();
 		static u64 getScaleToSecondsFactor();

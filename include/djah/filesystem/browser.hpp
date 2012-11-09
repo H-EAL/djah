@@ -2,7 +2,7 @@
 #define DJAH_FILESYSTEM_BROWSER_HPP
 
 #include <set>
-#include "../utils/singleton.hpp"
+#include "../core/singleton.hpp"
 #include "source.hpp"
 #include "stream.hpp"
 

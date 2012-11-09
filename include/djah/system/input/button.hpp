@@ -18,8 +18,8 @@ namespace djah { namespace system { namespace input {
 		bool				isUp()		const	{ return !pressed_;				}
 		bool				released()	const	{ return !pressed_ && toggled_; }
 
-		void				setState(bool pressed)
-		{ toggled_ = (pressed != pressed_); pressed_ = pressed; }
+		void				setState(bool _pressed)
+		{ toggled_ = (_pressed != pressed_); pressed_ = _pressed; }
 
 	private:
 		unsigned int	id_;

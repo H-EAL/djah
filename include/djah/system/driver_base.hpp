@@ -3,6 +3,7 @@
 
 #include "../math/matrix4.hpp"
 #include "../geometry/rect.hpp"
+#include "context.hpp"
 
 namespace djah { namespace system {
 
@@ -13,8 +14,7 @@ namespace djah { namespace system {
 	class driver_base
 	{
 	public:
-
-		driver_base(device *device);
+		driver_base();
 		virtual ~driver_base();
 
 		virtual void create() = 0;
@@ -27,11 +27,10 @@ namespace djah { namespace system {
 		const geometry::rect_i& getViewport() const;
 
 	protected:
-
 		virtual void updateViewport() = 0;
 
-		device				*device_;
-
+	protected:
+		gl_context			glContext_;
 		geometry::rect_i	viewport_;
 	};
 	//----------------------------------------------------------------------------------------------

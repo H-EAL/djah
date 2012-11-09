@@ -10,7 +10,7 @@
 #include "../types.hpp"
 #include "../math/vector2.hpp"
 #include "../math/vector3.hpp"
-#include "../utils/singleton.hpp"
+#include "../core/singleton.hpp"
 
 namespace djah { namespace video {
 
@@ -59,7 +59,7 @@ namespace djah { namespace video {
 		const struct font_data *current_font_;
 
 		color color_;
-
+	public:
 		FT_Library ft_library_;
 		std::string fonts_path_;
 	};

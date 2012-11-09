@@ -1,7 +1,7 @@
 #ifndef DJAH_GEOMETRY_SPHERE_HPP
 #define DJAH_GEOMETRY_SPHERE_HPP
 
-#include "math/vector.hpp"
+#include "../math/vector.hpp"
 
 namespace djah { namespace geometry {
 
@@ -37,28 +37,28 @@ namespace djah { namespace geometry {
 
 
 	// Comparison operators
-	template<typename T>
-	inline bool operator  <(const sphere<T> &lhs, const sphere<T> &rhs)
+	template<int N, typename T>
+	inline bool operator  <(const sphere<N,T> &lhs, const sphere<N,T> &rhs)
 	{ return lhs.radius() < rhs.radius(); }
 
-	template<typename T>
-	inline bool operator <=(const sphere<T> &lhs, const sphere<T> &rhs)
+	template<int N, typename T>
+	inline bool operator <=(const sphere<N,T> &lhs, const sphere<N,T> &rhs)
 	{ return lhs.radius() <= rhs.radius(); }
 
-	template<typename T>
-	inline bool operator  >(const sphere<T> &lhs, const sphere<T> &rhs)
+	template<int N, typename T>
+	inline bool operator  >(const sphere<N,T> &lhs, const sphere<N,T> &rhs)
 	{ return !(lhs <= rhs); }
 
-	template<typename T>
-	inline bool operator >=(const sphere<T> &lhs, const sphere<T> &rhs)
+	template<int N, typename T>
+	inline bool operator >=(const sphere<N,T> &lhs, const sphere<N,T> &rhs)
 	{ return !(lhs < rhs); }
 
-	template<typename T>
-	inline bool operator ==(const sphere<T> &lhs, const sphere<T> &rhs)
+	template<int N, typename T>
+	inline bool operator ==(const sphere<N,T> &lhs, const sphere<N,T> &rhs)
 	{ return lhs.radius() == rhs.radius(); }
 
-	template<typename T>
-	inline bool operator !=(const sphere<T> &lhs, const sphere<T> &rhs)
+	template<int N, typename T>
+	inline bool operator !=(const sphere<N,T> &lhs, const sphere<N,T> &rhs)
 	{ return !(lhs == rhs); }
 
 

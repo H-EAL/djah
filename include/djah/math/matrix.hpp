@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include <iostream>
+#include <cassert>
 #include <cstring>
 #include "vector.hpp"
 
@@ -103,7 +104,7 @@ namespace djah { namespace math {
 		matrix<M,N,T>& operator -=(const matrix<M,N,T> &rhs);
 		matrix<M,N,T>& operator *=(const matrix<M,N,T> &rhs);
 		matrix<M,N,T>& operator *=(T rhs);
-		matrix<M,N,T>& operator /=(T rhs);
+		matrix<M,N,T>& operator /=(T rhs);\
 	};
 	//----------------------------------------------------------------------------------------------
 
@@ -113,32 +114,29 @@ namespace djah { namespace math {
 	//----------------------------------------------------------------------------------------------
 	// Addition
 	template<int M, int N, typename T>
-	const matrix<M,N,T> operator +(const matrix<M,N,T> &lhs, const matrix<M,N,T> &rhs);
+	matrix<M,N,T> operator +(const matrix<M,N,T> &lhs, const matrix<M,N,T> &rhs);
 
 	// Subtraction
 	template<int M, int N, typename T>
-	const matrix<M,N,T> operator -(const matrix<M,N,T> &lhs, const matrix<M,N,T> &rhs);
+	matrix<M,N,T> operator -(const matrix<M,N,T> &lhs, const matrix<M,N,T> &rhs);
 
 	// Scalar product
 	template<int M, int N, typename T>
-	const matrix<M,N,T> operator *(const matrix<M,N,T> &lhs, T rhs);
+	matrix<M,N,T> operator *(const matrix<M,N,T> &lhs, T rhs);
 	template<int M, int N, typename T>
-	const matrix<M,N,T> operator *(T lhs, const matrix<M,N,T> &rhs);
+	matrix<M,N,T> operator *(T lhs, const matrix<M,N,T> &rhs);
 
 	// Scalar division
 	template<int M, int N, typename T>
-	const matrix<M,N,T> operator /(const matrix<M,N,T> &lhs, T rhs);
+	matrix<M,N,T> operator /(const matrix<M,N,T> &lhs, T rhs);
 
 	// Matrix product
 	template<int M, int N, int P, typename T>
-	const matrix<M,P,T> operator *(const matrix<M,N,T> &lhs, const matrix<N,P,T> &rhs);
+	matrix<M,P,T> operator *(const matrix<M,N,T> &lhs, const matrix<N,P,T> &rhs);
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	template<int N, typename T>
-	inline const matrix<N,N,T>& identity_matrix();
-
 	template<int M, int N, typename T>
 	inline std::ostream& operator <<(std::ostream &out, const matrix<M,N,T> &rhs);
 	//----------------------------------------------------------------------------------------------

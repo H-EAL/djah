@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{77063cdb-35c1-4b02-94e0-e92bb56d8620}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sources">
+      <UniqueIdentifier>{c8bc57f5-8d16-4ad7-8d4b-c3020a77f5e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\_buffers">
+      <UniqueIdentifier>{3c6096f3-bcf5-4ba1-9e2b-f191ae21ae3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\_shaders">
+      <UniqueIdentifier>{6baf9dc9-9db4-47fc-a57f-52a31f61d7b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sources\_buffers">
+      <UniqueIdentifier>{089de0b6-504c-4839-840c-a7fcfba32d76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sources\_shaders">
+      <UniqueIdentifier>{311caa16-1efe-41f4-bc63-712254313b18}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\include\djah\opengl\resource.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\opengl\buffer_base.hpp">
+      <Filter>include\_buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\opengl\index_buffer.hpp">
+      <Filter>include\_buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\opengl\uniform_buffer.hpp">
+      <Filter>include\_buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\opengl\vertex_buffer.hpp">
+      <Filter>include\_buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\opengl\geometry_shader.hpp">
+      <Filter>include\_shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\opengl\pixel_shader.hpp">
+      <Filter>include\_shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\opengl\shader_base.hpp">
+      <Filter>include\_shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\opengl\shader_program.hpp">
+      <Filter>include\_shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\opengl\vertex_shader.hpp">
+      <Filter>include\_shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\opengl\capabilities.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\opengl\texture.hpp">
+      <Filter>include\_buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\opengl\render_buffer.hpp">
+      <Filter>include\_buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\opengl\frame_buffer.hpp">
+      <Filter>include\_buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\opengl\vertex_array.hpp">
+      <Filter>include\_buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\opengl\vertex_format.hpp">
+      <Filter>include\_buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\opengl\vertex_attrib.hpp">
+      <Filter>include\_buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\opengl\opengl_logger.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\opengl\gl_types.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\include\djah\opengl\buffer_base.inl">
+      <Filter>include\_buffers</Filter>
+    </None>
+    <None Include="..\..\..\include\djah\opengl\shader_base.inl">
+      <Filter>include\_shaders</Filter>
+    </None>
+    <None Include="..\..\..\include\djah\opengl\shader_program.inl">
+      <Filter>include\_shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\sources\opengl\capabilities.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\sources\opengl\buffer_base.cpp">
+      <Filter>sources\_buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\sources\opengl\frame_buffer.cpp">
+      <Filter>sources\_buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\sources\opengl\render_buffer.cpp">
+      <Filter>sources\_buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\sources\opengl\vertex_format.cpp">
+      <Filter>sources\_buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\sources\opengl\vertex_array.cpp">
+      <Filter>sources\_buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\sources\opengl\texture.cpp">
+      <Filter>sources\_buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\sources\opengl\shader_program.cpp">
+      <Filter>sources\_shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\sources\opengl\opengl_logger.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

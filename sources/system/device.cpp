@@ -1,6 +1,7 @@
 #include "system/device.hpp"
-#include "system/opengl/gl.hpp"
-#include "system/opengl/opengl_driver.hpp"
+#include "system/gl.hpp"
+#include "system/opengl_driver.hpp"
+#include "system/context.hpp"
 
 
 namespace djah { namespace system {
@@ -9,7 +10,7 @@ namespace djah { namespace system {
 	device_ptr create_device(const video_config &cfg)
 	{
 		device_ptr dev	  = new device;
-		driver_ptr driver = new opengl_driver(dev);
+		driver_ptr driver = new opengl_driver;
 		dev->setVideoDriver(driver);
 		dev->create(cfg);
 		driver->create();

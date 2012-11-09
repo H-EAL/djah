@@ -36,6 +36,24 @@
     <ClInclude Include="..\..\..\tests\sources\ShellSystemInterface.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\tests\sources\shadow_test.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\tests\sources\basic_test.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\tests\sources\deferred_shading_test.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\tests\sources\solar_system_test.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\tests\sources\bump_mapping_test.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\tests\sources\font_test.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\tests\sources\application.cpp">
@@ -45,6 +63,30 @@
       <Filter>sources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\tests\sources\ShellRenderInterfaceOpenGL.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\sources\shadow_test.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\sources\deferred_shading_test.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\sources\bump_mapping_test.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\sources\basic_test.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\sources\solar_system_test.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\sources\font_test.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\sources\video\font_engine.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\sources\video\text.cpp">
       <Filter>sources</Filter>
     </ClCompile>
   </ItemGroup>

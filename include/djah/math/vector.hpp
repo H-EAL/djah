@@ -3,6 +3,8 @@
 
 #include <cmath>
 #include <cassert>
+#include <istream>
+#include <ostream>
 #include <algorithm>
 
 namespace djah { namespace math {
@@ -18,13 +20,13 @@ namespace djah { namespace math {
 
 	
 	//----------------------------------------------------------------------------------------------
-	namespace {
+	namespace detail {
 
 		// Length type of vector<double> is double any other vector<T> is float
 		template<typename F>	struct length_type         { typedef float  float_t; };
 		template<>				struct length_type<double> { typedef double float_t; };
 
-	}
+	} /*detail*/
 	//----------------------------------------------------------------------------------------------
 
 
@@ -52,7 +54,7 @@ namespace djah { namespace math {
 		// Assignation from an array
 		vector<N,T>& operator =(T (&array)[N]);
 
-		typedef typename length_type<T>::float_t float_t;
+		typedef typename detail::length_type<T>::float_t float_t;
 
 		// Vector math
 		T				lengthSq()		const;
@@ -76,7 +78,7 @@ namespace djah { namespace math {
 		T&		 operator [](unsigned int i);
 		const T& operator [](unsigned int i) const;
 
-		// Usefull constants
+		// Useful constants
 		static const vector<N,T> null_vector;
 	};
 	//----------------------------------------------------------------------------------------------
@@ -92,19 +94,19 @@ namespace djah { namespace math {
 	inline bool operator !=(const vector<N,T> &lhs, const vector<N,T> &rhs);
 
 	template<int N, typename T>
-	inline const vector<N,T> operator +(const vector<N,T> &lhs, const vector<N,T> &rhs);
+	inline vector<N,T> operator +(const vector<N,T> &lhs, const vector<N,T> &rhs);
 
 	template<int N, typename T>
-	inline const vector<N,T> operator -(const vector<N,T> &lhs, const vector<N,T> &rhs);
+	inline vector<N,T> operator -(const vector<N,T> &lhs, const vector<N,T> &rhs);
 
 	template<int N, typename T>
-	inline const vector<N,T> operator *(const vector<N,T> &lhs, T rhs);
+	inline vector<N,T> operator *(const vector<N,T> &lhs, T rhs);
 	
 	template<int N, typename T>
-	inline const vector<N,T> operator *(T lhs, const vector<N,T> &rhs);
+	inline vector<N,T> operator *(T lhs, const vector<N,T> &rhs);
 
 	template<int N, typename T>
-	inline const vector<N,T> operator /(const vector<N,T> &lhs, T rhs);
+	inline vector<N,T> operator /(const vector<N,T> &lhs, T rhs);
 
 	template<int N, typename T>
 	inline T operator *(const vector<N,T> &lhs, const vector<N,T> &rhs);
@@ -114,22 +116,25 @@ namespace djah { namespace math {
 	//----------------------------------------------------------------------------------------------
 	// Cast functions
 	//----------------------------------------------------------------------------------------------
-	template<typename U, int N, typename T>
-	inline const vector<N,U> cast(const vector<N,T> &op);
+	template<typename ToType, int N, typename T>
+	inline vector<N,ToType> cast(const vector<N,T> &op);
 
-	template<int N2, int N, typename T>
-	inline const vector<N2,T> resize(const vector<N,T> &op, T padding = 0);
+	template<int ToSizeN, int N, typename T>
+	inline vector<ToSizeN,T> resize(const vector<N,T> &op, T padding = 0);
 
 	template<typename V, int N, typename T>
-	inline const V vector_cast(const vector<N,T> &op, T padding = 0);
+	inline V vector_cast(const vector<N,T> &op, T padding = 0);
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	// Output to stream
+	// (In/Out)put (from/to) stream
 	//----------------------------------------------------------------------------------------------
 	template<int N, typename T>
 	inline std::ostream& operator <<(std::ostream &out, const vector<N,T> &rhs);
+	//----------------------------------------------------------------------------------------------
+	template<int N, typename T>
+	inline std::istream& operator >>(std::istream &in, const vector<N,T> &rhs);
 	//----------------------------------------------------------------------------------------------
 
 } /*math*/ } /*djah*/

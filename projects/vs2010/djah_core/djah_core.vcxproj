@@ -46,9 +46,9 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\include\djah\;..\..\..\..\extlibs\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include\djah\core\;..\..\..\include\djah\;..\..\..\..\extlibs\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -76,18 +76,31 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\djah\application_base.hpp" />
+    <ClInclude Include="..\..\..\include\djah\core\command.hpp" />
+    <ClInclude Include="..\..\..\include\djah\core\detail\command_base.hpp" />
+    <ClInclude Include="..\..\..\include\djah\core\detail\functor_handler.hpp" />
+    <ClInclude Include="..\..\..\include\djah\core\detail\functor_impl.hpp" />
+    <ClInclude Include="..\..\..\include\djah\core\detail\member_function_handler.hpp" />
+    <ClInclude Include="..\..\..\include\djah\core\functor.hpp" />
+    <ClInclude Include="..\..\..\include\djah\core\hierarchy_generation.hpp" />
+    <ClInclude Include="..\..\..\include\djah\core\murmur_hash.hpp" />
+    <ClInclude Include="..\..\..\include\djah\core\randomizer.hpp" />
+    <ClInclude Include="..\..\..\include\djah\core\singleton.hpp" />
+    <ClInclude Include="..\..\..\include\djah\core\string_utils.hpp" />
+    <ClInclude Include="..\..\..\include\djah\core\typelist.hpp" />
+    <ClInclude Include="..\..\..\include\djah\core\type_traits.hpp" />
     <ClInclude Include="..\..\..\include\djah\dataobject\attribute.hpp" />
     <ClInclude Include="..\..\..\include\djah\dataobject\data_object.hpp" />
     <ClInclude Include="..\..\..\include\djah\dataobject\global_registry.hpp" />
     <ClInclude Include="..\..\..\include\djah\dataobject\ini_serializer.hpp" />
     <ClInclude Include="..\..\..\include\djah\dataobject\registry.hpp" />
     <ClInclude Include="..\..\..\include\djah\dataobject\serializer.hpp" />
+    <ClInclude Include="..\..\..\include\djah\geometry\geometry_utils.hpp" />
     <ClInclude Include="..\..\..\include\djah\geometry\plane.hpp" />
     <ClInclude Include="..\..\..\include\djah\geometry\ray.hpp" />
     <ClInclude Include="..\..\..\include\djah\geometry\rect.hpp" />
     <ClInclude Include="..\..\..\include\djah\geometry\sphere.hpp" />
     <ClInclude Include="..\..\..\include\djah\geometry\triangle.hpp" />
-    <ClInclude Include="..\..\..\include\djah\geometry\utils.hpp" />
     <ClInclude Include="..\..\..\include\djah\math.hpp" />
     <ClInclude Include="..\..\..\include\djah\math\math_utils.hpp" />
     <ClInclude Include="..\..\..\include\djah\math\matrix.hpp" />
@@ -111,26 +124,16 @@
     <ClInclude Include="..\..\..\include\djah\math\vector3.hpp" />
     <ClInclude Include="..\..\..\include\djah\math\vector4.hpp" />
     <ClInclude Include="..\..\..\include\djah\math\vector_utils.hpp" />
+    <ClInclude Include="..\..\..\include\djah\opengl.hpp" />
     <ClInclude Include="..\..\..\include\djah\platform.hpp" />
     <ClInclude Include="..\..\..\include\djah\time\timer.hpp" />
     <ClInclude Include="..\..\..\include\djah\types.hpp" />
-    <ClInclude Include="..\..\..\include\djah\utils\command.hpp" />
-    <ClInclude Include="..\..\..\include\djah\utils\detail\command_base.hpp" />
-    <ClInclude Include="..\..\..\include\djah\utils\detail\functor_handler.hpp" />
-    <ClInclude Include="..\..\..\include\djah\utils\detail\functor_impl.hpp" />
-    <ClInclude Include="..\..\..\include\djah\utils\detail\member_function_handler.hpp" />
-    <ClInclude Include="..\..\..\include\djah\utils\functor.hpp" />
-    <ClInclude Include="..\..\..\include\djah\utils\hierarchy_generation.hpp" />
-    <ClInclude Include="..\..\..\include\djah\utils\murmur_hash.hpp" />
-    <ClInclude Include="..\..\..\include\djah\utils\randomizer.hpp" />
-    <ClInclude Include="..\..\..\include\djah\utils\singleton.hpp" />
-    <ClInclude Include="..\..\..\include\djah\utils\string_utils.hpp" />
-    <ClInclude Include="..\..\..\include\djah\utils\typelist.hpp" />
-    <ClInclude Include="..\..\..\include\djah\utils\type_traits.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\include\djah\dataobject\registry.inl" />
     <None Include="..\..\..\include\djah\geometry\plane.inl" />
     <None Include="..\..\..\include\djah\geometry\rect.inl" />
+    <None Include="..\..\..\include\djah\geometry\triangle.inl" />
     <None Include="..\..\..\include\djah\math\matrix.inl" />
     <None Include="..\..\..\include\djah\math\quaternion.inl" />
     <None Include="..\..\..\include\djah\math\transformation.inl" />
@@ -138,8 +141,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\sources\application_base.cpp" />
-    <ClCompile Include="..\..\..\sources\time\timer.cpp" />
-    <ClCompile Include="..\..\..\sources\utils\randomizer.cpp" />
+    <ClCompile Include="..\..\..\sources\core\randomizer.cpp" />
+    <ClCompile Include="..\..\..\sources\core\time\timer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

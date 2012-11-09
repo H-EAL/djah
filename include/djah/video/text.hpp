@@ -14,7 +14,7 @@ namespace djah { namespace video {
 	public:
 		struct properties
 		{
-			properties(const std::string &name = "arial.ttf", u8 size = 16, const math::vector3f &color = math::vector3f(1.0f, 1.0f, 1.0f))
+			properties(const std::string &name = "arial.ttf", u8 size = 14, const math::vector3f &color = math::vector3f(1.0f, 1.0f, 1.0f))
 				: font_name(name)
 				, font_size(size)
 				, font_color(color)

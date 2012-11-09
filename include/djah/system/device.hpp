@@ -16,16 +16,18 @@ namespace djah { namespace system {
 	class device
 	{
 	public:
-
 		device();
 		~device();
 
 		static device* get_current()				{ return sp_device_inst_;	}
-		
-		const video_config& videoConfig()	const	{ return video_config_;		}
 
-		void setVideoDriver(driver_ptr driver)		{ p_driver_ = driver;			} 
-		driver_ptr videoDriver()			const	{ return p_driver_;			}
+		void* windowHandle() const;
+		
+		const video_config& videoConfig()	const	{ return videoConfig_;		}
+		video_config&		videoConfig()			{ return videoConfig_;		}
+
+		void setVideoDriver(driver_ptr driver)		{ pDriver_ = driver;		} 
+		driver_ptr videoDriver()			const	{ return pDriver_;			}
 
 		void create(const video_config &cfg);
 		void destroy();
@@ -39,22 +41,27 @@ namespace djah { namespace system {
 
 		void setWindowTitle(const std::string &title);
 
+		void setVSync(bool enabled);
+		void enableVSync();
+		void disableVSync();
+
 		void swapBuffers();
 
-		math::vector2i correctedMousePosition(const math::vector2i &absoluteMousePosition) const;
+		math::vector2i clientMousePosition(const math::vector2i &screenMousePos) const;
+		math::vector2i screenMousePosition(const math::vector2i &clientMousePos) const;
 
 	private:
-
-		bool hasToQuit_;
-
 		// Video driver used
-		driver_ptr p_driver_;
+		driver_ptr pDriver_;
 
 		// Current config
-		video_config video_config_;
+		video_config videoConfig_;
 
 		// Private implementation, platform dependent
-		std::unique_ptr<device_impl> p_impl_;
+		std::unique_ptr<device_impl> pImpl_;
+
+		// Set to true when the application is shut down
+		bool hasToQuit_;
 
 		// Last created device
 		static device *sp_device_inst_;

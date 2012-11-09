@@ -19,9 +19,9 @@ namespace djah { namespace math {
 		};
 
 		// Cross product
-		const vector<3,T> cross(const vector<3,T> &v) const;
+		vector<3,T> cross(const vector<3,T> &v) const;
 
-		// Usefull constants
+		// Useful constants
 		static const vector<3,T> x_axis;
 		static const vector<3,T> y_axis;
 		static const vector<3,T> z_axis;
@@ -40,7 +40,7 @@ namespace djah { namespace math {
 	//----------------------------------------------------------------------------------------------
 	// Cross product
 	template<typename T>
-	inline const vector<3,T> vector_base<3,T>::cross(const vector<3,T> &v) const
+	inline vector<3,T> vector_base<3,T>::cross(const vector<3,T> &v) const
 	{
 		return vector<3,T>
 		(
@@ -51,7 +51,7 @@ namespace djah { namespace math {
 	}
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline const vector<3,T> operator ^(const vector<3,T> &lhs, const vector<3,T> &rhs)
+	inline vector<3,T> operator ^(const vector<3,T> &lhs, const vector<3,T> &rhs)
 	{
 		return lhs.cross(rhs);
 	}

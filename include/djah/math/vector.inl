@@ -66,7 +66,7 @@ namespace djah { namespace math {
 		T result(0);
 
 		for(int i = 0; i < N; ++i)
-			result += data[i] * v.data[i];
+			result += vector_base<N,T>::data[i] * v.data[i];
 
 		return result;
 	}
@@ -165,7 +165,7 @@ namespace djah { namespace math {
 	
 	//----------------------------------------------------------------------------------------------
 	template<int N, typename T>
-	inline const vector<N,T> operator +(const vector<N,T> &lhs, const vector<N,T> &rhs)
+	inline vector<N,T> operator +(const vector<N,T> &lhs, const vector<N,T> &rhs)
 	{
 		return vector<N,T>(lhs) += rhs;
 	}
@@ -173,7 +173,7 @@ namespace djah { namespace math {
 	
 	//----------------------------------------------------------------------------------------------
 	template<int N, typename T>
-	inline const vector<N,T> operator -(const vector<N,T> &lhs, const vector<N,T> &rhs)
+	inline vector<N,T> operator -(const vector<N,T> &lhs, const vector<N,T> &rhs)
 	{
 		return vector<N,T>(lhs) -= rhs;
 	}
@@ -181,7 +181,7 @@ namespace djah { namespace math {
 	
 	//----------------------------------------------------------------------------------------------
 	template<int N, typename T>
-	inline const vector<N,T> operator *(const vector<N,T> &lhs, T rhs)
+	inline vector<N,T> operator *(const vector<N,T> &lhs, T rhs)
 	{
 		return vector<N,T>(lhs) *= rhs;
 	}
@@ -189,7 +189,7 @@ namespace djah { namespace math {
 	
 	//----------------------------------------------------------------------------------------------
 	template<int N, typename T>
-	inline const vector<N,T> operator *(T lhs, const vector<N,T> &rhs)
+	inline vector<N,T> operator *(T lhs, const vector<N,T> &rhs)
 	{
 		return rhs * lhs;
 	}
@@ -197,7 +197,7 @@ namespace djah { namespace math {
 	
 	//----------------------------------------------------------------------------------------------
 	template<int N, typename T>
-	inline const vector<N,T> operator /(const vector<N,T> &lhs, T rhs)
+	inline vector<N,T> operator /(const vector<N,T> &lhs, T rhs)
 	{
 		return vector<N,T>(lhs) /= rhs;
 	}
@@ -216,25 +216,25 @@ namespace djah { namespace math {
 
 
 	//----------------------------------------------------------------------------------------------
-	template<typename U, int N, typename T>
-	inline const vector<N,U> cast(const vector<N,T> &op)
+	template<typename ToType, int N, typename T>
+	inline vector<N,ToType> cast(const vector<N,T> &op)
 	{
-		vector<N,U> result;
+		vector<N,ToType> result;
 		
 		for(int i = 0; i < N; ++i)
-			result.data[i] = static_cast<U>(op.data[i]);
+			result.data[i] = static_cast<ToType>(op.data[i]);
 
 		return result;
 	}
 	//----------------------------------------------------------------------------------------------
 	
 	//----------------------------------------------------------------------------------------------
-	template<int N2, int N, typename T>
-	inline const vector<N2,T> resize(const vector<N,T> &op, T padding) 
+	template<int ToSizeN, int N, typename T>
+	inline vector<ToSizeN,T> resize(const vector<N,T> &op, T padding) 
 	{
-		vector<N2,T> result;
+		vector<ToSizeN,T> result;
 		
-		for(int i = 0; i < N2; ++i)
+		for(int i = 0; i < ToSizeN; ++i)
 			result.data[i] = i<N ? op.data[i] : padding;
 		
 		return result;
@@ -243,7 +243,7 @@ namespace djah { namespace math {
 	
 	//----------------------------------------------------------------------------------------------
 	template<typename V, int N, typename T>
-	inline const V vector_cast(const vector<N,T> &op, T padding) 
+	inline const V vector_cast(const vector<N,T> &op, typename V::value_type padding) 
 	{
 		V result;
 		
@@ -268,6 +268,17 @@ namespace djah { namespace math {
 		out << ")";
 
 		return out;
+	}
+	//----------------------------------------------------------------------------------------------
+
+	//----------------------------------------------------------------------------------------------
+	template<int N, typename T>
+	inline std::istream& operator >>(std::istream &in, const vector<N,T> &rhs)
+	{
+		for(int i = 0; i < N; ++i)
+			in >> rhs[i];
+
+		return in;
 	}
 	//----------------------------------------------------------------------------------------------
 

@@ -54,7 +54,7 @@ namespace djah { namespace math {
 	// Combine two transformations
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	const transformation<T> combine_transformations(const transformation<T> &lhs, const transformation<T> &rhs);
+	transformation<T> combine_transformations(const transformation<T> &lhs, const transformation<T> &rhs);
 	
 	
 	//----------------------------------------------------------------------------------------------

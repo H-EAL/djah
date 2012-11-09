@@ -4,8 +4,8 @@
 #include <map>
 #include <string>
 #include <memory>
-#include "../utils/hierarchy_generation.hpp"
-#include "../utils/string_utils.hpp"
+#include "../core/hierarchy_generation.hpp"
+#include "../core/string_utils.hpp"
 #include "../filesystem/browser.hpp"
 #include "loader.hpp"
 #include "image.hpp"

@@ -41,6 +41,8 @@ namespace djah { namespace math {
 		quaternion<T>& operator *=(T rhs);
 		// Scalar division
 		quaternion<T>& operator /=(T rhs);
+		// Quaternion product
+		quaternion<T>& operator *=(const quaternion<T> &rhs);
 
 		
 		// Actual data
@@ -59,24 +61,24 @@ namespace djah { namespace math {
 	//----------------------------------------------------------------------------------------------
 	// Addition
 	template<typename T>
-	const quaternion<T> operator +(const quaternion<T> &lhs, const quaternion<T> &rhs);
+	quaternion<T> operator +(const quaternion<T> &lhs, const quaternion<T> &rhs);
 	// Subtraction
 	template<typename T>
-	const quaternion<T> operator -(const quaternion<T> &lhs, const quaternion<T> &rhs);
+	quaternion<T> operator -(const quaternion<T> &lhs, const quaternion<T> &rhs);
 	// Scalar product
 	template<typename T>
-	const quaternion<T> operator *(const quaternion<T> &lhs, T rhs);
+	quaternion<T> operator *(const quaternion<T> &lhs, T rhs);
 	template<typename T>
-	const quaternion<T> operator *(T lhs, const quaternion<T> &rhs);
+	quaternion<T> operator *(T lhs, const quaternion<T> &rhs);
 	// Scalar division
 	template<typename T>
-	const quaternion<T> operator /(const quaternion<T> &lhs, T rhs);
+	quaternion<T> operator /(const quaternion<T> &lhs, T rhs);
 	//----------------------------------------------------------------------------------------------
 	
 	//----------------------------------------------------------------------------------------------
 	// Quaternion product
 	template<typename T>
-	const quaternion<T> operator *(const quaternion<T> &lhs, const quaternion<T> &rhs);
+	quaternion<T> operator *(const quaternion<T> &lhs, const quaternion<T> &rhs);
 	//----------------------------------------------------------------------------------------------
 
 	
