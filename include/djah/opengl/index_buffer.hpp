@@ -15,6 +15,8 @@ namespace djah { namespace opengl {
 	class index_buffer
 		: public buffer_base
 	{
+		DJAH_OPENGL_RESOURCE(index_buffer);
+
 	public:
 		index_buffer(size_t size, eBufferUsage usage, E_DRAWING_MODE mode = EDM_TRIANGLES, bool auto_alloc = true)
 			: buffer_base(eBT_IndexBuffer, usage, size, auto_alloc),

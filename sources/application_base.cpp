@@ -1,7 +1,7 @@
-#include "application_base.hpp"
+#include "djah/application_base.hpp"
 
-#include "system/device.hpp"
-#include "system/driver_base.hpp"
+#include "djah/system/device.hpp"
+#include "djah/system/driver_base.hpp"
 
 
 int main(int argc, char *argv[])

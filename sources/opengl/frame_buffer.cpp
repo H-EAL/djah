@@ -1,9 +1,9 @@
-#include "system/gl.hpp"
-#include "opengl/frame_buffer.hpp"
-#include "opengl/render_buffer.hpp"
-#include "opengl/texture.hpp"
+#include "djah/system/gl.hpp"
+#include "djah/opengl/frame_buffer.hpp"
+#include "djah/opengl/render_buffer.hpp"
+#include "djah/opengl/texture.hpp"
 
-#include "debug/log.hpp"
+#include "djah/debug/log.hpp"
 
 namespace djah { namespace opengl {
 

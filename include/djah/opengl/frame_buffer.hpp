@@ -15,6 +15,8 @@ namespace djah { namespace opengl {
 	class frame_buffer
 		: public resource
 	{
+		DJAH_OPENGL_RESOURCE(frame_buffer);
+
 	public:
 		frame_buffer();
 		virtual ~frame_buffer();

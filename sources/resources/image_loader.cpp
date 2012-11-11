@@ -1,6 +1,6 @@
-#include "resources/image_loader.hpp"
+#include "djah/resources/image_loader.hpp"
 #include <FreeImage.h>
-#include "filesystem/stream.hpp"
+#include "djah/filesystem/stream.hpp"
 
 namespace djah { namespace resources {
 

@@ -1,13 +1,13 @@
 #include <stack>
 
-#include "opengl/opengl_logger.hpp"
-#include "opengl/vertex_array.hpp"
-#include "opengl/vertex_format.hpp"
-#include "opengl/vertex_buffer.hpp"
-#include "opengl/index_buffer.hpp"
-#include "opengl/shader_program.hpp"
+#include "djah/opengl/opengl_logger.hpp"
+#include "djah/opengl/vertex_array.hpp"
+#include "djah/opengl/vertex_format.hpp"
+#include "djah/opengl/vertex_buffer.hpp"
+#include "djah/opengl/index_buffer.hpp"
+#include "djah/opengl/shader_program.hpp"
 
-#include "debug/log.hpp"
+#include "djah/debug/log.hpp"
 
 namespace djah { namespace opengl {
 

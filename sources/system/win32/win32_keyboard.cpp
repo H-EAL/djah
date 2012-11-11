@@ -1,5 +1,5 @@
-#include "system/input/keyboard.hpp"
-#include "platform.hpp"
+#include "djah/system/input/keyboard.hpp"
+#include "djah/platform.hpp"
 
 namespace djah { namespace system { namespace input {
 

@@ -1,4 +1,4 @@
-#include "resources/resource_manager.hpp"
+#include "djah/resources/resource_manager.hpp"
 
 namespace djah { namespace resources {
 

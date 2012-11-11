@@ -1,8 +1,9 @@
-#include "system/input/mouse.hpp"
-#include "system/device.hpp"
+#include "djah/system/input/mouse.hpp"
+
 #include <cstring>
-#include "platform.hpp"
 #include <iostream>
+#include "djah/platform.hpp"
+#include "djah/system/device.hpp"
 
 namespace djah { namespace system { namespace input {
 

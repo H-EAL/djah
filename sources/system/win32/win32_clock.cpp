@@ -1,5 +1,5 @@
-#include "system/clock.hpp"
-#include "platform.hpp"
+#include "djah/system/clock.hpp"
+#include "djah/platform.hpp"
 
 namespace djah { namespace system {
 	

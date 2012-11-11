@@ -11,7 +11,7 @@ namespace djah { namespace debug {
 		: public basic_sink
 	{
 	public:
-		xml_sink(const std::string &filePath, const std::string &channels = "all");
+		xml_sink(const std::string &filePath, const log_filter &_filter = log_filter());
 		virtual ~xml_sink();
 
 		virtual void consume(const basic_record &rec);

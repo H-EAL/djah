@@ -1,8 +1,8 @@
-﻿#include "debug/assertion.hpp"
-#include "platform.hpp"
+﻿#include "djah/debug/assertion.hpp"
+#include "djah/platform.hpp"
 
 #define DEFINE_EXTENSIONS_AS_LOCAL
-#	include "system/gl.hpp"
+#	include "djah/system/gl.hpp"
 #undef DEFINE_EXTENSIONS_AS_LOCAL
 
 namespace {

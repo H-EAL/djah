@@ -23,6 +23,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "djah_debug", "djah_debug\dj
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "djah_opengl", "djah_opengl\djah_opengl.vcxproj", "{7A05DD56-1939-488D-9E6D-F5DEA55ACAA4}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "djah_3d", "djah_3d\djah_3d.vcxproj", "{543CE95D-AEAA-480F-9DDD-F04CE4FE8123}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -57,6 +59,10 @@ Global
 		{7A05DD56-1939-488D-9E6D-F5DEA55ACAA4}.Debug|Win32.Build.0 = Debug|Win32
 		{7A05DD56-1939-488D-9E6D-F5DEA55ACAA4}.Release|Win32.ActiveCfg = Release|Win32
 		{7A05DD56-1939-488D-9E6D-F5DEA55ACAA4}.Release|Win32.Build.0 = Release|Win32
+		{543CE95D-AEAA-480F-9DDD-F04CE4FE8123}.Debug|Win32.ActiveCfg = Debug|Win32
+		{543CE95D-AEAA-480F-9DDD-F04CE4FE8123}.Debug|Win32.Build.0 = Debug|Win32
+		{543CE95D-AEAA-480F-9DDD-F04CE4FE8123}.Release|Win32.ActiveCfg = Release|Win32
+		{543CE95D-AEAA-480F-9DDD-F04CE4FE8123}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,7 +1,7 @@
-#include "system/device.hpp"
-#include "system/gl.hpp"
-#include "system/opengl_driver.hpp"
-#include "system/context.hpp"
+#include "djah/system/device.hpp"
+#include "djah/system/gl.hpp"
+#include "djah/system/opengl_driver.hpp"
+#include "djah/system/context.hpp"
 
 
 namespace djah { namespace system {

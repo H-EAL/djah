@@ -1,7 +1,7 @@
-#include "system/gl.hpp"
-#include "opengl/render_buffer.hpp"
+#include "djah/system/gl.hpp"
+#include "djah/opengl/render_buffer.hpp"
 
-#include "debug/log.hpp"
+#include "djah/debug/log.hpp"
 
 namespace djah { namespace opengl {
 

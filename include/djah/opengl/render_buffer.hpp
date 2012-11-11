@@ -1,7 +1,7 @@
 #ifndef DJAH_OPENGL_RENDER_BUFFER_HPP
 #define DJAH_OPENGL_RENDER_BUFFER_HPP
 
-#include "system/gl.hpp"
+#include "djah/system/gl.hpp"
 #include "resource.hpp"
 
 namespace djah { namespace opengl {
@@ -9,6 +9,8 @@ namespace djah { namespace opengl {
 	class render_buffer
 		: public resource
 	{
+		DJAH_OPENGL_RESOURCE(render_buffer);
+
 	public:
 		render_buffer(int _internalFormat, int _width, int _height);
 		virtual ~render_buffer();

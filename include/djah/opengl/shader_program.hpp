@@ -5,8 +5,8 @@
 #include <string>
 #include <memory>
 
-#include "math/matrix.hpp"
-#include "system/gl.hpp"
+#include "djah/math/matrix.hpp"
+#include "djah/system/gl.hpp"
 #include "shader_base.hpp"
 
 namespace djah { namespace opengl {
@@ -14,11 +14,11 @@ namespace djah { namespace opengl {
 	class shader_program
 		: public resource
 	{
+		DJAH_OPENGL_RESOURCE(shader_program);
+
 	public:
 		shader_program(const std::string &shaderName);
 		virtual ~shader_program();
-
-		const std::string& name() const { return name_; }
 
 		template<int ShaderType>
 		void attach(const shader_base<ShaderType> &s) const;
@@ -63,9 +63,7 @@ namespace djah { namespace opengl {
 
 	private:
 		typedef std::map<std::string, unsigned int> uniform_cache_t;
-
 		mutable uniform_cache_t cache_;
-		std::string				name_;
 	};
 
 } /*opengl*/ } /*djah*/

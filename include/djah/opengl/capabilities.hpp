@@ -4,7 +4,7 @@
 #include <map>
 #include <vector>
 #include <string>
-#include "core/string_utils.hpp"
+#include "djah/core/string_utils.hpp"
 
 namespace djah { namespace opengl {
 

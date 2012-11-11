@@ -1,6 +1,6 @@
-#include "system/video_config.hpp"
-#include "types.hpp"
-#include "debug/assertion.hpp"
+#include "djah/system/video_config.hpp"
+#include "djah/types.hpp"
+#include "djah/debug/assertion.hpp"
 
 namespace djah { namespace system {
 

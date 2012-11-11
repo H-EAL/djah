@@ -50,6 +50,9 @@
     <ClInclude Include="..\..\..\include\djah\debug\console_sink.hpp">
       <Filter>include\_log</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\debug\log_filter.hpp">
+      <Filter>include\_log</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\sources\debug\memory_tracker.cpp">
@@ -65,6 +68,12 @@
       <Filter>sources\_log</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\sources\debug\console_sink.cpp">
+      <Filter>sources\_log</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\sources\debug\assertion.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\sources\debug\log_filter.cpp">
       <Filter>sources\_log</Filter>
     </ClCompile>
   </ItemGroup>

@@ -9,6 +9,8 @@ namespace djah { namespace opengl {
 	class texture
 		: public resource
 	{
+		DJAH_OPENGL_RESOURCE(texture);
+
 	public:
 		enum eBilinearMode
 		{
