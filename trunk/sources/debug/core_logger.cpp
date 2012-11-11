@@ -1,8 +1,9 @@
-#include "debug/core_logger.hpp"
+#include "djah/debug/core_logger.hpp"
 
 #include <ctime>
 #include <algorithm>
-#include "debug/basic_sink.hpp"
+#include "djah/debug/basic_sink.hpp"
+#include "djah/debug/assertion.hpp"
 
 namespace djah { namespace debug {
 
@@ -49,7 +50,7 @@ namespace djah { namespace debug {
 	//----------------------------------------------------------------------------------------------
 	basic_record& core_logger::openRecord(const std::string &channels, eLogSeverity severity, int line, const char *file)
 	{
-		basic_record rec( channels, severity, line, file, "", static_cast<unsigned int>(::time(nullptr)) );
+		basic_record rec( channels, severity, line, file, stack_trace(), static_cast<unsigned int>(::time(nullptr)) );
 		records_.push_back(rec);
 		return records_.back();
 	}

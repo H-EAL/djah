@@ -1,4 +1,4 @@
-#include "resources/image.hpp"
+#include "djah/resources/image.hpp"
 
 namespace djah { namespace resources {
 

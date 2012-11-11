@@ -1,9 +1,9 @@
-#include "system/context.hpp"
-#include "system/device.hpp"
-#include "system/gl.hpp"
-#include "debug/assertion.hpp"
-#include "wgl_extensions.hpp"
-#include "types.hpp"
+#include "djah/system/context.hpp"
+#include "djah/system/device.hpp"
+#include "djah/system/gl.hpp"
+#include "djah/debug/assertion.hpp"
+#include "djah/types.hpp"
+#include "./wgl_extensions.hpp"
 
 namespace djah { namespace system {
 
@@ -12,7 +12,8 @@ namespace djah { namespace system {
 	{
 	public:
 		context_impl()
-			: hGLRC_(nullptr)
+			: hDC_(nullptr)
+			, hGLRC_(nullptr)
 		{
 
 		}
@@ -29,25 +30,25 @@ namespace djah { namespace system {
 			DJAH_ASSERT( device::get_current() );
 
 			hDC_ = GetDC( (HWND)device::get_current()->windowHandle() );
-			DJAH_ASSERT( hDC_ != INVALID_HANDLE_VALUE );
+			DJAH_ASSERT( hDC_ != nullptr );
 
 			int flags = WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB;
 			if( f.enableDebug )
 				flags |= WGL_CONTEXT_DEBUG_BIT_ARB;
-			int mask = WGL_CONTEXT_CORE_PROFILE_BIT_ARB;
+			int mask = WGL_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB;// WGL_CONTEXT_CORE_PROFILE_BIT_ARB;
 
 			const int attributes[] =
 			{
-				WGL_CONTEXT_MAJOR_VERSION_ARB, f.majorVersion,
-				WGL_CONTEXT_MINOR_VERSION_ARB, f.minorVersion,
-				WGL_CONTEXT_FLAGS_ARB, flags,
-				WGL_CONTEXT_PROFILE_MASK_ARB, mask,
+				WGL_CONTEXT_MAJOR_VERSION_ARB,	f.majorVersion,
+				WGL_CONTEXT_MINOR_VERSION_ARB,	f.minorVersion,
+				WGL_CONTEXT_FLAGS_ARB,			flags,
+				WGL_CONTEXT_PROFILE_MASK_ARB,	mask,
 				0
 			};
 
 			hGLRC_ = wglCreateContextAttribsARB(hDC_, nullptr, attributes);
 
-			return (hGLRC_ != 0);
+			return (hGLRC_ != nullptr);
 		}
 
 		HDC   hDC_;
@@ -87,6 +88,7 @@ namespace djah { namespace system {
 	bool gl_context::create()
 	{
 		return pImpl_->create(format_);
+		initialized_ = true;
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -96,15 +98,14 @@ namespace djah { namespace system {
 	{
 		wglMakeCurrent(pImpl_->hDC_, pImpl_->hGLRC_);
 		sp_current_context_ = this;
-		initialized_ = true;
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	void gl_context::doneCurrent()
+	void gl_context::done_current()
 	{
-		wglMakeCurrent(0,0);
+		wglMakeCurrent(nullptr, nullptr);
 		sp_current_context_ = nullptr;
 	}
 	//----------------------------------------------------------------------------------------------

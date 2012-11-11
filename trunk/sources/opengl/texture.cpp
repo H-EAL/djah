@@ -1,6 +1,6 @@
-#include "system/gl.hpp"
-#include "opengl/opengl_logger.hpp"
-#include "opengl/texture.hpp"
+#include "djah/system/gl.hpp"
+#include "djah/opengl/opengl_logger.hpp"
+#include "djah/opengl/texture.hpp"
 
 namespace djah { namespace opengl {
 

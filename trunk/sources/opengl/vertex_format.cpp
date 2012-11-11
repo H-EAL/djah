@@ -1,4 +1,4 @@
-#include "opengl/vertex_format.hpp"
+#include "djah/opengl/vertex_format.hpp"
 
 namespace djah { namespace opengl {
 

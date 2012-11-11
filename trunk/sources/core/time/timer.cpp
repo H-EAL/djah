@@ -1,5 +1,5 @@
-#include "time/timer.hpp"
-#include "system/clock.hpp"
+#include "djah/core/time/timer.hpp"
+#include "djah/system/clock.hpp"
 
 namespace djah { namespace time {
 

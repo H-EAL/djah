@@ -40,7 +40,7 @@ namespace djah { namespace debug {
 	public:
 		basic_record
 		(
-			const std::string &_channels = "all",
+			const std::string &_channels = "any",
 			eLogSeverity _severity = notification,
 			unsigned int _line = 0, const std::string &_file = "",
 			const std::string &_stackTrace = "",

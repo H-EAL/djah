@@ -59,7 +59,7 @@ struct model
 			djah::resources::image_ptr img = find_resource<resources::image>(textureName);
 			if( img )
 			{
-				tex_ = new opengl::texture(GL_RGB, img->width(), img->height());
+				tex_ = new opengl::texture(GL_RGB, img->width(), img->height(), true);
 				tex_->bind();
 				tex_->setBestFiltering();
 				tex_->setPixelBuffer(GL_BGR, GL_UNSIGNED_BYTE, img->pixels());

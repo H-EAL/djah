@@ -1,6 +1,6 @@
-#include "system/input/gamepad.hpp"
-#include "platform.hpp"
-#include "types.hpp"
+#include "djah/system/input/gamepad.hpp"
+#include "djah/platform.hpp"
+#include "djah/types.hpp"
 #include <sstream>
 #include <iostream>
 

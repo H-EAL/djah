@@ -1,13 +1,13 @@
-#include "opengl/shader_program.hpp"
-#include "opengl/errors.hpp"
-#include "debug/log.hpp"
+#include "djah/opengl/shader_program.hpp"
+#include "djah/opengl/errors.hpp"
+#include "djah/debug/log.hpp"
 
 
 namespace djah { namespace opengl {
 
 	//----------------------------------------------------------------------------------------------
 	shader_program::shader_program(const std::string &shaderName)
-		: name_(shaderName)
+		: resource(shaderName)
 	{
 		aquire();
 	}

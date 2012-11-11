@@ -1,4 +1,4 @@
-#include "opengl/buffer_base.hpp"
+#include "djah/opengl/buffer_base.hpp"
 
 namespace djah { namespace opengl {
 

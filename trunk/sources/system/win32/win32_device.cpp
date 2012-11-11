@@ -1,10 +1,10 @@
-#include "system/device.hpp"
-#include "system/system_logger.hpp"
-#include "system/gl.hpp"
-#include "system/opengl_driver.hpp"
-#include "system/context.hpp"
-#include "debug/assertion.hpp"
-#include "wgl_extensions.hpp"
+#include "djah/system/device.hpp"
+#include "djah/system/system_logger.hpp"
+#include "djah/system/gl.hpp"
+#include "djah/system/opengl_driver.hpp"
+#include "djah/system/context.hpp"
+#include "djah/debug/assertion.hpp"
+#include "./wgl_extensions.hpp"
 
 
 namespace djah { namespace system {
@@ -25,6 +25,7 @@ namespace djah { namespace system {
 		HINSTANCE	hInstance_;		// Application handler
 		HWND		hWindow_;		// Window handler
 		HDC			hDC_;			// Device Context handler
+		HGLRC		hGLRC_;			// Temporary opengl context
 
 		friend LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	};
@@ -122,30 +123,17 @@ namespace djah { namespace system {
 	void device_impl::createContext(const video_config &cfg)
 	{
 		hDC_ = GetDC(hWindow_);
-		DJAH_ASSERT(hDC_);
+		DJAH_ASSERT(hDC_ != nullptr);
 
 		setupPixelFormat(cfg);
-		HGLRC tmpHGLRC = wglCreateContext(hDC_);
-		DJAH_ASSERT(tmpHGLRC);
+		hGLRC_ = wglCreateContext(hDC_);
+		DJAH_ASSERT(hGLRC_ != nullptr);
 		
-		wglMakeCurrent(hDC_, tmpHGLRC);
+		wglMakeCurrent(hDC_, hGLRC_);
 		load_wgl_extensions();
 
 		/*
-		const int attribs[] =
-		{
-			WGL_CONTEXT_MAJOR_VERSION_ARB, 3,
-			WGL_CONTEXT_MINOR_VERSION_ARB, 3,
-			WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB | WGL_CONTEXT_DEBUG_BIT_ARB,
-			WGL_CONTEXT_PROFILE_MASK_ARB, WGL_CONTEXT_CORE_PROFILE_BIT_ARB,
-			0
-		};
-
-		hGLRC_ = wglCreateContextAttribsARB(hDC_, 0, attribs);
-		assert(hGLRC_);
-
-		wglMakeCurrent(hDC_, hGLRC_);
-		wglDeleteContext(tmpHGLRC);
+		wglDeleteContext(hGLRC_);
 		*/
 	}
 	//----------------------------------------------------------------------------------------------
@@ -219,7 +207,7 @@ namespace djah { namespace system {
 		sp_device_inst_ = this;
 		videoConfig_    = cfg;
 		
-		pImpl_->createWindow(videoConfig_);	// -> to screen class
+		pImpl_->createWindow(videoConfig_);
 		pImpl_->createContext(videoConfig_);	// -> to context class
 
 		setVSync( cfg.vsync );
@@ -234,10 +222,7 @@ namespace djah { namespace system {
 		delete pDriver_;
 		pDriver_ = nullptr;
 		
-		if( gl_context::get_current() )
-		{
-			gl_context::get_current()->doneCurrent();
-		}
+		gl_context::done_current();
 
 		ReleaseDC(pImpl_->hWindow_, pImpl_->hDC_);
 

@@ -6,6 +6,7 @@
 #   define WIN32_LEAN_AND_MEAN
 #	include <Windows.h>
 #	include <MMSystem.h>
+#	include <DbgHelp.h>
 #	ifdef near
 #		undef near
 #	endif

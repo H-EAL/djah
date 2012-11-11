@@ -2,8 +2,8 @@ namespace djah { namespace opengl {
 
 	//----------------------------------------------------------------------------------------------
 	template<int ShaderType>
-	shader_base<ShaderType>::shader_base(const std::string &source, const std::string &_fileName)
-		: fileName_(fileName_)
+	shader_base<ShaderType>::shader_base(const std::string &source, const std::string &_name)
+		: resource(_name)
 	{
 		aquire();
 		if( !source.empty() )
@@ -45,15 +45,6 @@ namespace djah { namespace opengl {
 	inline bool shader_base<ShaderType>::isValidResource() const
 	{
 		return glIsShader(id_) != 0;
-	}
-	//----------------------------------------------------------------------------------------------
-
-
-	//----------------------------------------------------------------------------------------------
-	template<int ShaderType>
-	inline const std::string& shader_base<ShaderType>::fileName() const
-	{
-		return fileName_;
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -111,7 +102,7 @@ namespace djah { namespace opengl {
 			// TODO : throw some exception
 			DJAH_OPENGL_CRITICAL()
 				<< "====================================================================\n"
-				<< "Errors in " << fileName_ << "\n"
+				<< "Errors in " << name_ << "\n"
 				<< "--------------------------------------------------------------------\n"
 				<< log_str.get()
 				<< "===================================================================="

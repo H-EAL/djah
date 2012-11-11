@@ -24,7 +24,7 @@
 //------------------------------------------------------------------------------
 #define DJAH_LOG_CH_SEV(LG, CHANNEL, SEVERITY) LG.openRecord(CHANNEL, djah::debug:: SEVERITY, __LINE__, __FILE__)
 //------------------------------------------------------------------------------
-#define DJAH_GLOBAL_LOG_SEV(SEVERITY)	DJAH_LOG_CH_SEV(djah::debug::core_logger::get(), "all", SEVERITY)
+#define DJAH_GLOBAL_LOG_SEV(SEVERITY)	DJAH_LOG_CH_SEV(djah::debug::core_logger::get(), "any", SEVERITY)
 //------------------------------------------------------------------------------
 #define DJAH_GLOBAL_NOTIFICATION()		DJAH_GLOBAL_LOG_SEV(notification)
 #define DJAH_GLOBAL_WARNING()			DJAH_GLOBAL_LOG_SEV(warning)

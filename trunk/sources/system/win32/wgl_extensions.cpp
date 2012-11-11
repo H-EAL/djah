@@ -1,9 +1,9 @@
-#include "debug/assertion.hpp"
-#include "platform.hpp"
-#include "system/gl.hpp"
+#include "djah/debug/assertion.hpp"
+#include "djah/platform.hpp"
+#include "djah/system/gl.hpp"
 
 #define DEFINE_EXTENSIONS_AS_LOCAL
-#	include "wgl_extensions.hpp"
+#	include "./wgl_extensions.hpp"
 #undef DEFINE_EXTENSIONS_AS_LOCAL
 
 namespace {

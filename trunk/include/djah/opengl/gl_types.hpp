@@ -1,7 +1,7 @@
 #ifndef DJAH_OPENGL_GL_TYPES_HPP
 #define DJAH_OPENGL_GL_TYPES_HPP
 
-#include "system/gl.hpp"
+#include "../system/gl.hpp"
 
 namespace djah { namespace opengl {
 

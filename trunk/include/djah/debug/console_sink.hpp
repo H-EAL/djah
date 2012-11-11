@@ -10,7 +10,7 @@ namespace djah { namespace debug {
 		: public basic_sink
 	{
 	public:
-		console_sink(const std::string &channels = "all");
+		console_sink(const log_filter &_filter = log_filter());
 		virtual ~console_sink();
 
 		virtual void consume(const basic_record &rec);
@@ -22,7 +22,7 @@ namespace djah { namespace debug {
 		: public basic_sink
 	{
 	public:
-		output_debug_sink(const std::string &channels = "all");
+		output_debug_sink(const log_filter &_filter = log_filter());
 		virtual ~output_debug_sink();
 
 		virtual void consume(const basic_record &rec);

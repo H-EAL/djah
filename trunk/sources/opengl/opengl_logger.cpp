@@ -1,4 +1,4 @@
-#include "opengl/opengl_logger.hpp"
+#include "djah/opengl/opengl_logger.hpp"
 
 namespace djah { namespace opengl {
 

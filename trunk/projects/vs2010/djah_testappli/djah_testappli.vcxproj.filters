@@ -27,15 +27,6 @@
     <ClInclude Include="..\..\..\tests\sources\test.hpp">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\tests\sources\ShellOpenGL.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\tests\sources\ShellRenderInterfaceOpenGL.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\tests\sources\ShellSystemInterface.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\tests\sources\shadow_test.hpp">
       <Filter>include</Filter>
     </ClInclude>
@@ -57,12 +48,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\tests\sources\application.cpp">
-      <Filter>sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\tests\sources\ShellSystemInterface.cpp">
-      <Filter>sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\tests\sources\ShellRenderInterfaceOpenGL.cpp">
       <Filter>sources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\tests\sources\shadow_test.cpp">

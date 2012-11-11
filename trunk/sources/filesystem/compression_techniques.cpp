@@ -1,5 +1,5 @@
-#include "filesystem/compression_techniques.hpp"
-#include "filesystem/memory_stream.hpp"
+#include "djah/filesystem/compression_techniques.hpp"
+#include "djah/filesystem/memory_stream.hpp"
 
 namespace djah { namespace filesystem {
 	

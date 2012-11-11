@@ -1,8 +1,8 @@
-#include "debug/basic_logger.hpp"
+#include "djah/debug/basic_logger.hpp"
 
 #include <ctime>
-#include "debug/record.hpp"
-#include "debug/core_logger.hpp"
+#include "djah/debug/record.hpp"
+#include "djah/debug/core_logger.hpp"
 
 namespace djah { namespace debug {
 

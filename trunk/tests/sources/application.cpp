@@ -84,22 +84,38 @@ void APIENTRY oglDebugProc(GLenum source,
 	const GLchar* message,
 	void* userParam)
 {
-	DJAH_GLOBAL_CRITICAL() << message << DJAH_END_LOG();
+	switch( severity )
+	{
+	case GL_DEBUG_SEVERITY_LOW:
+		DJAH_OPENGL_WARNING() << message << DJAH_END_LOG();
+		break;
+
+	case GL_DEBUG_SEVERITY_MEDIUM:
+		DJAH_OPENGL_ERROR() << message << DJAH_END_LOG();
+		break;
+
+	case GL_DEBUG_SEVERITY_HIGH:
+		DJAH_ASSERT_MSG(false, "%s", message);
+		break;
+	}
 }
 
 void initLoggers()
 {
-	std::shared_ptr<debug::basic_sink> pOpenGLSink( new debug::xml_sink("log/opengl.log.xml", "opengl") );
-	std::shared_ptr<debug::basic_sink> pSystemSink( new debug::xml_sink("log/system.log.xml", "system") );
-	std::shared_ptr<debug::basic_sink> pFileSystemSink( new debug::xml_sink("log/filesystem.log.xml", "fs") );
-	std::shared_ptr<debug::basic_sink> pGlobalSink( new debug::xml_sink("log/global.log.xml", "all") );
-	std::shared_ptr<debug::basic_sink> pConsoleSink( new debug::console_sink("all") );
-	std::shared_ptr<debug::basic_sink> pDebugSink( new debug::output_debug_sink("all") );
+	std::shared_ptr<debug::basic_sink> pOpenGLSink    ( new debug::xml_sink("log/opengl.log.xml"    , debug::log_filter("opengl")) );
+	std::shared_ptr<debug::basic_sink> pSystemSink    ( new debug::xml_sink("log/system.log.xml"    , debug::log_filter("system")) );
+	std::shared_ptr<debug::basic_sink> pFileSystemSink( new debug::xml_sink("log/filesystem.log.xml", debug::log_filter("fs")) );
+	std::shared_ptr<debug::basic_sink> pGlobalSink    ( new debug::xml_sink("log/global.log.xml"    , debug::log_filter("any")) );
+
+	std::shared_ptr<debug::basic_sink> pConsoleSink   ( new debug::console_sink     ( debug::log_filter("any", debug::warning) ) );
+	std::shared_ptr<debug::basic_sink> pDebugSink     ( new debug::output_debug_sink( debug::log_filter("any")                 ) );
+
 
 	debug::core_logger::get().addSink( pOpenGLSink );
 	debug::core_logger::get().addSink( pSystemSink );
 	debug::core_logger::get().addSink( pFileSystemSink );
 	debug::core_logger::get().addSink( pGlobalSink );
+
 	debug::core_logger::get().addSink( pConsoleSink );
 	debug::core_logger::get().addSink( pDebugSink );
 
@@ -167,13 +183,14 @@ void application::initImpl()
 	pShadowTest_			= new ShadowTest(device_, mouse_, keyboard_, gamepad_, cam);
 	pBasicTest_				= new BasicTest(device_, cam);
 	pDeferredShadingTest_	= new DeferredShadingTest(device_, gamepad_, cam);
-	pSolarSystemTest_		= new SolarSystemTest(device_, gamepad_, cam);
 	pBumpMappingTest_		= new BumpMappingTest(device_, gamepad_, cam);
-	pFontTest_				= new FontTest(device_, cam);
+	//pFontTest_				= new FontTest(device_, cam);
+	pSolarSystemTest_		= new SolarSystemTest(device_, gamepad_, cam);
 
 	resources::resource_manager::get().cleanUp();
 
 	pCurrentTest_ = pFontTest_;
+	pCurrentTest_ = pSolarSystemTest_;
 }
 
 void application::runImpl()

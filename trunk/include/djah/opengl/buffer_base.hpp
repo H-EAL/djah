@@ -2,10 +2,9 @@
 #define DJAH_OPENGL_BUFFER_BASE_HPP
 
 #include <cassert>
-#include "types.hpp"
-#include "system/gl.hpp"
+#include "../types.hpp"
+#include "../system/gl.hpp"
 #include "gl_types.hpp"
-#include "errors.hpp"
 #include "resource.hpp"
 
 namespace djah { namespace opengl {
@@ -20,6 +19,8 @@ namespace djah { namespace opengl {
 	class buffer_base
 		: public resource
 	{
+		DJAH_OPENGL_RESOURCE(buffer_base);
+
 	public:
 		size_t size() const;
 		size_t count() const;

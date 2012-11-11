@@ -16,15 +16,14 @@ namespace djah { namespace system {
 
 		bool create();
 		void makeCurrent();
-		void doneCurrent();
+
+		static gl_context*	get_current();
+		static void			done_current();
 
 	private:
 		std::unique_ptr<context_impl>	pImpl_;
 		bool							initialized_;
 		gl_format						format_;
-
-	public:
-		static gl_context* get_current();
 
 	private:
 		static gl_context *sp_current_context_;

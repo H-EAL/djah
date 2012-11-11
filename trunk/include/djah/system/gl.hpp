@@ -1,7 +1,7 @@
 #ifndef DJAH_SYSTEM_OPENGL_GL_HPP
 #define DJAH_SYSTEM_OPENGL_GL_HPP
 
-#include "platform.hpp"
+#include "djah/platform.hpp"
 
 //#define DJAH_COMPILE_IPHONEOS 1
 

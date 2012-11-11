@@ -1,7 +1,7 @@
 #ifndef DJAH_OPENGL_VERTEX_ARRAY_HPP
 #define DJAH_OPENGL_VERTEX_ARRAY_HPP
 
-#include "system/gl.hpp"
+#include "../system/gl.hpp"
 #include "vertex_format.hpp"
 #include "resource.hpp"
 
@@ -15,6 +15,8 @@ namespace djah { namespace opengl {
 	class vertex_array
 		: public resource
 	{
+		DJAH_OPENGL_RESOURCE(vertex_array);
+
 	public:
 
 		vertex_array(const vertex_format &format, vertex_buffer *vb, index_buffer *ib = 0);

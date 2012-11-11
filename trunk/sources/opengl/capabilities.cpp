@@ -1,7 +1,7 @@
-#include "opengl/capabilities.hpp"
+#include "djah/opengl/capabilities.hpp"
 #include <algorithm>
-#include "system/gl.hpp"
-#include "debug/assertion.hpp"
+#include "djah/system/gl.hpp"
+#include "djah/debug/assertion.hpp"
 
 namespace djah { namespace opengl {
 

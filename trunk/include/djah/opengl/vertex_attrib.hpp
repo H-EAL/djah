@@ -4,7 +4,7 @@
 #include <string>
 
 #include "../types.hpp"
-#include "types.hpp"
+#include "gl_types.hpp"
 
 namespace djah { namespace opengl {
 

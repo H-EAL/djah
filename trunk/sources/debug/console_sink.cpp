@@ -1,9 +1,9 @@
-#include "debug/console_sink.hpp"
+#include "djah/debug/console_sink.hpp"
 
 #include <ctime>
 #include <iostream>
 
-#include "platform.hpp"
+#include "djah/platform.hpp"
 
 namespace djah { namespace debug {
 
@@ -85,8 +85,8 @@ namespace djah { namespace debug {
 
 
 	//----------------------------------------------------------------------------------------------
-	console_sink::console_sink(const std::string &channels)
-		: basic_sink(channels)
+	console_sink::console_sink(const log_filter &_filter)
+		: basic_sink(_filter)
 	{
 	}
 	//----------------------------------------------------------------------------------------------
@@ -126,8 +126,8 @@ namespace djah { namespace debug {
 
 
 	//----------------------------------------------------------------------------------------------
-	output_debug_sink::output_debug_sink(const std::string &channels)
-		: basic_sink(channels)
+	output_debug_sink::output_debug_sink(const log_filter &_filter)
+		: basic_sink(_filter)
 	{
 	}
 	//----------------------------------------------------------------------------------------------

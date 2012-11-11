@@ -1,8 +1,8 @@
-#include "system/opengl_driver.hpp"
-#include "system/gl.hpp"
-#include "opengl/capabilities.hpp"
-#include "debug/assertion.hpp"
-#include "math/vector2.hpp"
+#include "djah/system/opengl_driver.hpp"
+#include "djah/system/gl.hpp"
+#include "djah/opengl/capabilities.hpp"
+#include "djah/debug/assertion.hpp"
+#include "djah/math/vector2.hpp"
 
 namespace djah { namespace system {
 
