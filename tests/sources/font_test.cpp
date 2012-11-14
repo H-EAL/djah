@@ -1,16 +1,15 @@
 #include "font_test.hpp"
 #include "djah/types.hpp"
 #include "resource_finder.hpp"
-#include "djah/video/primitives/sphere.hpp"
-#include "djah/video/primitives/cube.hpp"
-#include "djah/video/font_engine.hpp"
+#include "djah/3d/primitives.hpp"
+#include "djah/3d/font_engine.hpp"
 #include "djah/resources/media_manager.hpp"
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
 using namespace djah;
-using namespace video;
+using namespace d3d;
 
 static const char chars[] =
 {

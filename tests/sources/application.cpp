@@ -1,8 +1,8 @@
 #include "application.hpp"
 
 #include <djah/opengl.hpp>
-#include <djah/video/text.hpp>
-#include <djah/video/font_engine.hpp>
+#include <djah/3d/text.hpp>
+#include <djah/3d/font_engine.hpp>
 
 #include <djah/system/video_config.hpp>
 #include <djah/system/device.hpp>
@@ -171,8 +171,8 @@ void application::initImpl()
 	const float h = static_cast<float>(device_->videoConfig().height);
 	matOrthoProj_ = math::make_orthographic_projection(0.0f, w, h, 0.0f, -1.0f, 1.0f);
 
-	video::font_engine::create();
-	video::font_engine::get().setFontsPath("fonts/");
+	d3d::font_engine::create();
+	d3d::font_engine::get().setFontsPath("fonts/");
 	//fps_str_.draw();
 
 	fps_str_.setPosition(math::vector2i(0,0));
@@ -184,13 +184,12 @@ void application::initImpl()
 	pBasicTest_				= new BasicTest(device_, cam);
 	pDeferredShadingTest_	= new DeferredShadingTest(device_, gamepad_, cam);
 	pBumpMappingTest_		= new BumpMappingTest(device_, gamepad_, cam);
-	//pFontTest_				= new FontTest(device_, cam);
+	pFontTest_				= new FontTest(device_, cam);
 	pSolarSystemTest_		= new SolarSystemTest(device_, gamepad_, cam);
 
 	resources::resource_manager::get().cleanUp();
 
 	pCurrentTest_ = pFontTest_;
-	pCurrentTest_ = pSolarSystemTest_;
 }
 
 void application::runImpl()
@@ -234,6 +233,17 @@ void application::runImpl()
 		m.z = gamepad_.getAxis(system::input::eX360_LeftY).correctedValue(0.1f);
 		rx = gamepad_.getAxis(system::input::eX360_RightX).correctedValue(0.1f) * 2.5f;
 		ry = gamepad_.getAxis(system::input::eX360_RightY).correctedValue(0.1f) * 2.5f;
+
+		int l = 0, r =0;
+		if( gamepad_.getButton(system::input::eX360_LB).isDown() )
+		{
+			l = 65535;
+		}
+		if( gamepad_.getButton(system::input::eX360_RB).isDown() )
+		{
+			r = 65535;
+		}
+		gamepad_.vibrate(l,r);
 	}
 
 	if( device_->hasWindowFocus() )
@@ -306,7 +316,7 @@ void application::exitImpl()
 	delete pSolarSystemTest_;
 	delete pBumpMappingTest_;
 
-	video::font_engine::destroy();
+	d3d::font_engine::destroy();
 }
 
 void application::draw2D()

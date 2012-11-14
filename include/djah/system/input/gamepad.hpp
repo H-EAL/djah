@@ -50,6 +50,9 @@ namespace djah { namespace system { namespace input {
 		bool			isPlugged()							const { return plugged_;			}
 		const button&	getButton(unsigned int button_id)	const { return buttons_[button_id]; }
 		const axis&		getAxis(unsigned int axis_id)		const { return axis_[axis_id];		}
+		
+		void vibrate(int val);
+		void vibrate(int left, int right);
 
 	private:
 		void init();

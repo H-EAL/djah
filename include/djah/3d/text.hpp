@@ -6,7 +6,7 @@
 #include "../math/vector2.hpp"
 #include "../math/vector3.hpp"
 
-namespace djah { namespace video {
+namespace djah { namespace d3d {
 
 	class text
 		: public std::string
@@ -38,6 +38,6 @@ namespace djah { namespace video {
 		math::vector2i position_;
 	};
 
-} /*video*/ } /*djah*/
+} /*d3d*/ } /*djah*/
 
 #endif /* DJAH_VIDEO_TEXT_HPP */

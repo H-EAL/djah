@@ -70,6 +70,8 @@ namespace djah { namespace system {
 		LOAD_EXTENSION( glFramebufferTexture		);
 		LOAD_EXTENSION( glDrawBuffers				);
 
+		LOAD_EXTENSION( glDrawArraysInstanced		);
+
 		//------------------------------------------------------------------------------------------
 		// Shaders
 		//------------------------------------------------------------------------------------------
@@ -124,6 +126,8 @@ namespace djah { namespace system {
 		LOAD_EXTENSION( glUniformMatrix4x2fv	);
 		LOAD_EXTENSION( glUniformMatrix3x4fv	);
 		LOAD_EXTENSION( glUniformMatrix4x3fv	);
+
+		LOAD_EXTENSION( glGetActiveUniform		);
 
 		//------------------------------------------------------------------------------------------
 		// Textures

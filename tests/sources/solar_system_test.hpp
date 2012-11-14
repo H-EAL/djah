@@ -5,6 +5,7 @@
 #include "djah/opengl.hpp"
 #include "camera.hpp"
 #include "djah/system/input/gamepad.hpp"
+#include "djah/3d/shader.hpp"
 
 class SolarSystemTest
 	: public test_base
@@ -33,7 +34,7 @@ private:
 	djah::opengl::vertex_buffer  *pSphereVB_;
 	djah::opengl::vertex_array   *pSphereVA_;
 	djah::opengl::texture		 *pTextures_[ePO_Count];
-	djah::opengl::shader_program sphereShader_;
+	djah::d3d::shader			  shader_;
 };
 
 #endif /* DJAH_SOLAR_SYSTEM_TEST_HPP */

@@ -5,7 +5,7 @@
 
 #include <djah/filesystem/memory_stream.hpp>
 
-#include <djah/video/text.hpp>
+#include <djah/3d/text.hpp>
 
 #include <djah/opengl.hpp>
 
@@ -50,10 +50,10 @@ private:
 	djah::system::input::keyboard	keyboard_;
 	djah::system::input::gamepad	gamepad_;
 
-	djah::video::text fps_str_;
-	djah::video::text mouse_pos_;
-	djah::video::text cam_pos_;
-	djah::video::text test_name_;
+	djah::d3d::text fps_str_;
+	djah::d3d::text mouse_pos_;
+	djah::d3d::text cam_pos_;
+	djah::d3d::text test_name_;
 
 	ShadowTest			 *pShadowTest_;
 	BasicTest			 *pBasicTest_;

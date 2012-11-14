@@ -12,7 +12,7 @@
 #include "../math/vector3.hpp"
 #include "../core/singleton.hpp"
 
-namespace djah { namespace video {
+namespace djah { namespace d3d {
 
 	typedef math::vector3f color;
 
@@ -64,6 +64,6 @@ namespace djah { namespace video {
 		std::string fonts_path_;
 	};
 
-} /*video*/ } /*djah*/
+} /*d3d*/ } /*djah*/
 
 #endif /* DJAH_VIDEO_FONT_ENGINE_HPP */

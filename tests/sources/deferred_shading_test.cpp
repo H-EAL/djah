@@ -7,7 +7,7 @@ static const float s = 4.0f;
 DeferredShadingTest::DeferredShadingTest(djah::system::device_ptr pDevice, const djah::system::input::gamepad &g, Camera &cam)
 	: test_base(pDevice)
 	, cam_(cam)
-	, cow_("feisar")
+	, cow_("cow")
 	, gamepad_(g)
 	, indexBuffer_(2*3, opengl::eBU_StaticDraw)
 	, vertexBuffer_( (3+3+2)*4*sizeof(float), opengl::eBU_StaticDraw)
@@ -155,14 +155,11 @@ void DeferredShadingTest::update(float dt)
 void DeferredShadingTest::draw()
 {
 	glDisable(GL_CULL_FACE);
-	//glEnable(GL_TEXTURE_2D);
 
 	const math::matrix4f &matViewProj  = math::make_look_at(cam_.eye(), cam_.center(), cam_.up()) * matPerspectiveProj_;
 
 	renderGeometryPass(matViewProj);
 	renderFinalPass(matOrthoProj_);
-
-	//glDisable(GL_TEXTURE_2D);
 }
 //--------------------------------------------------------------------------------------------------
 
@@ -191,7 +188,7 @@ void DeferredShadingTest::renderGeometryPass(const math::matrix4f &matViewProj)
 	pVertexArray_->draw();
 	pFloorTexture_->unbind();
 
-	static const math::matrix4f matWorldCow = math::make_scale(0.05f, 0.05f, 0.05f) * math::make_translation(0.0f,2.0f,0.0f);// * math::make_rotation(math::deg_to_rad(-90.0f), math::vector3f::x_axis);
+	static const math::matrix4f matWorldCow = math::matrix4f::identity;//math::make_scale(0.05f, 0.05f, 0.05f) * math::make_translation(0.0f,2.0f,0.0f);// * math::make_rotation(math::deg_to_rad(-90.0f), math::vector3f::x_axis);
 	deferredProgram_.sendUniformMatrix( "in_World", matWorldCow );
 	deferredProgram_.sendUniformMatrix( "in_WVP", matWorldCow * matViewProj );
 	cow_.tex_->bind();

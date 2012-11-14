@@ -68,11 +68,5 @@
     <ClCompile Include="..\..\..\tests\sources\font_test.cpp">
       <Filter>sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\sources\video\font_engine.cpp">
-      <Filter>sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\sources\video\text.cpp">
-      <Filter>sources</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

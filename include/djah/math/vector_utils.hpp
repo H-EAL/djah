@@ -132,8 +132,8 @@ namespace djah { namespace math {
 			}
 			else
 			{
-				axis  = orientation.cross(from_vec);
-				angle = atan2( norm * -axis, orientation * from_vec );
+				axis  = from_vec.cross(orientation);
+				angle = atan2( norm * axis, orientation * from_vec );
 			}
 		}
 

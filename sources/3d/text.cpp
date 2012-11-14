@@ -1,7 +1,7 @@
-#include "djah/video/text.hpp"
-#include "djah/video/font_engine.hpp"
+#include "djah/3d/text.hpp"
+#include "djah/3d/font_engine.hpp"
 
-namespace djah { namespace video {
+namespace djah { namespace d3d {
 
 	//----------------------------------------------------------------------------------------------
 	text::text(const std::string &str, int x, int y, const properties &props)
@@ -22,4 +22,4 @@ namespace djah { namespace video {
 	}
 	//----------------------------------------------------------------------------------------------
 
-} /*video*/ } /*djah*/
+} /*d3d*/ } /*djah*/

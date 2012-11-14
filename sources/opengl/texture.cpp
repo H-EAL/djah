@@ -112,12 +112,12 @@ namespace djah { namespace opengl {
 
 
 	//----------------------------------------------------------------------------------------------
-	void texture::setWrapMode()
+	void texture::setWrapMode(int wrapMode)
 	{
 		monitor<texture>::assert_if_not_bound(id_);
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapMode);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapMode);
 	}
 	//----------------------------------------------------------------------------------------------
 

@@ -11,16 +11,27 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\djah\3d\cube.hpp" />
+    <ClInclude Include="..\..\..\include\djah\3d\3d_logger.hpp" />
     <ClInclude Include="..\..\..\include\djah\3d\font_engine.hpp" />
-    <ClInclude Include="..\..\..\include\djah\3d\sphere.hpp" />
+    <ClInclude Include="..\..\..\include\djah\3d\primitives.hpp" />
+    <ClInclude Include="..\..\..\include\djah\3d\primitives\cone.hpp" />
+    <ClInclude Include="..\..\..\include\djah\3d\primitives\cube.hpp" />
+    <ClInclude Include="..\..\..\include\djah\3d\primitives\cylinder.hpp" />
+    <ClInclude Include="..\..\..\include\djah\3d\primitives\sphere.hpp" />
+    <ClInclude Include="..\..\..\include\djah\3d\primitives\triangle.hpp" />
+    <ClInclude Include="..\..\..\include\djah\3d\shader.hpp" />
     <ClInclude Include="..\..\..\include\djah\3d\text.hpp" />
-    <ClInclude Include="..\..\..\include\djah\3d\triangle.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\sources\3d\3d_logger.cpp" />
     <ClCompile Include="..\..\..\sources\3d\font_engine.cpp" />
+    <ClCompile Include="..\..\..\sources\3d\primitives\cone.cpp" />
+    <ClCompile Include="..\..\..\sources\3d\primitives\cube.cpp" />
+    <ClCompile Include="..\..\..\sources\3d\primitives\cylinder.cpp" />
+    <ClCompile Include="..\..\..\sources\3d\primitives\sphere.cpp" />
+    <ClCompile Include="..\..\..\sources\3d\primitives\triangle.cpp" />
+    <ClCompile Include="..\..\..\sources\3d\shader.cpp" />
     <ClCompile Include="..\..\..\sources\3d\text.cpp" />
-    <ClCompile Include="..\..\..\sources\3d\triangle.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{543CE95D-AEAA-480F-9DDD-F04CE4FE8123}</ProjectGuid>

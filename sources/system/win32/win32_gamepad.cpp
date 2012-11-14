@@ -1,8 +1,10 @@
 #include "djah/system/input/gamepad.hpp"
-#include "djah/platform.hpp"
-#include "djah/types.hpp"
+
 #include <sstream>
 #include <iostream>
+
+#include "djah/platform.hpp"
+#include "djah/types.hpp"
 
 
 
@@ -102,6 +104,8 @@ namespace djah { namespace system { namespace input {
 	//----------------------------------------------------------------------------------------------
 	void gamepad::update()
 	{
+		XINPUT_STATE state;
+
 		JOYINFOEX jie;
 		jie.dwSize = sizeof(JOYINFOEX);
 
@@ -133,6 +137,33 @@ namespace djah { namespace system { namespace input {
 				axis_[a].setValue( static_cast<float>(axis_values[a]) );
 			}
 		}
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	void gamepad::vibrate(int val)
+	{
+		vibrate(val, val);
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	void gamepad::vibrate(int left, int right)
+	{
+		// Create a Vibration State
+		XINPUT_VIBRATION Vibration;
+
+		// Zeroise the Vibration
+		ZeroMemory(&Vibration, sizeof(XINPUT_VIBRATION));
+
+		// Set the Vibration Values
+		Vibration.wLeftMotorSpeed = left;
+		Vibration.wRightMotorSpeed = right;
+
+		// Vibrate the controller
+		XInputSetState(0, &Vibration);
 	}
 	//----------------------------------------------------------------------------------------------
 
