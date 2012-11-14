@@ -1,8 +1,8 @@
 #include "shadow_test.hpp"
 
 #include <djah/opengl.hpp>
-#include <djah/video/text.hpp>
-#include <djah/video/font_engine.hpp>
+#include <djah/3d/text.hpp>
+#include <djah/3d/font_engine.hpp>
 
 #include <djah/system/video_config.hpp>
 #include <djah/system/device.hpp>

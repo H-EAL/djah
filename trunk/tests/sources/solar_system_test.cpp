@@ -1,12 +1,11 @@
 #include "solar_system_test.hpp"
 #include "djah/types.hpp"
 #include "resource_finder.hpp"
-#include "djah/video/primitives/sphere.hpp"
-#include "djah/video/primitives/cube.hpp"
+#include "djah/3d/primitives.hpp"
 #include "djah/resources/media_manager.hpp"
 
 using namespace djah;
-using namespace video;
+using namespace d3d;
 
 //--------------------------------------------------------------------------------------------------
 SolarSystemTest::SolarSystemTest(djah::system::device_ptr pDevice, const djah::system::input::gamepad &g, Camera &cam)
@@ -15,32 +14,27 @@ SolarSystemTest::SolarSystemTest(djah::system::device_ptr pDevice, const djah::s
 	, gamepad_(g)
 	, pSphereVB_(nullptr)
 	, pSphereVA_(nullptr)
-	, sphereShader_("textured_sphere")
+	, shader_("lit_textured")
 {
 	const float w = static_cast<float>(pDevice_->videoConfig().width);
 	const float h = static_cast<float>(pDevice_->videoConfig().height);
 	matPerspectiveProj_ = math::make_perspective_projection(60.0f, w/h, 0.1f, 1000.f);
 
-	opengl::vertex_shader vertexShader( loadShaderSource("shaders/textured_sphere.vert") );
-	opengl::pixel_shader  pixelShader(  loadShaderSource("shaders/textured_sphere.frag") );
-	if( vertexShader.compile() && pixelShader.compile() )
-	{
-		sphereShader_.attach(vertexShader);
-		sphereShader_.attach(pixelShader);
-		sphereShader_.link();
-	}
-
-	primitives::sphere p;
-	const std::vector<geometry::triangle3f> &triangles = p.construct<3>();
-	pSphereVB_ = new opengl::vertex_buffer(triangles.size() * sizeof(geometry::triangle3f), opengl::eBU_StaticDraw);
+	primitives::iso_sphere p;
+	const std::vector<primitives::triangle> &triangles = p.construct(3);
+	pSphereVB_ = new opengl::vertex_buffer(triangles.size() * sizeof(primitives::triangle), opengl::eBU_StaticDraw);
 	pSphereVB_->write(&triangles[0], triangles.size());
 
 	opengl::vertex_format vertexFormat;
-	vertexFormat.record() << opengl::format::position<3,float>();
-	pSphereVA_ = new opengl::vertex_array(vertexFormat, pSphereVB_);
-	pSphereVA_->init(sphereShader_);
+	vertexFormat.record()
+		<< opengl::format::position<3,float>()
+		<< opengl::format::normal<3,float>()
+		<< opengl::format::tex_coord<2,float>();
 
-	const std::string textureFiles[] = { "debug2.jpg", "earth.jpg", "moon.jpg" };
+	pSphereVA_ = new opengl::vertex_array(vertexFormat, pSphereVB_);
+	pSphereVA_->init(shader_.program());
+
+	const std::string textureFiles[] = { "sun.png", "earth.jpg", "moon.jpg" };
 	for(int i = 0; i < ePO_Count; ++i)
 	{
 		resources::image_ptr img = find_resource<resources::image>("textures/" + textureFiles[i]);
@@ -49,7 +43,7 @@ SolarSystemTest::SolarSystemTest(djah::system::device_ptr pDevice, const djah::s
 			GLenum internalFormat = img->channels() == 1 ? GL_DEPTH_COMPONENT : GL_RGB;
 			pTextures_[i] = new opengl::texture(internalFormat, img->width(), img->height(), true);
 			pTextures_[i]->bind();
-			pTextures_[i]->setWrapMode();
+			pTextures_[i]->setWrapMode(GL_CLAMP_TO_EDGE);
 			pTextures_[i]->setBestFiltering();
 			GLenum pixelFormat = img->channels() == 1 ? GL_DEPTH_COMPONENT : GL_BGR;			
 			pTextures_[i]->setPixelBuffer(pixelFormat, GL_UNSIGNED_BYTE, img->pixels());
@@ -134,16 +128,18 @@ void SolarSystemTest::draw()
 		* math::make_rotation(moon_orbite, math::vector3f::y_axis)
 		* matWorld[ePO_Earth];
 	
-	sphereShader_.begin();
-	sphereShader_.sendUniform("in_DiffuseSampler", 0);
+	shader_.program().begin();
+	shader_.program().sendUniform("in_UsePointLight", 1);
+	shader_.program().sendUniform("in_DiffuseSampler", 0);
 	for(int i = 0; i < ePO_Count; ++i)
 	{
-		sphereShader_.sendUniformMatrix( "in_WVP", matWorld[i] * matVP);
+		shader_.program().sendUniformMatrix( "in_World", matWorld[i] );
+		shader_.program().sendUniformMatrix( "in_WVP", matWorld[i] * matVP);
 		pTextures_[i]->bind();
 		pSphereVA_->draw();
 	}
 	opengl::texture::unbind();
-	sphereShader_.end();
+	shader_.program().end();
 
 	glDisable(GL_DEPTH_TEST);
 }

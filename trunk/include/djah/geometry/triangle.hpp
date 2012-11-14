@@ -14,6 +14,13 @@ namespace djah { namespace geometry {
 		triangle(const math::vector<N,T> &_a, const math::vector<N,T> &_b, const math::vector<N,T> &_c)
 			: a(_a), b(_b), c(_c) {}
 
+		math::vector<3,T> normal(bool clockwise = false) const
+		{
+			return clockwise
+				? math::resize<3>(b-a).cross( math::resize<3>(c-a) ).normalize()
+				: math::resize<3>(c-a).cross( math::resize<3>(b-a) ).normalize();
+		}
+
 		math::vector<N,T> a;
 		math::vector<N,T> b;
 		math::vector<N,T> c;

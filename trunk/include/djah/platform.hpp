@@ -7,6 +7,7 @@
 #	include <Windows.h>
 #	include <MMSystem.h>
 #	include <DbgHelp.h>
+#	include <Xinput.h>
 #	ifdef near
 #		undef near
 #	endif

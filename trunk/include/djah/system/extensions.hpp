@@ -59,6 +59,8 @@ DEFINE_EXTENSION( PFNGLFRAMEBUFFERRENDERBUFFERPROC,	glFramebufferRenderbuffer	);
 DEFINE_EXTENSION( PFNGLFRAMEBUFFERTEXTUREPROC,		glFramebufferTexture		);
 DEFINE_EXTENSION( PFNGLDRAWBUFFERSPROC,				glDrawBuffers				);
 
+DEFINE_EXTENSION( PFNGLDRAWARRAYSINSTANCEDPROC,		glDrawArraysInstanced		);
+
 //--------------------------------------------------------------------------------------------------
 // Shaders
 //--------------------------------------------------------------------------------------------------
@@ -113,6 +115,8 @@ DEFINE_EXTENSION( PFNGLUNIFORMMATRIX2X4FVPROC,		glUniformMatrix2x4fv		);
 DEFINE_EXTENSION( PFNGLUNIFORMMATRIX4X2FVPROC,		glUniformMatrix4x2fv		);
 DEFINE_EXTENSION( PFNGLUNIFORMMATRIX3X4FVPROC,		glUniformMatrix3x4fv		);
 DEFINE_EXTENSION( PFNGLUNIFORMMATRIX4X3FVPROC,		glUniformMatrix4x3fv		);
+
+DEFINE_EXTENSION( PFNGLGETACTIVEUNIFORMPROC,		glGetActiveUniform			);
 
 //--------------------------------------------------------------------------------------------------
 // Textures

@@ -48,7 +48,7 @@ namespace djah { namespace opengl {
 	template<int N, typename T>
 	void shader_program::sendUniform(const std::string &name, const T *data, int count) const
 	{
-		unsigned int location = getUniformLocation(name);
+		int location = getUniformLocation(name);
 		priv::UniformFunc<T>::uniform(N-1)(location, count, data);
 	}
 	//----------------------------------------------------------------------------------------------
@@ -92,7 +92,7 @@ namespace djah { namespace opengl {
 
 		static const PFNGLUNIFORMMATRIX2FVPROC uniformMatrix = uniformMatrixFuncTab[M-2][N-2];
 
-		unsigned int location = getUniformLocation(name);
+		int location = getUniformLocation(name);
 		uniformMatrix(location, count, transpose, data);
 	}
 	//----------------------------------------------------------------------------------------------

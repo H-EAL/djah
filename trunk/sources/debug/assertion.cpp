@@ -4,6 +4,7 @@
 #include <sstream>
 #include <algorithm>
 #include "djah/platform.hpp"
+#include "djah/debug/log.hpp"
 
 namespace djah { namespace debug {
 
@@ -86,6 +87,8 @@ namespace djah { namespace debug {
 			<< "Stack trace:\n"
 			<< "-------------------------------------------------------------------------\n"
 			<< stack_trace() << "\n";
+
+		DJAH_GLOBAL_CRITICAL() << "\n" << strMessage.str() << DJAH_END_LOG();
 
 		eAssertResult assertResult = eAR_Ignore;
 		#ifdef DJAH_COMPILE_WINDOWS

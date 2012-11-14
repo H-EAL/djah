@@ -1,4 +1,4 @@
-#include "djah/video/font_engine.hpp"
+#include "djah/3d/font_engine.hpp"
 
 #include <vector>
 #include <cassert>
@@ -8,7 +8,7 @@
 #include "djah/filesystem/browser.hpp"
 #include "djah/debug/log.hpp"
 
-namespace djah { namespace video {
+namespace djah { namespace d3d {
 	
 	//----------------------------------------------------------------------------------------------
 	struct font_data
@@ -222,4 +222,4 @@ namespace djah { namespace video {
 	{
 	}
 
-} /*video*/ } /*djah*/
+} /*d3d*/ } /*djah*/

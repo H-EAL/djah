@@ -1,6 +1,7 @@
 #include "djah/opengl/shader_program.hpp"
 #include "djah/opengl/errors.hpp"
 #include "djah/debug/log.hpp"
+#include "djah/debug/assertion.hpp"
 
 
 namespace djah { namespace opengl {
@@ -48,11 +49,19 @@ namespace djah { namespace opengl {
 
 
 	//----------------------------------------------------------------------------------------------
-	bool shader_program::link() const
+	bool shader_program::link()
 	{
 		cache_.clear();
+
 		glLinkProgram(id_);
-		return handleLinkingErrors();
+		const bool success = handleLinkingErrors();
+
+		if( success )
+		{
+			initializeUniformMap();
+		}
+
+		return success;
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -101,13 +110,8 @@ namespace djah { namespace opengl {
 			log_str[log_size] = '\0';
 
 			// TODO : let the error policy handle this
-			DJAH_BEGIN_LOG(critical)
-				<< "====================================================================\n"
-				<< "                      SHADER LINKING ERROR(S)                       \n"
-				<< "--------------------------------------------------------------------\n"
-				<< log_str.get()
-				<< "===================================================================="
-				<< DJAH_END_LOG();
+			DJAH_ASSERT_MSG( false, "Errors in %s\n%s",
+				name_.empty() ? "(unnamed)" : name_.c_str(), log_str.get() );
 		}
 		return (status == GL_TRUE);
 	}
@@ -115,15 +119,35 @@ namespace djah { namespace opengl {
 
 
 	//----------------------------------------------------------------------------------------------
-	unsigned int shader_program::getUniformLocation(const std::string &name) const
+	int shader_program::getUniformLocation(const std::string &name) const
 	{
 		// First search for the uniform in cache
 		uniform_cache_t::const_iterator it = cache_.find(name);
 		// If not found get it and add it to cache
-		if( it == cache_.end() )
-			cache_[name] = glGetUniformLocation(id_, name.c_str());
+		DJAH_ASSERT_MSG( it != cache_.end(), "Unable to find uniform \"%s\" in [%s]%s"
+			, name.c_str(), type_name(), name_.c_str() );
 
-		return cache_[name];
+		return (it != cache_.end()) ? it->second : -1;
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	void shader_program::initializeUniformMap()
+	{
+		int nbActiveUniforms = 0;
+		glGetProgramiv(id_, GL_ACTIVE_UNIFORMS, &nbActiveUniforms);
+
+		for( int i = 0; i < nbActiveUniforms; ++i )
+		{
+			int length = 0;
+			int size = 0;
+			GLenum type = GL_NONE;
+			char name[1024];
+			glGetActiveUniform(id_, i, 1024, &length, &size, &type, name);
+
+			cache_[name] = glGetUniformLocation(id_, name);
+		}
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -131,25 +155,25 @@ namespace djah { namespace opengl {
 	//----------------------------------------------------------------------------------------------
 	void shader_program::sendUniform(const std::string &name, float u1) const
 	{
-		unsigned int location = getUniformLocation(name);
+		int location = getUniformLocation(name);
 		glUniform1f(location, u1);
 	}
 	//----------------------------------------------------------------------------------------------
 	void shader_program::sendUniform(const std::string &name, float u1, float u2) const
 	{
-		unsigned int location = getUniformLocation(name);
+		int location = getUniformLocation(name);
 		glUniform2f(location, u1, u2);
 	}
 	//----------------------------------------------------------------------------------------------
 	void shader_program::sendUniform(const std::string &name, float u1, float u2, float u3) const
 	{
-		unsigned int location = getUniformLocation(name);
+		int location = getUniformLocation(name);
 		glUniform3f(location, u1, u2, u3);
 	}
 	//----------------------------------------------------------------------------------------------
 	void shader_program::sendUniform(const std::string &name, float u1, float u2, float u3, float u4) const
 	{
-		unsigned int location = getUniformLocation(name);
+		int location = getUniformLocation(name);
 		glUniform4f(location, u1, u2, u3, u4);
 	}
 	//----------------------------------------------------------------------------------------------
@@ -158,25 +182,25 @@ namespace djah { namespace opengl {
 	//----------------------------------------------------------------------------------------------
 	void shader_program::sendUniform(const std::string &name, int u1) const
 	{
-		unsigned int location = getUniformLocation(name);
+		int location = getUniformLocation(name);
 		glUniform1i(location, u1);
 	}
 	//----------------------------------------------------------------------------------------------
 	void shader_program::sendUniform(const std::string &name, int u1, int u2) const
 	{
-		unsigned int location = getUniformLocation(name);
+		int location = getUniformLocation(name);
 		glUniform2i(location, u1, u2);
 	}
 	//----------------------------------------------------------------------------------------------
 	void shader_program::sendUniform(const std::string &name, int u1, int u2, int u3) const
 	{
-		unsigned int location = getUniformLocation(name);
+		int location = getUniformLocation(name);
 		glUniform3i(location, u1, u2, u3);
 	}
 	//----------------------------------------------------------------------------------------------
 	void shader_program::sendUniform(const std::string &name, int u1, int u2, int u3, int u4) const
 	{
-		unsigned int location = getUniformLocation(name);
+		int location = getUniformLocation(name);
 		glUniform4i(location, u1, u2, u3, u4);
 	}
 	//----------------------------------------------------------------------------------------------

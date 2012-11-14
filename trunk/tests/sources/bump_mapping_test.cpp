@@ -1,14 +1,13 @@
 #include "bump_mapping_test.hpp"
 #include "djah/types.hpp"
 #include "resource_finder.hpp"
-#include "djah/video/primitives/sphere.hpp"
-#include "djah/video/primitives/cube.hpp"
+#include "djah/3d/primitives.hpp"
 #include "djah/resources/media_manager.hpp"
 #include "djah/filesystem/browser.hpp"
 #include "djah/filesystem/memory_stream.hpp"
 
 using namespace djah;
-using namespace video;
+using namespace d3d;
 
 //--------------------------------------------------------------------------------------------------
 BumpMappingTest::BumpMappingTest(djah::system::device_ptr pDevice, const djah::system::input::gamepad &g, Camera &cam)
@@ -39,7 +38,7 @@ BumpMappingTest::BumpMappingTest(djah::system::device_ptr pDevice, const djah::s
 	}
 
 	// CTHULHU
-	filesystem::memory_stream strm( filesystem::browser::get().openReadStream("3d/cthulhu.bdae") );
+	filesystem::memory_stream strm( filesystem::browser::get().openReadStream("3d/cthulhu_bm.bdae") );
 	
 	pVB_ = new opengl::vertex_buffer(strm.size(), opengl::eBU_StaticDraw);
 	pVB_->write(strm.buffer(), strm.size());
@@ -49,7 +48,8 @@ BumpMappingTest::BumpMappingTest(djah::system::device_ptr pDevice, const djah::s
 		<< opengl::format::position<3,float>()
 		<< opengl::format::normal<3,float>()
 		<< opengl::format::tex_coord<2,float>()
-		<< opengl::format::vertex_attrib<3,float>("Tangent");
+		<< opengl::format::vertex_attrib<3,float>("Tangent")
+		<< opengl::format::vertex_attrib<3,float>("Binormal");
 
 	pVA_ = new opengl::vertex_array(vertexFormat, pVB_);
 	pVA_->init(shader_);
@@ -79,10 +79,10 @@ BumpMappingTest::BumpMappingTest(djah::system::device_ptr pDevice, const djah::s
 	const float h2 = 6.0f;
 	const float planeVertices[] =
 	{
-		-w2,0.0f,-3.0f,  0.0f,0.0f,1.0f,  0.0f,0.0f,  1.0f,0.0f,0.0f, 
-		-w2,  h2,-3.0f,  0.0f,0.0f,1.0f,  0.0f,1.0f,  1.0f,0.0f,0.0f,
-		 w2,  h2,-3.0f,  0.0f,0.0f,1.0f,  1.0f,1.0f,  1.0f,0.0f,0.0f,
-		 w2,0.0f,-3.0f,  0.0f,0.0f,1.0f,  1.0f,0.0f,  1.0f,0.0f,0.0f,
+		-w2,0.0f,-3.0f,  0.0f,0.0f,1.0f,  0.0f,0.0f,  1.0f,0.0f,0.0f,  0.0f,1.0f,0.0f,
+		-w2,  h2,-3.0f,  0.0f,0.0f,1.0f,  0.0f,1.0f,  1.0f,0.0f,0.0f,  0.0f,1.0f,0.0f,
+		 w2,  h2,-3.0f,  0.0f,0.0f,1.0f,  1.0f,1.0f,  1.0f,0.0f,0.0f,  0.0f,1.0f,0.0f,
+		 w2,0.0f,-3.0f,  0.0f,0.0f,1.0f,  1.0f,0.0f,  1.0f,0.0f,0.0f,  0.0f,1.0f,0.0f,
 	};
 
 	const u8 planeIndices[] =
@@ -150,6 +150,7 @@ void BumpMappingTest::update(float dt)
 //--------------------------------------------------------------------------------------------------
 void BumpMappingTest::draw()
 {
+	glDisable(GL_BLEND);
 	glDepthMask(GL_TRUE);
 	glEnable(GL_DEPTH_TEST);
 

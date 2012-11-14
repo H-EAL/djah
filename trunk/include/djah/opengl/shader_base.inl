@@ -100,13 +100,8 @@ namespace djah { namespace opengl {
 			log_str[log_size] = '\0';
 
 			// TODO : throw some exception
-			DJAH_OPENGL_CRITICAL()
-				<< "====================================================================\n"
-				<< "Errors in " << name_ << "\n"
-				<< "--------------------------------------------------------------------\n"
-				<< log_str.get()
-				<< "===================================================================="
-				<< DJAH_END_LOG();
+			DJAH_ASSERT_MSG( false, "Errors in %s\n%s",
+				name_.empty() ? "(unnamed)" : name_.c_str(), log_str.get() );
 		}
 		return (status == GL_TRUE);
 	}

@@ -25,7 +25,7 @@ namespace djah { namespace opengl {
 		template<int ShaderType>
 		void detach(const shader_base<ShaderType> &s) const;
 
-		bool link() const;
+		bool link();
 
 		void begin() const;
 		static void end();
@@ -59,7 +59,8 @@ namespace djah { namespace opengl {
 		virtual bool isValidResource() const;
 
 		bool handleLinkingErrors() const;
-		unsigned int getUniformLocation(const std::string &name) const;
+		void initializeUniformMap();
+		int getUniformLocation(const std::string &name) const;
 
 	private:
 		typedef std::map<std::string, unsigned int> uniform_cache_t;

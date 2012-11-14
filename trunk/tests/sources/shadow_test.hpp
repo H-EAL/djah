@@ -6,7 +6,7 @@
 
 #include <djah/filesystem/memory_stream.hpp>
 
-#include <djah/video/text.hpp>
+#include <djah/3d/text.hpp>
 
 #include <djah/opengl.hpp>
 

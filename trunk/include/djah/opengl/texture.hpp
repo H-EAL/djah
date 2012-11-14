@@ -40,7 +40,7 @@ namespace djah { namespace opengl {
 
 		void setPixelBuffer(int pixelFormat, int pixelDataType, const byte *pixelBuffer);
 		void updatePixelBuffer(int xOffset, int yOffset, int w, int h, int pixelFormat, int pixelDataType, const byte *subPixelBuffer);
-		void setWrapMode();
+		void setWrapMode(int wrapMode);
 		void setFiltering(eBilinearMode bilinearMode, eMimappingMode mipmappingMode);
 		void setNoFiltering();
 		void setBestFiltering();
