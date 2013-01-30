@@ -1,0 +1,9 @@
+string model_file = "3d/astroboy.bdae"
+string texture_file = "boy_10.tga"
+int tex_coords = 2
+
+string shader = "test"
+
+vec3f position = -1.0 0.0 -1.0
+quaternion orientation = 0.5 0.5 0.5 0.5
+vec3f scale = 0.25 0.25 0.25

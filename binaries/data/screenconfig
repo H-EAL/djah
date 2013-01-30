@@ -1,0 +1,13 @@
+#Resolution
+int  width = 1280
+int  height = 720
+bool fullscreen = false
+
+#Vertical Sync
+bool vsync = false
+
+vec3f cam_pos = 0.0 0.0 4.0
+float cam_speed = 0.2
+
+#Test string
+string hello = "Hello World !"

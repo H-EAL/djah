@@ -1,0 +1,7 @@
+string model_file = "3d/cthulhu.bdae"
+string texture_file = "cthulhu.jpg"
+int tex_coords = 2
+string shader = "test"
+
+vec3f position = 1.0 0.12 1.0
+vec3f scale = 0.1 0.1 0.1

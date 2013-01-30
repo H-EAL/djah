@@ -1,0 +1,11 @@
+# Mesh
+string 		model_file 		= "3d/dude.bdae"
+int 		tex_coords 		= 3
+ 
+# Shaders
+string 		shader 			= "test"
+
+# Transformation
+vec3f 		position 		= 10.0 			5.0 	0.0
+vec3f 		scale 			= 0.02			0.02 	0.02
+quaternion 	orientation 	= 0.70710677  	0.0 	0.0 	0.70710677

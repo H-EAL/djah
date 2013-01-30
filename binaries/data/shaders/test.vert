@@ -1,34 +1,30 @@
-#version 140
+#version 400
 
-uniform mat4 Projection;
-uniform mat4 ModelView;
+uniform mat4 in_WorldViewProjection;
+uniform mat4 in_World;
+uniform mat4 in_LightWVP;
 
-in vec4 Position;
+in vec3 Position;
 in vec3 Normal;
 in vec2 TexCoord;
 
-invariant gl_Position;
+out vec3 vs_Normal;
+out vec2 vs_TexCoord;
+out vec3 vs_WorldPos;
+out vec4 vs_LightSpacePos;
 
-smooth out vec3 n;
-smooth out vec3 l;
-smooth out vec3 l2;
-smooth out vec2 st;
+const mat4 bias = mat4(0.5, 0.0, 0.0, 0.0,
+                       0.0, 0.5, 0.0, 0.0,
+                       0.0, 0.0, 0.5, 0.0,
+                       0.5, 0.5, 0.5, 1.0);
+
+invariant gl_Position;
 
 void main()
 {	
-	vec3 ecPos;
-	vec3 aux;
-	vec3 aux2;
-	vec3 lpos = vec3(-100,50,0);
-	vec3 lpos2 = vec3(100,50,0);
-	
-	n = Normal;
-	ecPos = (ModelView * Position).xyz;
-	aux = vec3(lpos - ecPos);
-	aux2 = vec3(lpos2 - ecPos);
-	l = normalize(aux);
-	l2 = normalize(aux2);
-	
-	st = TexCoord.st;
-	gl_Position = Projection * ModelView * Position;
+	gl_Position      = in_WorldViewProjection * vec4(Position, 1.0);
+	vs_Normal        = (in_World * vec4(Normal, 0.0)).xyz;
+	vs_TexCoord      = TexCoord;
+	vs_WorldPos      = (in_World * vec4(Position, 1.0)).xyz;
+	vs_LightSpacePos = bias * in_LightWVP * vec4(Position, 1.0);
 }

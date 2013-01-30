@@ -1,40 +1,24 @@
-#version 140
+#version 400
 
-uniform mat4 Projection;
-uniform mat4 ModelView;
+uniform mat4 in_World;
+uniform mat4 in_WVP;
 
 in vec3 Position;
 in vec3 Normal;
 in vec2 TexCoord;
-//in vec3 Tangent;
+in vec3 Tangent;
+in vec3 Binormal;
 
-invariant gl_Position;
-
-smooth out vec3 lightVec;
-smooth out vec3 eyeVec;
-smooth out vec2 st;
+out vec2 vs_TexCoord;
+out vec3 vs_Normal;
+out vec3 vs_Tangent;
+out vec3 vs_Binormal;
 
 void main()
 {	
-	vec3 lpos = vec3(-100,50,0);
-	vec3 vVertex  = (ModelView * vec4(Position,1.0f)).xyz;
-	vec3 tmpVec  = lpos - vVertex ;
-	
-	vec3 Tangent = vec3(1,0,0);
-	
-	vec3 n = normalize(Normal);
-	vec3 t = normalize(Tangent);
-	vec3 b = cross(n,t);
-	
-	lightVec.x = dot(tmpVec , t);
-	lightVec.y = dot(tmpVec , b);
-	lightVec.z = dot(tmpVec , n);
-	
-	tmpVec = -vVertex ;
-	eyeVec.x = dot(tmpVec , t);
-	eyeVec.y = dot(tmpVec , b);
-	eyeVec.z = dot(tmpVec , n);
-	
-	st = TexCoord;
-	gl_Position = Projection * ModelView * vec4(Position,1.0f);
+	gl_Position = in_WVP * vec4(Position,1);
+	vs_TexCoord = TexCoord;
+	vs_Normal   = (in_World * vec4(Normal,0)).xyz;
+	vs_Tangent  = (in_World * vec4(Tangent,0)).xyz;
+	vs_Binormal = (in_World * vec4(Binormal,0)).xyz;
 }
