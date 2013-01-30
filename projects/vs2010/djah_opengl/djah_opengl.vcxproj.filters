@@ -78,6 +78,9 @@
     <ClInclude Include="..\..\..\include\djah\opengl\gl_types.hpp">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\opengl\tessellation_shader.hpp">
+      <Filter>include\_shaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\include\djah\opengl\buffer_base.inl">

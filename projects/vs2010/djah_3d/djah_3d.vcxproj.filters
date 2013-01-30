@@ -51,6 +51,27 @@
     <ClInclude Include="..\..\..\include\djah\3d\primitives\triangle.hpp">
       <Filter>include\primitives</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\3d\primitives\ribbon.hpp">
+      <Filter>include\primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\3d\primitives\batcher.hpp">
+      <Filter>include\primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\3d\base_light.hpp">
+      <Filter>include\lights</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\3d\point_light.hpp">
+      <Filter>include\lights</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\3d\spot_light.hpp">
+      <Filter>include\lights</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\3d\directional_light.hpp">
+      <Filter>include\lights</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\djah\3d\lights.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\sources\3d\font_engine.cpp">
@@ -79,6 +100,15 @@
     </ClCompile>
     <ClCompile Include="..\..\..\sources\3d\primitives\triangle.cpp">
       <Filter>sources\primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\sources\3d\primitives\ribbon.cpp">
+      <Filter>sources\primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\sources\3d\primitives\batcher.cpp">
+      <Filter>sources\primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\sources\3d\base_light.cpp">
+      <Filter>sources\lights</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

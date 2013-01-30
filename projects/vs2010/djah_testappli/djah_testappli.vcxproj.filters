@@ -45,6 +45,9 @@
     <ClInclude Include="..\..\..\tests\sources\font_test.hpp">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\tests\sources\tess_test.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\tests\sources\application.cpp">
@@ -66,6 +69,9 @@
       <Filter>sources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\tests\sources\font_test.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\sources\tess_test.cpp">
       <Filter>sources</Filter>
     </ClCompile>
   </ItemGroup>
