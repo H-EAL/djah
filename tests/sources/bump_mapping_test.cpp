@@ -15,11 +15,9 @@ BumpMappingTest::BumpMappingTest(djah::system::device_ptr pDevice, const djah::s
 	, cam_(cam)
 	, gamepad_(g)
 	, pVB_(nullptr)
-	, pVA_(nullptr)
 	, pDiffuse_(nullptr)
 	, pNormalMap_(nullptr)
 	, pPlaneVB_(nullptr)
-	, pPlaneVA_(nullptr)
 	, pPlaneDiffuse_(nullptr)
 	, pPlaneNormalMap_(nullptr)
 	, shader_("bump_mapping")
@@ -27,15 +25,6 @@ BumpMappingTest::BumpMappingTest(djah::system::device_ptr pDevice, const djah::s
 	const float w = static_cast<float>(pDevice_->videoConfig().width);
 	const float h = static_cast<float>(pDevice_->videoConfig().height);
 	matPerspectiveProj_ = math::make_perspective_projection(60.0f, w/h, 0.1f, 1000.f);
-
-	opengl::vertex_shader vertexShader( loadShaderSource("shaders/bump_mapping.vert") );
-	opengl::pixel_shader  pixelShader(  loadShaderSource("shaders/bump_mapping.frag") );
-	if( vertexShader.compile() && pixelShader.compile() )
-	{
-		shader_.attach(vertexShader);
-		shader_.attach(pixelShader);
-		shader_.link();
-	}
 
 	// CTHULHU
 	filesystem::memory_stream strm( filesystem::browser::get().openReadStream("3d/cthulhu_bm.bdae") );
@@ -51,28 +40,13 @@ BumpMappingTest::BumpMappingTest(djah::system::device_ptr pDevice, const djah::s
 		<< opengl::format::vertex_attrib<3,float>("Tangent")
 		<< opengl::format::vertex_attrib<3,float>("Binormal");
 
-	pVA_ = new opengl::vertex_array(vertexFormat, pVB_);
-	pVA_->init(shader_);
+	va_.addVertexBuffer(pVB_, vertexFormat);
+	va_.setVertexCount(pVB_->size() / vertexFormat.vertexSize());
+	va_.init(shader_.program());
 
-	resources::image_ptr diffuseImg = find_resource<resources::image>("textures/cthulhu.jpg");
-	if( diffuseImg )
-	{
-		pDiffuse_ = new opengl::texture(GL_RGB, diffuseImg->width(), diffuseImg->height());
-		pDiffuse_->bind();
-		pDiffuse_->setBestFiltering();
-		GLenum pixelFormat = diffuseImg->channels() == 1 ? GL_LUMINANCE : GL_BGR;			
-		pDiffuse_->setPixelBuffer(pixelFormat, GL_UNSIGNED_BYTE, diffuseImg->pixels());
-	}
+	pDiffuse_   = d3d::texture_manager::get().find("cthulhu.jpg");
+	pNormalMap_ = d3d::texture_manager::get().find("cthulhu_normalmap.jpg");
 
-	resources::image_ptr nmapImg = find_resource<resources::image>("textures/cthulhu_normalmap.jpg");
-	if( nmapImg )
-	{
-		pNormalMap_ = new opengl::texture(GL_RGB, nmapImg->width(), nmapImg->height());
-		pNormalMap_->bind();
-		pNormalMap_->setBestFiltering();
-		GLenum pixelFormat = nmapImg->channels() == 1 ? GL_LUMINANCE : GL_BGR;			
-		pNormalMap_->setPixelBuffer(pixelFormat, GL_UNSIGNED_BYTE, nmapImg->pixels());
-	}
 
 	// PLANE
 	const float w2 = 3.0f;
@@ -96,28 +70,13 @@ BumpMappingTest::BumpMappingTest(djah::system::device_ptr pDevice, const djah::s
 	pPlaneVB_ = new opengl::vertex_buffer(sizeof(planeVertices), opengl::eBU_StaticDraw);
 	pPlaneVB_->write(planeVertices);
 
-	pPlaneVA_ = new opengl::vertex_array(vertexFormat, pPlaneVB_, pPlaneIB_);
-	pPlaneVA_->init(shader_);
+	planeVA_.addVertexBuffer(pPlaneVB_, vertexFormat);
+	planeVA_.setIndexBuffer(pPlaneIB_);
+	planeVA_.setVertexCount(2*3);
+	planeVA_.init(shader_.program());
 
-	resources::image_ptr planeDiffuseImg = find_resource<resources::image>("textures/color_map.jpg");
-	if( planeDiffuseImg )
-	{
-		pPlaneDiffuse_ = new opengl::texture(GL_RGB, planeDiffuseImg->width(), planeDiffuseImg->height(), true);
-		pPlaneDiffuse_->bind();
-		pPlaneDiffuse_->setBestFiltering();
-		GLenum pixelFormat = planeDiffuseImg->channels() == 1 ? GL_LUMINANCE : GL_BGR;			
-		pPlaneDiffuse_->setPixelBuffer(pixelFormat, GL_UNSIGNED_BYTE, planeDiffuseImg->pixels());
-	}
-
-	resources::image_ptr planeNMapImg = find_resource<resources::image>("textures/normal_map.jpg");
-	if( planeNMapImg )
-	{
-		pPlaneNormalMap_ = new opengl::texture(GL_RGB, planeNMapImg->width(), planeNMapImg->height(), true);
-		pPlaneNormalMap_->bind();
-		pPlaneNormalMap_->setBestFiltering();
-		GLenum pixelFormat = planeNMapImg->channels() == 1 ? GL_LUMINANCE : GL_BGR;			
-		pPlaneNormalMap_->setPixelBuffer(pixelFormat, GL_UNSIGNED_BYTE, planeNMapImg->pixels());
-	}
+	pPlaneDiffuse_   = d3d::texture_manager::get().find("color_map.jpg");
+	pPlaneNormalMap_ = d3d::texture_manager::get().find("normal_map.jpg");
 }
 //--------------------------------------------------------------------------------------------------
 
@@ -126,14 +85,26 @@ BumpMappingTest::BumpMappingTest(djah::system::device_ptr pDevice, const djah::s
 BumpMappingTest::~BumpMappingTest()
 {
 	delete pVB_;
-	delete pVA_;
-	delete pDiffuse_;
-	delete pNormalMap_;
 
 	delete pPlaneVB_;
-	delete pPlaneVA_;
-	delete pPlaneDiffuse_;
-	delete pPlaneNormalMap_;
+}
+//--------------------------------------------------------------------------------------------------
+
+
+//--------------------------------------------------------------------------------------------------
+void BumpMappingTest::onInit()
+{
+	opengl::frame_buffer::bind_default_frame_buffer();
+	glDepthMask(GL_TRUE);
+	glEnable(GL_DEPTH_TEST);
+}
+//--------------------------------------------------------------------------------------------------
+
+
+//--------------------------------------------------------------------------------------------------
+void BumpMappingTest::onExit()
+{
+	glDisable(GL_DEPTH_TEST);
 }
 //--------------------------------------------------------------------------------------------------
 
@@ -150,18 +121,13 @@ void BumpMappingTest::update(float dt)
 //--------------------------------------------------------------------------------------------------
 void BumpMappingTest::draw()
 {
-	glDisable(GL_BLEND);
-	glDepthMask(GL_TRUE);
-	glEnable(GL_DEPTH_TEST);
-
 	const math::matrix4f &matVP = math::make_look_at(cam_.eye(), cam_.center(), cam_.up()) * matPerspectiveProj_;
 
-	opengl::frame_buffer::unbind();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	shader_.begin();
-	shader_.sendUniform( "in_DiffuseSampler", 0);
-	shader_.sendUniform( "in_NormalMapSampler", 1);
+	shader_.program().begin();
+	shader_.program().sendUniform( "in_DiffuseSampler", 0);
+	shader_.program().sendUniform( "in_NormalMapSampler", 1);
 
 	// Cthulhu
 	static const math::matrix4f cthulhuMatWorld = math::make_rotation(-90.0f, math::vector3f::y_axis) * math::make_translation(10.0f,0.0f,0.0f);
@@ -170,10 +136,10 @@ void BumpMappingTest::draw()
 	opengl::texture::set_active_unit(1);
 	pNormalMap_->bind();
 
-	shader_.sendUniformMatrix( "in_World", cthulhuMatWorld);
-	shader_.sendUniformMatrix( "in_WVP", cthulhuMatWorld*matVP);
-	shader_.sendUniform( "in_UseNMap", useNMap);
-	pVA_->draw();
+	shader_.program().sendUniform( "in_World", cthulhuMatWorld);
+	shader_.program().sendUniform( "in_WVP", cthulhuMatWorld*matVP);
+	shader_.program().sendUniform( "in_UseNMap", useNMap);
+	va_.draw();
 
 	// Plane
 	opengl::texture::set_active_unit(0);
@@ -182,16 +148,14 @@ void BumpMappingTest::draw()
 	pPlaneNormalMap_->bind();
 
 	static const math::matrix4f planeMatWorld = math::matrix4f::identity;
-	shader_.sendUniformMatrix( "in_World", planeMatWorld);
-	shader_.sendUniformMatrix( "in_WVP", matVP);
-	pPlaneVA_->draw();
+	shader_.program().sendUniform( "in_World", planeMatWorld);
+	shader_.program().sendUniform( "in_WVP", matVP);
+	planeVA_.draw();
 
 	opengl::texture::unbind();
 	opengl::texture::set_active_unit(0);
 	opengl::texture::unbind();
 
-	shader_.end();
-
-	glDisable(GL_DEPTH_TEST);
+	shader_.program().end();
 }
 //--------------------------------------------------------------------------------------------------

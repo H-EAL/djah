@@ -24,6 +24,7 @@
 #include <djah/resources/image_loader.hpp>
 
 #include <djah/dataobject/registry.hpp>
+#include <djah/3d/primitives.hpp>
 
 #include "test.hpp"
 #include "model.hpp"
@@ -31,8 +32,8 @@
 
 using namespace djah;
 
-#define SH_VP_W 1 << 10
-#define SH_VP_H 1 << 10
+#define SH_VP_W 1 << 9
+#define SH_VP_H 1 << 9
 
 //--------------------------------------------------------------------------------------------------
 ShadowTest::ShadowTest(djah::system::device_ptr pDevice,
@@ -48,7 +49,6 @@ ShadowTest::ShadowTest(djah::system::device_ptr pDevice,
 	, cam(c)
 	, pShadowMap_(nullptr)
 	, pFloorTexture_(nullptr)
-	, pVertexArray_(nullptr)
 	, pVertexBuffer_(nullptr)
 {
 	init();
@@ -61,8 +61,6 @@ ShadowTest::~ShadowTest()
 {
 	delete pFBO_;
 	delete pShadowMap_;
-	delete pFloorTexture_;
-	delete pVertexArray_;
 	delete pVertexBuffer_;
 }
 //--------------------------------------------------------------------------------------------------
@@ -98,46 +96,9 @@ void ShadowTest::init()
 	pFBO_->attach(*pShadowMap_);
 	pFBO_->unbind();
 
-	const float w2 = 10.0f;
-	const float h2  = 0.0f;
-	const float d2 = 10.0f;
-	const float rs = 20.0f;
-	const float rt = 20.0f;
-	float floorVB[] =
-	{
-		//p0
-		-w2, h2,  d2,
-		0.0f, 1.0f, 0.0f,
-		0.0f, 0.0f,
-
-		//p2
-		w2, h2, -d2,
-		0.0f, 1.0f, 0.0f,
-		rs, rt,
-
-		//p1
-		-w2, h2, -d2,
-		0.0f, 1.0f, 0.0f,
-		0.0f, rt,
-
-		//p0
-		-w2, h2,  d2,
-		0.0f, 1.0f, 0.0f,	
-		0.0f, 0.0f,
-
-		//p3
-		w2, h2,  d2,
-		0.0f, 1.0f, 0.0f,
-		rs, 0.0f,
-
-		//p2
-		w2, h2, -d2,
-		0.0f, 1.0f, 0.0f,
-		rs, rt,
-	};
-
-	pVertexBuffer_ = new djah::opengl::vertex_buffer(sizeof(floorVB), opengl::eBU_StaticDraw);
-	pVertexBuffer_->write(floorVB);
+	const std::vector<d3d::primitives::triangle> &triangles = d3d::primitives::cube().construct();
+	pVertexBuffer_ = new opengl::vertex_buffer(triangles.size() * sizeof(d3d::primitives::triangle), opengl::eBU_StaticDraw);
+	pVertexBuffer_->write(&triangles[0], triangles.size());
 
 	opengl::vertex_format vertexFormat;
 	vertexFormat.record()
@@ -145,43 +106,36 @@ void ShadowTest::init()
 		<< opengl::format::normal<3,float>()
 		<< opengl::format::tex_coord<2,float>();
 
-	pVertexArray_ = new djah::opengl::vertex_array(vertexFormat, pVertexBuffer_);
+	vertexArray_.addVertexBuffer(pVertexBuffer_, vertexFormat);
+	vertexArray_.setVertexCount(triangles.size()*3);
 
-	resources::image_ptr floorImg = find_resource<resources::image>("textures/wood.jpg");
-	if( floorImg )
-	{
-		pFloorTexture_ = new djah::opengl::texture(GL_RGB, floorImg->width(), floorImg->height());
-		pFloorTexture_->bind();
-		pFloorTexture_->setBestFiltering();
-		pFloorTexture_->setPixelBuffer(GL_BGR, GL_UNSIGNED_BYTE, floorImg->pixels());
-	}
+	pFloorTexture_ = d3d::texture_manager::get().find("wood.jpg");
 
-	pVertexArray_->init( *cow_->sp_ );
+	vertexArray_.init( cow_->sp_->program() );
+}
+//--------------------------------------------------------------------------------------------------
+
+
+//--------------------------------------------------------------------------------------------------
+void ShadowTest::onInit()
+{
+}
+//--------------------------------------------------------------------------------------------------
+
+
+//--------------------------------------------------------------------------------------------------
+void ShadowTest::onExit()
+{
+	glDisable(GL_CULL_FACE);
+	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_TEXTURE_2D);
 }
 //--------------------------------------------------------------------------------------------------
 
 
 //--------------------------------------------------------------------------------------------------
 void ShadowTest::update(float dt)
-{
-	/*
-	static bool wasDown = false;
-	if( !wasDown && keyboard_.isKeyDown(djah::system::input::eKC_SPACE) )
-	{
-		astroboy_->compileShader();
-		cow_->compileShader();
-		cthulhu_->compileShader();
-		pVertexArray_->init( *cow_->sp_ );
-
-		time::timer t;
-		dataobject::default_registry::get().reload(screenCfgDo_);
-		float dt = t.getElapsedTimeSec();
-		DJAH_BEGIN_LOG(EWL_MEDIUM) << "Reloading took " << dt << " s" << DJAH_END_LOG();
-		device_->setVSync( screenCfgDo_->get<bool>("vsync") );
-	}
-	wasDown = keyboard_.isKeyDown(djah::system::input::eKC_SPACE);
-	*/
-	
+{	
 	matView_ = math::make_look_at(cam.eye(), cam.center(), cam.up());
 
 	if( keyboard_.isKeyDown(djah::system::input::eKC_SHIFT)
@@ -193,7 +147,7 @@ void ShadowTest::update(float dt)
 	}
 }
 //--------------------------------------------------------------------------------------------------
-
+static const math::matrix4f matFloor =  math::make_scale(15.0f,0.1f,15.0f) * math::make_translation(0.0f,-0.05f,0.0f);
 
 //--------------------------------------------------------------------------------------------------
 void ShadowTest::draw()
@@ -204,8 +158,6 @@ void ShadowTest::draw()
 	glClear(GL_DEPTH_BUFFER_BIT);
 	glDrawBuffer(GL_NONE);
 	glViewport(0, 0, SH_VP_W, SH_VP_H);
-	//glCullFace(GL_BACK);
-	glDisable(GL_BLEND);
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -215,21 +167,24 @@ void ShadowTest::draw()
 	glLoadIdentity();
 	glMultMatrixf(&matSpotView_[0][0]);
 
-	pVertexArray_->draw();
+	glPushMatrix();
+	glMultMatrixf(&matFloor[0][0]);
+	vertexArray_.draw();
+	glPopMatrix();
 
 	glPushMatrix();
 	glMultMatrixf(&cow_->mat_world_[0][0]);
-	cow_->va_->draw();
+	cow_->va_.draw();
 	glPopMatrix();
 
 	glPushMatrix();
 	glMultMatrixf(&astroboy_->mat_world_[0][0]);
-	astroboy_->va_->draw();
+	astroboy_->va_.draw();
 	glPopMatrix();
 
 	glPushMatrix();
 	glMultMatrixf(&cthulhu_->mat_world_[0][0]);
-	cthulhu_->va_->draw();
+	cthulhu_->va_.draw();
 	glPopMatrix();
 
 	drawAxis(false);
@@ -325,22 +280,22 @@ void ShadowTest::drawMeshes()
 
 	const math::matrix4f lightVP = matSpotView_ * matShadowPerspectiveProj_;
 	{
-		cow_->sp_->begin();
-
+		cow_->sp_->program().begin();
 
 		opengl::texture::set_active_unit(0);
+
+		cow_->sp_->program().sendUniform("in_DiffuseSampler", 0);
+		cow_->sp_->program().sendUniform("in_TexRepeat", 10.0f);
+		cow_->sp_->program().sendUniform("in_ShadowMapSampler", 1);
+		cow_->sp_->program().sendUniform("in_SpotPosition", spotPosition_);
+		cow_->sp_->program().sendUniform("in_SpotDirection", spotDirection_);
+
+		cow_->sp_->program().sendUniform("in_WorldViewProjection", matFloor * matView_ * matPerspectiveProj_);
+		cow_->sp_->program().sendUniform("in_World", matFloor);
+		cow_->sp_->program().sendUniform("in_LightWVP", matFloor * lightVP);
 		pFloorTexture_->bind();
-
-		cow_->sp_->sendUniform("in_DiffuseSampler", 0);
-		cow_->sp_->sendUniform("in_ShadowMapSampler", 1);
-		cow_->sp_->sendUniform("in_SpotPosition", spotPosition_);
-		cow_->sp_->sendUniform("in_SpotDirection", spotDirection_);
-
-		cow_->sp_->sendUniformMatrix("in_WorldViewProjection", matView_ * matPerspectiveProj_);
-		cow_->sp_->sendUniformMatrix("in_World", math::matrix4f::identity);
-		cow_->sp_->sendUniformMatrix("in_LightWVP", lightVP);
-		pVertexArray_->draw();
-		cow_->sp_->end();
+		vertexArray_.draw();
+		cow_->sp_->program().end();
 
 		pFloorTexture_->unbind();
 	}

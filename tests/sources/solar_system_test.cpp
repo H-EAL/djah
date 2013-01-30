@@ -2,6 +2,7 @@
 #include "djah/types.hpp"
 #include "resource_finder.hpp"
 #include "djah/3d/primitives.hpp"
+#include "djah/3d/lights.hpp"
 #include "djah/resources/media_manager.hpp"
 
 using namespace djah;
@@ -13,15 +14,14 @@ SolarSystemTest::SolarSystemTest(djah::system::device_ptr pDevice, const djah::s
 	, cam_(cam)
 	, gamepad_(g)
 	, pSphereVB_(nullptr)
-	, pSphereVA_(nullptr)
 	, shader_("lit_textured")
 {
 	const float w = static_cast<float>(pDevice_->videoConfig().width);
 	const float h = static_cast<float>(pDevice_->videoConfig().height);
 	matPerspectiveProj_ = math::make_perspective_projection(60.0f, w/h, 0.1f, 1000.f);
 
-	primitives::iso_sphere p;
-	const std::vector<primitives::triangle> &triangles = p.construct(3);
+	primitives::sphere p;
+	const std::vector<primitives::triangle> &triangles = p.construct(10,10);
 	pSphereVB_ = new opengl::vertex_buffer(triangles.size() * sizeof(primitives::triangle), opengl::eBU_StaticDraw);
 	pSphereVB_->write(&triangles[0], triangles.size());
 
@@ -31,23 +31,14 @@ SolarSystemTest::SolarSystemTest(djah::system::device_ptr pDevice, const djah::s
 		<< opengl::format::normal<3,float>()
 		<< opengl::format::tex_coord<2,float>();
 
-	pSphereVA_ = new opengl::vertex_array(vertexFormat, pSphereVB_);
-	pSphereVA_->init(shader_.program());
+	sphereVA_.addVertexBuffer(pSphereVB_, vertexFormat);
+	sphereVA_.setVertexCount(triangles.size()*3);
+	sphereVA_.init(shader_.program());
 
 	const std::string textureFiles[] = { "sun.png", "earth.jpg", "moon.jpg" };
 	for(int i = 0; i < ePO_Count; ++i)
 	{
-		resources::image_ptr img = find_resource<resources::image>("textures/" + textureFiles[i]);
-		if( img )
-		{
-			GLenum internalFormat = img->channels() == 1 ? GL_DEPTH_COMPONENT : GL_RGB;
-			pTextures_[i] = new opengl::texture(internalFormat, img->width(), img->height(), true);
-			pTextures_[i]->bind();
-			pTextures_[i]->setWrapMode(GL_CLAMP_TO_EDGE);
-			pTextures_[i]->setBestFiltering();
-			GLenum pixelFormat = img->channels() == 1 ? GL_DEPTH_COMPONENT : GL_BGR;			
-			pTextures_[i]->setPixelBuffer(pixelFormat, GL_UNSIGNED_BYTE, img->pixels());
-		}
+		pTextures_[i] = d3d::texture_manager::get().find(textureFiles[i]);
 	}
 }
 //--------------------------------------------------------------------------------------------------
@@ -57,9 +48,25 @@ SolarSystemTest::SolarSystemTest(djah::system::device_ptr pDevice, const djah::s
 SolarSystemTest::~SolarSystemTest()
 {
 	delete pSphereVB_;
-	delete pSphereVA_;
-	for(int i = 0; i < ePO_Count; ++i)
-		delete pTextures_[i];
+}
+//--------------------------------------------------------------------------------------------------
+
+
+//--------------------------------------------------------------------------------------------------
+void SolarSystemTest::onInit()
+{
+	opengl::frame_buffer::bind_default_frame_buffer();
+
+	glDepthMask(GL_TRUE);
+	glEnable(GL_DEPTH_TEST);
+}
+//--------------------------------------------------------------------------------------------------
+
+
+//--------------------------------------------------------------------------------------------------
+void SolarSystemTest::onExit()
+{
+	glDisable(GL_DEPTH_TEST);
 }
 //--------------------------------------------------------------------------------------------------
 
@@ -68,11 +75,6 @@ static float earth_rotation = 0.0f;
 static float moon_rotation  = 0.0f;
 static float earth_orbite   = 0.0f;
 static float moon_orbite    = 0.0f;
-template<typename T>
-T rotate(T toRotate, T _min, T _max)
-{
-	return toRotate > _max ? _min : toRotate;
-}
 //--------------------------------------------------------------------------------------------------
 void SolarSystemTest::update(float dt)
 {
@@ -90,11 +92,11 @@ void SolarSystemTest::update(float dt)
 	earth_orbite   += math::deg_to_rad(15.0f) * dt;
 	moon_orbite    += math::deg_to_rad(50.0f) * dt;
 
-	sun_rotation   = rotate(sun_rotation  , 0.0f, math::pi_times_2);
-	earth_rotation = rotate(earth_rotation, 0.0f, math::pi_times_2);
-	moon_rotation  = rotate(moon_rotation , 0.0f, math::pi_times_2);
-	earth_orbite   = rotate(earth_orbite  , 0.0f, math::pi_times_2);
-	moon_orbite    = rotate(moon_orbite   , 0.0f, math::pi_times_2);
+	sun_rotation   = math::rotate(sun_rotation  , 0.0f, math::pi_times_2);
+	earth_rotation = math::rotate(earth_rotation, 0.0f, math::pi_times_2);
+	moon_rotation  = math::rotate(moon_rotation , 0.0f, math::pi_times_2);
+	earth_orbite   = math::rotate(earth_orbite  , 0.0f, math::pi_times_2);
+	moon_orbite    = math::rotate(moon_orbite   , 0.0f, math::pi_times_2);
 }
 //--------------------------------------------------------------------------------------------------
 
@@ -102,10 +104,6 @@ void SolarSystemTest::update(float dt)
 //--------------------------------------------------------------------------------------------------
 void SolarSystemTest::draw()
 {
-	glDepthMask(GL_TRUE);
-	glEnable(GL_DEPTH_TEST);
-
-	opengl::frame_buffer::unbind();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	const math::matrix4f &matVP = math::make_look_at(cam_.eye(), cam_.center(), cam_.up()) * matPerspectiveProj_;
@@ -133,14 +131,12 @@ void SolarSystemTest::draw()
 	shader_.program().sendUniform("in_DiffuseSampler", 0);
 	for(int i = 0; i < ePO_Count; ++i)
 	{
-		shader_.program().sendUniformMatrix( "in_World", matWorld[i] );
-		shader_.program().sendUniformMatrix( "in_WVP", matWorld[i] * matVP);
+		shader_.program().sendUniform( "in_World", matWorld[i] );
+		shader_.program().sendUniform( "in_WVP", matWorld[i] * matVP);
 		pTextures_[i]->bind();
-		pSphereVA_->draw();
+		sphereVA_.draw();
 	}
 	opengl::texture::unbind();
 	shader_.program().end();
-
-	glDisable(GL_DEPTH_TEST);
 }
 //--------------------------------------------------------------------------------------------------

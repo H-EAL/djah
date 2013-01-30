@@ -18,6 +18,7 @@
 #include <djah/dataobject/global_registry.hpp>
 
 #include "camera.hpp"
+#include "resource_finder.hpp"
 
 class ShadowTest
 	: public test_base
@@ -30,6 +31,8 @@ public:
 		Camera &c);
 
 	virtual ~ShadowTest();
+	virtual void onInit();
+	virtual void onExit();
 	virtual void update(float dt);
 	virtual void draw();
 	virtual const char* name() const { return "Shadow Mapping"; }
@@ -60,10 +63,10 @@ private:
 
 
 	djah::opengl::frame_buffer	*pFBO_;
-	djah::opengl::texture		*pShadowMap_;
-	djah::opengl::texture		*pFloorTexture_;
-	djah::opengl::vertex_array  *pVertexArray_;
+	djah::opengl::vertex_array  vertexArray_;
 	djah::opengl::vertex_buffer *pVertexBuffer_;
+	djah::opengl::texture		*pShadowMap_;
+	djah::d3d::texture_ptr		pFloorTexture_;
 };
 
 #endif /* DJAH_SHADOW_TEST_HPP */
