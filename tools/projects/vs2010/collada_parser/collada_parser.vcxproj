@@ -40,7 +40,7 @@
     <OutDir>..\..\..\collada_parser\lib\win32\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <TargetName>$(ProjectName)_d</TargetName>
+    <TargetName>$(ProjectName)-d</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>..\..\..\collada_parser\lib\win32\</OutDir>
@@ -85,6 +85,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\collada_parser\include\collada\database.hpp" />
     <ClInclude Include="..\..\..\collada_parser\include\collada\fwd_decl.hpp" />
+    <ClInclude Include="..\..\..\collada_parser\include\collada\library.hpp" />
     <ClInclude Include="..\..\..\collada_parser\include\collada\library\animations.hpp" />
     <ClInclude Include="..\..\..\collada_parser\include\collada\library\common.hpp" />
     <ClInclude Include="..\..\..\collada_parser\include\collada\library\controllers.hpp" />

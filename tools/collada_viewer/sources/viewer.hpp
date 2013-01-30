@@ -1,8 +1,8 @@
 #include <djah/application_base.hpp>
 #include <djah/math.hpp>
 
-#include <djah/video/ogl/buffers/texture.hpp>
-#include <djah/video/text.hpp>
+#include <djah/opengl/texture.hpp>
+#include <djah/3d/text.hpp>
 
 class viewer_app
 	: public djah::application_base
@@ -30,8 +30,8 @@ private:
 	djah::math::matrix4f matOrthoProj_;
 	djah::math::matrix4f matView_;
 
-	djah::video::ogl::texture *texture_;
-	djah::video::text fps_str_;
+	djah::opengl::texture *texture_;
+	djah::d3d::text fps_str_;
 };
 
 DJAH_ENTRY_POINT(viewer_app);

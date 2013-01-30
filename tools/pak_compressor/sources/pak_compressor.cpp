@@ -1,11 +1,12 @@
 #include <iostream>
+#include <memory>
 
-#include <djah/log/logger.hpp>
-#include <djah/log/console_logger.hpp>
+#include <djah/debug/log.hpp>
+#include <djah/debug/console_sink.hpp>
 #include <djah/filesystem/browser.hpp>
 #include <djah/filesystem/directory_source.hpp>
 #include <djah/filesystem/memory_stream.hpp>
-#include <djah/time/timer.hpp>
+#include <djah/core/time/timer.hpp>
 
 #include "pak_compressor.hpp"
 
@@ -14,7 +15,8 @@ using namespace boost::filesystem;
 //--------------------------------------------------------------------------------------------------
 void pak_compressor::init()
 {
-	djah::log::logger::setLogger(new djah::log::console_logger);
+	djah::debug::core_logger::get().addSink( std::make_shared<djah::debug::console_sink>() );
+	djah::debug::core_logger::get().addSink( std::make_shared<djah::debug::output_debug_sink>() );
 	djah::filesystem::browser::get().addLoadingChannel(new djah::filesystem::directory_source("."));
 	djah::filesystem::browser::get().addSavingChannel(new djah::filesystem::directory_source(".", true));
 }
@@ -24,7 +26,7 @@ void pak_compressor::init()
 //--------------------------------------------------------------------------------------------------
 int pak_compressor::show_help()
 {
-	DJAH_BEGIN_LOG(EWL_CRITICAL)
+	DJAH_GLOBAL_CRITICAL()
 		<< "Usage: pak_compressor folder_to_pak [pak_file_name]"
 		<< DJAH_END_LOG();
 
@@ -73,9 +75,7 @@ int pak_compressor::compress()
 		{
 			if( !addFile(it->path()) )
 			{
-				DJAH_BEGIN_LOG(EWL_HIGH)	<< "Skipping: ";
-				DJAH_BEGIN_LOG(EWL_LOW)		<< it->path().filename()
-											<< DJAH_END_LOG();
+				DJAH_GLOBAL_WARNING() << "Skipping: " << it->path().filename() << DJAH_END_LOG();
 			}
 		}
 	}
@@ -136,8 +136,7 @@ void pak_compressor::writeHeaders()
 //--------------------------------------------------------------------------------------------------
 void pak_compressor::writeFiles()
 {
-	DJAH_BEGIN_LOG(EWL_NOTIFICATION)	<< "--------------------------------------------------"
-										<< DJAH_END_LOG();
+	DJAH_GLOBAL_NOTIFICATION() << "--------------------------------------------------" << DJAH_END_LOG();
 
 	file_list_t::iterator it;
 	file_list_t::iterator it_end = files_.end();
@@ -146,19 +145,14 @@ void pak_compressor::writeFiles()
 		djah::filesystem::stream_ptr file = djah::filesystem::browser::get().openReadStream(dir_name_ + "/" + it->file_name_);
 		if(file)
 		{
-			DJAH_BEGIN_LOG(EWL_NOTIFICATION)	<< "Packing ";
-			DJAH_BEGIN_LOG(EWL_LOW)				<< it->file_name_;
-			DJAH_BEGIN_LOG(EWL_NOTIFICATION)	<< " ... ";
+			DJAH_GLOBAL_NOTIFICATION() << "Packing " << it->file_name_ << " ... ";
 
 			djah::time::timer clk;
 			djah::filesystem::memory_stream buff(file);
 			pak_file_->write(buff.buffer(), buff.size());
-			djah::u64 dt = clk.getElapsedTimeMs();
+			djah::f32 dt = clk.getElapsedTimeMs();
 
-			DJAH_BEGIN_LOG(EWL_NOTIFICATION)	<< "done (";
-			DJAH_BEGIN_LOG(EWL_NOTIFICATION)	<< dt << " ms";
-			DJAH_BEGIN_LOG(EWL_NOTIFICATION)	<< ")"
-												<< DJAH_END_LOG();
+			DJAH_GLOBAL_NOTIFICATION()	<< "done (" << dt << " ms" ")" << DJAH_END_LOG();
 		}
 	}
 }

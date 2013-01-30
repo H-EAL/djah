@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <cassert>
 #include <tinyxml.h>
 #include "../fwd_decl.hpp"
 
@@ -48,6 +49,9 @@ namespace collada { namespace library {
 		{
 			delete [] data_;
 		}
+
+		T& operator [](unsigned int i) { assert(i < count_); return data_[i]; }
+		const T& operator [](unsigned int i) const { assert(i < count_); return data_[i]; }
 
 		std::string	 id_;
 		unsigned int count_;
@@ -123,7 +127,6 @@ namespace collada { namespace library {
 		unsigned int set_;
 	};
 	//----------------------------------------------------------------------------------------------
-
 
 } /*library*/ } /*collada*/
 

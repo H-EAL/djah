@@ -2,13 +2,7 @@
 
 #include <tinyxml.h>
 
-#include "library/animations.hpp"
-#include "library/images.hpp"
-#include "library/materials.hpp"
-#include "library/effects.hpp"
-#include "library/geometries.hpp"
-#include "library/controllers.hpp"
-#include "library/visual_scenes.hpp"
+#include "library.hpp"
 
 namespace collada {
 

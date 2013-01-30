@@ -88,5 +88,8 @@
     <ClInclude Include="..\..\..\collada_parser\include\collada\utils.hpp">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\collada_parser\include\collada\library.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

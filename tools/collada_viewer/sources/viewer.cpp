@@ -1,16 +1,16 @@
 #include "viewer.hpp"
 
 #include <djah/application_base.hpp>
-#include <djah/time/timer.hpp>
-#include <djah/utils/randomizer.hpp>
+#include <djah/core/time/timer.hpp>
+#include <djah/core/randomizer.hpp>
 #include <djah/math.hpp>
 
 #include <djah/system/video_config.hpp>
-#include <djah/system/opengl/gl.hpp>
+#include <djah/system/gl.hpp>
 #include <djah/system/device.hpp>
 
-#include <djah/video/ogl.hpp>
-#include <djah/video/font_engine.hpp>
+#include <djah/opengl.hpp>
+#include <djah/3d/font_engine.hpp>
 
 #include <djah/resources/resource_manager.hpp>
 #include <djah/resources/media_manager.hpp>
@@ -19,8 +19,8 @@
 #include <djah/filesystem/browser.hpp>
 #include <djah/filesystem/directory_source.hpp>
 
-#include <djah/log/logger.hpp>
-#include <djah/log/console_logger.hpp>
+#include <djah/debug/log.hpp>
+#include <djah/debug/console_sink.hpp>
 
 
 #include "collada/proxy.hpp"
@@ -168,7 +168,7 @@ void CreateBones(collada::library::node *n, const math::matrix4f &pm/*, vec_list
 	//math::matrix4f m = tomat(n->transformations_);
 	m=pm*m;
 
-	bone_t b = { m, math::matrix4f::mat_identity };
+	bone_t b = { m, math::matrix4f::identity };
 	bones_map[n->sid_] = b;
 
 	if(n->parent_)
@@ -197,11 +197,11 @@ viewer_app::viewer_app()
 	filesystem::browser::get().addLoadingChannel(new filesystem::directory_source("./data"));
 
 	// Logger
-	log::logger::setLogger(new djah::log::console_logger);
+	debug::logger::setLogger(new djah::debug::console_logger);
 
 	time::timer clk;
 	obj = new collada::proxy(bAstro ? "data/3d/astroBoy_walk_Max.dae" : dae_file);
-	u64 msL = clk.getElapsedTimeMs();
+	f32 msL = clk.getElapsedTimeMs();
 
 	if( obj->good() )
 	{
@@ -226,7 +226,7 @@ viewer_app::viewer_app()
 				BO[i] = bones_map[ skel->bones_[i].name_ ].bind_shape * skel->bones_[i].inv_bind_matrix_;
 		}
 		/**/
-		u64 msB = clk.getElapsedTimeMs();
+		f32 msB = clk.getElapsedTimeMs();
 
 		DJAH_BEGIN_LOG(EWL_NOTIFICATION) << "Loading time : " << msL << " ms" << DJAH_END_LOG();
 		DJAH_BEGIN_LOG(EWL_NOTIFICATION) << "Building time : " << msB << " ms" << DJAH_END_LOG();
@@ -264,8 +264,8 @@ void viewer_app::initImpl()
 	resources::image_ptr img = find_resource<resources::image>(bAstro ? "textures/boy_10.jpg" : tex_file);
 	if( img )
 	{
-		texture_ = new video::ogl::texture(img->width(), img->height());
-		texture_->setPixelBuffer(img->pixels(), false);
+		texture_ = new video::ogl::texture(GL_RGB, img->width(), img->height());
+		texture_->setPixelBuffer(img->pixels(), GL_BGR, GL_UNSIGNED_BYTE);
 	}
 
 	video::font_engine::create();
@@ -298,11 +298,11 @@ void viewer_app::runImpl()
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glMultMatrixf(matPerspectiveProj_.getTransposed().data);
+	glMultMatrixf(matPerspectiveProj_[0]);
 		
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	glMultMatrixf(matView_.getTransposed().data);
+	glMultMatrixf(matView_[0]);
 
 	drawAxis();
 	drawGrid();
@@ -440,7 +440,7 @@ void viewer_app::runImpl()
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glMultMatrixf(matOrthoProj_.getTransposed().data);
+	glMultMatrixf(matOrthoProj_[0]);
 		
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();

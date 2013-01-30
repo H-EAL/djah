@@ -47,7 +47,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>..\..\..\collada_converter\binaries\</OutDir>
-    <TargetName>$(ProjectName)_debug</TargetName>
+    <TargetName>$(ProjectName)-debug</TargetName>
     <IncludePath>$(IncludePath)</IncludePath>
     <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
@@ -69,8 +69,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\..\..\..\extlibs\lib\win32\;..\..\..\collada_parser\lib\win32\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>tinyxml.lib;collada_parser_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\..\extlibs\lib\win32\;..\..\..\..\extlibs\lib\win32\vs2010\debug;..\..\..\collada_parser\lib\win32\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>tinyxml.lib;collada_parser-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>LIBCMT.lib</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
@@ -90,7 +90,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>..\..\..\..\extlibs\lib\win32\;..\..\..\collada_parser\lib\win32\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\..\extlibs\lib\win32\;..\..\..\..\extlibs\lib\win32\vs2010\release\;..\..\..\collada_parser\lib\win32\</AdditionalLibraryDirectories>
       <AdditionalDependencies>tinyxml.lib;collada_parser.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>LIBCMT.lib</IgnoreSpecificDefaultLibraries>
     </Link>

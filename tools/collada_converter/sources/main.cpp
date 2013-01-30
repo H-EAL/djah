@@ -4,72 +4,72 @@
 
 int main()
 {
-	collada::proxy obj("data/3d/cow.dae");
-	if(obj.good())
+	collada::proxy obj("data/3d/feisar.dae");
+	if( !obj.good() )
+		return EXIT_FAILURE;
+
+	std::fstream file;
+	file.open("data/3d/feisar.bdae", std::ios::in | std::ios::binary | std::ios::trunc | std::ios::out);
+	if( !file.good() )
+		return EXIT_FAILURE;
+
+	mesh_builder builder(obj);
+
+	const int nbModels = (int)builder.getModelCount();
+	for(int m = 0; m < nbModels; ++m)
 	{
-		std::fstream file;
-		file.open("data/3d/cow.bdae", std::ios::in | std::ios::binary | std::ios::trunc | std::ios::out);
-		if( !file.good() )
-			return 1;
-
-		mesh_builder builder(obj);
-
-		int nbModels = (int)builder.getModelCount();
-		for(int m = 0; m < nbModels; ++m)
+		model *mod = builder.getModel(m);
+		const int nbMeshes = (int)mod->getMeshCount();
+		for(int b = 0; b < nbMeshes; ++b)
 		{
-			model *mod = builder.getModel(m);
-			const int nbMeshes = (int)mod->getMeshCount();
-			for(int b = 0; b < nbMeshes; ++b)
+			mesh_t *msh = mod->getMesh(b);
+			const std::vector<float>			&positions		= msh->positions_;
+			const std::vector<float>			&normals		= msh->normals_;
+			const std::vector<float>			&tex_coords		= msh->tex_coords0_;
+			const std::vector<float>			&tex_tangents	= msh->tex_tangents_;
+			const std::vector<float>			&tex_binormals	= msh->tex_binormals_;
+			const std::vector<float>			&weights		= msh->weights_;
+			const std::vector<unsigned short>	&influences		= msh->influences_;
+			const size_t vertexSize								= msh->vertex_size_;
+
+			const int pos_stride			= msh->getPositionStride();
+			const int norm_stride			= msh->getNormalStride();
+			const int tex_coord_stride		= msh->getTexCoordStride();
+			const int tex_tangent_stride	= msh->getTexTangentStride();
+			const int tex_binormal_stride	= msh->getTexBinormalStride();
+			const int weight_stride			= msh->getWeightStride();
+			const int infl_stride			= msh->getInfluenceStride();
+
+			if( !positions.empty() )
 			{
-				mesh_t *msh = mod->getMesh(b);
-				const std::vector<float>			&positions		= msh->positions_;
-				const std::vector<float>			&normals		= msh->normals_;
-				const std::vector<float>			&tex_coords		= msh->tex_coords_;
-				const std::vector<float>			&tex_tangents	= msh->tex_tangents_;
-				const std::vector<float>			&tex_binormals	= msh->tex_binormals_;
-				const std::vector<float>			&weights		= msh->weights_;
-				const std::vector<unsigned short>	&influences		= msh->influences_;
-				const size_t vertexSize								= msh->vertex_size_;
-
-				int pos_stride			= msh->getPositionStride();
-				int norm_stride			= msh->getNormalStride();
-				int tex_coord_stride	= msh->getTexCoordStride();
-				int tex_tangent_stride	= msh->getTexTangentStride();
-				int tex_binormal_stride	= msh->getTexBinormalStride();
-				int weight_stride		= msh->getWeightStride();
-				int infl_stride			= msh->getInfluenceStride();
-
-				if( !positions.empty() )
+				for(int i = 0; i < msh->vertex_count_; ++i)
 				{
-					for(size_t i = 0; i < msh->vertex_count_; ++i)
-					{
-						file.write((const char*)&positions[i*pos_stride], pos_stride * sizeof(float));
+					file.write((const char*)&positions[i*pos_stride], pos_stride * sizeof(float));
 
-						if( !normals.empty() )
-							file.write((const char*)&normals[i*norm_stride], norm_stride * sizeof(float));
+					if( !normals.empty() )
+						file.write((const char*)&normals[i*norm_stride], norm_stride * sizeof(float));
 
-						if( !tex_coords.empty() )
-							file.write((const char*)&tex_coords[i*tex_coord_stride], tex_coord_stride * sizeof(float));
-						/**/
-						if( !tex_tangents.empty() )
-							file.write((const char*)&tex_tangents[i*tex_tangent_stride], tex_tangent_stride * sizeof(float));
+					if( !tex_coords.empty() )
+						file.write((const char*)&tex_coords[i*tex_coord_stride], tex_coord_stride * sizeof(float));
+					/**/
+					if( !tex_tangents.empty() )
+						file.write((const char*)&tex_tangents[i*tex_tangent_stride], tex_tangent_stride * sizeof(float));
 
-						if( !tex_binormals.empty() )
-							file.write((const char*)&tex_binormals[i*tex_binormal_stride], tex_binormal_stride * sizeof(float));
+					if( !tex_binormals.empty() )
+						file.write((const char*)&tex_binormals[i*tex_binormal_stride], tex_binormal_stride * sizeof(float));
 
-						if( !weights.empty() )
-							file.write((const char*)&weights[i*weight_stride], weight_stride * sizeof(float));
+					if( !weights.empty() )
+						file.write((const char*)&weights[i*weight_stride], weight_stride * sizeof(float));
 
-						if( !influences.empty() )
-							file.write((const char*)&influences[i*infl_stride], infl_stride * sizeof(unsigned short));
-						/**/
-					}
+					if( !influences.empty() )
+						file.write((const char*)&influences[i*infl_stride], infl_stride * sizeof(unsigned short));
+					/**/
 				}
 			}
 		}
-		
 	}
-	return 0;
+
+	return EXIT_SUCCESS;
 }
 
 /*

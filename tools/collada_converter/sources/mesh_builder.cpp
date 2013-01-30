@@ -15,7 +15,7 @@
 using namespace collada;
 using namespace collada::library;
 
-#include <djah/utils/randomizer.hpp>
+#include <djah/core/randomizer.hpp>
 
 
 void set_matrix_element_from_target(const std::string &target, float value, math::matrix4f &mat)
@@ -69,13 +69,15 @@ math::matrix4f get_matrix(node *n)
 //--------------------------------------------------------------------------------------------------
 mesh_builder::mesh_builder(const proxy &obj)
 {
-	geometry_list_t::const_iterator geo_it;
-	geometry_list_t::const_iterator geo_it_end = obj.getGeometries().end();
-	for(geo_it = obj.getGeometries().begin(); geo_it != geo_it_end; ++geo_it)
+	if( obj.getGeometriesLib() )
 	{
-		models_.push_back( new model(obj, *(*geo_it)) );
+		geometry_list_t::const_iterator geo_it;
+		geometry_list_t::const_iterator geo_it_end = obj.getGeometries().end();
+		for(geo_it = obj.getGeometries().begin(); geo_it != geo_it_end; ++geo_it)
+		{
+			models_.push_back( new model(obj, *(*geo_it)) );
+		}
 	}
-
 }
 //--------------------------------------------------------------------------------------------------
 
@@ -89,7 +91,7 @@ mesh_builder::~mesh_builder()
 
 //--------------------------------------------------------------------------------------------------
 model::model(const proxy &obj, const geometry &geom)
-	: skeleton_(0)
+	: skeleton_(nullptr)
 {
 	controllers *ctrl_lib = obj.getControllersLib();
 	if( ctrl_lib )
@@ -101,10 +103,13 @@ model::model(const proxy &obj, const geometry &geom)
 			if(!skeleton_->isValid())
 			{
 				delete skeleton_;
-				skeleton_ = 0;
+				skeleton_ = nullptr;
 			}
 		}
 	}
+
+	min_.x = min_.y = min_.z =  std::numeric_limits<float>::max();
+	max_.x = max_.y = max_.z = -std::numeric_limits<float>::max();
 
 	const mesh						&m		= *(geom.mesh_);
 	const triangles_list_t			&tris	= m.triangles_;
@@ -112,8 +117,17 @@ model::model(const proxy &obj, const geometry &geom)
 	triangles_list_t::const_iterator it_end	= tris.end();
 	while(it != it_end)
 	{
-		mesh_t *sm = new mesh_t(m, *(*it), skeleton_);
+		submesh *sm = new submesh(m, *(*it), skeleton_);
 		meshes_.push_back(sm);
+		
+		min_.x = std::min(min_.x, sm->min_.x);
+		min_.y = std::min(min_.y, sm->min_.y);
+		min_.z = std::min(min_.z, sm->min_.z);
+
+		max_.x = std::max(max_.x, sm->max_.x);
+		max_.y = std::max(max_.y, sm->max_.y);
+		max_.z = std::max(max_.z, sm->max_.z);
+
 		++it;
 	}
 }
@@ -161,8 +175,8 @@ bool skeleton::setupBones(const skin &skn)
 	input *inv_bind_ipt = get_input_by_semantic(ESS_INV_BIND_MATRIX, skn.joints_->inputs_);
 
 	// Retrieve sources
-	const source *joints_src	= joints_ipt	? get_source_by_id(joints_ipt->source_  , skn.sources_) : 0;
-	const source *inv_bind_src	= inv_bind_ipt	? get_source_by_id(inv_bind_ipt->source_, skn.sources_) : 0;
+	const source *joints_src	= joints_ipt	? get_source_by_id(joints_ipt->source_  , skn.sources_) : nullptr;
+	const source *inv_bind_src	= inv_bind_ipt	? get_source_by_id(inv_bind_ipt->source_, skn.sources_) : nullptr;
 
 	bool success = joints_src && joints_src->name_array_ && inv_bind_src && inv_bind_src->float_array_;
 	if( success )
@@ -184,9 +198,9 @@ bool skeleton::setupBones(const skin &skn)
 bool skeleton::setupWeights(const skin &skn)
 {
 	input *weight_ipt			= get_input_by_semantic(ESS_WEIGHT, skn.vertex_weights_->inputs_);
-	const source *weight_src	= weight_ipt ? get_source_by_id(weight_ipt->source_, skn.sources_) : 0;
+	const source *weight_src	= weight_ipt ? get_source_by_id(weight_ipt->source_, skn.sources_) : nullptr;
 
-	bool success = weight_src != 0;
+	bool success = weight_src != nullptr;
 	if( success )
 	{
 		//const unsigned short *influences = skn.vertex_weights_->vcount_;
@@ -226,10 +240,10 @@ bool skeleton::setupBonesHierarchy(const visual_scenes &scenes, bool bbb, float 
 		bone &root_bone = bones_[0];
 		node *root_node = get_node_by_sid(root_bone.sid_, scenes.visual_scenes_[0]->nodes_);
 
-		success = root_node != 0;
+		success = root_node != nullptr;
 		if( success )
 		{
-			initBone(root_node, math::matrix4f::mat_identity, bbb, t);
+			initBone(root_node, math::matrix4f::identity, bbb, t);
 		}
 	}
 
@@ -246,9 +260,9 @@ void skeleton::initBone(node *current_node, const math::matrix4f &parent_world_m
 	const int bone_id			= getBoneIdBySid(current_node->sid_);
 	if( bone_id >= 0 )
 	{
-		bone &current_bone				= bones_[bone_id];
-			current_bone.id_			= current_node->id_;
-			current_bone.name_			= current_node->name_;
+		bone &current_bone = bones_[bone_id];
+		current_bone.id_   = current_node->id_;
+		current_bone.name_ = current_node->name_;
 
 		if(bbb)
 		{
@@ -377,8 +391,8 @@ void bone::setupAnimation(const animations &anim_lib)
 					std::string target = (*ch_it)->target_;
 					target = target.substr( target.find_last_of("/")+1 );
 
-					int nb_key_frames = 36;//srcs[0]->float_array_->count_;
-					for(int iFrame = 0; iFrame < nb_key_frames; ++iFrame)
+					unsigned int nb_key_frames = 36;//srcs[0]->float_array_->count_;
+					for(unsigned int iFrame = 0; iFrame < nb_key_frames; ++iFrame)
 					{
 						float time = ( srcs[0]->float_array_->count_ < nb_key_frames ) ? times[iFrame] : srcs[0]->float_array_->data_[iFrame];
 						if( key_frames_.count(time) <= 0 )
@@ -409,7 +423,180 @@ void bone::setupAnimation(const animations &anim_lib)
 
 
 //--------------------------------------------------------------------------------------------------
-mesh_t::mesh_t(const mesh &m, const triangles &tris, skeleton *skel)
+submesh::submesh(const mesh &m, const triangles &tris, skeleton *skel)
+	: vertex_size_(0)
+	, vertex_count_(0)
+	, skeleton_(skel)
+{
+	cleanUp();
+	const unsigned int indicesPerVertex = setupAttributeBuffers(m, tris);
+	populateAttributeBuffers(indicesPerVertex, tris, skel);
+	computeVertexSize();
+	computeBoundingBox();
+
+	/*
+	if( hasAnimation() )
+	{
+		setupBindPose();
+	}
+	*/
+}
+//--------------------------------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------------------------------
+void submesh::cleanUp()
+{
+	attributeBuffers_.clear();
+}
+//--------------------------------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------------------------------
+unsigned int submesh::setupAttributeBuffers(const mesh &m, const triangles &tris)
+{
+	attributeBuffers_.resize(tris.inputs_.size());
+
+	unsigned int indicesPerVertex = 0;
+
+	int i = 0;
+	auto itEnd = tris.inputs_.end();
+	for(auto it = tris.inputs_.begin(); it != itEnd; ++it)
+	{
+		source *src = nullptr;
+
+		if( (*it)->semantic_ == "VERTEX" )
+		{
+			const std::string &posSrcId = get_source_id_by_semantic(ESS_POSITION, m.vertices_->inputs_);
+			src = get_source_by_id(posSrcId, m.sources_);
+		}
+		else
+		{
+			src = get_source_by_id((*it)->source_, m.sources_);
+		}
+
+		assert(src != nullptr);
+
+		indicesPerVertex = std::max(indicesPerVertex, (*it)->offset_+1);
+
+		attributeBuffers_[i].pInput   = (*it);
+		attributeBuffers_[i].pSource  = src;
+		attributeBuffers_[i].semantic = (*it)->semantic_;
+		attributeBuffers_[i].set      = (*it)->set_;
+		attributeBuffers_[i].stride   = src->technique_common_->accessor_->stride_;
+		attributeBuffers_[i].data.reserve(tris.vertex_count_ * attributeBuffers_[i].stride);
+		++i;
+	}
+
+	return indicesPerVertex;
+}
+//--------------------------------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------------------------------
+void submesh::populateAttributeBuffers(unsigned int indicesPerVertex, const triangles &tris, skeleton *skel)
+{
+	const unsigned int nbAttribs = attributeBuffers_.size();
+
+	// For each vertex
+	for(unsigned int i = 0; i < tris.elements_count_; i += indicesPerVertex)
+	{
+		// For each vertex attribute
+		for(unsigned int v = 0; v < nbAttribs; ++v)
+		{
+			// Offset of the current vertex attribute in the source data
+			const unsigned int attrib_offset = attributeBuffers_[v].pInput->offset_;
+			// Number of components of the current vertex attribute
+			const unsigned int attrib_stride = attributeBuffers_[v].pSource->technique_common_->accessor_->stride_;
+			// Index of the current vertex attribute first component
+			const unsigned int index = attrib_stride * tris.indices_[i + attrib_offset];
+			// Vertex attribute components
+			for(unsigned int s = 0; s < attrib_stride; ++s)
+				attributeBuffers_[v].data.push_back( (*(attributeBuffers_[v].pSource->float_array_))[index + s] );
+		}
+
+		// Add skinning attributes if needed
+		if( hasAnimation() )
+		{
+			const skeleton::skin_attribute &skin_attr = skel->getSkinAttribute(tris.indices_[i]);
+			influences_.insert(influences_.end(), skin_attr.bones_ids, skin_attr.bones_ids + skeleton::max_influences_);
+			weights_.insert(weights_.end(), skin_attr.weights, skin_attr.weights + skeleton::max_influences_);
+		}
+
+		++vertex_count_;
+	}
+}
+//--------------------------------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------------------------------
+void submesh::computeVertexSize()
+{
+	const unsigned int nbAttribs = attributeBuffers_.size();
+
+	// Compute vertex size
+	for(unsigned int v = 0; v < nbAttribs; ++v)
+	{
+		vertex_size_ += attributeBuffers_[v].stride;
+	}
+
+	// Add skinning attributes size
+	if( hasAnimation() )
+	{
+		strides_[0]	  = skeleton_->max_influences_;
+		strides_[1]	  = skeleton_->max_influences_;
+		vertex_size_ += skeleton_->max_influences_;
+		vertex_size_ += skeleton_->max_influences_;
+	}
+}
+//--------------------------------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------------------------------
+void submesh::computeBoundingBox()
+{
+	min_.x = min_.y = min_.z =  std::numeric_limits<float>::max();
+	max_.x = max_.y = max_.z = -std::numeric_limits<float>::max();
+
+	auto it = std::find_if(attributeBuffers_.begin(), attributeBuffers_.end(), [](const attribute_buffer_t &buff) { return buff.semantic == "VERTEX"; });
+
+	if( it != attributeBuffers_.end() )
+	{
+		const std::vector<float> &positions = it->data;
+		assert(it->stride == 3);
+
+		const unsigned int nbPositions = positions.size();
+		for(int i = 0; i < nbPositions; i += 3)
+		{
+			min_.x = std::min(min_.x, positions[i]);
+			min_.y = std::min(min_.y, positions[i+1]);
+			min_.z = std::min(min_.z, positions[i+2]);
+
+			max_.x = std::max(max_.x, positions[i]);
+			max_.y = std::max(max_.y, positions[i+1]);
+			max_.z = std::max(max_.z, positions[i+2]);
+		}
+	}
+}
+//--------------------------------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------------------------------
+bool submesh::hasAttribute(collada::E_SOURCE_SEMANTIC semantic) const
+{
+	std::string semStr(semantic_to_string(semantic));
+	auto it = std::find_if(attributeBuffers_.begin(), attributeBuffers_.end(), [&](const attribute_buffer_t &buff) { return buff.semantic == semStr; });
+	return (it != attributeBuffers_.end());
+}
+//--------------------------------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------------------------------
+const submesh::attribute_buffer_t& submesh::getAttributeBufferBySemantic(E_SOURCE_SEMANTIC semantic) const
+{
+	std::string semStr(semantic_to_string(semantic));
+	auto it = std::find_if(attributeBuffers_.begin(), attributeBuffers_.end(), [&](const attribute_buffer_t &buff) { return buff.semantic == semStr; });
+	assert(it != attributeBuffers_.end());
+	return (*it);
+}
+//--------------------------------------------------------------------------------------------------
+
+/*
+//--------------------------------------------------------------------------------------------------
+submesh::submesh(const mesh &m, const triangles &tris, skeleton *skel)
 	: vertex_size_(0)
 	, vertex_count_(0)
 	, skeleton_(skel)
@@ -421,9 +608,14 @@ mesh_t::mesh_t(const mesh &m, const triangles &tris, skeleton *skel)
 	{
 		get_input_by_semantic(ESS_VERTEX,	   tris.inputs_),
 		get_input_by_semantic(ESS_NORMAL,	   tris.inputs_),
-		get_input_by_semantic(ESS_TEXCOORD,    tris.inputs_),
-		get_input_by_semantic(ESS_TEXTANGENT,  tris.inputs_),
-		get_input_by_semantic(ESS_TEXBINORMAL, tris.inputs_),
+		get_input_by_semantic(ESS_TEXCOORD,    tris.inputs_, 0),
+		get_input_by_semantic(ESS_TEXCOORD,    tris.inputs_, 1),
+		get_input_by_semantic(ESS_TEXCOORD,    tris.inputs_, 2),
+		get_input_by_semantic(ESS_TEXCOORD,    tris.inputs_, 3),
+		get_input_by_semantic(ESS_TEXTANGENT,  tris.inputs_, 0),
+		get_input_by_semantic(ESS_TEXTANGENT,  tris.inputs_, 1),
+		get_input_by_semantic(ESS_TEXBINORMAL, tris.inputs_, 0),
+		get_input_by_semantic(ESS_TEXBINORMAL, tris.inputs_, 1),
 	};
 
 	// For each active input retrieve its source
@@ -435,21 +627,37 @@ mesh_t::mesh_t(const mesh &m, const triangles &tris, skeleton *skel)
 		inputs[++ipt] ? get_source_by_id(inputs[ipt]->source_, m.sources_)	: 0,
 		inputs[++ipt] ? get_source_by_id(inputs[ipt]->source_, m.sources_)	: 0,
 		inputs[++ipt] ? get_source_by_id(inputs[ipt]->source_, m.sources_)	: 0,
+		inputs[++ipt] ? get_source_by_id(inputs[ipt]->source_, m.sources_)	: 0,
+		inputs[++ipt] ? get_source_by_id(inputs[ipt]->source_, m.sources_)	: 0,
+		inputs[++ipt] ? get_source_by_id(inputs[ipt]->source_, m.sources_)	: 0,
+		inputs[++ipt] ? get_source_by_id(inputs[ipt]->source_, m.sources_)	: 0,
+		inputs[++ipt] ? get_source_by_id(inputs[ipt]->source_, m.sources_)	: 0,
 		inputs[++ipt] ? get_source_by_id(inputs[ipt]->source_, m.sources_)	: 0
 	};
 
 	// Count the number of actual vertex attributes by counting non null sources
 	const int nb_sources = sizeof(srcs)/sizeof(source*);
-	const unsigned int vertex_attrib_count = static_cast<unsigned int>
-	( std::count_if(srcs, srcs+nb_sources, std::bind1st(std::not_equal_to<const source*>(), (source*)0)) );
+	unsigned int vertex_attrib_count = 0;
+	for(unsigned int v = 0; v < nb_sources; ++v)
+	{
+		if( inputs[v] && srcs[v] )
+		{
+			vertex_attrib_count = std::max(vertex_attrib_count, inputs[v]->offset_+1);
+		}
+	}
 
 	std::vector<float> *buffers[] =
 	{
 		&positions_,
 		&normals_,
-		&tex_coords_,
-		&tex_tangents_,
-		&tex_binormals_
+		&tex_coords0_,
+		&tex_coords1_,
+		&tex_coords2_,
+		&tex_coords3_,
+		&tex_tangents0_,
+		&tex_tangents1_,
+		&tex_binormals0_,
+		&tex_binormals1_
 	};
 
 	// Resize buffers for better performances
@@ -480,7 +688,7 @@ mesh_t::mesh_t(const mesh &m, const triangles &tris, skeleton *skel)
 				const unsigned int index = attrib_stride * tris.indices_[i + attrib_offset];
 				// Vertex attribute components
 				for(unsigned int s = 0; s < attrib_stride; ++s)
-					buffers[v]->push_back( srcs[v]->float_array_->data_[index + s] );
+					buffers[v]->push_back( (*(srcs[v]->float_array_))[index + s] );
 			}
 		}
 
@@ -515,35 +723,45 @@ mesh_t::mesh_t(const mesh &m, const triangles &tris, skeleton *skel)
 
 		setupBindPose();
 	}
+
+	computeBoundingBox();
 }
 //--------------------------------------------------------------------------------------------------
-
+*/
 //--------------------------------------------------------------------------------------------------
-mesh_t::~mesh_t()
+submesh::~submesh()
 {
 }
 //--------------------------------------------------------------------------------------------------
 
+
 //--------------------------------------------------------------------------------------------------
-void mesh_t::setupBindPose()
+void submesh::setupBindPose()
 {
+	auto itP = std::find_if(attributeBuffers_.begin(), attributeBuffers_.end(), [](const attribute_buffer_t &buff) { return buff.semantic == "VERTEX"; });
+	auto itN = std::find_if(attributeBuffers_.begin(), attributeBuffers_.end(), [](const attribute_buffer_t &buff) { return buff.semantic == "NORMAL"; });
+	assert(itP != attributeBuffers_.end() && itN != attributeBuffers_.end());
+
+	const std::vector<float> &positions = itP->data;
+	const std::vector<float> &normals   = itN->data;
+
 	skinned_positions_.clear();
 	skinned_normals_.clear();
-	skinned_positions_.resize(positions_.size(), 0.0f);
-	skinned_normals_.resize(normals_.size(), 0.0f);
+	skinned_positions_.resize(positions.size(), 0.0f);
+	skinned_normals_.resize(normals.size(), 0.0f);
 
 	// Skin positions and normals
 	for(int i = 0; i < vertex_count_; ++i)
 	{
-		const int pos_stride	= getPositionStride();
-		const int norm_stride	= getNormalStride();
+		const int pos_stride	= itP->stride;
+		const int norm_stride	= itN->stride;
 		const int weight_stride	= getWeightStride();
 		const int infl_stride	= getInfluenceStride();
 
-		math::vector4f  pos		(positions_[i*pos_stride]	, positions_[i*pos_stride+1]	, positions_[i*pos_stride+2]	, 1.0f							);
+		math::vector4f  pos		(positions[i*pos_stride]	, positions[i*pos_stride+1]	, positions[i*pos_stride+2]	, 1.0f							);
 		math::vector4f  norm;
-		if( !normals_.empty() )
-			norm = math::vector4f(normals_[i*norm_stride]	, normals_[i*norm_stride+1]		, normals_[i*norm_stride+2]		, 1.0f							);
+		if( !normals.empty() )
+			norm = math::vector4f(normals[i*norm_stride]	, normals[i*norm_stride+1]		, normals[i*norm_stride+2]		, 1.0f							);
 		math::vector<6,unsigned short> bones;
 		memcpy(bones.data, &influences_[i*infl_stride], sizeof(bones.data) );
 		math::vector<6, float>  weight;
@@ -561,7 +779,7 @@ void mesh_t::setupBindPose()
 				const math::matrix4f &mat = skeleton_->bones_[bone].skinning_matrix_;// * skeleton_->bind_shape_matrix_;
 
 				skinned_pos  += math::transform(mat, pos)  * weight.data[w];
-				if( !normals_.empty() )
+				if( !normals.empty() )
 					skinned_norm += math::transform(mat, norm) * weight.data[w];
 
 				total_weights += weight.data[w];
@@ -577,7 +795,7 @@ void mesh_t::setupBindPose()
 		}*/
 
 		memcpy(&skinned_positions_[i*pos_stride], skinned_pos.data , pos_stride * sizeof(float) );
-		if( !normals_.empty() )
+		if( !normals.empty() )
 			memcpy(&skinned_normals_[i*norm_stride] , skinned_norm.data, norm_stride * sizeof(float));
 	}
 }

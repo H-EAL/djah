@@ -29,18 +29,23 @@ namespace collada {
 	};
 	//----------------------------------------------------------------------------------------------
 
+	const char* semantic_to_string(E_SOURCE_SEMANTIC semantic)
+	{
+		return s_semantics_str[semantic];
+	}
+
 
 	//----------------------------------------------------------------------------------------------
-	input* get_input_by_semantic(E_SOURCE_SEMANTIC semantic, const input_list_t &inputs)
+	input* get_input_by_semantic(E_SOURCE_SEMANTIC semantic, const input_list_t &inputs, unsigned int _set)
 	{
 		const char *sem_str = s_semantics_str[semantic];
-		input *ipt = 0;
+		input *ipt = nullptr;
 
 		input_list_t::const_iterator it;
 		input_list_t::const_iterator it_end = inputs.end();
-		for(it = inputs.begin(); it != it_end && ipt == 0; ++it)
+		for(it = inputs.begin(); it != it_end && ipt == nullptr; ++it)
 		{
-			if((*it)->semantic_ == sem_str)
+			if( ((*it)->semantic_ == sem_str) && ((*it)->set_ == _set) )
 				ipt = (*it);
 		}
 
@@ -61,13 +66,13 @@ namespace collada {
 	//----------------------------------------------------------------------------------------------
 	source* get_source_by_id(const std::string &source_id, const source_list_t &sources)
 	{
-		source *src = 0;
+		source *src = nullptr;
 
 		if( !source_id.empty() )
 		{
 			source_list_t::const_iterator it;
 			source_list_t::const_iterator it_end = sources.end();
-			for(it = sources.begin(); it != it_end && src == 0; ++it)
+			for(it = sources.begin(); it != it_end && src == nullptr; ++it)
 			{
 				if((*it)->id_ == source_id)
 					src = (*it);
@@ -91,14 +96,14 @@ namespace collada {
 	//----------------------------------------------------------------------------------------------
 	node* get_node_by_sid(const std::string &node_sid, const node_list_t &nodes)
 	{
-		node *n = 0;
+		node *n = nullptr;
 
 		if( !node_sid.empty() )
 		{
 			// Current level
 			node_list_t::const_iterator it;
 			node_list_t::const_iterator it_end = nodes.end();
-			for(it = nodes.begin(); it != it_end && n == 0; ++it)
+			for(it = nodes.begin(); it != it_end && n == nullptr; ++it)
 			{
 				if((*it)->sid_ == node_sid)
 					n = (*it);
@@ -107,7 +112,7 @@ namespace collada {
 			// Search in children
 			if( !n )
 			{
-				for(it = nodes.begin(); it != it_end && n == 0; ++it)
+				for(it = nodes.begin(); it != it_end && n == nullptr; ++it)
 					n = get_node_by_sid(node_sid, (*it)->children_);
 			}
 		}
@@ -120,11 +125,11 @@ namespace collada {
 	//----------------------------------------------------------------------------------------------
 	controller* get_controller_by_skin_source(const std::string &skin_source, const controller_list_t &ctrlers)
 	{
-		controller *ctrler = 0;
+		controller *ctrler = nullptr;
 
 		controller_list_t::const_iterator it;
 		controller_list_t::const_iterator it_end = ctrlers.end();
-		for(it = ctrlers.begin(); it != it_end && ctrler == 0; ++it)
+		for(it = ctrlers.begin(); it != it_end && ctrler == nullptr; ++it)
 		{
 			if( (*it)->skin_ && (*it)->skin_->source_ == skin_source )
 				ctrler = (*it);
@@ -170,11 +175,11 @@ namespace collada {
 	//----------------------------------------------------------------------------------------------
 	sampler* get_sampler_by_id(const std::string &sampler_id, const sampler_list_t &samplers)
 	{
-		sampler *spl = 0;
+		sampler *spl = nullptr;
 
 		sampler_list_t::const_iterator it;
 		sampler_list_t::const_iterator it_end = samplers.end();
-		for(it = samplers.begin(); it != it_end && spl == 0; ++it)
+		for(it = samplers.begin(); it != it_end && spl == nullptr; ++it)
 		{
 			if( (*it)->id_ == sampler_id )
 				spl = (*it);
