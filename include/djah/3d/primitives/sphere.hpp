@@ -6,15 +6,12 @@
 
 namespace djah { namespace d3d { namespace primitives {
 
-	class triangle;
-
 	class iso_sphere
 	{
 	public:
-		std::vector<triangle> construct(int level);
+		std::vector<triangle> construct(int level1, int level2 = 0);
 
 	private:
-
 		void setTriangle
 		(
 			triangle &tri,
@@ -28,6 +25,28 @@ namespace djah { namespace d3d { namespace primitives {
 			const math::vector3f &n,
 			const math::vector3f &tn
 		);
+	};
+
+
+	class sphere
+	{
+	public:
+		std::vector<triangle> construct(int slices = 2, int stacks = 2);
+
+	private:
+		void setTriangle
+			(
+			triangle &tri,
+			const math::vector3f &a,
+			const math::vector3f &b,
+			const math::vector3f &c
+			);
+
+		math::vector2f computeTextureCoordinates
+			(
+			const math::vector3f &n,
+			const math::vector3f &tn
+			);
 	};
 
 } /*primitives*/ } /*d3d*/ } /*djah*/

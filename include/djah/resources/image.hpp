@@ -13,7 +13,7 @@ namespace djah { namespace resources {
 	{
 	public:
 		image(unsigned int _width, u32 _height, u32 _channels, const byte *pPixels);
-		~image() {}
+		virtual ~image() {}
 
 		u32			width()    const { return width_;  }
 		u32			height()   const { return height_; }

@@ -85,24 +85,6 @@ namespace djah { namespace dataobject {
 				return attribute<std::string>( kv.first, kv.second.substr(1, kv.second.size() - 2) );
 			}
 			//--------------------------------------------------------------------------------------
-			template<>
-			static attribute<math::vector3f> deserialize_attribute<math::vector3f>(const key_value_t &kv)
-			{
-				math::vector3f v;
-				std::stringstream ss(kv.second);
-				ss >> v.x >> v.y >> v.z;
-				return attribute<math::vector3f>(kv.first, v);
-			}
-			//--------------------------------------------------------------------------------------
-			template<>
-			static attribute<math::quatf> deserialize_attribute<math::quatf>(const key_value_t &kv)
-			{
-				math::quatf q;
-				std::stringstream ss(kv.second);
-				ss >> q.x >> q.y >> q.z >> q.w;
-				return attribute<math::quatf>(kv.first, q);
-			}
-			//--------------------------------------------------------------------------------------
 		};
 		//------------------------------------------------------------------------------------------
 

@@ -9,7 +9,7 @@ namespace djah { namespace dataobject {
 	template<typename T>
 	struct attribute
 	{
-		attribute(const std::string n = "unknown", const T &v = T())
+		attribute(const std::string &n = "unknown", const T &v = T())
 			: name(n)
 			, value(v)
 		{}

@@ -73,8 +73,13 @@ namespace djah { namespace opengl {
 	template<int ShaderType>
 	inline bool shader_base<ShaderType>::compile() const
 	{
-		glCompileShader(id_);
-		return handleCompilationErrors();
+		bool success = false;
+		if( !source_.empty() )
+		{
+			glCompileShader(id_);
+			success = handleCompilationErrors();
+		}
+		return success;
 	}
 	//----------------------------------------------------------------------------------------------
 

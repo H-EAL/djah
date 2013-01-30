@@ -1,9 +1,11 @@
 #ifndef DJAH_OPENGL_VERTEX_ARRAY_HPP
 #define DJAH_OPENGL_VERTEX_ARRAY_HPP
 
-#include "../system/gl.hpp"
-#include "vertex_format.hpp"
-#include "resource.hpp"
+#include <map>
+#include <stack>
+#include "djah/system/gl.hpp"
+#include "djah/opengl/vertex_format.hpp"
+#include "djah/opengl/resource.hpp"
 
 namespace djah { namespace opengl {
 
@@ -18,26 +20,34 @@ namespace djah { namespace opengl {
 		DJAH_OPENGL_RESOURCE(vertex_array);
 
 	public:
-
-		vertex_array(const vertex_format &format, vertex_buffer *vb, index_buffer *ib = 0);
+		vertex_array();
 		virtual ~vertex_array();
 
-		void init(const shader_program &sp) const;
+		void addVertexBuffer(vertex_buffer *pVB, const vertex_format &format);
+		void removeVertexBuffer(vertex_buffer *pVB);
+		void setIndexBuffer(index_buffer *pIb);
+		void setVertexCount(int vertexCount);
+		void init(const shader_program &sp);
 		void draw(int primitiveType = GL_TRIANGLES) const;
+		void drawInstanced(int instanceCount, int primitiveType = GL_TRIANGLES) const;
 
 	private:
-
 		virtual void aquire();
 		virtual void release();
 		virtual bool isValidResource() const;
 
+		void enableVertexBuffer(vertex_buffer *pVB, const vertex_format &format, const shader_program &sp, std::stack<int> &attributesStack);
+
 		void bind() const;
 		static void unbind();
 
-		vertex_format vertex_format_;
-		vertex_buffer *vertex_buffer_;
-		index_buffer  *index_buffer_;
-		mutable bool  initialized_;
+	private:
+		typedef std::map<vertex_buffer*, vertex_format> vb_list_t;
+
+		vb_list_t		vertexBuffers_;
+		index_buffer	*pIndexBuffer_;
+		int				vertexCount_;
+		bool			initialized_;
 	};
 
 } /*opengl*/ } /*djah*/

@@ -3,12 +3,37 @@
 
 #include <map>
 #include <string>
-#include "../debug/assertion.hpp"
-#include "../core/typelist.hpp"
-#include "../core/hierarchy_generation.hpp"
-#include "attribute.hpp"
+#include "djah/debug/assertion.hpp"
+#include "djah/core/typelist.hpp"
+#include "djah/core/hierarchy_generation.hpp"
+#include "djah/dataobject/attribute.hpp"
 
 namespace djah { namespace dataobject {
+
+	//----------------------------------------------------------------------------------------------
+	// An attribute hook enables the iteration on all the attributes of all types
+	template<typename AttributeTypes>
+	struct attribute_hook;
+	//----------------------------------------------------------------------------------------------
+	template<>
+	struct attribute_hook<utils::nulltype>
+	{
+		template<typename DO>
+		static bool has(const DO&, const std::string&) { return false; }
+	};
+	//----------------------------------------------------------------------------------------------
+	template<typename HeadAttribute, typename TailList>
+	struct attribute_hook< utils::typelist<HeadAttribute, TailList> >
+	{
+		template<typename DO>
+		static bool has(const DO &dobj, const std::string &attributeName)
+		{
+			return dobj.has<HeadAttribute>(attributeName)
+				|| attribute_hook<TailList>::has(dobj, attributeName);
+		}
+	};
+	//----------------------------------------------------------------------------------------------
+
 
 	//----------------------------------------------------------------------------------------------
 	// An attribute holder holds all attributes of one type for one data object
@@ -43,11 +68,11 @@ namespace djah { namespace dataobject {
 
 		//------------------------------------------------------------------------------------------
 		template<typename T>
-		T get(const std::string &attribute_name, const T &default_value = T()) const
+		T get(const std::string &attributeName, const T &default_value = T()) const
 		{
 			T result = default_value;
 
-			auto it = attribute_holder<T>::attributes_.find(attribute_name);
+			auto it = attribute_holder<T>::attributes_.find(attributeName);
 			if( it != attribute_holder<T>::attributes_.end() )
 				result = it->second.value;
 
@@ -57,10 +82,17 @@ namespace djah { namespace dataobject {
 
 		//------------------------------------------------------------------------------------------
 		template<typename T>
-		bool has(const std::string &attribute_name) const
+		bool has(const std::string &attributeName) const
 		{
-			auto it = attribute_holder<T>::attributes_.find(attribute_name);
+			auto it = attribute_holder<T>::attributes_.find(attributeName);
 			return (it != attribute_holder<T>::attributes_.end());
+		}
+		//------------------------------------------------------------------------------------------
+
+		//------------------------------------------------------------------------------------------
+		bool has(const std::string &attributeName) const
+		{
+			return attribute_hook<AttributeTypes>::has(*this, attributeName);
 		}
 		//------------------------------------------------------------------------------------------
 
@@ -68,7 +100,7 @@ namespace djah { namespace dataobject {
 		template<typename T>
 		void add(const attribute<T> &attr)
 		{
-			DJAH_ASSERT_MSG( !has<T>(attr.name), "data_object::add(), trying to add an already existing attribute" );
+			DJAH_ASSERT_MSG( !has<T>(attr.name), "data_object[%s]::add(%s), trying to add an already existing attribute", name_.c_str(), attr.name.c_str() );
 			attribute_holder<T>::attributes_[attr.name] = attr;
 		}
 		//----------------------------------------------------------------------------------------------

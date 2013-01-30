@@ -134,7 +134,7 @@ namespace djah { namespace math {
 	inline std::ostream& operator <<(std::ostream &out, const vector<N,T> &rhs);
 	//----------------------------------------------------------------------------------------------
 	template<int N, typename T>
-	inline std::istream& operator >>(std::istream &in, const vector<N,T> &rhs);
+	inline std::istream& operator >>(std::istream &in, vector<N,T> &rhs);
 	//----------------------------------------------------------------------------------------------
 
 } /*math*/ } /*djah*/

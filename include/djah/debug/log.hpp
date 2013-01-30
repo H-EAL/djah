@@ -22,7 +22,7 @@
 //------------------------------------------------------------------------------
 // GLobal logger - all channels
 //------------------------------------------------------------------------------
-#define DJAH_LOG_CH_SEV(LG, CHANNEL, SEVERITY) LG.openRecord(CHANNEL, djah::debug:: SEVERITY, __LINE__, __FILE__)
+#define DJAH_LOG_CH_SEV(LG, CHANNEL, SEVERITY) do { LG.openRecord(CHANNEL, djah::debug:: SEVERITY, __LINE__, __FILE__)
 //------------------------------------------------------------------------------
 #define DJAH_GLOBAL_LOG_SEV(SEVERITY)	DJAH_LOG_CH_SEV(djah::debug::core_logger::get(), "any", SEVERITY)
 //------------------------------------------------------------------------------
@@ -36,7 +36,7 @@
 //------------------------------------------------------------------------------
 // Specific logger - one channel
 //------------------------------------------------------------------------------
-#define DJAH_LOG_SEV(LG, SEVERITY)		LG.openRecord(djah::debug:: SEVERITY, __LINE__, __FILE__)
+#define DJAH_LOG_SEV(LG, SEVERITY)		do { LG.openRecord(djah::debug:: SEVERITY, __LINE__, __FILE__)
 //------------------------------------------------------------------------------
 #define DJAH_NOTIFICATION(LG)			DJAH_LOG_SEV(LG, notification)
 #define DJAH_WARNING(LG)				DJAH_LOG_SEV(LG, warning)
@@ -49,7 +49,7 @@
 //------------------------------------------------------------------------------
 #define DJAH_BEGIN_LOG(SEVERITY)		DJAH_GLOBAL_LOG_SEV(SEVERITY)
 //------------------------------------------------------------------------------
-#define DJAH_END_LOG()					""; djah::debug::core_logger::get().consume()
+#define DJAH_END_LOG()					""; djah::debug::core_logger::get().consume(); } while(0)
 //------------------------------------------------------------------------------
 
 

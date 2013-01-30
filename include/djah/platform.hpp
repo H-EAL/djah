@@ -4,7 +4,7 @@
 #if defined(_WIN32)
 #   define DJAH_COMPILE_WINDOWS
 #   define WIN32_LEAN_AND_MEAN
-#	include <Windows.h>
+#	include <windows.h>
 #	include <MMSystem.h>
 #	include <DbgHelp.h>
 #	include <Xinput.h>

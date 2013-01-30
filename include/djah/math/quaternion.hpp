@@ -44,6 +44,10 @@ namespace djah { namespace math {
 		// Quaternion product
 		quaternion<T>& operator *=(const quaternion<T> &rhs);
 
+		// Accessors
+		T&		 operator [](unsigned int i);
+		const T& operator [](unsigned int i) const;
+
 		
 		// Actual data
 		union
@@ -79,6 +83,17 @@ namespace djah { namespace math {
 	// Quaternion product
 	template<typename T>
 	quaternion<T> operator *(const quaternion<T> &lhs, const quaternion<T> &rhs);
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	// (In/Out)put (from/to) stream
+	//----------------------------------------------------------------------------------------------
+	template<typename T>
+	std::ostream& operator <<(std::ostream &out, const quaternion<T> &rhs);
+	//----------------------------------------------------------------------------------------------
+	template<typename T>
+	std::istream& operator >>(std::istream &in, quaternion<T> &rhs);
 	//----------------------------------------------------------------------------------------------
 
 	

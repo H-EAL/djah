@@ -58,6 +58,8 @@ namespace djah { namespace opengl {
 			DJAH_ASSERT_MSG(_id == boundId_, "Trying to call a function on an unbound %s (%d)", T::type_name(), _id);
 		}
 
+		static unsigned int boundId() { return boundId_; }
+
 	private:
 		static unsigned int boundId_;
 	};

@@ -19,6 +19,8 @@ namespace djah { namespace system {
 		device();
 		~device();
 
+		void deleteTempContext();
+
 		static device* get_current()				{ return sp_device_inst_;	}
 
 		void* windowHandle() const;

@@ -5,7 +5,7 @@
 
 namespace djah { namespace opengl {
 
-	typedef shader_base<GL_FRAGMENT_SHADER> pixel_shader;
+	typedef shader_base<GL_FRAGMENT_SHADER> fragment_shader;
 
 } /*opengl*/ } /*djah*/
 

@@ -9,7 +9,7 @@ namespace djah { namespace d3d { namespace primitives {
 	class cube
 	{
 	public:
-		static std::vector<triangle> construct(int);
+		static std::vector<triangle> construct(int l1 = 0, int l2 = 0);
 	};
 
 } /*primitives*/ } /*d3d*/ } /*djah*/
