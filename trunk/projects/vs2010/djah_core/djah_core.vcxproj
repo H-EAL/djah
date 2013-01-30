@@ -83,7 +83,9 @@
     <ClInclude Include="..\..\..\include\djah\core\detail\member_function_handler.hpp" />
     <ClInclude Include="..\..\..\include\djah\core\functor.hpp" />
     <ClInclude Include="..\..\..\include\djah\core\hierarchy_generation.hpp" />
+    <ClInclude Include="..\..\..\include\djah\core\macros.hpp" />
     <ClInclude Include="..\..\..\include\djah\core\murmur_hash.hpp" />
+    <ClInclude Include="..\..\..\include\djah\core\noise.hpp" />
     <ClInclude Include="..\..\..\include\djah\core\randomizer.hpp" />
     <ClInclude Include="..\..\..\include\djah\core\singleton.hpp" />
     <ClInclude Include="..\..\..\include\djah\core\string_utils.hpp" />
@@ -95,6 +97,11 @@
     <ClInclude Include="..\..\..\include\djah\dataobject\ini_serializer.hpp" />
     <ClInclude Include="..\..\..\include\djah\dataobject\registry.hpp" />
     <ClInclude Include="..\..\..\include\djah\dataobject\serializer.hpp" />
+    <ClInclude Include="..\..\..\include\djah\gameplay\components.hpp" />
+    <ClInclude Include="..\..\..\include\djah\gameplay\component_database.hpp" />
+    <ClInclude Include="..\..\..\include\djah\gameplay\component_serializer.hpp" />
+    <ClInclude Include="..\..\..\include\djah\gameplay\game_object.hpp" />
+    <ClInclude Include="..\..\..\include\djah\gameplay\json_serializer.hpp" />
     <ClInclude Include="..\..\..\include\djah\geometry\geometry_utils.hpp" />
     <ClInclude Include="..\..\..\include\djah\geometry\plane.hpp" />
     <ClInclude Include="..\..\..\include\djah\geometry\ray.hpp" />
@@ -143,6 +150,7 @@
     <ClCompile Include="..\..\..\sources\application_base.cpp" />
     <ClCompile Include="..\..\..\sources\core\randomizer.cpp" />
     <ClCompile Include="..\..\..\sources\core\time\timer.cpp" />
+    <ClCompile Include="..\..\..\sources\gameplay\components.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

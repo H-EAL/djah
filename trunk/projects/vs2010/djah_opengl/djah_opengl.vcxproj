@@ -23,6 +23,7 @@
     <ClInclude Include="..\..\..\include\djah\opengl\resource.hpp" />
     <ClInclude Include="..\..\..\include\djah\opengl\shader_base.hpp" />
     <ClInclude Include="..\..\..\include\djah\opengl\shader_program.hpp" />
+    <ClInclude Include="..\..\..\include\djah\opengl\tessellation_shader.hpp" />
     <ClInclude Include="..\..\..\include\djah\opengl\texture.hpp" />
     <ClInclude Include="..\..\..\include\djah\opengl\uniform_buffer.hpp" />
     <ClInclude Include="..\..\..\include\djah\opengl\vertex_array.hpp" />

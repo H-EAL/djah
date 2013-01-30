@@ -22,6 +22,7 @@
     <ClInclude Include="..\..\..\tests\sources\resource_finder.hpp" />
     <ClInclude Include="..\..\..\tests\sources\shadow_test.hpp" />
     <ClInclude Include="..\..\..\tests\sources\solar_system_test.hpp" />
+    <ClInclude Include="..\..\..\tests\sources\tess_test.hpp" />
     <ClInclude Include="..\..\..\tests\sources\test.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -32,6 +33,7 @@
     <ClCompile Include="..\..\..\tests\sources\font_test.cpp" />
     <ClCompile Include="..\..\..\tests\sources\shadow_test.cpp" />
     <ClCompile Include="..\..\..\tests\sources\solar_system_test.cpp" />
+    <ClCompile Include="..\..\..\tests\sources\tess_test.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7AAB6E15-003B-4255-A923-7D8A8C11F47E}</ProjectGuid>
