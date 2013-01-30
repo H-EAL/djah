@@ -31,7 +31,7 @@ namespace djah { namespace system { namespace input {
 		if( GetCursorInfo(&ci) )
 		{
 			const math::vector2i screenPos(ci.ptScreenPos.x, ci.ptScreenPos.y);
-			const math::vector2i &clientPos = system::device::get_current()->clientMousePosition(screenPos);
+			const math::vector2i &clientPos = system::device::get_current() ? system::device::get_current()->clientMousePosition(screenPos) : screenPos;
 			delta_	  = clientPos - position_;
 			position_ = clientPos;
 		}
@@ -50,7 +50,7 @@ namespace djah { namespace system { namespace input {
 	//----------------------------------------------------------------------------------------------
 	void mouse::setPosition(const math::vector2i &clientPos)
 	{
-		const math::vector2i &screenPos = system::device::get_current()->screenMousePosition(clientPos);
+		const math::vector2i &screenPos = system::device::get_current() ? system::device::get_current()->screenMousePosition(clientPos) : clientPos;
 		if( !!SetCursorPos(screenPos.x, screenPos.y) )
 		{
 			delta_    = clientPos - position_;

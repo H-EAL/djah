@@ -8,21 +8,36 @@ namespace djah { namespace d3d {
 
 	//----------------------------------------------------------------------------------------------
 	shader::shader(const std::string &shaderName)
-		: vertexShader_(loadSource("shaders/" + shaderName + ".vert"), shaderName + ".vert")
-		, pixelShader_ (loadSource("shaders/" + shaderName + ".frag"), shaderName + ".frag")
+		: vertexShader_  (loadSource("shaders/" + shaderName + ".vert"    ), shaderName + ".vert")
+		, tessCtrlShader_(loadSource("shaders/" + shaderName + ".tessctrl"), shaderName + ".tessctrl")
+		, tessEvalShader_(loadSource("shaders/" + shaderName + ".tesseval"), shaderName + ".tesseval")
+		, geometryShader_(loadSource("shaders/" + shaderName + ".geom"    ), shaderName + ".geom")
+		, fragmentShader_(loadSource("shaders/" + shaderName + ".frag"    ), shaderName + ".frag")
 		, shaderProgram_(shaderName)
 	{
 
-		if( vertexShader_.compile() && pixelShader_.compile() )
+		if( vertexShader_.compile() )
 		{
 			shaderProgram_.attach( vertexShader_ );
-			shaderProgram_.attach( pixelShader_ );
-			shaderProgram_.link();
 		}
-		else
+		if( tessCtrlShader_.compile() )
 		{
-			DJAH_3D_ERROR() << "Unable to compile shader: " << shaderName << DJAH_END_LOG();
+			shaderProgram_.attach( tessCtrlShader_ );
 		}
+		if( tessEvalShader_.compile() )
+		{
+			shaderProgram_.attach( tessEvalShader_ );
+		}
+		if( geometryShader_.compile() )
+		{
+			shaderProgram_.attach( geometryShader_ );
+		}
+		if( fragmentShader_.compile() )
+		{
+			shaderProgram_.attach( fragmentShader_ );
+		}
+
+		shaderProgram_.link();
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -33,14 +48,17 @@ namespace djah { namespace d3d {
 		std::string source;
 
 		djah::filesystem::stream_ptr pShaderSourceStrm = djah::filesystem::browser::get().openReadStream(fileName);
-
-		DJAH_ASSERT_MSG(pShaderSourceStrm != nullptr, "Unable to open shader file: %s", fileName.c_str());
-
 		if( pShaderSourceStrm )
 		{
-			unsigned int src_size = pShaderSourceStrm->size();
-			source.resize(src_size);
-			pShaderSourceStrm->read(&source[0], src_size);
+			const unsigned int src_size = pShaderSourceStrm->size();
+
+			DJAH_ASSERT_MSG(src_size > 0, "Shader source is empty");
+			
+			if( src_size > 0 )
+			{
+				source.resize(src_size);
+				pShaderSourceStrm->read(&source[0], src_size);
+			}
 		}
 
 		return source;

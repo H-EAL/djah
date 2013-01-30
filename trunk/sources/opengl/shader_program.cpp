@@ -51,7 +51,7 @@ namespace djah { namespace opengl {
 	//----------------------------------------------------------------------------------------------
 	bool shader_program::link()
 	{
-		cache_.clear();
+		uniformCache_.clear();
 
 		glLinkProgram(id_);
 		const bool success = handleLinkingErrors();
@@ -59,6 +59,7 @@ namespace djah { namespace opengl {
 		if( success )
 		{
 			initializeUniformMap();
+			initializeAttributeMap();
 		}
 
 		return success;
@@ -83,9 +84,23 @@ namespace djah { namespace opengl {
 
 
 	//----------------------------------------------------------------------------------------------
-	unsigned int shader_program::getVertexAttributeLocation(const std::string &name) const
+	int shader_program::getVertexAttributeLocation(const std::string &name) const
 	{
-		return glGetAttribLocation(id_, name.c_str());
+		unsigned int location = -1;
+		cache_t::const_iterator it = attributeCache_.find(name);
+		
+		if( it != attributeCache_.end() )
+		{
+			location = it->second;
+		}
+		else
+		{
+			DJAH_OPENGL_WARNING()
+				<< "Unable to find attribute \"" << name << "\" in [" << type_name() << "]" << name_
+				<< DJAH_END_LOG();
+		}
+
+		return location;
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -121,13 +136,12 @@ namespace djah { namespace opengl {
 	//----------------------------------------------------------------------------------------------
 	int shader_program::getUniformLocation(const std::string &name) const
 	{
-		// First search for the uniform in cache
-		uniform_cache_t::const_iterator it = cache_.find(name);
-		// If not found get it and add it to cache
-		DJAH_ASSERT_MSG( it != cache_.end(), "Unable to find uniform \"%s\" in [%s]%s"
+		cache_t::const_iterator it = uniformCache_.find(name);
+
+		DJAH_ASSERT_MSG( it != uniformCache_.end(), "Unable to find uniform \"%s\" in [%s]%s"
 			, name.c_str(), type_name(), name_.c_str() );
 
-		return (it != cache_.end()) ? it->second : -1;
+		return (it != uniformCache_.end()) ? it->second : -1;
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -146,7 +160,27 @@ namespace djah { namespace opengl {
 			char name[1024];
 			glGetActiveUniform(id_, i, 1024, &length, &size, &type, name);
 
-			cache_[name] = glGetUniformLocation(id_, name);
+			uniformCache_[name] = glGetUniformLocation(id_, name);
+		}
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	void shader_program::initializeAttributeMap()
+	{
+		int nbActiveAttributes = 0;
+		glGetProgramiv(id_, GL_ACTIVE_ATTRIBUTES, &nbActiveAttributes);
+
+		for( int i = 0; i < nbActiveAttributes; ++i )
+		{
+			int length = 0;
+			int size = 0;
+			GLenum type = GL_NONE;
+			char name[1024];
+			glGetActiveAttrib(id_, i, 1024, &length, &size, &type, name);
+
+			attributeCache_[name] = glGetAttribLocation(id_, name);
 		}
 	}
 	//----------------------------------------------------------------------------------------------

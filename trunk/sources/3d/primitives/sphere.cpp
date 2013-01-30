@@ -5,7 +5,7 @@
 namespace djah { namespace d3d { namespace primitives {
 
 	//----------------------------------------------------------------------------------------------
-	std::vector<triangle> iso_sphere::construct(int level)
+	std::vector<triangle> iso_sphere::construct(int level, int)
 	{
 		std::vector< std::vector<triangle> > triangles(level+1);
 
@@ -109,6 +109,89 @@ namespace djah { namespace d3d { namespace primitives {
 			tc.x = 1.0f - tc.x;
 		}
 		return tc;
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	std::vector<triangle> sphere::construct(int slices, int stacks)
+	{
+		slices = std::max(3, slices);
+		stacks = std::max(2, stacks);
+
+		std::vector<triangle> triangles(slices * (2*(stacks-2) + 2));
+
+		int ind = 0;
+		const float longStep = math::pi_times_2 / (float)slices;
+		const float latStep = math::pi / (float)stacks;
+
+		const math::point3f top(0.0f, 1.0f, 0.0f);
+		const math::point3f bottom(0.0f, -1.0f, 0.0f);
+
+		for(float longCursor = 0.0f; longCursor < math::pi_times_2; longCursor += longStep)
+		{
+			const float cosLong = cos(longCursor);
+			const float sinLong = sin(longCursor);
+			const float cosNextLong = cos(longCursor+longStep);
+			const float sinNextLong = sin(longCursor+longStep);
+
+			const float u = 1.0f - longCursor / math::pi_times_2;
+			const float nextU = 1.0f - (longCursor+longStep) / math::pi_times_2;
+
+			for(float latCursor = 0.0f; latCursor < math::pi; latCursor += latStep)
+			{
+				const float cosLat = cos(latCursor);
+				const float sinLat = sin(latCursor);
+				const float cosNextLat = cos(latCursor+latStep);
+				const float sinNextLat = sin(latCursor+latStep);
+
+				math::point3f longLat
+				(
+					sinLat * cosLong,
+					cosLat,
+					sinLat * sinLong
+				);
+
+				math::point3f longNextLat
+				(
+					sinNextLat * cosLong,
+					cosNextLat,
+					sinNextLat * sinLong
+				);
+
+				math::point3f nextLongLat
+				(
+					sinLat * cosNextLong,
+					cosLat,
+					sinLat * sinNextLong
+				);
+
+				math::point3f nextLongNextLat
+				(
+					sinNextLat * cosNextLong,
+					cosNextLat,
+					sinNextLat * sinNextLong
+				);
+
+				const float v = 1.0f - latCursor / math::pi;
+				const float nextV = 1.0f - (latCursor+latStep) / math::pi;
+
+				if( latCursor > 0.0f )
+				{
+					triangles[ind].setPoints(longLat, longNextLat, nextLongLat);
+					triangles[ind].setNormals(longLat, longNextLat, nextLongLat);
+					triangles[ind++].setTextureCoordinates(math::point2f(u,v), math::point2f(u,nextV), math::point2f(nextU,v));
+				}
+				if( latCursor < math::pi-latStep*1.1f )
+				{
+					triangles[ind].setPoints(nextLongLat, longNextLat, nextLongNextLat);
+					triangles[ind].setNormals(nextLongLat, longNextLat, nextLongNextLat);
+					triangles[ind++].setTextureCoordinates(math::point2f(nextU,v), math::point2f(u,nextV), math::point2f(nextU,nextV));
+				}
+			}
+		}
+
+		return triangles;
 	}
 	//----------------------------------------------------------------------------------------------
 

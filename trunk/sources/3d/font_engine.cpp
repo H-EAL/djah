@@ -18,7 +18,7 @@ namespace djah { namespace d3d {
 			math::vector2f offset;
 			math::vector2f dimension;
 			math::vector2f tex_coord;
-			ogl::texture* tex;
+			opengl::texture* tex;
 
 		} metrics[UCHAR_MAX];
 	};
@@ -87,8 +87,7 @@ namespace djah { namespace d3d {
 	//----------------------------------------------------------------------------------------------
 	void font_engine::print(const std::string &text, int x, int y) const
 	{
-		return;
-		/*
+		/**/
 		if( !current_font_ )
 			return;
 
@@ -104,11 +103,11 @@ namespace djah { namespace d3d {
 			const font_data::char_metrics &c = current_font_->metrics[*it];
 			if( c.tex && c.tex->isValid() )
 			{
+				if( opengl::monitor<opengl::texture>::boundId() != c.tex->id() )
 				c.tex->bind();
 				glBegin(GL_QUADS);
 				{
 					glTexCoord2f(0.0f, c.tex_coord.y);
-					//glVertex2f(0.0f, 0.0f);
 					glVertex2f(0.0f, -c.offset.y);
 
 					glTexCoord2f(c.tex_coord.x, c.tex_coord.y);
@@ -126,7 +125,7 @@ namespace djah { namespace d3d {
 		}
 		glPopMatrix();
 		glDisable(GL_TEXTURE_2D);
-		*/
+		/**/
 	}
 	//----------------------------------------------------------------------------------------------
 	
@@ -141,7 +140,7 @@ namespace djah { namespace d3d {
 	font_data* font_engine::newFont(const font_traits &traits)
 	{
 		font_data *new_font = 0;
-		/*
+		/**/
 		filesystem::stream_ptr strm = filesystem::browser::get().openReadStream(fonts_path_ + traits.name);
 
 		if( strm )
@@ -194,9 +193,10 @@ namespace djah { namespace d3d {
 							}
 						}
 
-						new_font->metrics[c].tex = new video::ogl::texture(GL_ALPHA16, width, height);
+						new_font->metrics[c].tex = new opengl::texture(GL_RGBA, width, height);
+						new_font->metrics[c].tex->bind();
 						new_font->metrics[c].tex->setNoFiltering();
-						new_font->metrics[c].tex->setPixelBuffer(GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, expanded);
+						new_font->metrics[c].tex->setPixelBuffer(GL_RED, GL_UNSIGNED_SHORT, expanded);
 
 						delete [] expanded;
 					}
@@ -212,7 +212,7 @@ namespace djah { namespace d3d {
 
 			delete [] buffer;
 		}
-		*/
+		/**/
 		return new_font;
 	}
 	//----------------------------------------------------------------------------------------------

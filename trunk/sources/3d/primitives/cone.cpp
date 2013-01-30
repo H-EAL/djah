@@ -5,7 +5,7 @@
 namespace djah { namespace d3d { namespace primitives {
 
 	//----------------------------------------------------------------------------------------------
-	std::vector<triangle> cone::construct(int level)
+	std::vector<triangle> cone::construct(int level, int)
 	{
 		level = std::max(3, level);
 		std::vector<triangle> triangles;

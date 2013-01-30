@@ -31,10 +31,9 @@ namespace djah { namespace d3d { namespace primitives {
 	****************************************/
 
 	//----------------------------------------------------------------------------------------------
-	std::vector<triangle> cube::construct(int)
+	std::vector<triangle> cube::construct(int,int)
 	{
-		std::vector<triangle> triangles;
-		triangles.reserve(12);
+		std::vector<triangle> triangles(12);
 
 		const float size = 0.5f;
 
@@ -54,36 +53,38 @@ namespace djah { namespace d3d { namespace primitives {
 		const math::point2f tcRT(1.0f,1.0f);
 		const math::point2f tcRB(1.0f,0.0f);
 
+		int ind = 0;
+
 		// Front
-		triangles.push_back( triangle(geometry::triangle3f(leftBottomFront, rightTopFront, rightBottomFront))  );
-		triangles.back().setTextureCoordinates(tcLB, tcRT, tcRB);
-		triangles.push_back( triangle(geometry::triangle3f(leftBottomFront, leftTopFront, rightTopFront))      );
-		triangles.back().setTextureCoordinates(tcLB, tcLT, tcRT);
+		triangles[ind] = triangle(geometry::triangle3f(leftBottomFront, rightTopFront, rightBottomFront));
+		triangles[ind++].setTextureCoordinates(tcLB, tcRT, tcRB);
+		triangles[ind] = triangle(geometry::triangle3f(leftBottomFront, leftTopFront, rightTopFront));
+		triangles[ind++].setTextureCoordinates(tcLB, tcLT, tcRT);
 		// Right
-		triangles.push_back( triangle(geometry::triangle3f(rightBottomFront, rightTopBack, rightBottomBack))   );
-		triangles.back().setTextureCoordinates(tcLB, tcRT, tcRB);
-		triangles.push_back( triangle(geometry::triangle3f(rightBottomFront, rightTopFront, rightTopBack))     );
-		triangles.back().setTextureCoordinates(tcLB, tcLT, tcRT);
+		triangles[ind] = triangle(geometry::triangle3f(rightBottomFront, rightTopBack, rightBottomBack));
+		triangles[ind++].setTextureCoordinates(tcLB, tcRT, tcRB);
+		triangles[ind] = triangle(geometry::triangle3f(rightBottomFront, rightTopFront, rightTopBack));
+		triangles[ind++].setTextureCoordinates(tcLB, tcLT, tcRT);
 		// Back
-		triangles.push_back( triangle(geometry::triangle3f(rightBottomBack, leftTopBack, leftBottomBack))      );
-		triangles.back().setTextureCoordinates(tcLB, tcRT, tcRB);
-		triangles.push_back( triangle(geometry::triangle3f(rightBottomBack, rightTopBack, leftTopBack))        );
-		triangles.back().setTextureCoordinates(tcLB, tcLT, tcRT);
+		triangles[ind] = triangle(geometry::triangle3f(rightBottomBack, leftTopBack, leftBottomBack));
+		triangles[ind++].setTextureCoordinates(tcLB, tcRT, tcRB);
+		triangles[ind] = triangle(geometry::triangle3f(rightBottomBack, rightTopBack, leftTopBack));
+		triangles[ind++].setTextureCoordinates(tcLB, tcLT, tcRT);
 		// Left
-		triangles.push_back( triangle(geometry::triangle3f(leftBottomBack, leftTopFront, leftBottomFront))     );
-		triangles.back().setTextureCoordinates(tcLB, tcRT, tcRB);
-		triangles.push_back( triangle(geometry::triangle3f(leftBottomBack, leftTopBack, leftTopFront))         );
-		triangles.back().setTextureCoordinates(tcLB, tcLT, tcRT);
+		triangles[ind] = triangle(geometry::triangle3f(leftBottomBack, leftTopFront, leftBottomFront));
+		triangles[ind++].setTextureCoordinates(tcLB, tcRT, tcRB);
+		triangles[ind] = triangle(geometry::triangle3f(leftBottomBack, leftTopBack, leftTopFront));
+		triangles[ind++].setTextureCoordinates(tcLB, tcLT, tcRT);
 		// Top
-		triangles.push_back( triangle(geometry::triangle3f(leftTopFront, rightTopBack, rightTopFront))         );
-		triangles.back().setTextureCoordinates(tcLB, tcRT, tcRB);
-		triangles.push_back( triangle(geometry::triangle3f(leftTopFront, leftTopBack, rightTopBack))           );
-		triangles.back().setTextureCoordinates(tcLB, tcLT, tcRT);
+		triangles[ind] = triangle(geometry::triangle3f(leftTopFront, rightTopBack, rightTopFront));
+		triangles[ind++].setTextureCoordinates(tcLB, tcRT, tcRB);
+		triangles[ind] = triangle(geometry::triangle3f(leftTopFront, leftTopBack, rightTopBack));
+		triangles[ind++].setTextureCoordinates(tcLB, tcLT, tcRT);
 		// Bottom
-		triangles.push_back( triangle(geometry::triangle3f(leftBottomBack, rightBottomFront, rightBottomBack)) );
-		triangles.back().setTextureCoordinates(tcLB, tcRT, tcRB);
-		triangles.push_back( triangle(geometry::triangle3f(leftBottomBack, leftBottomFront, rightBottomFront)) );
-		triangles.back().setTextureCoordinates(tcLB, tcLT, tcRT);
+		triangles[ind] = triangle(geometry::triangle3f(leftBottomBack, rightBottomFront, rightBottomBack));
+		triangles[ind++].setTextureCoordinates(tcLB, tcRT, tcRB);
+		triangles[ind] = triangle(geometry::triangle3f(leftBottomBack, leftBottomFront, rightBottomFront));
+		triangles[ind++].setTextureCoordinates(tcLB, tcLT, tcRT);
 
 		return triangles;
 	}
