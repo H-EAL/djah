@@ -14,6 +14,8 @@ class test_base
 public:
 	test_base(djah::system::device_ptr pDevice) : pDevice_(pDevice) {}
 	virtual ~test_base() {}
+	virtual void onInit() = 0;
+	virtual void onExit() = 0;
 	virtual void update(float dt) = 0;
 	virtual void draw() = 0;
 	virtual const char* name() const = 0;

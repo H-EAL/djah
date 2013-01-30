@@ -5,6 +5,8 @@
 #include "djah/opengl.hpp"
 #include "camera.hpp"
 #include "djah/system/input/gamepad.hpp"
+#include "djah/3d/shader.hpp"
+#include "resource_finder.hpp"
 
 class BumpMappingTest
 	: public test_base
@@ -12,6 +14,8 @@ class BumpMappingTest
 public:
 	BumpMappingTest(djah::system::device_ptr pDevice, const djah::system::input::gamepad &g, Camera &cam);
 	virtual ~BumpMappingTest();
+	virtual void onInit();
+	virtual void onExit();
 	virtual void update(float dt);
 	virtual void draw();
 	virtual const char* name() const { return "Bump Mapping"; }
@@ -23,17 +27,17 @@ private:
 	djah::math::matrix4f matPerspectiveProj_;
 
 	djah::opengl::vertex_buffer  *pVB_;
-	djah::opengl::vertex_array   *pVA_;
-	djah::opengl::texture		 *pDiffuse_;
-	djah::opengl::texture		 *pNormalMap_;
-	djah::opengl::shader_program shader_;
+	djah::opengl::vertex_array   va_;
+	djah::d3d::texture_ptr	pDiffuse_;
+	djah::d3d::texture_ptr	pNormalMap_;
+	djah::d3d::shader		shader_;
 
 
 	djah::opengl::index_buffer   *pPlaneIB_;
 	djah::opengl::vertex_buffer  *pPlaneVB_;
-	djah::opengl::vertex_array   *pPlaneVA_;
-	djah::opengl::texture		 *pPlaneDiffuse_;
-	djah::opengl::texture		 *pPlaneNormalMap_;
+	djah::opengl::vertex_array   planeVA_;
+	djah::d3d::texture_ptr		 pPlaneDiffuse_;
+	djah::d3d::texture_ptr		 pPlaneNormalMap_;
 };
 
 #endif /* DJAH_BUMP_MAPPING_TEST_HPP */

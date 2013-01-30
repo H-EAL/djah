@@ -6,6 +6,8 @@
 #include "camera.hpp"
 #include "djah/opengl.hpp"
 #include "djah/system/input/gamepad.hpp"
+#include "djah/3d/shader.hpp"
+#include "resource_finder.hpp"
 
 class DeferredShadingTest
 	: public test_base
@@ -13,6 +15,8 @@ class DeferredShadingTest
 public:
 	DeferredShadingTest(djah::system::device_ptr pDevice, const djah::system::input::gamepad &g, Camera &cam);
 	virtual ~DeferredShadingTest();
+	virtual void onInit();
+	virtual void onExit();
 	virtual void update(float dt);
 	virtual void draw();
 	virtual const char* name() const { return "Deferred Shading"; }
@@ -32,13 +36,13 @@ private:
 	djah::math::matrix4f matPerspectiveProj_;
 	djah::math::matrix4f matOrthoProj_;
 
-	djah::opengl::index_buffer   indexBuffer_;
-	djah::opengl::vertex_buffer  vertexBuffer_;
-	djah::opengl::vertex_array   *pVertexArray_;
-	djah::opengl::shader_program shaderProgram_;
-	djah::opengl::shader_program deferredProgram_;
-	djah::opengl::shader_program compositorProgram_;
-	djah::opengl::texture		 *pFloorTexture_;
+	djah::opengl::vertex_buffer  *pVertexBuffer_;
+	djah::opengl::vertex_array   vertexArray_;
+
+	djah::d3d::shader		shaderProgram_;
+	djah::d3d::shader		deferredProgram_;
+	djah::d3d::shader		compositorProgram_;
+	djah::d3d::texture_ptr	pFloorTexture_;
 
 
 	enum eGeometryBuffer

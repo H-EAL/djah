@@ -20,10 +20,12 @@ public:
 		--i;
 		int j = i;
 
+		std::string spaces;
 		while(j-- > 0)
-			DJAH_BEGIN_LOG(notification) << "    ";
+			spaces += "    ";
 
 		DJAH_BEGIN_LOG(notification)
+			<< spaces
 			<< "[" << section_name_ << "] "
 			<< "(" << clock_.getElapsedTimeMs() << " ms)"
 			<< DJAH_END_LOG();

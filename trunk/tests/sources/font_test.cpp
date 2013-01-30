@@ -34,32 +34,13 @@ FontTest::FontTest(djah::system::device_ptr pDevice, Camera &cam)
 	: test_base(pDevice)
 	, cam_(cam)
 	, pVB_(nullptr)
-	, pVA_(nullptr)
 	, pTexture_(nullptr)
-	, shader_("text")
+	, textShader_("text")
 	, colorShader_("colored")
 {
 	const float w = static_cast<float>(pDevice_->videoConfig().width);
 	const float h = static_cast<float>(pDevice_->videoConfig().height);
 	matOrthoProj_ = math::make_orthographic_projection(0.0f, w, h, 0.0f, -1.0f, 1.0f);
-
-	opengl::vertex_shader vertexShader( loadShaderSource("shaders/text.vert") );
-	opengl::pixel_shader  pixelShader(  loadShaderSource("shaders/text.frag") );
-	if( vertexShader.compile() && pixelShader.compile() )
-	{
-		shader_.attach(vertexShader);
-		shader_.attach(pixelShader);
-		shader_.link();
-	}
-
-	opengl::vertex_shader vertexShader2( loadShaderSource("shaders/colored.vert") );
-	opengl::pixel_shader  pixelShader2(  loadShaderSource("shaders/colored.frag") );
-	if( vertexShader2.compile() && pixelShader2.compile() )
-	{
-		colorShader_.attach(vertexShader2);
-		colorShader_.attach(pixelShader2);
-		colorShader_.link();
-	}
 
 	initFont("fonts/mode_seven.ttf", 14);
 	initPlane("The quick brown fox jumps over the lazy dog - 0123456789.");
@@ -92,22 +73,22 @@ void FontTest::initPlane(const std::string &str, const math::vector2f &position)
 		planeVertices.push_back(pen + off.x);
 		planeVertices.push_back(0.0f + off.y);
 		planeVertices.push_back(st0.x);
-		planeVertices.push_back(st1.y);
+		planeVertices.push_back(st0.y);
 
 		planeVertices.push_back(pen + off.x);
 		planeVertices.push_back( -((sGlyphMetrics[glyphIndex].region.height() ) * pTexture_->height() - off.y) );
 		planeVertices.push_back(st0.x);
-		planeVertices.push_back(st0.y);
+		planeVertices.push_back(st1.y);
 
 		planeVertices.push_back(pen+sGlyphMetrics[glyphIndex].region.width()*pTexture_->width() + off.x);
 		planeVertices.push_back(-(sGlyphMetrics[glyphIndex].region.height() * pTexture_->height() - off.y));
 		planeVertices.push_back(st1.x);
-		planeVertices.push_back(st0.y);
+		planeVertices.push_back(st1.y);
 
 		planeVertices.push_back(pen+sGlyphMetrics[glyphIndex].region.width()*pTexture_->width() + off.x);
 		planeVertices.push_back(0.0f + off.y);
 		planeVertices.push_back(st1.x);
-		planeVertices.push_back(st1.y);
+		planeVertices.push_back(st0.y);
 
 		pen += glyph.region.width()*pTexture_->width() + off.x;
 
@@ -151,8 +132,10 @@ void FontTest::initPlane(const std::string &str, const math::vector2f &position)
 	pVB_->write(&planeVertices[0], planeVertices.size());
 	//pVB_->write(planeVertices);
 
-	pVA_ = new opengl::vertex_array(vertexFormat, pVB_, pIB_);
-	pVA_->init(shader_);
+	vA_.addVertexBuffer(pVB_, vertexFormat);
+	vA_.setIndexBuffer(pIB_);
+	vA_.setVertexCount(pVB_->size() / vertexFormat.vertexSize());
+	vA_.init(textShader_.program());
 }
 //--------------------------------------------------------------------------------------------------
 
@@ -179,7 +162,7 @@ void FontTest::initFont(const std::string &fontFile, int fontSize)
 	int widthSum = 0;
 	int maxHeight = 0;
 	int lines = 1;
-	const int maxLineWidth = 512;
+	const int maxLineWidth = 256;
 	for(u8 c = 0; c < sizeof(chars); ++c)
 	{
 		if( FT_Load_Char(face, chars[c], FT_LOAD_RENDER) != 0 )
@@ -213,8 +196,8 @@ void FontTest::initFont(const std::string &fontFile, int fontSize)
 	std::vector<u8> blank(texWidth*texHeight,0);
 	pTexture_->setPixelBuffer(GL_RED, GL_UNSIGNED_BYTE, &blank[0]);
 	
-	lines = 0;
 	int widthOffset = 0;
+	lines = 0;
 
 	for(u8 c = 0; c < sizeof(chars); ++c)
 	{
@@ -239,19 +222,23 @@ void FontTest::initFont(const std::string &fontFile, int fontSize)
 			{
 				for(int i = 0; i < width; ++i)
 				{
-					padded[i+j*width] = (i>=w||j>=h) ? 0 : slot->bitmap.buffer[i+w*j];
+					padded[i+j*width] = (i>=w||j>=h) ? 0 : slot->bitmap.buffer[i+w*(h-j-1)];
 				}
 			}
 			bitmap = &padded[0];
 		}
 
-		if( widthOffset + width > maxLineWidth )
+		if( widthOffset + width >= maxLineWidth )
 		{
 			widthOffset = 0;
 			++lines;
 		}
 
-		sGlyphMetrics[c].region = geometry::rect_f( math::vector2f((float)widthOffset, (float)lines * maxHeight), (float)w, (float)h);
+		sGlyphMetrics[c].region = geometry::rect_f
+		(
+			math::vector2f((float)widthOffset, (float)lines * maxHeight), (float)w, (float)h
+		);
+
 		sGlyphMetrics[c].region.topLeft().x /= (float)(pTexture_->width());
 		sGlyphMetrics[c].region.topLeft().y /= (float)(pTexture_->height());
 		sGlyphMetrics[c].region.bottomRight().x /= (float)(pTexture_->width());
@@ -271,9 +258,26 @@ void FontTest::initFont(const std::string &fontFile, int fontSize)
 //--------------------------------------------------------------------------------------------------
 FontTest::~FontTest()
 {
+	delete pIB_;
 	delete pVB_;
-	delete pVA_;
 	delete pTexture_;
+}
+//--------------------------------------------------------------------------------------------------
+
+
+//--------------------------------------------------------------------------------------------------
+void FontTest::onInit()
+{
+	opengl::frame_buffer::bind_default_frame_buffer();
+	glEnable(GL_BLEND);
+}
+//--------------------------------------------------------------------------------------------------
+
+
+//--------------------------------------------------------------------------------------------------
+void FontTest::onExit()
+{
+	glDisable(GL_BLEND);
 }
 //--------------------------------------------------------------------------------------------------
 
@@ -288,29 +292,14 @@ void FontTest::update(float dt)
 //--------------------------------------------------------------------------------------------------
 void FontTest::draw()
 {
-	glEnable(GL_BLEND);
-	opengl::frame_buffer::bind_default_frame_buffer();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	static const math::matrix4f matWorld = math::make_translation(5.0f,15.0f,0.0f);
 
-	static const math::matrix4f matPos   = math::make_translation(5.0f,15.0f,0.0f);
-	static const math::matrix4f matWorld =
-		//math::make_scale(glyph.region.width() * pTexture_->width(), glyph.region.height() * pTexture_->height(), 1.0f) *
-		math::make_scale(1.0f, 1.0f, 1.0f) *
-			matPos;
-
-	/*
-	colorShader_.begin();
-	colorShader_.sendUniformMatrix("in_WVP", matPos * matOrthoProj_);
-	colorShader_.sendUniform("in_Color", math::vector3f(1.0f,0.0f,0.0f));
-	pLinesVA_->draw(GL_LINES);
-	colorShader_.end();
-	*/
-
-	shader_.begin();
-	shader_.sendUniformMatrix("in_WVP", matWorld * matOrthoProj_);
+	textShader_.program().begin();
+	textShader_.program().sendUniform("in_WVP", matWorld * matOrthoProj_);
 	pTexture_->bind();
-	pVA_->draw();
+	vA_.draw();
 	pTexture_->unbind();
-	shader_.end();
+	textShader_.program().end();
 }
 //--------------------------------------------------------------------------------------------------

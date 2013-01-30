@@ -7,6 +7,7 @@
 #include "djah/dataobject/global_registry.hpp"
 #include "djah/opengl.hpp"
 #include "djah/resources/media_manager.hpp"
+#include "djah/3d/shader.hpp"
 
 struct model
 {
@@ -14,7 +15,6 @@ struct model
 		: mat_world_(djah::math::matrix4f::identity)
 		, sp_(nullptr)
 		, vb_(nullptr)
-		, va_(nullptr)
 		, tex_(nullptr)
 		, nmap_(nullptr)
 		, pDo_( djah::dataobject::default_registry::get().getDO(doName) )
@@ -47,23 +47,13 @@ struct model
 	{
 		delete sp_;
 		delete vb_;
-		delete va_;
-		delete tex_;
-		delete nmap_;
 	}
 
 	void init(djah::filesystem::memory_stream &strm, const std::string &textureName, const std::string &nmap, int tc)
 	{
 		if( !textureName.empty() )
 		{
-			djah::resources::image_ptr img = find_resource<resources::image>(textureName);
-			if( img )
-			{
-				tex_ = new opengl::texture(GL_RGB, img->width(), img->height(), true);
-				tex_->bind();
-				tex_->setBestFiltering();
-				tex_->setPixelBuffer(GL_BGR, GL_UNSIGNED_BYTE, img->pixels());
-			}
+			tex_ = djah::d3d::texture_manager::get().find(textureName);
 		}
 
 		djah::opengl::vertex_format vf;
@@ -78,8 +68,10 @@ struct model
 		
 		{
 			vb_ = new djah::opengl::vertex_buffer(strm.size(), opengl::eBU_StaticDraw);
-			va_ = new djah::opengl::vertex_array(vf, vb_);
 			vb_->write(strm.buffer(), strm.size());
+
+			va_.addVertexBuffer(vb_,vf);
+			va_.setVertexCount(vb_->size() / vf.vertexSize());
 		}
 
 		compileShader();
@@ -92,54 +84,42 @@ struct model
 			delete sp_;
 			sp_ = 0;
 		}
-		const std::string &vertexShaderFile = pDo_->get<std::string>("vertex_shader");
-		const std::string &pixelShaderFile  = pDo_->get<std::string>("pixel_shader");
-		
-		djah::opengl::vertex_shader vs( loadShaderSource(vertexShaderFile) );
-		djah::opengl::pixel_shader  ps( loadShaderSource(pixelShaderFile)  );
-
-		sp_ = new djah::opengl::shader_program( filesystem::url(vertexShaderFile).baseName() );
-
-		if( vs.compile() )
-			sp_->attach(vs);
-
-		if( ps.compile() )
-			sp_->attach(ps);
-
-		sp_->link();
-
-		va_->init(*sp_);
+		const std::string &shaderFile = pDo_->get<std::string>("shader");
+		sp_ = new djah::d3d::shader( shaderFile );
+		va_.init(sp_->program());
 	}
 
 	//----------------------------------------------------------------------------------------------
 	void draw(const djah::math::matrix4f &matProj, const djah::math::matrix4f &matView, const djah::math::matrix4f &lightVP, const djah::math::vector3f &spotPosition, const djah::math::vector3f &spotDirection)
 	{
-		sp_->begin();
+		sp_->program().begin();
 
 		djah::opengl::texture::set_active_unit(0);
 		tex_->bind();
 
-		sp_->sendUniform("in_DiffuseSampler", 0);
-		sp_->sendUniform("in_ShadowMapSampler", 1);
-		sp_->sendUniform("in_SpotPosition", spotPosition);
-		sp_->sendUniform("in_SpotDirection", spotDirection);
+
+		sp_->program().sendUniform("in_TexRepeat", 1.0f);
+		sp_->program().sendUniform("in_DiffuseSampler", 0);
+		sp_->program().sendUniform("in_ShadowMapSampler", 1);
+		sp_->program().sendUniform("in_SpotPosition", spotPosition);
+		sp_->program().sendUniform("in_SpotDirection", spotDirection);
 
 		mat_world_ = trans_.toMatrix4();
-		sp_->sendUniformMatrix("in_WorldViewProjection", mat_world_ * matView * matProj);
-		sp_->sendUniformMatrix("in_World", mat_world_);
-		sp_->sendUniformMatrix("in_LightWVP", mat_world_ * lightVP);
-		va_->draw();
-		sp_->end();
+		sp_->program().sendUniform("in_WorldViewProjection", mat_world_ * matView * matProj);
+		sp_->program().sendUniform("in_World", mat_world_);
+		sp_->program().sendUniform("in_LightWVP", mat_world_ * lightVP);
+		va_.draw();
+		sp_->program().end();
 
 		tex_->unbind();
 	}
 	//----------------------------------------------------------------------------------------------
 
-	djah::opengl::shader_program *sp_;
 	djah::opengl::vertex_buffer *vb_;
-	djah::opengl::vertex_array *va_;
-	djah::opengl::texture *tex_;
-	djah::opengl::texture *nmap_;
+	djah::opengl::vertex_array va_;
+	djah::d3d::shader      *sp_;
+	djah::d3d::texture_ptr tex_;
+	djah::d3d::texture_ptr nmap_;
 	djah::math::matrix4f mat_world_;
 	djah::math::transformation_f trans_;
 	djah::dataobject::default_registry::data_object_ptr pDo_;

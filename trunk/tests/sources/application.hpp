@@ -24,6 +24,7 @@
 #include "solar_system_test.hpp"
 #include "bump_mapping_test.hpp"
 #include "font_test.hpp"
+#include "tess_test.hpp"
 
 
 class application
@@ -61,6 +62,7 @@ private:
 	SolarSystemTest		 *pSolarSystemTest_;
 	BumpMappingTest		 *pBumpMappingTest_;
 	FontTest			 *pFontTest_;
+	TesselationTest		 *pTessTest_;
 	test_base			 *pCurrentTest_;
 };
 

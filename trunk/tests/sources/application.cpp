@@ -68,10 +68,10 @@ void printInfosAux()
 		<< "| Vendor                   | " << opengl::capabilities::vendor()          << "\n"
 		<< "| OpenGL version           | " << opengl::capabilities::opengl_version()  << "\n"
 		<< "| GLSL version             | " << opengl::capabilities::glsl_version()    << "\n"
-		//<< "---------------------------------------------------------------------------\n"
-		//<< "| Available extensions (" << opengl::capabilities::sExtensions_.size()  << ")\n"
-		//<< "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n"
-		//<< extensions
+		<< "---------------------------------------------------------------------------\n"
+		<< "| Available extensions (" << opengl::capabilities::sExtensions_.size()  << ")\n"
+		<< "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n"
+		<< extensions
 		<< "==========================================================================="
 		<< DJAH_END_LOG();
 }
@@ -102,13 +102,13 @@ void APIENTRY oglDebugProc(GLenum source,
 
 void initLoggers()
 {
-	std::shared_ptr<debug::basic_sink> pOpenGLSink    ( new debug::xml_sink("log/opengl.log.xml"    , debug::log_filter("opengl")) );
-	std::shared_ptr<debug::basic_sink> pSystemSink    ( new debug::xml_sink("log/system.log.xml"    , debug::log_filter("system")) );
-	std::shared_ptr<debug::basic_sink> pFileSystemSink( new debug::xml_sink("log/filesystem.log.xml", debug::log_filter("fs")) );
-	std::shared_ptr<debug::basic_sink> pGlobalSink    ( new debug::xml_sink("log/global.log.xml"    , debug::log_filter("any")) );
+	debug::sink_ptr pOpenGLSink    ( new debug::xml_sink("log/opengl.log.xml"    , debug::log_filter("opengl")) );
+	debug::sink_ptr pSystemSink    ( new debug::xml_sink("log/system.log.xml"    , debug::log_filter("system")) );
+	debug::sink_ptr pFileSystemSink( new debug::xml_sink("log/filesystem.log.xml", debug::log_filter("fs")) );
+	debug::sink_ptr pGlobalSink    ( new debug::xml_sink("log/global.log.xml"    , debug::log_filter("any")) );
 
-	std::shared_ptr<debug::basic_sink> pConsoleSink   ( new debug::console_sink     ( debug::log_filter("any", debug::warning) ) );
-	std::shared_ptr<debug::basic_sink> pDebugSink     ( new debug::output_debug_sink( debug::log_filter("any")                 ) );
+	debug::sink_ptr pConsoleSink   ( new debug::console_sink     ( debug::log_filter("any", debug::warning) ) );
+	debug::sink_ptr pDebugSink     ( new debug::output_debug_sink( debug::log_filter("any")                 ) );
 
 
 	debug::core_logger::get().addSink( pOpenGLSink );
@@ -186,10 +186,12 @@ void application::initImpl()
 	pBumpMappingTest_		= new BumpMappingTest(device_, gamepad_, cam);
 	pFontTest_				= new FontTest(device_, cam);
 	pSolarSystemTest_		= new SolarSystemTest(device_, gamepad_, cam);
+	pTessTest_				= new TesselationTest(device_, keyboard_, cam);
 
 	resources::resource_manager::get().cleanUp();
 
-	pCurrentTest_ = pFontTest_;
+	pCurrentTest_ = pTessTest_;
+	pCurrentTest_->onInit();
 }
 
 void application::runImpl()
@@ -271,6 +273,8 @@ void application::runImpl()
 		ss << "Mouse position: " << mouse_.position();
 		mouse_pos_ = ss.str();
 
+		test_base *previousTest = pCurrentTest_;
+
 			 if( keyboard_.pressed(djah::system::input::eKC_1) )
 			pCurrentTest_ = pBasicTest_;
 		else if( keyboard_.pressed(djah::system::input::eKC_2) )
@@ -283,6 +287,16 @@ void application::runImpl()
 			pCurrentTest_ = pBumpMappingTest_;
 		else if( keyboard_.pressed(djah::system::input::eKC_6) )
 			pCurrentTest_ = pFontTest_;
+		else if( keyboard_.pressed(djah::system::input::eKC_7) )
+			pCurrentTest_ = pTessTest_;
+
+		if( pCurrentTest_ != previousTest )
+		{
+			DJAH_GLOBAL_NOTIFICATION() << "Exit from test: \"" << previousTest->name() << "\"" << DJAH_END_LOG();
+			previousTest->onExit();
+			DJAH_GLOBAL_NOTIFICATION() << "Entering in test: \"" << pCurrentTest_->name() << "\"" << DJAH_END_LOG();
+			pCurrentTest_->onInit();
+		}
 	}
 
 	if( m.lengthSq() > 0.0f )
@@ -315,13 +329,15 @@ void application::exitImpl()
 	delete pDeferredShadingTest_;
 	delete pSolarSystemTest_;
 	delete pBumpMappingTest_;
+	delete pTessTest_;
+	delete pFontTest_;
 
 	d3d::font_engine::destroy();
 }
 
 void application::draw2D()
 {
-	return;
+	//return;
 	opengl::frame_buffer::bind_default_frame_buffer();
 
 	glMatrixMode(GL_PROJECTION);
@@ -332,6 +348,7 @@ void application::draw2D()
 	glLoadIdentity();
 
 	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	fps_str_.draw();
 	mouse_pos_.draw();
 	cam_pos_.draw();

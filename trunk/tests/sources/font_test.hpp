@@ -3,6 +3,7 @@
 
 #include "test.hpp"
 #include "djah/opengl.hpp"
+#include "djah/3d/shader.hpp"
 #include "camera.hpp"
 
 class FontTest
@@ -11,6 +12,8 @@ class FontTest
 public:
 	FontTest(djah::system::device_ptr pDevice, Camera &cam);
 	virtual ~FontTest();
+	virtual void onInit();
+	virtual void onExit();
 	virtual void update(float dt);
 	virtual void draw();
 	virtual const char* name() const { return "Font"; }
@@ -26,12 +29,11 @@ private:
 
 	djah::opengl::index_buffer   *pIB_;
 	djah::opengl::vertex_buffer  *pVB_;
-	djah::opengl::vertex_array   *pVA_;
+	djah::opengl::vertex_array   vA_;
 	djah::opengl::texture		 *pTexture_;
-	djah::opengl::shader_program shader_;
-	djah::opengl::shader_program colorShader_;
-	djah::opengl::vertex_buffer  *pLinesVB_;
-	djah::opengl::vertex_array   *pLinesVA_;
+
+	djah::d3d::shader textShader_;
+	djah::d3d::shader colorShader_;
 };
 
 #endif /* DJAH_FONT_TEST_HPP */

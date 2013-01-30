@@ -6,6 +6,7 @@
 #include "camera.hpp"
 #include "djah/system/input/gamepad.hpp"
 #include "djah/3d/shader.hpp"
+#include "resource_finder.hpp"
 
 class SolarSystemTest
 	: public test_base
@@ -13,6 +14,8 @@ class SolarSystemTest
 public:
 	SolarSystemTest(djah::system::device_ptr pDevice, const djah::system::input::gamepad &g, Camera &cam);
 	virtual ~SolarSystemTest();
+	virtual void onInit();
+	virtual void onExit();
 	virtual void update(float dt);
 	virtual void draw();
 	virtual const char* name() const { return "Solar System"; }
@@ -32,8 +35,8 @@ private:
 	};
 
 	djah::opengl::vertex_buffer  *pSphereVB_;
-	djah::opengl::vertex_array   *pSphereVA_;
-	djah::opengl::texture		 *pTextures_[ePO_Count];
+	djah::opengl::vertex_array   sphereVA_;
+	djah::d3d::texture_ptr		 pTextures_[ePO_Count];
 	djah::d3d::shader			  shader_;
 };
 
