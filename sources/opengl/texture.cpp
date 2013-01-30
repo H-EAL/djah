@@ -106,6 +106,10 @@ namespace djah { namespace opengl {
 	{
 		monitor<texture>::assert_if_not_bound(id_);
 
+		DJAH_ASSERT((xOffset >= 0) && (yOffset >= 0) && (width >= 0) && (height >= 0));
+		DJAH_ASSERT((xOffset + width)  < width_);
+		DJAH_ASSERT((yOffset + height) < height_);
+
 		glTexSubImage2D(GL_TEXTURE_2D, 0, xOffset, yOffset, width, height, pixelFormat, pixelDataType, subPixelBuffer);
 	}
 	//----------------------------------------------------------------------------------------------

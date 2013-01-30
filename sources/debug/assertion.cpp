@@ -23,38 +23,38 @@ namespace djah { namespace debug {
 	//----------------------------------------------------------------------------------------------
 	std::string stack_trace()
 	{
+		std::string callStackStr;
+
 		#ifdef DJAH_COMPILE_WINDOWS
 			HANDLE process = GetCurrentProcess();
 			SymInitialize(process, NULL, TRUE);
 
 			static const unsigned int MAX_STACK_SIZE = 100;
-			void * stack[MAX_STACK_SIZE];
+			void *stack[MAX_STACK_SIZE];
 			unsigned short frames = CaptureStackBackTrace(0, MAX_STACK_SIZE, stack, NULL);
 			SYMBOL_INFO  *pSymbol = (SYMBOL_INFO*)calloc(sizeof(SYMBOL_INFO) + 256 * sizeof(char), 1);
 			pSymbol->MaxNameLen   = 255;
 			pSymbol->SizeOfStruct = sizeof(SYMBOL_INFO);
 
-			std::vector<std::string> callStack;
-			callStack.reserve(frames-6);
+			std::string lastCall;
 			for(unsigned short i = 1; i < frames-5; ++i)
 			{
 				SymFromAddr(process, (DWORD64)(stack[i]), 0, pSymbol);
 
 				std::stringstream ss;
 				ss << pSymbol->Name << " - 0x" << std::hex << pSymbol->Address;
-				if( callStack.empty() || ss.str() != callStack.back() )
-					callStack.push_back(ss.str());
+				if( ss.str() != lastCall )
+				{
+					lastCall = ss.str();
+					callStackStr += lastCall;
+					callStackStr += "\n";
+				}
 			}
 
 			free( pSymbol );
+		#else
+			callStackStr = "Sorry, no callstack for this platform";
 		#endif // DJAH_COMPILE_WINDOWS
-
-		std::string callStackStr;
-		std::for_each(callStack.begin(), callStack.end(), [&callStackStr](const std::string &cl)
-		{
-			callStackStr += cl;
-			callStackStr += "\n";
-		});
 
 		return callStackStr;
 	}

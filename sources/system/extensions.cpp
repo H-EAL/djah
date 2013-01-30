@@ -93,6 +93,9 @@ namespace djah { namespace system {
 		LOAD_EXTENSION( glGetProgramiv		 );
 		LOAD_EXTENSION( glGetProgramInfoLog	 );
 		LOAD_EXTENSION( glGetUniformLocation );
+		LOAD_EXTENSION( glGetActiveUniform	 );
+		LOAD_EXTENSION( glGetActiveAttrib	 );
+		LOAD_EXTENSION( glPatchParameteri	 );
 
 		//------------------------------------------------------------------------------------------
 		// Uniforms
@@ -126,8 +129,6 @@ namespace djah { namespace system {
 		LOAD_EXTENSION( glUniformMatrix4x2fv	);
 		LOAD_EXTENSION( glUniformMatrix3x4fv	);
 		LOAD_EXTENSION( glUniformMatrix4x3fv	);
-
-		LOAD_EXTENSION( glGetActiveUniform		);
 
 		//------------------------------------------------------------------------------------------
 		// Textures

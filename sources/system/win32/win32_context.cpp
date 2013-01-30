@@ -87,8 +87,8 @@ namespace djah { namespace system {
 	//----------------------------------------------------------------------------------------------
 	bool gl_context::create()
 	{
-		return pImpl_->create(format_);
-		initialized_ = true;
+		initialized_ = pImpl_->create(format_);
+		return initialized_;
 	}
 	//----------------------------------------------------------------------------------------------
 
