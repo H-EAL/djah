@@ -29,6 +29,8 @@ namespace djah { namespace debug {
 		log_filter filter_;
 	};
 
+	typedef std::shared_ptr<basic_sink> sink_ptr;
+
 } /*debug*/ } /*debug*/
 
 #endif /* DJAH_DEBUG_BASIC_SINK_HPP */

@@ -43,8 +43,8 @@ namespace djah { namespace math {
 		const matrix<4,4,T> toMatrix4() const;
 
 	private:
-		vector<3,T>		scale_;
 		vector<3,T>		translation_;
+		vector<3,T>		scale_;
 		quaternion<T>	rotation_;
 	};
 	//----------------------------------------------------------------------------------------------

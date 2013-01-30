@@ -11,9 +11,9 @@ namespace djah { namespace geometry {
 	template<typename T>
 	plane<T> make_plane(const math::vector3<T> &p0, const math::vector3<T> &p1, const math::vector3<T> &p2)
 	{
-		const math::vector3<T> v = p1 - p0;
-		const math::vector3<T> u = p2 - p0;
-		const math::vector3<T> n = math::cross(v,u);
+		const math::vector3<T> u = p1 - p0;
+		const math::vector3<T> v = p2 - p0;
+		const math::vector3<T> n = u.cross(v);
 
 		return plane<T>(-n*p0, n);
 	}

@@ -30,7 +30,7 @@ namespace djah { namespace opengl {
 		void begin() const;
 		static void end();
 
-		unsigned int getVertexAttributeLocation(const std::string &name) const;
+		int  getVertexAttributeLocation(const std::string &name) const;
 
 		void sendUniform(const std::string &name, float u1) const;
 		void sendUniform(const std::string &name, float u1, float u2) const;
@@ -48,9 +48,9 @@ namespace djah { namespace opengl {
 		void sendUniform(const std::string &name, const math::vector<N,T> &vec) const;
 
 		template<int M, int N>
-		void sendUniformMatrix(const std::string &name, const float *data, int count = 1, bool transpose = false) const;
+		void sendUniform(const std::string &name, const float *data, int count = 1, bool transpose = false) const;
 		template<int M, int N>
-		void sendUniformMatrix(const std::string &name, const math::matrix<M,N,float> &mat, bool transpose = false) const;
+		void sendUniform(const std::string &name, const math::matrix<M,N,float> &mat, bool transpose = false) const;
 
 
 	private:
@@ -60,11 +60,13 @@ namespace djah { namespace opengl {
 
 		bool handleLinkingErrors() const;
 		void initializeUniformMap();
-		int getUniformLocation(const std::string &name) const;
+		void initializeAttributeMap();
+		int  getUniformLocation(const std::string &name) const;
 
 	private:
-		typedef std::map<std::string, unsigned int> uniform_cache_t;
-		mutable uniform_cache_t cache_;
+		typedef std::map<std::string, unsigned int> cache_t;
+		cache_t uniformCache_;
+		cache_t attributeCache_;
 	};
 
 } /*opengl*/ } /*djah*/

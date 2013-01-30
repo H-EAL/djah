@@ -80,7 +80,7 @@ namespace djah { namespace opengl {
 
 	//----------------------------------------------------------------------------------------------
 	template<int M, int N>
-	void shader_program::sendUniformMatrix(const std::string &name, const float *data, int count, bool transpose) const
+	void shader_program::sendUniform(const std::string &name, const float *data, int count, bool transpose) const
 	{
 		//typedef void (*PFNGLUNIFORMMATRIXPROC) (GLint, GLsizei, GLboolean, const GLfloat*); 
 		static const PFNGLUNIFORMMATRIX2FVPROC uniformMatrixFuncTab[3][3] = 
@@ -97,9 +97,9 @@ namespace djah { namespace opengl {
 	}
 	//----------------------------------------------------------------------------------------------
 	template<int M, int N>
-	void shader_program::sendUniformMatrix(const std::string &name, const math::matrix<M,N,float> &mat, bool transpose) const
+	void shader_program::sendUniform(const std::string &name, const math::matrix<M,N,float> &mat, bool transpose) const
 	{
-		sendUniformMatrix<M,N>(name, &mat.data[0][0], 1, transpose);
+		sendUniform<M,N>(name, &mat.data[0][0], 1, transpose);
 	}
 	//----------------------------------------------------------------------------------------------
 

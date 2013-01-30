@@ -273,7 +273,7 @@ namespace djah { namespace math {
 
 	//----------------------------------------------------------------------------------------------
 	template<int N, typename T>
-	inline std::istream& operator >>(std::istream &in, const vector<N,T> &rhs)
+	inline std::istream& operator >>(std::istream &in, vector<N,T> &rhs)
 	{
 		for(int i = 0; i < N; ++i)
 			in >> rhs[i];

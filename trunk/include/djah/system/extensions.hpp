@@ -82,6 +82,9 @@ DEFINE_EXTENSION( PFNGLGETATTRIBLOCATIONPROC,		glGetAttribLocation			);
 DEFINE_EXTENSION( PFNGLGETPROGRAMIVPROC,			glGetProgramiv				);
 DEFINE_EXTENSION( PFNGLGETPROGRAMINFOLOGPROC,		glGetProgramInfoLog			);
 DEFINE_EXTENSION( PFNGLGETUNIFORMLOCATIONPROC,		glGetUniformLocation		);
+DEFINE_EXTENSION( PFNGLGETACTIVEUNIFORMPROC,		glGetActiveUniform			);
+DEFINE_EXTENSION( PFNGLGETACTIVEATTRIBPROC,			glGetActiveAttrib			);
+DEFINE_EXTENSION( PFNGLPATCHPARAMETERIPROC,			glPatchParameteri			);
 
 //--------------------------------------------------------------------------------------------------
 // Uniforms
@@ -115,8 +118,6 @@ DEFINE_EXTENSION( PFNGLUNIFORMMATRIX2X4FVPROC,		glUniformMatrix2x4fv		);
 DEFINE_EXTENSION( PFNGLUNIFORMMATRIX4X2FVPROC,		glUniformMatrix4x2fv		);
 DEFINE_EXTENSION( PFNGLUNIFORMMATRIX3X4FVPROC,		glUniformMatrix3x4fv		);
 DEFINE_EXTENSION( PFNGLUNIFORMMATRIX4X3FVPROC,		glUniformMatrix4x3fv		);
-
-DEFINE_EXTENSION( PFNGLGETACTIVEUNIFORMPROC,		glGetActiveUniform			);
 
 //--------------------------------------------------------------------------------------------------
 // Textures

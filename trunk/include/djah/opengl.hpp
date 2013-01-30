@@ -18,6 +18,7 @@
 #include "opengl/pixel_shader.hpp"
 #include "opengl/vertex_shader.hpp"
 #include "opengl/geometry_shader.hpp"
+#include "opengl/tessellation_shader.hpp"
 
 #include "opengl/errors.hpp"
 #include "opengl/capabilities.hpp"

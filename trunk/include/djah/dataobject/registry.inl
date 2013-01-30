@@ -2,7 +2,7 @@ namespace djah { namespace dataobject {
 
 	//----------------------------------------------------------------------------------------------
 	template<typename AttributeTypes, template<typename> class Serializer>
-	bool registry<AttributeTypes,Serializer>::has(const std::string &dataObjectName) const
+	inline bool registry<AttributeTypes,Serializer>::has(const std::string &dataObjectName) const
 	{
 		return dataObjects_.find(dataObjectName) != dataObjects_.end();
 	}

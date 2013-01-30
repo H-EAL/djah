@@ -10,17 +10,17 @@ namespace djah { namespace dataobject {
 
 	//----------------------------------------------------------------------------------------------
 	// List of supported types
-	typedef TYPELIST_7
-		(
-			int, 
-			float, 
-			bool, 
-			double, 
-			std::string, 
-			math::vector3f, 
-			math::quatf
-		)
-		default_attribute_types;
+	typedef TYPELIST
+	(
+		int, 
+		float, 
+		bool, 
+		double, 
+		std::string, 
+		math::vector3f, 
+		math::quatf
+	)
+	default_attribute_types;
 	//----------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------

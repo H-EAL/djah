@@ -56,8 +56,8 @@ namespace djah { namespace opengl {
 		template<u32 Count, typename T>
 		struct vertex_attrib : public vertex_attrib_base
 		{
-			vertex_attrib(const std::string &name)
-				: vertex_attrib_base(name, sizeof(T), Count, gl_type<T>::Type, 0) {}
+			vertex_attrib(const std::string &name, int _divisor = 0)
+				: vertex_attrib_base(name, sizeof(T), Count, gl_type<T>::Type, _divisor) {}
 		};
 		//------------------------------------------------------------------------------------------
 
