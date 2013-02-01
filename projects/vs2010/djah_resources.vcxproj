@@ -38,16 +38,18 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <TargetName>$(ProjectName)-d</TargetName>
-    <OutDir>..\..\..\lib\win32\</OutDir>
+    <OutDir>..\..\lib\win32\</OutDir>
+    <IntDir>..\..\temp\$(ProjectName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>..\..\..\lib\win32\</OutDir>
+    <OutDir>..\..\lib\win32\</OutDir>
+    <IntDir>..\..\temp\$(ProjectName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\include\;..\..\..\..\extlibs\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include\;..\..\..\extlibs\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -62,7 +64,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\..\..\include\;..\..\..\..\extlibs\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include\;..\..\..\extlibs\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -74,21 +76,21 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\djah\resources\image.hpp" />
-    <ClInclude Include="..\..\..\include\djah\resources\image_loader.hpp" />
-    <ClInclude Include="..\..\..\include\djah\resources\loader.hpp" />
-    <ClInclude Include="..\..\..\include\djah\resources\media_manager.hpp" />
-    <ClInclude Include="..\..\..\include\djah\resources\resource_base.hpp" />
-    <ClInclude Include="..\..\..\include\djah\resources\resource_manager.hpp" />
+    <ClInclude Include="..\..\include\djah\resources\image.hpp" />
+    <ClInclude Include="..\..\include\djah\resources\image_loader.hpp" />
+    <ClInclude Include="..\..\include\djah\resources\loader.hpp" />
+    <ClInclude Include="..\..\include\djah\resources\media_manager.hpp" />
+    <ClInclude Include="..\..\include\djah\resources\resource_base.hpp" />
+    <ClInclude Include="..\..\include\djah\resources\resource_manager.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\include\djah\resources\media_manager.inl" />
+    <None Include="..\..\include\djah\resources\media_manager.inl" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\sources\resources\image.cpp" />
-    <ClCompile Include="..\..\..\sources\resources\image_loader.cpp" />
-    <ClCompile Include="..\..\..\sources\resources\resource_base.cpp" />
-    <ClCompile Include="..\..\..\sources\resources\resource_manager.cpp" />
+    <ClCompile Include="..\..\sources\resources\image.cpp" />
+    <ClCompile Include="..\..\sources\resources\image_loader.cpp" />
+    <ClCompile Include="..\..\sources\resources\resource_base.cpp" />
+    <ClCompile Include="..\..\sources\resources\resource_manager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

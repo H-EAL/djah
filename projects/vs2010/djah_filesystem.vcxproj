@@ -38,17 +38,19 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <TargetName>$(ProjectName)-d</TargetName>
-    <OutDir>..\..\..\lib\win32\</OutDir>
+    <OutDir>..\..\lib\win32\</OutDir>
+    <IntDir>..\..\temp\$(ProjectName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <TargetName>$(ProjectName)</TargetName>
-    <OutDir>..\..\..\lib\win32\</OutDir>
+    <OutDir>..\..\lib\win32\</OutDir>
+    <IntDir>..\..\temp\$(ProjectName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\include\;..\..\..\..\extlibs\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include\;..\..\..\extlibs\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -63,7 +65,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\..\..\include\;..\..\..\..\extlibs\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include\;..\..\..\extlibs\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -75,27 +77,27 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\djah\filesystem\browser.hpp" />
-    <ClInclude Include="..\..\..\include\djah\filesystem\compressed_source.hpp" />
-    <ClInclude Include="..\..\..\include\djah\filesystem\compression_techniques.hpp" />
-    <ClInclude Include="..\..\..\include\djah\filesystem\directory_source.hpp" />
-    <ClInclude Include="..\..\..\include\djah\filesystem\file_stream.hpp" />
-    <ClInclude Include="..\..\..\include\djah\filesystem\memory_stream.hpp" />
-    <ClInclude Include="..\..\..\include\djah\filesystem\source.hpp" />
-    <ClInclude Include="..\..\..\include\djah\filesystem\stream.hpp" />
-    <ClInclude Include="..\..\..\include\djah\filesystem\url.hpp" />
+    <ClInclude Include="..\..\include\djah\filesystem\browser.hpp" />
+    <ClInclude Include="..\..\include\djah\filesystem\compressed_source.hpp" />
+    <ClInclude Include="..\..\include\djah\filesystem\compression_techniques.hpp" />
+    <ClInclude Include="..\..\include\djah\filesystem\directory_source.hpp" />
+    <ClInclude Include="..\..\include\djah\filesystem\file_stream.hpp" />
+    <ClInclude Include="..\..\include\djah\filesystem\memory_stream.hpp" />
+    <ClInclude Include="..\..\include\djah\filesystem\source.hpp" />
+    <ClInclude Include="..\..\include\djah\filesystem\stream.hpp" />
+    <ClInclude Include="..\..\include\djah\filesystem\url.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\include\djah\filesystem\compressed_source.inl" />
-    <None Include="..\..\..\include\djah\filesystem\stream.inl" />
+    <None Include="..\..\include\djah\filesystem\compressed_source.inl" />
+    <None Include="..\..\include\djah\filesystem\stream.inl" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\sources\filesystem\browser.cpp" />
-    <ClCompile Include="..\..\..\sources\filesystem\compression_techniques.cpp" />
-    <ClCompile Include="..\..\..\sources\filesystem\directory_source.cpp" />
-    <ClCompile Include="..\..\..\sources\filesystem\file_stream.cpp" />
-    <ClCompile Include="..\..\..\sources\filesystem\memory_stream.cpp" />
-    <ClCompile Include="..\..\..\sources\filesystem\url.cpp" />
+    <ClCompile Include="..\..\sources\filesystem\browser.cpp" />
+    <ClCompile Include="..\..\sources\filesystem\compression_techniques.cpp" />
+    <ClCompile Include="..\..\sources\filesystem\directory_source.cpp" />
+    <ClCompile Include="..\..\sources\filesystem\file_stream.cpp" />
+    <ClCompile Include="..\..\sources\filesystem\memory_stream.cpp" />
+    <ClCompile Include="..\..\sources\filesystem\url.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
