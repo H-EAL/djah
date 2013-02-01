@@ -11,42 +11,42 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\djah\opengl\buffer_base.hpp" />
-    <ClInclude Include="..\..\..\include\djah\opengl\capabilities.hpp" />
-    <ClInclude Include="..\..\..\include\djah\opengl\frame_buffer.hpp" />
-    <ClInclude Include="..\..\..\include\djah\opengl\geometry_shader.hpp" />
-    <ClInclude Include="..\..\..\include\djah\opengl\gl_types.hpp" />
-    <ClInclude Include="..\..\..\include\djah\opengl\index_buffer.hpp" />
-    <ClInclude Include="..\..\..\include\djah\opengl\opengl_logger.hpp" />
-    <ClInclude Include="..\..\..\include\djah\opengl\pixel_shader.hpp" />
-    <ClInclude Include="..\..\..\include\djah\opengl\render_buffer.hpp" />
-    <ClInclude Include="..\..\..\include\djah\opengl\resource.hpp" />
-    <ClInclude Include="..\..\..\include\djah\opengl\shader_base.hpp" />
-    <ClInclude Include="..\..\..\include\djah\opengl\shader_program.hpp" />
-    <ClInclude Include="..\..\..\include\djah\opengl\tessellation_shader.hpp" />
-    <ClInclude Include="..\..\..\include\djah\opengl\texture.hpp" />
-    <ClInclude Include="..\..\..\include\djah\opengl\uniform_buffer.hpp" />
-    <ClInclude Include="..\..\..\include\djah\opengl\vertex_array.hpp" />
-    <ClInclude Include="..\..\..\include\djah\opengl\vertex_attrib.hpp" />
-    <ClInclude Include="..\..\..\include\djah\opengl\vertex_buffer.hpp" />
-    <ClInclude Include="..\..\..\include\djah\opengl\vertex_format.hpp" />
-    <ClInclude Include="..\..\..\include\djah\opengl\vertex_shader.hpp" />
+    <ClInclude Include="..\..\include\djah\opengl\buffer_base.hpp" />
+    <ClInclude Include="..\..\include\djah\opengl\capabilities.hpp" />
+    <ClInclude Include="..\..\include\djah\opengl\frame_buffer.hpp" />
+    <ClInclude Include="..\..\include\djah\opengl\geometry_shader.hpp" />
+    <ClInclude Include="..\..\include\djah\opengl\gl_types.hpp" />
+    <ClInclude Include="..\..\include\djah\opengl\index_buffer.hpp" />
+    <ClInclude Include="..\..\include\djah\opengl\opengl_logger.hpp" />
+    <ClInclude Include="..\..\include\djah\opengl\pixel_shader.hpp" />
+    <ClInclude Include="..\..\include\djah\opengl\render_buffer.hpp" />
+    <ClInclude Include="..\..\include\djah\opengl\resource.hpp" />
+    <ClInclude Include="..\..\include\djah\opengl\shader_base.hpp" />
+    <ClInclude Include="..\..\include\djah\opengl\shader_program.hpp" />
+    <ClInclude Include="..\..\include\djah\opengl\tessellation_shader.hpp" />
+    <ClInclude Include="..\..\include\djah\opengl\texture.hpp" />
+    <ClInclude Include="..\..\include\djah\opengl\uniform_buffer.hpp" />
+    <ClInclude Include="..\..\include\djah\opengl\vertex_array.hpp" />
+    <ClInclude Include="..\..\include\djah\opengl\vertex_attrib.hpp" />
+    <ClInclude Include="..\..\include\djah\opengl\vertex_buffer.hpp" />
+    <ClInclude Include="..\..\include\djah\opengl\vertex_format.hpp" />
+    <ClInclude Include="..\..\include\djah\opengl\vertex_shader.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\include\djah\opengl\buffer_base.inl" />
-    <None Include="..\..\..\include\djah\opengl\shader_base.inl" />
-    <None Include="..\..\..\include\djah\opengl\shader_program.inl" />
+    <None Include="..\..\include\djah\opengl\buffer_base.inl" />
+    <None Include="..\..\include\djah\opengl\shader_base.inl" />
+    <None Include="..\..\include\djah\opengl\shader_program.inl" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\sources\opengl\buffer_base.cpp" />
-    <ClCompile Include="..\..\..\sources\opengl\capabilities.cpp" />
-    <ClCompile Include="..\..\..\sources\opengl\frame_buffer.cpp" />
-    <ClCompile Include="..\..\..\sources\opengl\opengl_logger.cpp" />
-    <ClCompile Include="..\..\..\sources\opengl\render_buffer.cpp" />
-    <ClCompile Include="..\..\..\sources\opengl\shader_program.cpp" />
-    <ClCompile Include="..\..\..\sources\opengl\texture.cpp" />
-    <ClCompile Include="..\..\..\sources\opengl\vertex_array.cpp" />
-    <ClCompile Include="..\..\..\sources\opengl\vertex_format.cpp" />
+    <ClCompile Include="..\..\sources\opengl\buffer_base.cpp" />
+    <ClCompile Include="..\..\sources\opengl\capabilities.cpp" />
+    <ClCompile Include="..\..\sources\opengl\frame_buffer.cpp" />
+    <ClCompile Include="..\..\sources\opengl\opengl_logger.cpp" />
+    <ClCompile Include="..\..\sources\opengl\render_buffer.cpp" />
+    <ClCompile Include="..\..\sources\opengl\shader_program.cpp" />
+    <ClCompile Include="..\..\sources\opengl\texture.cpp" />
+    <ClCompile Include="..\..\sources\opengl\vertex_array.cpp" />
+    <ClCompile Include="..\..\sources\opengl\vertex_format.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7A05DD56-1939-488D-9E6D-F5DEA55ACAA4}</ProjectGuid>
@@ -77,17 +77,19 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <TargetName>$(ProjectName)-d</TargetName>
-    <OutDir>..\..\..\lib\win32\</OutDir>
+    <OutDir>..\..\lib\win32\</OutDir>
+    <IntDir>..\..\temp\$(ProjectName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <TargetName>$(ProjectName)</TargetName>
-    <OutDir>..\..\..\lib\win32\</OutDir>
+    <OutDir>..\..\lib\win32\</OutDir>
+    <IntDir>..\..\temp\$(ProjectName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\include\;..\..\..\..\extlibs\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include\;..\..\..\extlibs\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -102,7 +104,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\..\..\include\;..\..\..\..\extlibs\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include\;..\..\..\extlibs\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

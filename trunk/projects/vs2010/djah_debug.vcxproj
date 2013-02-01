@@ -11,27 +11,27 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\djah\debug\assertion.hpp" />
-    <ClInclude Include="..\..\..\include\djah\debug\basic_sink.hpp" />
-    <ClInclude Include="..\..\..\include\djah\debug\console_sink.hpp" />
-    <ClInclude Include="..\..\..\include\djah\debug\core_logger.hpp" />
-    <ClInclude Include="..\..\..\include\djah\debug\disable_debug_new.hpp" />
-    <ClInclude Include="..\..\..\include\djah\debug\enable_debug_new.hpp" />
-    <ClInclude Include="..\..\..\include\djah\debug\basic_logger.hpp" />
-    <ClInclude Include="..\..\..\include\djah\debug\log.hpp" />
-    <ClInclude Include="..\..\..\include\djah\debug\log_filter.hpp" />
-    <ClInclude Include="..\..\..\include\djah\debug\memory_tracker.hpp" />
-    <ClInclude Include="..\..\..\include\djah\debug\record.hpp" />
-    <ClInclude Include="..\..\..\include\djah\debug\xml_sink.hpp" />
+    <ClInclude Include="..\..\include\djah\debug\assertion.hpp" />
+    <ClInclude Include="..\..\include\djah\debug\basic_sink.hpp" />
+    <ClInclude Include="..\..\include\djah\debug\console_sink.hpp" />
+    <ClInclude Include="..\..\include\djah\debug\core_logger.hpp" />
+    <ClInclude Include="..\..\include\djah\debug\disable_debug_new.hpp" />
+    <ClInclude Include="..\..\include\djah\debug\enable_debug_new.hpp" />
+    <ClInclude Include="..\..\include\djah\debug\basic_logger.hpp" />
+    <ClInclude Include="..\..\include\djah\debug\log.hpp" />
+    <ClInclude Include="..\..\include\djah\debug\log_filter.hpp" />
+    <ClInclude Include="..\..\include\djah\debug\memory_tracker.hpp" />
+    <ClInclude Include="..\..\include\djah\debug\record.hpp" />
+    <ClInclude Include="..\..\include\djah\debug\xml_sink.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\sources\debug\assertion.cpp" />
-    <ClCompile Include="..\..\..\sources\debug\basic_logger.cpp" />
-    <ClCompile Include="..\..\..\sources\debug\console_sink.cpp" />
-    <ClCompile Include="..\..\..\sources\debug\core_logger.cpp" />
-    <ClCompile Include="..\..\..\sources\debug\log_filter.cpp" />
-    <ClCompile Include="..\..\..\sources\debug\xml_sink.cpp" />
-    <ClCompile Include="..\..\..\sources\debug\memory_tracker.cpp" />
+    <ClCompile Include="..\..\sources\debug\assertion.cpp" />
+    <ClCompile Include="..\..\sources\debug\basic_logger.cpp" />
+    <ClCompile Include="..\..\sources\debug\console_sink.cpp" />
+    <ClCompile Include="..\..\sources\debug\core_logger.cpp" />
+    <ClCompile Include="..\..\sources\debug\log_filter.cpp" />
+    <ClCompile Include="..\..\sources\debug\xml_sink.cpp" />
+    <ClCompile Include="..\..\sources\debug\memory_tracker.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{63CC4E65-85DD-40B7-832E-C24874A3A392}</ProjectGuid>
@@ -62,17 +62,19 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <TargetName>$(ProjectName)-d</TargetName>
-    <OutDir>..\..\..\lib\win32\</OutDir>
+    <OutDir>..\..\lib\win32\</OutDir>
+    <IntDir>..\..\temp\$(ProjectName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <TargetName>$(ProjectName)</TargetName>
-    <OutDir>..\..\..\lib\win32\</OutDir>
+    <OutDir>..\..\lib\win32\</OutDir>
+    <IntDir>..\..\temp\$(ProjectName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\include\;..\..\..\..\extlibs\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include\;..\..\..\extlibs\include\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>MEMORY_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -88,7 +90,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\..\..\include\;..\..\..\..\extlibs\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include\;..\..\..\extlibs\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

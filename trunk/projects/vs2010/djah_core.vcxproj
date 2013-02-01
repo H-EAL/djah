@@ -38,17 +38,19 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <TargetName>$(ProjectName)-d</TargetName>
-    <OutDir>..\..\..\lib\win32\</OutDir>
+    <OutDir>..\..\lib\win32\</OutDir>
+    <IntDir>..\..\temp\$(ProjectName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <TargetName>$(ProjectName)</TargetName>
-    <OutDir>..\..\..\lib\win32\</OutDir>
+    <OutDir>..\..\lib\win32\</OutDir>
+    <IntDir>..\..\temp\$(ProjectName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\include\;..\..\..\..\extlibs\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include\;..\..\..\extlibs\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -63,7 +65,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\..\..\include\;..\..\..\..\extlibs\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include\;..\..\..\extlibs\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -75,82 +77,82 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\djah\application_base.hpp" />
-    <ClInclude Include="..\..\..\include\djah\core\command.hpp" />
-    <ClInclude Include="..\..\..\include\djah\core\detail\command_base.hpp" />
-    <ClInclude Include="..\..\..\include\djah\core\detail\functor_handler.hpp" />
-    <ClInclude Include="..\..\..\include\djah\core\detail\functor_impl.hpp" />
-    <ClInclude Include="..\..\..\include\djah\core\detail\member_function_handler.hpp" />
-    <ClInclude Include="..\..\..\include\djah\core\functor.hpp" />
-    <ClInclude Include="..\..\..\include\djah\core\hierarchy_generation.hpp" />
-    <ClInclude Include="..\..\..\include\djah\core\macros.hpp" />
-    <ClInclude Include="..\..\..\include\djah\core\murmur_hash.hpp" />
-    <ClInclude Include="..\..\..\include\djah\core\noise.hpp" />
-    <ClInclude Include="..\..\..\include\djah\core\randomizer.hpp" />
-    <ClInclude Include="..\..\..\include\djah\core\singleton.hpp" />
-    <ClInclude Include="..\..\..\include\djah\core\string_utils.hpp" />
-    <ClInclude Include="..\..\..\include\djah\core\typelist.hpp" />
-    <ClInclude Include="..\..\..\include\djah\core\type_traits.hpp" />
-    <ClInclude Include="..\..\..\include\djah\dataobject\attribute.hpp" />
-    <ClInclude Include="..\..\..\include\djah\dataobject\data_object.hpp" />
-    <ClInclude Include="..\..\..\include\djah\dataobject\global_registry.hpp" />
-    <ClInclude Include="..\..\..\include\djah\dataobject\ini_serializer.hpp" />
-    <ClInclude Include="..\..\..\include\djah\dataobject\registry.hpp" />
-    <ClInclude Include="..\..\..\include\djah\dataobject\serializer.hpp" />
-    <ClInclude Include="..\..\..\include\djah\gameplay\components.hpp" />
-    <ClInclude Include="..\..\..\include\djah\gameplay\component_database.hpp" />
-    <ClInclude Include="..\..\..\include\djah\gameplay\component_serializer.hpp" />
-    <ClInclude Include="..\..\..\include\djah\gameplay\game_object.hpp" />
-    <ClInclude Include="..\..\..\include\djah\gameplay\json_serializer.hpp" />
-    <ClInclude Include="..\..\..\include\djah\geometry\geometry_utils.hpp" />
-    <ClInclude Include="..\..\..\include\djah\geometry\plane.hpp" />
-    <ClInclude Include="..\..\..\include\djah\geometry\ray.hpp" />
-    <ClInclude Include="..\..\..\include\djah\geometry\rect.hpp" />
-    <ClInclude Include="..\..\..\include\djah\geometry\sphere.hpp" />
-    <ClInclude Include="..\..\..\include\djah\geometry\triangle.hpp" />
-    <ClInclude Include="..\..\..\include\djah\math.hpp" />
-    <ClInclude Include="..\..\..\include\djah\math\math_utils.hpp" />
-    <ClInclude Include="..\..\..\include\djah\math\matrix.hpp" />
-    <ClInclude Include="..\..\..\include\djah\math\matrix2.hpp" />
-    <ClInclude Include="..\..\..\include\djah\math\matrix2x3.hpp" />
-    <ClInclude Include="..\..\..\include\djah\math\matrix2x4.hpp" />
-    <ClInclude Include="..\..\..\include\djah\math\matrix3.hpp" />
-    <ClInclude Include="..\..\..\include\djah\math\matrix3x2.hpp" />
-    <ClInclude Include="..\..\..\include\djah\math\matrix3x4.hpp" />
-    <ClInclude Include="..\..\..\include\djah\math\matrix4.hpp" />
-    <ClInclude Include="..\..\..\include\djah\math\matrix4x2.hpp" />
-    <ClInclude Include="..\..\..\include\djah\math\matrix4x3.hpp" />
-    <ClInclude Include="..\..\..\include\djah\math\matrix_utils.hpp" />
-    <ClInclude Include="..\..\..\include\djah\math\projection.hpp" />
-    <ClInclude Include="..\..\..\include\djah\math\quaternion.hpp" />
-    <ClInclude Include="..\..\..\include\djah\math\quaternion_utils.hpp" />
-    <ClInclude Include="..\..\..\include\djah\math\splines.hpp" />
-    <ClInclude Include="..\..\..\include\djah\math\transformation.hpp" />
-    <ClInclude Include="..\..\..\include\djah\math\vector.hpp" />
-    <ClInclude Include="..\..\..\include\djah\math\vector2.hpp" />
-    <ClInclude Include="..\..\..\include\djah\math\vector3.hpp" />
-    <ClInclude Include="..\..\..\include\djah\math\vector4.hpp" />
-    <ClInclude Include="..\..\..\include\djah\math\vector_utils.hpp" />
-    <ClInclude Include="..\..\..\include\djah\opengl.hpp" />
-    <ClInclude Include="..\..\..\include\djah\platform.hpp" />
-    <ClInclude Include="..\..\..\include\djah\time\timer.hpp" />
-    <ClInclude Include="..\..\..\include\djah\types.hpp" />
+    <ClInclude Include="..\..\include\djah\application_base.hpp" />
+    <ClInclude Include="..\..\include\djah\core\command.hpp" />
+    <ClInclude Include="..\..\include\djah\core\detail\command_base.hpp" />
+    <ClInclude Include="..\..\include\djah\core\detail\functor_handler.hpp" />
+    <ClInclude Include="..\..\include\djah\core\detail\functor_impl.hpp" />
+    <ClInclude Include="..\..\include\djah\core\detail\member_function_handler.hpp" />
+    <ClInclude Include="..\..\include\djah\core\functor.hpp" />
+    <ClInclude Include="..\..\include\djah\core\hierarchy_generation.hpp" />
+    <ClInclude Include="..\..\include\djah\core\macros.hpp" />
+    <ClInclude Include="..\..\include\djah\core\murmur_hash.hpp" />
+    <ClInclude Include="..\..\include\djah\core\noise.hpp" />
+    <ClInclude Include="..\..\include\djah\core\randomizer.hpp" />
+    <ClInclude Include="..\..\include\djah\core\singleton.hpp" />
+    <ClInclude Include="..\..\include\djah\core\string_utils.hpp" />
+    <ClInclude Include="..\..\include\djah\core\typelist.hpp" />
+    <ClInclude Include="..\..\include\djah\core\type_traits.hpp" />
+    <ClInclude Include="..\..\include\djah\dataobject\attribute.hpp" />
+    <ClInclude Include="..\..\include\djah\dataobject\data_object.hpp" />
+    <ClInclude Include="..\..\include\djah\dataobject\global_registry.hpp" />
+    <ClInclude Include="..\..\include\djah\dataobject\ini_serializer.hpp" />
+    <ClInclude Include="..\..\include\djah\dataobject\registry.hpp" />
+    <ClInclude Include="..\..\include\djah\dataobject\serializer.hpp" />
+    <ClInclude Include="..\..\include\djah\gameplay\components.hpp" />
+    <ClInclude Include="..\..\include\djah\gameplay\component_database.hpp" />
+    <ClInclude Include="..\..\include\djah\gameplay\component_serializer.hpp" />
+    <ClInclude Include="..\..\include\djah\gameplay\game_object.hpp" />
+    <ClInclude Include="..\..\include\djah\gameplay\json_serializer.hpp" />
+    <ClInclude Include="..\..\include\djah\geometry\geometry_utils.hpp" />
+    <ClInclude Include="..\..\include\djah\geometry\plane.hpp" />
+    <ClInclude Include="..\..\include\djah\geometry\ray.hpp" />
+    <ClInclude Include="..\..\include\djah\geometry\rect.hpp" />
+    <ClInclude Include="..\..\include\djah\geometry\sphere.hpp" />
+    <ClInclude Include="..\..\include\djah\geometry\triangle.hpp" />
+    <ClInclude Include="..\..\include\djah\math.hpp" />
+    <ClInclude Include="..\..\include\djah\math\math_utils.hpp" />
+    <ClInclude Include="..\..\include\djah\math\matrix.hpp" />
+    <ClInclude Include="..\..\include\djah\math\matrix2.hpp" />
+    <ClInclude Include="..\..\include\djah\math\matrix2x3.hpp" />
+    <ClInclude Include="..\..\include\djah\math\matrix2x4.hpp" />
+    <ClInclude Include="..\..\include\djah\math\matrix3.hpp" />
+    <ClInclude Include="..\..\include\djah\math\matrix3x2.hpp" />
+    <ClInclude Include="..\..\include\djah\math\matrix3x4.hpp" />
+    <ClInclude Include="..\..\include\djah\math\matrix4.hpp" />
+    <ClInclude Include="..\..\include\djah\math\matrix4x2.hpp" />
+    <ClInclude Include="..\..\include\djah\math\matrix4x3.hpp" />
+    <ClInclude Include="..\..\include\djah\math\matrix_utils.hpp" />
+    <ClInclude Include="..\..\include\djah\math\projection.hpp" />
+    <ClInclude Include="..\..\include\djah\math\quaternion.hpp" />
+    <ClInclude Include="..\..\include\djah\math\quaternion_utils.hpp" />
+    <ClInclude Include="..\..\include\djah\math\splines.hpp" />
+    <ClInclude Include="..\..\include\djah\math\transformation.hpp" />
+    <ClInclude Include="..\..\include\djah\math\vector.hpp" />
+    <ClInclude Include="..\..\include\djah\math\vector2.hpp" />
+    <ClInclude Include="..\..\include\djah\math\vector3.hpp" />
+    <ClInclude Include="..\..\include\djah\math\vector4.hpp" />
+    <ClInclude Include="..\..\include\djah\math\vector_utils.hpp" />
+    <ClInclude Include="..\..\include\djah\opengl.hpp" />
+    <ClInclude Include="..\..\include\djah\platform.hpp" />
+    <ClInclude Include="..\..\include\djah\time\timer.hpp" />
+    <ClInclude Include="..\..\include\djah\types.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\include\djah\dataobject\registry.inl" />
-    <None Include="..\..\..\include\djah\geometry\plane.inl" />
-    <None Include="..\..\..\include\djah\geometry\rect.inl" />
-    <None Include="..\..\..\include\djah\geometry\triangle.inl" />
-    <None Include="..\..\..\include\djah\math\matrix.inl" />
-    <None Include="..\..\..\include\djah\math\quaternion.inl" />
-    <None Include="..\..\..\include\djah\math\transformation.inl" />
-    <None Include="..\..\..\include\djah\math\vector.inl" />
+    <None Include="..\..\include\djah\dataobject\registry.inl" />
+    <None Include="..\..\include\djah\geometry\plane.inl" />
+    <None Include="..\..\include\djah\geometry\rect.inl" />
+    <None Include="..\..\include\djah\geometry\triangle.inl" />
+    <None Include="..\..\include\djah\math\matrix.inl" />
+    <None Include="..\..\include\djah\math\quaternion.inl" />
+    <None Include="..\..\include\djah\math\transformation.inl" />
+    <None Include="..\..\include\djah\math\vector.inl" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\sources\application_base.cpp" />
-    <ClCompile Include="..\..\..\sources\core\randomizer.cpp" />
-    <ClCompile Include="..\..\..\sources\core\time\timer.cpp" />
-    <ClCompile Include="..\..\..\sources\gameplay\components.cpp" />
+    <ClCompile Include="..\..\sources\application_base.cpp" />
+    <ClCompile Include="..\..\sources\core\randomizer.cpp" />
+    <ClCompile Include="..\..\sources\core\time\timer.cpp" />
+    <ClCompile Include="..\..\sources\gameplay\components.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
