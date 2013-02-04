@@ -4,7 +4,7 @@ int  height = 720
 bool fullscreen = false
 
 #Vertical Sync
-bool vsync = false
+bool vsync = true
 
 vec3f cam_pos = 0.0 0.0 4.0
 float cam_speed = 0.2
