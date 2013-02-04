@@ -21,6 +21,10 @@ namespace djah { namespace system { namespace input {
 		eKC_B, eKC_C, eKC_D, eKC_E, eKC_F, eKC_G, eKC_H, eKC_I, eKC_J,
 		eKC_K, eKC_L, eKC_M, eKC_N, eKC_O, eKC_P, eKC_Q, eKC_R, eKC_S,
 		eKC_T, eKC_U, eKC_V, eKC_W, eKC_X, eKC_Y, eKC_Z,
+
+		eKC_F1			= 0x70,
+		eKC_F2, eKC_F3, eKC_F4, eKC_F5, eKC_F6, eKC_F7, eKC_F8, eKC_F9,
+		eKC_F10, eKC_F11, eKC_F12,
 	};
 
 	class keyboard

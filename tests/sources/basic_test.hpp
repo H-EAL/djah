@@ -53,19 +53,15 @@ private:
 	djah::opengl::vertex_array   ribbonVA_;
 	djah::d3d::texture_ptr		 pRibbonTexture_;
 
-	djah::opengl::vertex_buffer  *pVB_;
-	djah::opengl::vertex_buffer  *pTB_;
-	int							nbTrans_;
-
-	djah::opengl::texture		 *pNoiseTexture_;
-	djah::opengl::vertex_buffer  *pTerrainVB_;
-	djah::opengl::vertex_array   terrainVA_;
-
 	djah::d3d::shader shader_;
 	djah::d3d::shader shaderColored_;
 	djah::d3d::shader shaderBatch_;
 
 	djah::d3d::primitives::batcher batcher_;
+
+	djah::resources::mesh_ptr	pBlockMesh;
+	djah::resources::mesh_ptr	pGridMesh;
+	djah::d3d::texture_ptr		pCowTexture_;
 };
 
 #endif /* DJAH_BASIC_TEST_HPP */

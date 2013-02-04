@@ -190,7 +190,7 @@ namespace djah { namespace opengl {
 					<< sp.name()
 					<< DJAH_END_LOG();
 			}
-			offset += it->count() * it->size() * (format.isPacked() ? pVB->size() : 1);
+			offset += it->count() * it->size() * (format.isPacked() ? vertexCount_ : 1);
 		}
 
 		pVB->unbind();

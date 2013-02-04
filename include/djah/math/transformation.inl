@@ -51,6 +51,16 @@ namespace djah { namespace math {
 
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
+	inline void transformation<T>::setScale(T s)
+	{
+		scale_.x = s;
+		scale_.y = s;
+		scale_.z = s;
+	}
+	//----------------------------------------------------------------------------------------------
+
+	//----------------------------------------------------------------------------------------------
+	template<typename T>
 	inline void transformation<T>::setTranslation(const vector<3,T> &tr)
 	{
 		translation_ = tr;

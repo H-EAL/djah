@@ -25,17 +25,17 @@ namespace djah { namespace resources {
 
 
 	//----------------------------------------------------------------------------------------------
-	image* image_loader::loadFromStream(filesystem::stream &strm, const std::string &filename)
+	image* image_loader::loadFromStream(filesystem::stream &strm, const std::string &fileName)
 	{
 		BYTE *buffer;
-		size_t buffer_size = strm.size();
-		buffer = new BYTE[buffer_size];
-		strm.read(buffer, buffer_size);
+		size_t bufferSize = strm.size();
+		buffer = new BYTE[bufferSize];
+		strm.read(buffer, bufferSize);
 
-		image *p_img = nullptr;
+		image *pImg = nullptr;
 
 		// Load image from memory
-		FIMEMORY *memory = FreeImage_OpenMemory(buffer, static_cast<DWORD>(buffer_size));
+		FIMEMORY *memory = FreeImage_OpenMemory(buffer, static_cast<DWORD>(bufferSize));
 		// Reading and parsing image header
 		FREE_IMAGE_FORMAT fif = FreeImage_GetFileTypeFromMemory(memory, 0);
 		// If unknown, return failure
@@ -61,7 +61,7 @@ namespace djah { namespace resources {
 					const unsigned int dibSize = FreeImage_GetDIBSize(dib);
 					const unsigned int channels = dibSize / (width * height);
 					// Create the actual image
-					p_img = new image(width, height, channels, bits);
+					pImg = new image(width, height, channels, bits);
 				}
 
 				// Free FreeImage's copy of the data
@@ -73,7 +73,7 @@ namespace djah { namespace resources {
 		FreeImage_CloseMemory(memory);
 		delete [] buffer;
 
-		return p_img;
+		return pImg;
 	}
 	//----------------------------------------------------------------------------------------------
 

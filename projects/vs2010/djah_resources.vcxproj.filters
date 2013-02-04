@@ -23,42 +23,54 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\djah\resources\loader.hpp">
+    <ClInclude Include="..\..\include\djah\resources\media_manager.hpp">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\resources\media_manager.hpp">
+    <ClInclude Include="..\..\include\djah\resources\resource_base.hpp">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\resources\resource_base.hpp">
+    <ClInclude Include="..\..\include\djah\resources\resource_manager.hpp">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\resources\resource_manager.hpp">
-      <Filter>include</Filter>
+    <ClInclude Include="..\..\include\djah\resources\image.hpp">
+      <Filter>include\_resources</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\resources\image_loader.hpp">
+    <ClInclude Include="..\..\include\djah\resources\image_loader.hpp">
       <Filter>include\_loaders</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\djah\resources\image.hpp">
+    <ClInclude Include="..\..\include\djah\resources\loader.hpp">
+      <Filter>include\_loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\resources\mesh.hpp">
       <Filter>include\_resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\resources\mesh_loader.hpp">
+      <Filter>include\_loaders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\include\djah\resources\media_manager.inl">
+    <None Include="..\..\include\djah\resources\media_manager.inl">
       <Filter>include</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\sources\resources\resource_base.cpp">
+    <ClCompile Include="..\..\sources\resources\resource_base.cpp">
       <Filter>sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\sources\resources\resource_manager.cpp">
+    <ClCompile Include="..\..\sources\resources\resource_manager.cpp">
       <Filter>sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\sources\resources\image_loader.cpp">
+    <ClCompile Include="..\..\sources\resources\image.cpp">
+      <Filter>sources\_resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\resources\image_loader.cpp">
       <Filter>sources\_loaders</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\sources\resources\image.cpp">
+    <ClCompile Include="..\..\sources\resources\mesh.cpp">
       <Filter>sources\_resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\resources\mesh_loader.cpp">
+      <Filter>sources\_loaders</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

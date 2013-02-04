@@ -23,13 +23,9 @@ BasicTest::BasicTest(djah::system::device_ptr pDevice, Camera &cam)
 	, pConeTexture_(nullptr)
 	, pRibbonVB_(nullptr)
 	, pRibbonTexture_(nullptr)
-	, pVB_(nullptr)
-	, pTB_(nullptr)
-	, pNoiseTexture_(nullptr)
 	, shader_("lit_textured")
 	, shaderColored_("uniform_color")
 	, shaderBatch_("batch")
-	, nbTrans_(3)
 {
 	const float w = static_cast<float>(pDevice_->videoConfig().width);
 	const float h = static_cast<float>(pDevice_->videoConfig().height);
@@ -79,21 +75,6 @@ BasicTest::BasicTest(djah::system::device_ptr pDevice, Camera &cam)
 		pRibbonTexture_,
 		50
 	);
-
-	/*
-	const std::vector<primitives::triangle> &triangles = primitives::cube().construct(10, 10);
-	pVB_ = new opengl::vertex_buffer(triangles.size() * sizeof(primitives::triangle), opengl::eBU_StaticDraw);
-	pVB_->write(&triangles[0], triangles.size());
-
-	const float translations[]=
-	{
-		0.0f, 1.0f,0.0f,0.0f,
-		1.0f, 0.0f,1.0f,0.0f,
-		2.0f, 0.0f,0.0f,1.0f
-	};
-	pTB_ = new opengl::vertex_buffer(sizeof(translations), opengl::eBU_StaticDraw);
-	pTB_->write(translations);
-	*/
 	
 	batcher_.init<primitives::sphere>(15,15);
 
@@ -122,83 +103,11 @@ BasicTest::BasicTest(djah::system::device_ptr pDevice, Camera &cam)
 	}
 	/**/
 
-	const int ww = 512;
-	const int hh = 512;
-	const int octaves = 7;
-	const float p = 0.50f;
-	const float zoom = 75.0f;
-
-	std::vector<primitives::triangle> tris(ww*hh*2);
-
-	byte n[ww][hh];
-	int tt = 0;
-	for(int x = 0; x < ww; ++x)
-	{
-		for(int z = 0; z < hh; ++z)
-		{
-			float totalNoise = 0.0f;
-			for(int a = 0; a < octaves; ++a)
-			{
-				float freq = pow(2.0f,a);
-				float ampl = pow(p,a);
-				totalNoise += noise<float>::noise2((float)x*freq/zoom, ((float)z/zoom*freq))*ampl;
-			}
-			n[x][z] = static_cast<byte>(math::clamp(totalNoise * 128.0f + 128.0f, 0.0f, 255.0f));
-		}
-	}
-
-	for(int x = 0; x < ww-1; ++x)
-	{
-		for(int z = 0; z < hh-1; ++z)
-		{
-			static const float maxHeight = 50.0f;
-
-			const float y = ((float)n[x][z] - 128.0f) / 255.0f       * maxHeight;
-			const float yx = ((float)n[x+1][z] - 128.0f) / 255.0f    * maxHeight;
-			const float yz = ((float)n[x][z+1] - 128.0f) / 255.0f    * maxHeight;
-			const float yxz = ((float)n[x+1][z+1] - 128.0f) / 255.0f * maxHeight;
-
-			tris[tt].setPoints(math::point3f(x,y,z), math::point3f(x,yz,z+1), math::point3f(x+1,yx,z));
-			tris[tt].setNormal(math::vector3f(0,1,0));
-			tris[tt].setTextureCoordinates
-			(
-				math::point2f(x/(float)ww,     1.0f-z/(float)hh),
-				math::point2f(x/(float)ww,     1.0f-(z+1)/(float)hh),
-				math::point2f((x+1)/(float)ww, 1.0f-z/(float)hh)
-			);
-
-			++tt;
-
-			tris[tt].setPoints(math::point3f(x+1,yx,z), math::point3f(x,yz,z+1), math::point3f(x+1,yxz,z+1));
-			tris[tt].setNormal(math::vector3f(0,1,0));
-			tris[tt].setTextureCoordinates
-				(
-				math::point2f((x+1)/(float)ww,     1.0f-z/(float)hh),
-				math::point2f(x/(float)ww,     1.0f-(z+1)/(float)hh),
-				math::point2f((x+1)/(float)ww, 1.0f-(z+1)/(float)hh)
-				);
-
-			++tt;
-		}
-	}
-
-
-	pTerrainVB_ = new opengl::vertex_buffer(tris.size() * sizeof(primitives::triangle), opengl::eBU_StaticDraw);
-	pTerrainVB_->write(&tris[0], tris.size());
-	opengl::vertex_format vertexFormat;
-	vertexFormat.record()
-		<< opengl::format::position<3,float>()
-		<< opengl::format::normal<3,float>()
-		<< opengl::format::tex_coord<2,float>();
-
-	terrainVA_.addVertexBuffer(pTerrainVB_, vertexFormat);
-	terrainVA_.setVertexCount(tris.size()*3);
-	terrainVA_.init(shader_.program());
-
-	pNoiseTexture_ = new opengl::texture(GL_DEPTH_COMPONENT, ww, hh);
-	pNoiseTexture_->bind();
-	pNoiseTexture_->setBestFiltering();
-	pNoiseTexture_->setPixelBuffer(GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, &n[0][0]);
+	pCowTexture_ = d3d::texture_manager::get().find("drybed_diffuse01.jpg");
+	pGridMesh = find_resource<resources::mesh>("meshes/grid_space_dirt_01.mesh");
+	pBlockMesh = find_resource<resources::mesh>("meshes/block_dirt_01.mesh");
+	pGridMesh->init(shader_.program());
+	pBlockMesh->init(shader_.program());
 }
 //--------------------------------------------------------------------------------------------------
 
@@ -240,8 +149,6 @@ BasicTest::~BasicTest()
 	delete pCylinderVB_;
 	delete pConeVB_;
 	delete pRibbonVB_;
-	delete pNoiseTexture_;
-	delete pTerrainVB_;
 }
 //--------------------------------------------------------------------------------------------------
 
@@ -277,20 +184,8 @@ void BasicTest::draw()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	const math::matrix4f &matVP = math::make_look_at(cam_.eye(), cam_.center(), cam_.up()) * matPerspectiveProj_;
+	const math::matrix4f &in_World = math::matrix4f::identity;
 	//batcher_.draw(matVP);
-
-
-	shader_.program().begin();
-	shader_.program().sendUniform("in_UsePointLight", 0);
-	static const math::matrix4f &matCubeWorld = math::make_scale(10.0f) * math::make_translation(0.0f,0.0f,0.0f);
-	static const math::matrix4f &matTerrWorld = math::make_translation(-256.0f,0.0f,-256.0f) * math::make_scale(1.0f);
-	shader_.program().sendUniform( "in_WVP", matCubeWorld * matVP);
-	pNoiseTexture_->bind();
-	cubeVA_.draw();
-	shader_.program().sendUniform( "in_WVP", matTerrWorld * matVP);
-	pCubeTexture_->bind();
-	terrainVA_.draw();
-	shader_.program().end();
 
 	/**
 	const math::matrix4f &matSphereWorld = math::make_scale(4.0f) * math::make_translation(10.0f,0.0f,0.0f);
@@ -310,13 +205,21 @@ void BasicTest::draw()
 	shader_.program().end();
 	**/
 
-	shaderColored_.program().begin();
-	shaderColored_.program().sendUniform( "in_Lit", true);
-	drawTranslationGizmo(matVP);
-	drawRotationGizmo(matVP);
+	shader_.program().begin();
+	shader_.program().sendUniform( "in_UsePointLight", false);
+	//drawTranslationGizmo(matVP);
+	//drawRotationGizmo(matVP);
 
+	shader_.program().sendUniform( "in_World", in_World);
+	shader_.program().sendUniform( "in_WVP", in_World * matVP);
+	shader_.program().sendUniform("in_DiffuseSampler", 0);
+	//shader_.program().sendUniform("in_Color", math::vector3f::x_axis);
+	pCowTexture_->bind();
+	pGridMesh->draw();
+	pBlockMesh->draw();
+	pCowTexture_->unbind();
 
-	shaderColored_.program().end();
+	shader_.program().end();
 
 	opengl::texture::unbind();
 	/**/

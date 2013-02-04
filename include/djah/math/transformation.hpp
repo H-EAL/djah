@@ -27,6 +27,7 @@ namespace djah { namespace math {
 
 		// Setters
 		void setScale(const vector<3,T> &s);
+		void setScale(T s);
 		void setTranslation(const vector<3,T> &tr);
 		void setRotation(const quaternion<T> &rot);
 

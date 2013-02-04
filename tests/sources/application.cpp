@@ -190,7 +190,7 @@ void application::initImpl()
 
 	resources::resource_manager::get().cleanUp();
 
-	pCurrentTest_ = pTessTest_;
+	pCurrentTest_ = pBasicTest_;
 	pCurrentTest_->onInit();
 }
 
