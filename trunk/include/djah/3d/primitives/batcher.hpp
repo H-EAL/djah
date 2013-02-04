@@ -9,6 +9,7 @@
 #include "djah/math/matrix4.hpp"
 #include "djah/3d/primitives/triangle.hpp"
 #include "djah/3d/shader.hpp"
+#include "djah/resources/mesh.hpp"
 #include "djah/opengl.hpp"
 
 namespace djah { namespace d3d { namespace primitives {
@@ -27,8 +28,9 @@ namespace djah { namespace d3d { namespace primitives {
 
 		void clean();
 		void resetTransformationsBuffer();
-		void draw(const math::matrix4f &matViewProjection);
+		void draw(const math::matrix4f &matWorld, const math::matrix4f &matViewProjection, const math::vector3f &eyePosition, bool useColor = false);
 		void init(const std::vector<triangle> &triangles);
+		void init(const resources::mesh_ptr &pMesh);
 
 		//------------------------------------------------------------------------------------------
 		template<typename PrimType>
@@ -39,6 +41,7 @@ namespace djah { namespace d3d { namespace primitives {
 		//------------------------------------------------------------------------------------------
 
 	private:
+		resources::mesh_ptr	   pMesh_;
 		opengl::vertex_buffer *pPrimitiveVertexBuffer_;
 		opengl::vertex_buffer *pTransformationsBuffer_;
 		opengl::vertex_format  vertexFormat_;

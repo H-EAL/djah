@@ -9,6 +9,7 @@
 #include "../filesystem/browser.hpp"
 #include "loader.hpp"
 #include "image.hpp"
+#include "mesh.hpp"
 
 namespace djah { namespace resources {
 
@@ -24,7 +25,7 @@ namespace djah { namespace resources {
 
 
 	//----------------------------------------------------------------------------------------------
-	typedef TYPELIST_1(image) DefaultTypes;
+	typedef TYPELIST(image, mesh) DefaultTypes;
 	//----------------------------------------------------------------------------------------------
 
 

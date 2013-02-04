@@ -11,7 +11,7 @@ namespace djah { namespace resources {
 	{
 	public:
 		image_loader();
-		~image_loader();
+		virtual ~image_loader();
 		image* loadFromStream(filesystem::stream &stream, const std::string &filename = "");
 	};
 

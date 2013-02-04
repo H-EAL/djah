@@ -3,6 +3,7 @@
 
 #include <memory>
 #include "djah/resources/image_loader.hpp"
+#include "djah/resources/mesh_loader.hpp"
 #include "djah/resources/resource_manager.hpp"
 #include "djah/opengl/texture.hpp"
 #include "djah/filesystem/browser.hpp"
@@ -20,6 +21,7 @@ inline std::shared_ptr<T> find_resource(const std::string &url)
 	if(!initialized)
 	{
 		s_dmm.registerLoader( new resources::image_loader, "png tga jpg");
+		s_dmm.registerLoader( new resources::mesh_loader, "mesh");
 		initialized = true;
 	}
 

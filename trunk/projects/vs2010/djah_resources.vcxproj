@@ -80,6 +80,8 @@
     <ClInclude Include="..\..\include\djah\resources\image_loader.hpp" />
     <ClInclude Include="..\..\include\djah\resources\loader.hpp" />
     <ClInclude Include="..\..\include\djah\resources\media_manager.hpp" />
+    <ClInclude Include="..\..\include\djah\resources\mesh.hpp" />
+    <ClInclude Include="..\..\include\djah\resources\mesh_loader.hpp" />
     <ClInclude Include="..\..\include\djah\resources\resource_base.hpp" />
     <ClInclude Include="..\..\include\djah\resources\resource_manager.hpp" />
   </ItemGroup>
@@ -89,6 +91,8 @@
   <ItemGroup>
     <ClCompile Include="..\..\sources\resources\image.cpp" />
     <ClCompile Include="..\..\sources\resources\image_loader.cpp" />
+    <ClCompile Include="..\..\sources\resources\mesh.cpp" />
+    <ClCompile Include="..\..\sources\resources\mesh_loader.cpp" />
     <ClCompile Include="..\..\sources\resources\resource_base.cpp" />
     <ClCompile Include="..\..\sources\resources\resource_manager.cpp" />
   </ItemGroup>
