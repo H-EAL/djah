@@ -69,6 +69,7 @@ namespace djah { namespace system {
 		LOAD_EXTENSION( glFramebufferRenderbuffer	);
 		LOAD_EXTENSION( glFramebufferTexture		);
 		LOAD_EXTENSION( glDrawBuffers				);
+		LOAD_EXTENSION( glBlitFramebuffer			);
 
 		LOAD_EXTENSION( glDrawArraysInstanced		);
 

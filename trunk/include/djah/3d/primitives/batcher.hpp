@@ -23,12 +23,12 @@ namespace djah { namespace d3d { namespace primitives {
 		~batcher();
 
 		prim_id_t add(const math::transformation_f &t, const math::vector3f &color);
+		void set(prim_id_t primId, float h);
 		void remove(prim_id_t primId);
 		int count() const;
 
 		void clean();
 		void resetTransformationsBuffer();
-		void draw(const math::matrix4f &matWorld, const math::matrix4f &matViewProjection, const math::vector3f &eyePosition, bool useColor = false);
 		void init(const std::vector<triangle> &triangles);
 		void init(const resources::mesh_ptr &pMesh);
 
@@ -40,6 +40,9 @@ namespace djah { namespace d3d { namespace primitives {
 		}
 		//------------------------------------------------------------------------------------------
 
+		void draw();
+		opengl::shader_program& program() { return batchShader_.program(); }
+
 	private:
 		resources::mesh_ptr	   pMesh_;
 		opengl::vertex_buffer *pPrimitiveVertexBuffer_;
@@ -48,6 +51,7 @@ namespace djah { namespace d3d { namespace primitives {
 		opengl::vertex_format  transformationFormat_;
 		opengl::vertex_array   vertexArray_;
 		shader				   batchShader_;
+		shader				   pickShader_;
 
 		struct trans
 		{

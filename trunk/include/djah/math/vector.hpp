@@ -123,7 +123,7 @@ namespace djah { namespace math {
 	inline vector<ToSizeN,T> resize(const vector<N,T> &op, T padding = 0);
 
 	template<typename V, int N, typename T>
-	inline V vector_cast(const vector<N,T> &op, T padding = 0);
+	inline V vector_cast(const vector<N,T> &op, typename V::value_type padding = 0);
 	//----------------------------------------------------------------------------------------------
 
 

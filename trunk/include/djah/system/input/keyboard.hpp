@@ -14,6 +14,9 @@ namespace djah { namespace system { namespace input {
 		eKC_ESCAPE		= 0x1B,
 		eKC_SPACE		= 0x20,
 
+		eKC_LEFT		= 0x25,
+		eKC_UP, eKC_RIGHT, eKC_DOWN,
+
 		eKC_0			= 0x30,
 		eKC_1, eKC_2, eKC_3, eKC_4, eKC_5, eKC_6, eKC_7, eKC_8, eKC_9,
 

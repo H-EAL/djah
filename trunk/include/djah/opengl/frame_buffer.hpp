@@ -21,8 +21,10 @@ namespace djah { namespace opengl {
 		frame_buffer();
 		virtual ~frame_buffer();
 
-		void bind() const;
-		static void unbind();
+		void bindReading() const;
+		void bindWriting() const;
+		static void unbindReading();
+		static void unbindWriting();
 
 		int attach(const texture &tex);
 		int attach(const render_buffer &renderBuffer);

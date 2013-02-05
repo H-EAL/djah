@@ -8,6 +8,7 @@ namespace djah { namespace d3d { namespace primitives {
 			: pPrimitiveVertexBuffer_(nullptr)
 			, pTransformationsBuffer_(nullptr)
 			, batchShader_("batch")
+			, pickShader_("pick_batch")
 			, dirtyFlag_(true)
 		{
 			vertexFormat_.record()
@@ -52,6 +53,18 @@ namespace djah { namespace d3d { namespace primitives {
 
 			dirtyFlag_ = true;
 			return primId;
+		}
+		//------------------------------------------------------------------------------------------
+
+
+		//------------------------------------------------------------------------------------------
+		void batcher::set(batcher::prim_id_t primId, float h)
+		{
+			if( transformations_[primId].c.z != h )
+			{
+				transformations_[primId].c.z = h;
+				dirtyFlag_ = true;
+			}
 		}
 		//------------------------------------------------------------------------------------------
 
@@ -123,7 +136,14 @@ namespace djah { namespace d3d { namespace primitives {
 		{
 			if( pTransformationsBuffer_ )
 			{
-				vertexArray_.removeVertexBuffer(pTransformationsBuffer_);
+				if( pMesh_ )
+				{
+					pMesh_->removeVertexBuffer(pTransformationsBuffer_);
+				}
+				else
+				{
+					vertexArray_.removeVertexBuffer(pTransformationsBuffer_);
+				}
 				delete pTransformationsBuffer_;
 				pTransformationsBuffer_ = nullptr;
 			}
@@ -157,7 +177,7 @@ namespace djah { namespace d3d { namespace primitives {
 
 
 		//------------------------------------------------------------------------------------------
-		void batcher::draw(const math::matrix4f &matWorld, const math::matrix4f &matViewProjection, const math::vector3f &eyePosition, bool useColor)
+		void batcher::draw()
 		{
 			if( transformations_.empty() )
 				return;
@@ -165,18 +185,10 @@ namespace djah { namespace d3d { namespace primitives {
 			if( dirtyFlag_ )
 				resetTransformationsBuffer();
 
-			batchShader_.program().begin();
-			batchShader_.program().sendUniform("in_World", matWorld);
-			batchShader_.program().sendUniform("in_VP", matViewProjection);
-			batchShader_.program().sendUniform("in_DiffuseSampler", 0);
-			batchShader_.program().sendUniform("in_NormalSampler", 1);
-			batchShader_.program().sendUniform("in_EyePosition", eyePosition);
-			batchShader_.program().sendUniform("in_UseColor", useColor);
 			if( pMesh_ )
 				pMesh_->drawInstanced(transformations_.size());
 			else
 				vertexArray_.drawInstanced(transformations_.size());
-			batchShader_.program().end();
 		}
 		//------------------------------------------------------------------------------------------
 

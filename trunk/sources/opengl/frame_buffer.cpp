@@ -52,7 +52,16 @@ namespace djah { namespace opengl {
 
 
 	//----------------------------------------------------------------------------------------------
-	void frame_buffer::bind() const
+	void frame_buffer::bindReading() const
+	{
+		monitor<frame_buffer>::bind(id_);
+		glBindFramebuffer(GL_READ_FRAMEBUFFER, id_);
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	void frame_buffer::bindWriting() const
 	{
 		monitor<frame_buffer>::bind(id_);
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, id_);
@@ -61,7 +70,16 @@ namespace djah { namespace opengl {
 
 
 	//----------------------------------------------------------------------------------------------
-	void frame_buffer::unbind()
+	void frame_buffer::unbindReading()
+	{
+		monitor<frame_buffer>::bind(0);
+		glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	void frame_buffer::unbindWriting()
 	{
 		monitor<frame_buffer>::bind(0);
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
@@ -137,7 +155,7 @@ namespace djah { namespace opengl {
 	//----------------------------------------------------------------------------------------------
 	void frame_buffer::bind_default_frame_buffer()
 	{
-		unbind();
+		unbindWriting();
 	}
 	//----------------------------------------------------------------------------------------------
 
