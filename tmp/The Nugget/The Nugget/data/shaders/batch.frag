@@ -2,12 +2,14 @@
 
 uniform sampler2D in_Diffuse;
 uniform sampler2D in_Normal;
+uniform ivec2 in_HighLight;
 
 in vec3 vs_Normal;
 in vec3 vs_Color;
 in vec2 vs_TexCoord;
 
-out vec4 FragColor;
+out vec3 FragColor;
+out uvec3 PickColor;
 
 
 struct BaseLight
@@ -46,12 +48,20 @@ vec4 calcDirectionalLight(DirectionalLight light, vec3 normal)
 
 void main()
 {
+	
 	DirectionalLight light;
 	light.base.color = vec3(1.0, 1.0, 1.0);
-	light.base.ambientIntensity = 0.1;
-	light.base.diffuseIntensity = 0.9;
-	light.direction = normalize( vec3(1,1,1) );
+	light.base.ambientIntensity = 0.2;
+	light.base.diffuseIntensity = 0.7;
+	light.direction = normalize( vec3(0,-1,0) );
 
-	FragColor = texture(in_Diffuse, vs_TexCoord);//vec4(vs_Color,1);
-	FragColor *= calcDirectionalLight(light, normalize(vs_Normal));
+	FragColor = texture(in_Diffuse, vs_TexCoord).rgb;
+	FragColor *= calcDirectionalLight(light, normalize(vs_Normal)).rgb;
+	
+	if(in_HighLight.x >= 0 && in_HighLight == ivec2(vs_Color.x-1, vs_Color.y-1))
+	{
+		FragColor.g = 1.0f * vs_Color.z/10.0f;
+	}
+	
+	PickColor = uvec3(vs_Color);
 }

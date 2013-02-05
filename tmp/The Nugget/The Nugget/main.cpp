@@ -58,7 +58,7 @@ int main()
 	system::device_ptr pDevice = nullptr;
 	system::driver_ptr pDriver = nullptr;
 
-	pDevice = system::create_device(1280, 720);
+	pDevice = system::create_device(1280, 800);
 	pDriver = pDevice ? pDevice->videoDriver() : nullptr;
 
 	if( !pDevice || !pDriver )
@@ -79,9 +79,9 @@ int main()
 
 		input_manager::update();
 
-		static math::vector3f eye(0,-5,0);
+		static math::vector3f eye(0,5,0);
 		static float speed = 1.0f;
-		static float fovy = 90.0f;
+		static float fovy = 60.0f;
 		if( pDevice->hasWindowFocus() )
 		{
 			if( input_manager::keyboard_.isKeyDown(system::input::eKC_ESCAPE) )
@@ -113,8 +113,8 @@ int main()
 			{
 				if( isDragging )
 				{
-					eye.x -= float(input_manager::mouse_.delta().x) * 0.01f;
-					eye.z += float(input_manager::mouse_.delta().y) * 0.01f;
+					eye.x += float(input_manager::mouse_.delta().x) * 0.005f;
+					eye.z += float(input_manager::mouse_.delta().y) * 0.005f;
 				}
 				else
 				{
@@ -134,23 +134,24 @@ int main()
 
 			if( input_manager::mouse_.rightButton().pressed() )
 			{
-				math::vector3f mousePos;
-				mousePos.x = input_manager::mouse_.position().x;
-				mousePos.z = input_manager::mouse_.position().y;
+				std::cout << g.cellAt(input_manager::mouse_.position()) << std::endl;
+				g.destroyCell(input_manager::mouse_.position());
+			}
 
-				mousePos += eye;
-				std::cout << mousePos << std::endl;
+			if( input_manager::mouse_.delta().lengthSq() > 0.0f )
+			{
+				g.highlightCell(input_manager::mouse_.position());
 			}
 		}
 
-		const math::matrix4f &matProj = math::make_perspective_projection(fovy, 1280.0f/720.0f, 0.1f, 100.0f);
-		const math::vector3f &center = eye + math::vector3f(0,1,0);
+		const math::matrix4f &matProj = math::make_perspective_projection(fovy, 1280.0f/800.0f, 0.1f, 100.0f);
+		const math::vector3f &center = eye + math::vector3f(0,-1,0);
 
 		const math::matrix4f &matView = math::make_look_at(eye, center, math::vector3f(0,0,1));
 		const math::matrix4f &matVP = matView * matProj;
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		g.draw(matVP);
+		g.draw(matVP, eye);
 
 		pDevice->swapBuffers();
 	}

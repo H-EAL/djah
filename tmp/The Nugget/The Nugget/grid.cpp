@@ -5,72 +5,159 @@
 
 using namespace djah;
 
+struct CELL
+{
+	CELL() : id(0), health(0) {}
+
+	u32 id;
+	u32 health;
+};
+std::vector< std::vector<CELL> > cells;
+
 grid::grid(int width, int height)
 	: width_(width)
 	, height_(height)
 	, shader_("lit_textured")
-	, pBlockVB_(nullptr)
+	, pPickingBuffer(nullptr)
+	, highlightedCell_(-1,-1)
 {
-	batcher_.init<d3d::primitives::cube>();
+	pCellMesh_ = find_resource<resources::mesh>("meshes/grid_space_dirt_01.mesh");
+	pBlockMesh_ = find_resource<resources::mesh>("meshes/block_dirt_01.mesh");
+
+	cellBatcher_.init(pCellMesh_);
+	blockBatcher_.init(pBlockMesh_);
+
+	const float s = 1.57f;
+	cells.resize(width_);
+
 	math::transformation_f t;
 	for( int i = 0; i < width_; ++i )
 	{
+		cells[i].resize(height_);
+
 		for( int j = 0; j < height_; ++j )
 		{
+			t.setTranslation( math::vector3f(float(i)*s, 0.0f, float(j)*s) );
+			const math::vector3f c(0.0f,0.0f,0.0f);
+			cellBatcher_.add( t, c );
+			u32 id = u32(-1);
 			if( utils::randomizer::random(100) < 80 )
 			{
-				t.setTranslation( math::vector3f(float(i), 0.0f, float(j)) );
-				const math::vector3f c(utils::randomizer::random(1.0f), utils::randomizer::random(1.0f), utils::randomizer::random(1.0f));
-				batcher_.add( t, c );
+				cells[i][j].health = utils::randomizer::random(1, 10);
+				t.setTranslation( math::vector3f(float(i)*s, 0.2f, float(j)*s) );
+				const math::vector3f c(float(i+1), float(j+1), float(cells[i][j].health));
+				id = blockBatcher_.add( t, c );
 			}
+			cells[i][j].id = id;
 		}
 	}
 
 	pDiffuse_ = d3d::texture_manager::get().find("drybed_diffuse01.jpg");
 	pNormal_ = d3d::texture_manager::get().find("drybed_normal01.jpg");
 
-	loadMesh();
+	pColorBuffer = new opengl::texture(GL_RGB32F, 1280, 800);
+	pColorBuffer->bind();
+	pColorBuffer->setNoFiltering();
+	pColorBuffer->setPixelBuffer(GL_RGB, GL_FLOAT, nullptr);
+	pColorBuffer->unbind();
+
+	pPickingBuffer = new opengl::texture(GL_RGB32UI, 1280, 800);
+	pPickingBuffer->bind();
+	pPickingBuffer->setNoFiltering();
+	pPickingBuffer->setPixelBuffer(GL_RGB_INTEGER, GL_UNSIGNED_INT, nullptr);
+	pPickingBuffer->unbind();
+
+	pDepthBuffer = new opengl::texture(GL_DEPTH_COMPONENT32F, 1280, 800);
+	pDepthBuffer->bind();
+	pDepthBuffer->setNoFiltering();
+	pDepthBuffer->setPixelBuffer(GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
+	pDepthBuffer->unbind();
+
+	frameBuffer_.bindWriting();
+	GLenum drawBuffer[2];
+	drawBuffer[0] = (GLenum)frameBuffer_.attach(*pColorBuffer);
+	drawBuffer[1] = (GLenum)frameBuffer_.attach(*pPickingBuffer);
+	frameBuffer_.attach(*pDepthBuffer);
+
+	glDrawBuffers(2, drawBuffer);
+	DJAH_ASSERT(frameBuffer_.isComplete());
+	frameBuffer_.unbindWriting();
+		
 }
 
 grid::~grid()
 {
-	delete pBlockVB_;
+	delete pPickingBuffer;
 }
 
-void grid::loadMesh()
+void grid::draw(const math::matrix4f &matVP, const math::vector3f &eyePosition)
 {
-	filesystem::stream_ptr strm = filesystem::browser::get().openReadStream("meshes/grid_space_dirt_01.bdae");
-	if( !strm || strm->size() <= 0 )
-		return;
+	const math::matrix4f &in_World = math::matrix4f::identity;
 
-	filesystem::memory_stream memStrm(strm);
+	frameBuffer_.bindWriting();
+	glClearColor(0,0,0,0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	pBlockVB_ = new djah::opengl::vertex_buffer(memStrm.size(), opengl::eBU_StaticDraw);
-	pBlockVB_->write(memStrm.buffer(), memStrm.size());
-
-	opengl::vertex_format vertexFormat(opengl::vertex_format::ePT_Packed);
-	vertexFormat
-		<< opengl::format::position<3,float>()
-		<< opengl::format::normal<3,float>()
-		<< opengl::format::tex_coord<2,float>();
-
-	blockVA_.addVertexBuffer(pBlockVB_, vertexFormat);
-	blockVA_.setVertexCount(474);
-	blockVA_.init(shader_.program());
-}
-
-void grid::draw(const math::matrix4f &matVP)
-{
-	const math::matrix4f &in_World = math::make_rotation(math::deg_to_rad(90.0f), math::vector3f::x_axis)
-		* math::make_scale(0.1f);
-	const math::matrix4f &in_WVP   = in_World * matVP;
 	pDiffuse_->bind();
-	shader_.program().begin();
-	shader_.program().sendUniform("in_World", in_World);
-	shader_.program().sendUniform("in_WVP", in_WVP);
-	shader_.program().sendUniform("in_DiffuseSampler", 0);
-	//batcher_.draw(matVP);
-	blockVA_.draw();
-	shader_.program().end();
+
+	cellBatcher_.program().begin();
+	cellBatcher_.program().sendUniform("in_VP", matVP);
+	cellBatcher_.program().sendUniform("in_Diffuse", 0);
+	cellBatcher_.program().sendUniform("in_HighLight", highlightedCell_);
+	cellBatcher_.draw();
+	blockBatcher_.draw();
+	cellBatcher_.program().end();
+
 	pDiffuse_->unbind();
+	frameBuffer_.unbindWriting();
+
+	frameBuffer_.bindReading();
+	glReadBuffer(GL_COLOR_ATTACHMENT0);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+	glBlitFramebuffer(0,0,1280,800, 0,0,1280,800, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+	glReadBuffer(GL_NONE);
+	frameBuffer_.unbindReading();
+}
+
+math::vector2i grid::cellAt(const math::vector2i &mousePos)
+{
+	unsigned int data[3];
+	frameBuffer_.bindReading();
+	glReadBuffer(GL_COLOR_ATTACHMENT1);
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, frameBuffer_.id());
+	glReadPixels(mousePos.x, 800-mousePos.y-1, 1, 1, GL_RGB_INTEGER, GL_UNSIGNED_INT, data);
+	glReadBuffer(GL_NONE);
+	frameBuffer_.unbindReading();
+
+	math::vector2i pt;
+	pt.x = int(-data[0]-1);
+	pt.y = int(-data[1]-1);
+	return pt;
+}
+
+void grid::destroyCell(const math::vector2i &mousePos)
+{
+	math::vector2i pt = cellAt(mousePos);
+	if( isCorrectCell(pt) )
+	{
+		if( --(cells[pt.x][pt.y].health) == 0 )
+		{
+			blockBatcher_.remove(cells[pt.x][pt.y].id);
+			cells[pt.x][pt.y].id = u32(-1);
+		}
+		else
+		{
+			blockBatcher_.set(cells[pt.x][pt.y].id, float(cells[pt.x][pt.y].health));
+		}
+	}
+}
+
+bool grid::isCorrectCell(const djah::math::vector2i &pt) const
+{
+	return ( pt.x >= 0 && pt.y >= 0 && cells[pt.x][pt.y].id != u32(-1) );
+}
+
+void grid::highlightCell(const djah::math::vector2i &mousePos)
+{
+	highlightedCell_ = cellAt(mousePos);
 }
