@@ -1,6 +1,6 @@
 #include "djah/filesystem/directory_source.hpp"
 
-#include <boost/filesystem.hpp>
+//#include <boost/filesystem.hpp>
 
 #include "djah/filesystem/file_stream.hpp"
 
@@ -54,9 +54,14 @@ namespace djah { namespace filesystem {
 	//----------------------------------------------------------------------------------------------
 	bool directory_source::isFetchable(const std::string &url) const
 	{
-		boost::filesystem::path file(path_);	
+		std::fstream strm;
+		strm.open((path_ + "/" + url).c_str(), std::ios::in);
+		const bool fetchable = strm.good();
+		strm.close();
+		return fetchable;
+		/*boost::filesystem::path file(path_);	
 		file = file / url;
-		return overwrite_ ? true : exists(file);
+		return overwrite_ ? true : exists(file);*/
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -64,9 +69,10 @@ namespace djah { namespace filesystem {
 	//----------------------------------------------------------------------------------------------
 	bool directory_source::isWritable(const std::string &url) const
 	{
-		boost::filesystem::path file(path_);
+		/*boost::filesystem::path file(path_);
 		file = file / url;
-		return exists( file.branch_path() );
+		return exists( file.branch_path() );*/
+		return true;
 	}
 	//----------------------------------------------------------------------------------------------
 

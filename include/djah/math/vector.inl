@@ -243,7 +243,7 @@ namespace djah { namespace math {
 	
 	//----------------------------------------------------------------------------------------------
 	template<typename V, int N, typename T>
-	inline const V vector_cast(const vector<N,T> &op, typename V::value_type padding) 
+	inline V vector_cast(const vector<N,T> &op, typename V::value_type padding) 
 	{
 		V result;
 		

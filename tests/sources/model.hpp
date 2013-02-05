@@ -19,7 +19,7 @@ struct model
 		, nmap_(nullptr)
 		, pDo_( djah::dataobject::default_registry::get().getDO(doName) )
 	{
-		assert( pDo_ );
+		DJAH_ASSERT( pDo_ );
 
 		djah::filesystem::stream_ptr fstrm = djah::filesystem::browser::get().openReadStream(pDo_->get<std::string>("model_file"));
 

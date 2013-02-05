@@ -26,15 +26,15 @@ namespace djah { namespace opengl {
 		template<>
 		struct UniformFunc<int>
 		{
-			typedef void (*PFNGLUNIFORMPROC) (GLint, GLsizei, const GLint*);
-			static PFNGLUNIFORMPROC uniform(int i) 
+			//typedef void (*PFNGLUNIFORMPROC) (GLint, GLsizei, const GLint*);
+			static PFNGLUNIFORM1IVPROC uniform(int i) 
 			{
-				static const PFNGLUNIFORMPROC uniformTab[] =
+				static const PFNGLUNIFORM1IVPROC uniformTab[] =
 				{ 
-					(PFNGLUNIFORMPROC) glUniform1iv, 
-					(PFNGLUNIFORMPROC) glUniform2iv, 
-					(PFNGLUNIFORMPROC) glUniform3iv, 
-					(PFNGLUNIFORMPROC) glUniform4iv
+					glUniform1iv, 
+					glUniform2iv, 
+					glUniform3iv, 
+					glUniform4iv
 				};
 				return uniformTab[i];
 			}
