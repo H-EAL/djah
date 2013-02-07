@@ -31,7 +31,7 @@ namespace djah { namespace opengl {
 		bind();
 
 		const int bytes = count * sizeof(T);
-		glBufferSubData(target_, offset * sizeof(T), bytes, data_ptr);
+		glBufferSubData(target_, offset, bytes, data_ptr);
 
 		unbind();
 

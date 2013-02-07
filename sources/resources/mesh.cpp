@@ -4,6 +4,7 @@ namespace djah { namespace resources {
 
 	//----------------------------------------------------------------------------------------------
 	mesh::mesh(unsigned int subMeshCount)
+		: vertexCount_(0)
 	{
 		subMeshes_.reserve(subMeshCount);
 	}
@@ -21,6 +22,7 @@ namespace djah { namespace resources {
 	void mesh::addSubMesh(submesh *pSubMesh)
 	{
 		subMeshes_.push_back(pSubMesh);
+		vertexCount_ += pSubMesh->vertexCount;
 	}
 	//----------------------------------------------------------------------------------------------
 

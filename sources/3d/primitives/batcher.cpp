@@ -8,7 +8,6 @@ namespace djah { namespace d3d { namespace primitives {
 			: pPrimitiveVertexBuffer_(nullptr)
 			, pTransformationsBuffer_(nullptr)
 			, batchShader_("batch")
-			, pickShader_("pick_batch")
 			, dirtyFlag_(true)
 		{
 			vertexFormat_.record()
@@ -155,8 +154,7 @@ namespace djah { namespace d3d { namespace primitives {
 			{
 				if( availableSlots_.find(i) == availableSlots_.end() )
 				{
-					pTransformationsBuffer_->write(&transformations_[i], 1, offset);
-					++offset;
+					offset += pTransformationsBuffer_->write(&transformations_[i], 1, offset);
 				}
 			}
 
