@@ -46,8 +46,11 @@ namespace djah { namespace resources {
 		void init(const opengl::shader_program &sh);
 		void addVertexBuffer(opengl::vertex_buffer *pVB, const opengl::vertex_format &vf);
 		void removeVertexBuffer(opengl::vertex_buffer *pVB);
+		const std::vector<submesh*>& subMeshes() const { return subMeshes_; }
+		unsigned int vertexCount() const { return vertexCount_; }
 
 	private:
+		unsigned int vertexCount_;
 		std::vector<submesh*> subMeshes_;
 	};
 	//----------------------------------------------------------------------------------------------

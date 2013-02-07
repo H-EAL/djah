@@ -51,7 +51,6 @@ namespace djah { namespace d3d { namespace primitives {
 		opengl::vertex_format  transformationFormat_;
 		opengl::vertex_array   vertexArray_;
 		shader				   batchShader_;
-		shader				   pickShader_;
 
 		struct trans
 		{
