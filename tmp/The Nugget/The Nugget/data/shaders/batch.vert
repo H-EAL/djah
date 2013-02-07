@@ -11,7 +11,7 @@ in vec4 Rotation;
 in vec3 Color;
 
 out vec3 vs_Normal;
-out vec3 vs_Color;
+flat out vec3 vs_Color;
 out vec2 vs_TexCoord;
 
 

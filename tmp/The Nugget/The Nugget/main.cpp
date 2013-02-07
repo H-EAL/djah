@@ -53,7 +53,7 @@ int main()
 
 	filesystem::browser::get().addLoadingChannel(new filesystem::directory_source("."));
 	filesystem::browser::get().addLoadingChannel(new filesystem::directory_source("./data"));
-	filesystem::browser::get().addLoadingChannel(new filesystem::directory_source("./data/data_objects"));
+	filesystem::browser::get().addLoadingChannel(new filesystem::directory_source("./data/meshes"));
 
 	system::device_ptr pDevice = nullptr;
 	system::driver_ptr pDriver = nullptr;
@@ -66,10 +66,13 @@ int main()
 
 	glEnable(GL_DEPTH_TEST);
 	glDepthMask(GL_TRUE);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glCullFace(GL_BACK);
 
-	grid g(100,100);
+	OldGrid g(100,100);
+	Grid g2(3,3);
 
 	while( pDevice->run() )
 	{
@@ -79,7 +82,7 @@ int main()
 
 		input_manager::update();
 
-		static math::vector3f eye(0,5,0);
+		static math::vector3f eye(0,0,5);
 		static float speed = 1.0f;
 		static float fovy = 60.0f;
 		if( pDevice->hasWindowFocus() )
@@ -87,34 +90,15 @@ int main()
 			if( input_manager::keyboard_.isKeyDown(system::input::eKC_ESCAPE) )
 				pDevice->shutDown();
 
-			/*
-			math::vector3f m;
-			if( input_manager::keyboard_.isKeyDown(system::input::eKC_LEFT) )
-				m.x -= 1.0f;
-			if( input_manager::keyboard_.isKeyDown(system::input::eKC_RIGHT) )
-				m.x += 1.0f;
-			if( input_manager::keyboard_.isKeyDown(system::input::eKC_UP) )
-				m.z += 1.0f;
-			if( input_manager::keyboard_.isKeyDown(system::input::eKC_DOWN) )
-				m.z -= 1.0f;
-
-			if( m.lengthSq() > 0.0f )
-				m.normalize();
-
-			if( input_manager::keyboard_.isKeyDown(system::input::eKC_F1) )
-				speed = math::clamp(speed - 0.01f, 0.1f, 10.0f);
-			if( input_manager::keyboard_.isKeyDown(system::input::eKC_F2) )
-				speed = math::clamp(speed + 0.01f, 0.1f, 10.0f);
-
-			eye += m * speed * dt;*/
 
 			static bool isDragging = false;
+
 			if( input_manager::mouse_.leftButton().isDown() )
 			{
 				if( isDragging )
 				{
-					eye.x += float(input_manager::mouse_.delta().x) * 0.005f;
-					eye.z += float(input_manager::mouse_.delta().y) * 0.005f;
+					eye.x -= float(input_manager::mouse_.delta().x) * 0.005f;
+					eye.y += float(input_manager::mouse_.delta().y) * 0.005f;
 				}
 				else
 				{
@@ -126,32 +110,44 @@ int main()
 				isDragging = false;
 			}
 
+			if( !isDragging && input_manager::mouse_.rightButton().pressed() )
+			{
+				std::cout << g2.cellAt(input_manager::mouse_.position()) << std::endl;
+			}
+
 
 			if( input_manager::keyboard_.pressed(system::input::eKC_F11) )
 				fovy = math::clamp(fovy - 5.0f, 5.0f, 175.0f);
 			if( input_manager::keyboard_.pressed(system::input::eKC_F12) )
 				fovy = math::clamp(fovy + 5.0f, 5.0f, 175.0f);
 
-			if( input_manager::mouse_.rightButton().pressed() )
-			{
-				std::cout << g.cellAt(input_manager::mouse_.position()) << std::endl;
-				g.destroyCell(input_manager::mouse_.position());
-			}
-
 			if( input_manager::mouse_.delta().lengthSq() > 0.0f )
 			{
-				g.highlightCell(input_manager::mouse_.position());
+				//g.highlightCell(input_manager::mouse_.position());
+				//std::cout << g2.cellAt(input_manager::mouse_.position()) << std::endl;
+			}
+
+
+			if( input_manager::keyboard_.pressed(system::input::eKC_C) )
+			{
+				eye.x = g.miner_.position_.x;
+				eye.y = g.miner_.position_.y;
+			}
+
+			if( input_manager::keyboard_.pressed(system::input::eKC_SPACE) )
+			{
+				std::cout << eye << std::endl;
 			}
 		}
-
 		const math::matrix4f &matProj = math::make_perspective_projection(fovy, 1280.0f/800.0f, 0.1f, 100.0f);
-		const math::vector3f &center = eye + math::vector3f(0,-1,0);
+		const math::vector3f &center = eye + math::vector3f(0,0,-1);
 
-		const math::matrix4f &matView = math::make_look_at(eye, center, math::vector3f(0,0,1));
+		const math::matrix4f &matView = math::make_look_at(eye, center, math::vector3f(0,1,0));
 		const math::matrix4f &matVP = matView * matProj;
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		g.draw(matVP, eye);
+		//g.draw(matVP, eye);
+		g2.draw(eye, matVP);
 
 		pDevice->swapBuffers();
 	}
