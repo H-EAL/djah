@@ -5,7 +5,7 @@
 
 using namespace djah;
 
-static const int CHUNK_WIDTH = 6;
+static const int CHUNK_WIDTH = 7;
 static const int CHUNK_HEIGHT = 4;
 static const float CELL_SIZE = 1.18f;
 
@@ -92,14 +92,14 @@ math::vector2i Grid::cameraPositionInChunkSpace(const math::vector3f &cameraPosi
 	math::vector2i cameraChunk;
 
 	if( cameraPosition.x < 0.0f )
-		cameraChunk.x = (cameraPosition.x - chunkSize.x) / chunkSize.x;
+		cameraChunk.x = int((cameraPosition.x - chunkSize.x) / chunkSize.x);
 	else
-		cameraChunk.x = cameraPosition.x / chunkSize.x;
+		cameraChunk.x = int(cameraPosition.x / chunkSize.x);
 
 	if( cameraPosition.y < 0.0f )
-		cameraChunk.y = (cameraPosition.y - chunkSize.y) / chunkSize.y;
+		cameraChunk.y = int((cameraPosition.y - chunkSize.y) / chunkSize.y);
 	else
-		cameraChunk.y = cameraPosition.y / chunkSize.y;
+		cameraChunk.y = int(cameraPosition.y / chunkSize.y);
 
 	return cameraChunk;
 }
@@ -118,14 +118,9 @@ void Grid::draw(const math::vector3f &cameraPosition, const math::matrix4f &matV
 	shader_.program().sendUniform("in_MatSampler", 0);
 
 	pMatTex_->bind();
-	static math::vector2i last(-111,-55);
 	const math::vector2i &cameraChunk = cameraPositionInChunkSpace(cameraPosition);
 	shader_.program().sendUniform("in_CameraChunk", cameraChunk);
-	if( cameraChunk != last )
-	{
-		std::cout << cameraPosition << " -> " << cameraChunk << std::endl;
-		last = cameraChunk;
-	}
+
 	for(int i = 0; i < NB_CHUNKS_W; ++i)
 	{
 		for(int j = 0; j < NB_CHUNKS_H; ++j)
@@ -170,18 +165,38 @@ math::vector4s Grid::cellAt(const math::vector2i &mousePos)
 	math::vector4s pt;
 	pt.x = detail::high_bytes<s16>(data[0])-1;
 	pt.y = detail::low_bytes<s16>(data[0])-1;
-	pt.z = detail::high_bytes<s16>(data[1]);
-	pt.w = detail::low_bytes<s16>(data[1]);
+	//pt.z = detail::high_bytes<s16>(data[1]);
+	pt.z = s16(data[1]);
+	//pt.w = detail::low_bytes<s16>(data[1]);
+	pt.w = s16(data[2]);
 	return pt;
 }
 //--------------------------------------------------------------------------------------------------
 
+//--------------------------------------------------------------------------------------------------
+void Grid::destroyCell(const math::vector2i &mousePos, const math::vector3f &cameraPosition)
+{
+	math::vector4s pt = cellAt(mousePos);
+	if( isCorrectCell(pt) )
+	{
+		const math::vector2i cell(pt.x, pt.y);
+		const math::vector2i chunk(pt.z, pt.w);
 
+		const math::vector2i &cameraChunk = cameraPositionInChunkSpace(cameraPosition);
+		Chunk *pChunk = pChunks_[pt.z - cameraChunk.x + NB_CHUNKS_W/2][pt.w - cameraChunk.y+NB_CHUNKS_H/2];
 
+		float currentHealth = pChunk->getHealth(cell);
 
+		currentHealth = math::clamp(currentHealth - 0.1f, 0.0f, 1.0f);
+		pChunk->setHealth(cell, currentHealth);
+	}
+}
+//--------------------------------------------------------------------------------------------------
 
-
-
+bool Grid::isCorrectCell(const djah::math::vector4s &pt) const
+{
+	return ( pt.x >= 0 && pt.y >= 0 );
+}
 
 
 
@@ -218,7 +233,7 @@ OldGrid::OldGrid(int width, int height)
 
 	cells.resize(width_);
 
-	math::transformation_f t;
+	math::transform_f t;
 	for( int i = 0; i < width_; ++i )
 	{
 		cells[i].resize(height_);

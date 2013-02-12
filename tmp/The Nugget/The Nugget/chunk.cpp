@@ -30,10 +30,27 @@ void Chunk::setCoordinates(const math::vector2i &_coord)
 //--------------------------------------------------------------------------------------------------
 
 //--------------------------------------------------------------------------------------------------
+void Chunk::setHealth(const math::vector2i &_cell, float _health)
+{
+	const int offset = (_cell.y * width_ + _cell.x) * transformFormat_.vertexSize();
+	pTransformBuffer_->write(&_health, 1, offset);
+}
+//--------------------------------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------------------------------
+float Chunk::getHealth(const math::vector2i &_cell)
+{
+	const int offset = (_cell.y * width_ + _cell.x) * transformFormat_.vertexSize();
+	float health = 0.0f;
+	pTransformBuffer_->read(&health, 1, offset);
+	return health;
+}
+//--------------------------------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------------------------------
 void Chunk::initTransform()
 {
 	transformFormat_
-		<< opengl::format::vertex_attrib<2,float>("CellCoordinates", 1)
 		<< opengl::format::vertex_attrib<1,float>("Health", 1);
 
 	const unsigned int vbSize = width_ * height_ * transformFormat_.vertexSize();
@@ -44,15 +61,8 @@ void Chunk::initTransform()
 	{
 		for(int j = 0; j < height_; ++j)
 		{
-			math::vector2f coord(i,j);
-			offset += pTransformBuffer_->write(&coord, 1, offset);
-
-			const float health = utils::randomizer::random(1.0f);
+			const float health = 0.5f;//utils::randomizer::random(1.0f);
 			offset += pTransformBuffer_->write(&health, 1, offset);
-
-
-			/*math::vector3f color(utils::randomizer::random(1.0f), utils::randomizer::random(1.0f), utils::randomizer::random(1.0f));
-			offset += pTransformBuffer_->write(&color, 1, offset);*/
 		}
 	}
 }

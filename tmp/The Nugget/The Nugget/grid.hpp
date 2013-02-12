@@ -18,19 +18,21 @@ public:
 
 	void draw(const math::vector3f &cameraPosition, const math::matrix4f &matVP);
 	math::vector4s cellAt(const math::vector2i &mousePos);
+	void destroyCell(const djah::math::vector2i &mousePos, const math::vector3f &cameraPosition);
 
 private:
 	void initChunks();
 	void initFrameBuffer(int resX, int resY);
 	void swapFrameBuffers();
 	math::vector2i cameraPositionInChunkSpace(const math::vector3f &cameraPosition) const;
+	bool isCorrectCell(const djah::math::vector4s &pt) const;
 
 private:
 	int width_;
 	int height_;
 	d3d::shader	shader_;
-	static const int NB_CHUNKS_W = 5;
-	static const int NB_CHUNKS_H = 5;
+	static const int NB_CHUNKS_W = 3;
+	static const int NB_CHUNKS_H = 3;
 	Chunk *pChunks_[NB_CHUNKS_W][NB_CHUNKS_H];
 
 	d3d::texture_ptr pMatTex_;

@@ -47,6 +47,30 @@ void initLoggers()
 	debug::core_logger::get().addSink( pDebugSink );
 }
 
+void APIENTRY oglDebugProc(GLenum source,
+	GLenum type,
+	GLuint id,
+	GLenum severity,
+	GLsizei length,
+	const GLchar* message,
+	void* userParam)
+{
+	switch( severity )
+	{
+	case GL_DEBUG_SEVERITY_LOW:
+		DJAH_OPENGL_WARNING() << message << DJAH_END_LOG();
+		break;
+
+	case GL_DEBUG_SEVERITY_MEDIUM:
+		DJAH_OPENGL_ERROR() << message << DJAH_END_LOG();
+		break;
+
+	case GL_DEBUG_SEVERITY_HIGH:
+		DJAH_ASSERT_MSG(false, "%s", message);
+		break;
+	}
+}
+
 int main()
 {
 	initLoggers();
@@ -70,6 +94,9 @@ int main()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glCullFace(GL_BACK);
+
+	glDebugMessageCallbackARB(oglDebugProc, nullptr);
+	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 
 	OldGrid g(100,100);
 	Grid g2(3,3);
@@ -113,6 +140,7 @@ int main()
 			if( !isDragging && input_manager::mouse_.rightButton().pressed() )
 			{
 				std::cout << g2.cellAt(input_manager::mouse_.position()) << std::endl;
+				g2.destroyCell(input_manager::mouse_.position(), eye);
 			}
 
 
@@ -121,11 +149,10 @@ int main()
 			if( input_manager::keyboard_.pressed(system::input::eKC_F12) )
 				fovy = math::clamp(fovy + 5.0f, 5.0f, 175.0f);
 
-			if( input_manager::mouse_.delta().lengthSq() > 0.0f )
+			/*if( input_manager::mouse_.delta().lengthSq() > 0.0f )
 			{
-				//g.highlightCell(input_manager::mouse_.position());
-				//std::cout << g2.cellAt(input_manager::mouse_.position()) << std::endl;
-			}
+				g2.destroyCell(input_manager::mouse_.position(), eye);
+			}*/
 
 
 			if( input_manager::keyboard_.pressed(system::input::eKC_C) )

@@ -3,12 +3,12 @@
 uniform sampler2D in_MatSampler;
 uniform ivec2     in_CameraChunk;
 uniform bool	  in_IsBlock;
+uniform ivec2 	  in_ChunkCoord;
 
 in vec3 vs_Normal;
 in vec2 vs_TexCoord;
 
 flat in ivec2 vs_Coordinates;
-flat in ivec2 vs_ChunkCoord;
 flat in float vs_Health;
 
 out vec4  FragColor;
@@ -52,8 +52,8 @@ void main()
 {
 	ivec3 coords;
 	coords.x = ((vs_Coordinates.x+1) << 16) | (vs_Coordinates.y+1);
-	coords.y = (vs_ChunkCoord.x << 16) | (vs_ChunkCoord.y);
-	coords.z = -1;
+	coords.y = in_ChunkCoord.x;
+	coords.z = in_ChunkCoord.y;
 	PickColor = coords;
 		
 	DirectionalLight light;
@@ -62,7 +62,7 @@ void main()
 	light.base.diffuseIntensity = 0.7;
 	light.direction = normalize( vec3(0,0,-1) );
 	
-	vec4 Color = (in_CameraChunk == vs_ChunkCoord) ? vec4(0,1,0,1) : vec4(1,1,1,1);
+	vec4 Color = (in_CameraChunk == in_ChunkCoord) ? vec4(0,1,0,1) : vec4(1,1,1,1);
 		
 	FragColor = Color * texture(in_MatSampler, vs_TexCoord) * calcDirectionalLight(light, normalize(vs_Normal));
 	FragColor.a = (in_IsBlock && vs_Health < 0.5f) ? 0.0f : 1.0f;

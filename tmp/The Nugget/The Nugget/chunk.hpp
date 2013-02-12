@@ -15,6 +15,8 @@ public:
 	void update();
 	void draw() const;
 	void setCoordinates(const math::vector2i &_coord);
+	void setHealth(const math::vector2i &_cell, float _health);
+	float getHealth(const math::vector2i &_cell);
 
 private:
 	void initTransform();
