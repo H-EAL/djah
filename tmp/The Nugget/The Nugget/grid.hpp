@@ -17,7 +17,7 @@ public:
 	~Grid();
 
 	void draw(const math::vector3f &cameraPosition, const math::matrix4f &matVP);
-	math::vector4s cellAt(const math::vector2i &mousePos);
+	math::vector4i cellAt(const math::vector2i &mousePos);
 	void destroyCell(const djah::math::vector2i &mousePos, const math::vector3f &cameraPosition);
 
 private:
@@ -25,7 +25,7 @@ private:
 	void initFrameBuffer(int resX, int resY);
 	void swapFrameBuffers();
 	math::vector2i cameraPositionInChunkSpace(const math::vector3f &cameraPosition) const;
-	bool isCorrectCell(const djah::math::vector4s &pt) const;
+	bool isCorrectCell(const djah::math::vector4i &pt) const;
 
 private:
 	int width_;

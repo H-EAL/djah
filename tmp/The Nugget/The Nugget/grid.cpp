@@ -61,10 +61,10 @@ void Grid::initFrameBuffer(int resX, int resY)
 	pColorBuffer->setPixelBuffer(GL_RGB, GL_FLOAT, nullptr);
 	pColorBuffer->unbind();
 
-	pPickingBuffer = new opengl::texture(GL_RGB32I, resX, resY);
+	pPickingBuffer = new opengl::texture(GL_RGBA32I, resX, resY);
 	pPickingBuffer->bind();
 	pPickingBuffer->setNoFiltering();
-	pPickingBuffer->setPixelBuffer(GL_RGB_INTEGER, GL_INT, nullptr);
+	pPickingBuffer->setPixelBuffer(GL_RGBA_INTEGER, GL_INT, nullptr);
 	pPickingBuffer->unbind();
 
 	pDepthBuffer = new opengl::texture(GL_DEPTH_COMPONENT32F, resX, resY);
@@ -144,7 +144,6 @@ void Grid::swapFrameBuffers()
 {
 	frameBuffer_.bindReading();
 	glReadBuffer(GL_COLOR_ATTACHMENT0);
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 	glBlitFramebuffer(0,0,1280,800, 0,0,1280,800, GL_COLOR_BUFFER_BIT, GL_NEAREST);
 	glReadBuffer(GL_NONE);
 	frameBuffer_.unbindReading();
@@ -152,23 +151,19 @@ void Grid::swapFrameBuffers()
 //--------------------------------------------------------------------------------------------------
 
 //--------------------------------------------------------------------------------------------------
-math::vector4s Grid::cellAt(const math::vector2i &mousePos)
+math::vector4i Grid::cellAt(const math::vector2i &mousePos)
 {
-	int data[3];
+	math::vector4i pt;
+
 	frameBuffer_.bindReading();
 	glReadBuffer(GL_COLOR_ATTACHMENT1);
-	glBindFramebuffer(GL_READ_FRAMEBUFFER, frameBuffer_.id());
-	glReadPixels(mousePos.x, 800-mousePos.y-1, 1, 1, GL_RGB_INTEGER, GL_INT, data);
+	glReadPixels(mousePos.x, 800-mousePos.y-1, 1, 1, GL_RGBA_INTEGER, GL_INT, pt.data);
 	glReadBuffer(GL_NONE);
 	frameBuffer_.unbindReading();
 
-	math::vector4s pt;
-	pt.x = detail::high_bytes<s16>(data[0])-1;
-	pt.y = detail::low_bytes<s16>(data[0])-1;
-	//pt.z = detail::high_bytes<s16>(data[1]);
-	pt.z = s16(data[1]);
-	//pt.w = detail::low_bytes<s16>(data[1]);
-	pt.w = s16(data[2]);
+	pt.x -= 1;
+	pt.y -= 1;
+
 	return pt;
 }
 //--------------------------------------------------------------------------------------------------
@@ -176,7 +171,7 @@ math::vector4s Grid::cellAt(const math::vector2i &mousePos)
 //--------------------------------------------------------------------------------------------------
 void Grid::destroyCell(const math::vector2i &mousePos, const math::vector3f &cameraPosition)
 {
-	math::vector4s pt = cellAt(mousePos);
+	const math::vector4i &pt = cellAt(mousePos);
 	if( isCorrectCell(pt) )
 	{
 		const math::vector2i cell(pt.x, pt.y);
@@ -193,7 +188,7 @@ void Grid::destroyCell(const math::vector2i &mousePos, const math::vector3f &cam
 }
 //--------------------------------------------------------------------------------------------------
 
-bool Grid::isCorrectCell(const djah::math::vector4s &pt) const
+bool Grid::isCorrectCell(const djah::math::vector4i &pt) const
 {
 	return ( pt.x >= 0 && pt.y >= 0 );
 }
