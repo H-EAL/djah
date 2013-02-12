@@ -2,7 +2,7 @@ namespace djah { namespace math {
 
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	transformation<T>::transformation
+	transform<T>::transform
 	(
 		const vector<3,T> &tr = vector<3,T>::null_vector,
 		const quaternion<T> &rot = quaternion<T>::identity,
@@ -18,7 +18,7 @@ namespace djah { namespace math {
 
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline const vector<3,T>& transformation<T>::scale() const
+	inline const vector<3,T>& transform<T>::scale() const
 	{
 		return scale_;
 	}
@@ -26,7 +26,7 @@ namespace djah { namespace math {
 
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline const vector<3,T>& transformation<T>::translation() const
+	inline const vector<3,T>& transform<T>::translation() const
 	{
 		return translation_;
 	}
@@ -34,7 +34,7 @@ namespace djah { namespace math {
 
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline const quaternion<T>& transformation<T>::rotation() const
+	inline const quaternion<T>& transform<T>::rotation() const
 	{
 		return rotation_;
 	}
@@ -43,7 +43,7 @@ namespace djah { namespace math {
 		
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline void transformation<T>::setScale(const vector<3,T> &s)
+	inline void transform<T>::setScale(const vector<3,T> &s)
 	{
 		scale_ = s;
 	}
@@ -51,7 +51,7 @@ namespace djah { namespace math {
 
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline void transformation<T>::setScale(T s)
+	inline void transform<T>::setScale(T s)
 	{
 		scale_.x = s;
 		scale_.y = s;
@@ -61,7 +61,7 @@ namespace djah { namespace math {
 
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline void transformation<T>::setTranslation(const vector<3,T> &tr)
+	inline void transform<T>::setTranslation(const vector<3,T> &tr)
 	{
 		translation_ = tr;
 	}
@@ -69,7 +69,7 @@ namespace djah { namespace math {
 
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline void transformation<T>::setRotation(const quaternion<T> &rot)
+	inline void transform<T>::setRotation(const quaternion<T> &rot)
 	{
 		rotation_ = rot;
 	}
@@ -78,7 +78,7 @@ namespace djah { namespace math {
 	
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline void transformation<T>::uniformScale(T s)
+	inline void transform<T>::uniformScale(T s)
 	{
 		scale_ *= s;
 	}
@@ -87,7 +87,7 @@ namespace djah { namespace math {
 	
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline void transformation<T>::scale(const vector<3,T> &s)
+	inline void transform<T>::scale(const vector<3,T> &s)
 	{
 		scale_.x *= s.x;
 		scale_.y *= s.y;
@@ -97,7 +97,7 @@ namespace djah { namespace math {
 
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline void transformation<T>::translate(const vector<3,T> &tr)
+	inline void transform<T>::translate(const vector<3,T> &tr)
 	{
 		translation_ += tr;
 	}
@@ -105,7 +105,7 @@ namespace djah { namespace math {
 
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline void transformation<T>::rotate(const quaternion<T> &rot)
+	inline void transform<T>::rotate(const quaternion<T> &rot)
 	{
 		rotation_ = rotation_ * rot;
 	}
@@ -114,7 +114,7 @@ namespace djah { namespace math {
 		
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline transformation<T>& transformation<T>::combine(const transformation<T> &other)
+	inline transform<T>& transform<T>::combine(const transform<T> &other)
 	{
 		scale( other.scale_ );
 		translate( other.translation_ );
@@ -125,7 +125,7 @@ namespace djah { namespace math {
 		
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline const matrix<4,4,T> transformation<T>::toMatrix4() const
+	inline const matrix<4,4,T> transform<T>::toMatrix4() const
 	{
 		return quat_to_matrix4(rotation_) * make_scale(scale_) * make_translation(translation_);
 	}

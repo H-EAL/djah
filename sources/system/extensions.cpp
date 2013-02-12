@@ -46,6 +46,7 @@ namespace djah { namespace system {
 		LOAD_EXTENSION( glBindBuffer				);
 		LOAD_EXTENSION( glBufferData				);
 		LOAD_EXTENSION( glBufferSubData				);
+		LOAD_EXTENSION( glGetBufferSubData			);
 		//LOAD_EXTENSION( glBindVertexBuffer			);
 
 		LOAD_EXTENSION( glEnableVertexAttribArray	);

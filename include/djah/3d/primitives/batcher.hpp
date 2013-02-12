@@ -4,7 +4,7 @@
 #include <stack>
 #include <vector>
 #include "djah/types.hpp"
-#include "djah/math/transformation.hpp"
+#include "djah/math/transform.hpp"
 #include "djah/math/vector3.hpp"
 #include "djah/math/matrix4.hpp"
 #include "djah/3d/primitives/triangle.hpp"
@@ -22,7 +22,7 @@ namespace djah { namespace d3d { namespace primitives {
 		batcher();
 		~batcher();
 
-		prim_id_t add(const math::transformation_f &t, const math::vector3f &color);
+		prim_id_t add(const math::transform_f &t, const math::vector3f &color);
 		void set(prim_id_t primId, float h);
 		void remove(prim_id_t primId);
 		int count() const;
@@ -54,7 +54,7 @@ namespace djah { namespace d3d { namespace primitives {
 
 		struct trans
 		{
-			math::transformation_f t;
+			math::transform_f t;
 			math::vector3f       c;
 		};
 

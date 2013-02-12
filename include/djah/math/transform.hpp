@@ -1,5 +1,5 @@
-#ifndef DJAH_MATH_TRANSFORMATION_HPP
-#define DJAH_MATH_TRANSFORMATION_HPP
+#ifndef DJAH_MATH_TRANSFORM_HPP
+#define DJAH_MATH_TRANSFORM_HPP
 
 #include "vector3.hpp"
 #include "quaternion.hpp"
@@ -10,10 +10,10 @@ namespace djah { namespace math {
 
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	class transformation
+	class transform
 	{
 	public:
-		transformation
+		transform
 		(
 			const vector<3,T> &tr = vector<3,T>::null_vector,
 			const quaternion<T> &rot = quaternion<T>::identity,
@@ -38,7 +38,7 @@ namespace djah { namespace math {
 		void rotate(const quaternion<T> &rot);
 
 		// Combine with another transformation and keep the result
-		transformation<T>& combine(const transformation<T> &other);
+		transform<T>& combine(const transform<T> &other);
 
 		// Convert to a more convenient matrix4
 		const matrix<4,4,T> toMatrix4() const;
@@ -55,16 +55,16 @@ namespace djah { namespace math {
 	// Combine two transformations
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	transformation<T> combine_transformations(const transformation<T> &lhs, const transformation<T> &rhs);
+	transform<T> combine_transforms(const transform<T> &lhs, const transform<T> &rhs);
 	
 	
 	//----------------------------------------------------------------------------------------------
 	// Useful type definitions
-	typedef transformation<float>	transformation_f;
-	typedef transformation<double>	transformation_d;
+	typedef transform<float>	transform_f;
+	typedef transform<double>	transform_d;
 
 } /*math*/ } /*djah*/
 
-#include "transformation.inl"
+#include "transform.inl"
 
-#endif /* DJAH_MATH_TRANSFORMATION_HPP */
+#endif /* DJAH_MATH_TRANSFORM_HPP */

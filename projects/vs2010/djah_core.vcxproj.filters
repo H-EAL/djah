@@ -188,9 +188,6 @@
     <ClInclude Include="..\..\include\djah\math\quaternion.hpp">
       <Filter>include\math\_quaternion</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\djah\math\transformation.hpp">
-      <Filter>include\math</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\djah\geometry\triangle.hpp">
       <Filter>include\geometry</Filter>
     </ClInclude>
@@ -224,6 +221,9 @@
     <ClInclude Include="..\..\include\djah\dataobject\registry.hpp">
       <Filter>include\dataobject</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\djah\math\transform.hpp">
+      <Filter>include\math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\include\djah\math\matrix.inl">
@@ -234,9 +234,6 @@
     </None>
     <None Include="..\..\include\djah\math\quaternion.inl">
       <Filter>include\math\_quaternion</Filter>
-    </None>
-    <None Include="..\..\include\djah\math\transformation.inl">
-      <Filter>include\math</Filter>
     </None>
     <None Include="..\..\include\djah\geometry\triangle.inl">
       <Filter>include\geometry</Filter>
@@ -249,6 +246,9 @@
     </None>
     <None Include="..\..\include\djah\dataobject\registry.inl">
       <Filter>include\dataobject</Filter>
+    </None>
+    <None Include="..\..\include\djah\math\transform.inl">
+      <Filter>include\math</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
