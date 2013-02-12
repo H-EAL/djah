@@ -34,7 +34,7 @@ namespace djah { namespace d3d { namespace primitives {
 
 
 		//------------------------------------------------------------------------------------------
-		batcher::prim_id_t batcher::add(const math::transformation_f &t, const math::vector3f &color)
+		batcher::prim_id_t batcher::add(const math::transform_f &t, const math::vector3f &color)
 		{
 			const trans tr = { t, color };
 			prim_id_t primId = 0;

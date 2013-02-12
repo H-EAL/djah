@@ -127,7 +127,7 @@
     <ClInclude Include="..\..\include\djah\math\quaternion.hpp" />
     <ClInclude Include="..\..\include\djah\math\quaternion_utils.hpp" />
     <ClInclude Include="..\..\include\djah\math\splines.hpp" />
-    <ClInclude Include="..\..\include\djah\math\transformation.hpp" />
+    <ClInclude Include="..\..\include\djah\math\transform.hpp" />
     <ClInclude Include="..\..\include\djah\math\vector.hpp" />
     <ClInclude Include="..\..\include\djah\math\vector2.hpp" />
     <ClInclude Include="..\..\include\djah\math\vector3.hpp" />
@@ -145,7 +145,7 @@
     <None Include="..\..\include\djah\geometry\triangle.inl" />
     <None Include="..\..\include\djah\math\matrix.inl" />
     <None Include="..\..\include\djah\math\quaternion.inl" />
-    <None Include="..\..\include\djah\math\transformation.inl" />
+    <None Include="..\..\include\djah\math\transform.inl" />
     <None Include="..\..\include\djah\math\vector.inl" />
   </ItemGroup>
   <ItemGroup>
