@@ -12,7 +12,7 @@ flat in ivec2 vs_Coordinates;
 flat in float vs_Health;
 
 out vec4  FragColor;
-out ivec3 PickColor;
+out ivec4 PickColor;
 
 struct BaseLight
 {
@@ -50,11 +50,10 @@ vec4 calcDirectionalLight(DirectionalLight light, vec3 normal)
 
 void main()
 {
-	ivec3 coords;
-	coords.x = ((vs_Coordinates.x+1) << 16) | (vs_Coordinates.y+1);
-	coords.y = in_ChunkCoord.x;
-	coords.z = in_ChunkCoord.y;
-	PickColor = coords;
+	PickColor.x = vs_Coordinates.x + 1;
+	PickColor.y = vs_Coordinates.y + 1;
+	PickColor.z = in_ChunkCoord.x;
+	PickColor.w = in_ChunkCoord.y;
 		
 	DirectionalLight light;
 	light.base.color = vec3(1.0, 1.0, 1.0);
