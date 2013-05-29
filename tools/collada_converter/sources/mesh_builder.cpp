@@ -274,8 +274,8 @@ void skeleton::initBone(node *current_node, const math::matrix4f &parent_world_m
 			current_mat = current_bone.world_matrix_;
 
 			current_bone.start_ = current_bone.end_ = math::vector3f::null_vector;
-			current_bone.start_ = math::vec4_to_vec3( math::transform(parent_world_mat, math::vec3_to_vec4(current_bone.start_))	);
-			current_bone.end_	= math::vec4_to_vec3( math::transform(current_mat, math::vec3_to_vec4(current_bone.end_))	);
+			current_bone.start_ = math::vec4_to_vec3( parent_world_mat * math::vec3_to_vec4(current_bone.start_)	);
+			current_bone.end_	= math::vec4_to_vec3( current_mat * math::vec3_to_vec4(current_bone.end_)	);
 		}
 		else
 		{
@@ -778,9 +778,9 @@ void submesh::setupBindPose()
 				unsigned short bone = bones.data[w];
 				const math::matrix4f &mat = skeleton_->bones_[bone].skinning_matrix_;// * skeleton_->bind_shape_matrix_;
 
-				skinned_pos  += math::transform(mat, pos)  * weight.data[w];
+				skinned_pos  += (mat * pos)  * weight.data[w];
 				if( !normals.empty() )
-					skinned_norm += math::transform(mat, norm) * weight.data[w];
+					skinned_norm += (mat * norm) * weight.data[w];
 
 				total_weights += weight.data[w];
 			}
