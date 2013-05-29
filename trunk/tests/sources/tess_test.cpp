@@ -11,7 +11,7 @@ using namespace djah;
 using namespace d3d;
 
 //--------------------------------------------------------------------------------------------------
-TesselationTest::TesselationTest(djah::system::device_ptr pDevice, djah::system::input::keyboard &kb, Camera &cam)
+TesselationTest::TesselationTest(djah::system::device_sptr pDevice, djah::system::input::keyboard &kb, Camera &cam)
 	: test_base(pDevice)
 	, cam_(cam)
 	, kb_(kb)
@@ -24,8 +24,8 @@ TesselationTest::TesselationTest(djah::system::device_ptr pDevice, djah::system:
 
 	game_object_t::serializer_t::deserialize(vgo);
 
-	const float w = static_cast<float>(pDevice_->videoConfig().width);
-	const float h = static_cast<float>(pDevice_->videoConfig().height);
+	const float w = static_cast<float>(pDevice_->config().width);
+	const float h = static_cast<float>(pDevice_->config().height);
 	matPerspectiveProj_ = math::make_perspective_projection(60.0f, w/h, 0.1f, 1000.f);
 
 	const int W = 10;

@@ -105,9 +105,7 @@ namespace djah { namespace gameplay {
 			auto itEnd = goList.end();
 			for(auto it = goList.begin(); it != itEnd; ++it)
 			{
-				std::string fileName = "game_objects/";
-				fileName += (*it)->name();
-				fileName += ".json";
+				const std::string &fileName = (*it)->name() + ".json";
 				filesystem::stream_ptr strm = filesystem::browser::get().openWriteStream(fileName);
 				if( strm )
 				{
@@ -145,7 +143,7 @@ namespace djah { namespace gameplay {
 
 		static void deserialize(game_object_t &go, comp_map_t &compMap)
 		{
-			std::string fileName = "data_objects/" + go.name() + ".go";
+			const std::string &fileName = go.name() + ".json";
 			filesystem::stream_ptr strm = filesystem::browser::get().openReadStream(fileName);
 
 			DJAH_ASSERT(strm && strm->size() > 0);

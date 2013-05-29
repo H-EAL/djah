@@ -44,7 +44,7 @@ namespace djah { namespace debug {
 			eLogSeverity _severity = notification,
 			unsigned int _line = 0, const std::string &_file = "",
 			const std::string &_stackTrace = "",
-			signed int _timestamp = 0
+			unsigned int _timestamp = 0
 		)
 		: channels_(_channels)
 		, severity_(_severity == use_last ? currentSeverity : _severity)

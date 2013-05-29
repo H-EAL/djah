@@ -56,8 +56,8 @@ void printInfosAux()
 	std::string extensions;
 	std::for_each
 	(
-		opengl::capabilities::sExtensions_.begin(),
-		opengl::capabilities::sExtensions_.end(),
+		opengl::capabilities::extensions_.begin(),
+		opengl::capabilities::extensions_.end(),
 		[&extensions](const std::string &ext) { extensions += "| " + ext + "\n"; }
 	);
 
@@ -69,7 +69,7 @@ void printInfosAux()
 		<< "| OpenGL version           | " << opengl::capabilities::opengl_version()  << "\n"
 		<< "| GLSL version             | " << opengl::capabilities::glsl_version()    << "\n"
 		<< "---------------------------------------------------------------------------\n"
-		<< "| Available extensions (" << opengl::capabilities::sExtensions_.size()  << ")\n"
+		<< "| Available extensions (" << opengl::capabilities::extensions_.size()  << ")\n"
 		<< "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n"
 		<< extensions
 		<< "==========================================================================="
@@ -124,7 +124,7 @@ void initLoggers()
 
 
 application::application(int w, int h)
-	: application_base(djah::system::video_config(w,h,32,24,0,false,true))
+	: application_base(djah::system::device_config(w,h,32,24,0,false,true))
 	, gamepad_(0)
 	, pShadowTest_(nullptr)
 	, pBasicTest_(nullptr)
@@ -133,8 +133,12 @@ application::application(int w, int h)
 	initLoggers();
 
 	filesystem::browser::get().addLoadingChannel(new filesystem::directory_source("."));
+	filesystem::browser::get().addLoadingChannel(new filesystem::directory_source("./data/savegame"));
 	filesystem::browser::get().addLoadingChannel(new filesystem::directory_source("./data"));
 	filesystem::browser::get().addLoadingChannel(new filesystem::directory_source("./data/data_objects"));
+	filesystem::browser::get().addLoadingChannel(new filesystem::directory_source("./data/game_objects"));
+
+	filesystem::browser::get().addSavingChannel(new filesystem::directory_source("./data/savegame"));
 	
 	screenCfgDo_ = dataobject::default_registry::get().getDO("screenconfig");
 
@@ -167,8 +171,8 @@ void application::initImpl()
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	const float w = static_cast<float>(device_->videoConfig().width);
-	const float h = static_cast<float>(device_->videoConfig().height);
+	const float w = static_cast<float>(device_->config().width);
+	const float h = static_cast<float>(device_->config().height);
 	matOrthoProj_ = math::make_orthographic_projection(0.0f, w, h, 0.0f, -1.0f, 1.0f);
 
 	d3d::font_engine::create();
@@ -178,7 +182,7 @@ void application::initImpl()
 	fps_str_.setPosition(math::vector2i(0,0));
 	mouse_pos_.setPosition(math::vector2i(0,15));
 	cam_pos_.setPosition(math::vector2i(0,30));
-	test_name_.setPosition(math::vector2i(device_->videoConfig().width/2,0));
+	test_name_.setPosition(math::vector2i(device_->config().width/2,0));
 
 	pShadowTest_			= new ShadowTest(device_, mouse_, keyboard_, gamepad_, cam);
 	pBasicTest_				= new BasicTest(device_, cam);
@@ -248,7 +252,7 @@ void application::runImpl()
 		gamepad_.vibrate(l,r);
 	}
 
-	if( device_->hasWindowFocus() )
+	if( device_->hasFocus() )
 	{
 		if( keyboard_.isKeyDown(djah::system::input::eKC_A) )
 			m.x -= 1.0f;

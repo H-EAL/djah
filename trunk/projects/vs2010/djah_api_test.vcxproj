@@ -10,21 +10,25 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\tests\sources\main.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{AFA71315-A65A-4309-AEB3-AB7788E32E4F}</ProjectGuid>
-    <RootNamespace>djah_system</RootNamespace>
+    <ProjectGuid>{73E0D0FA-C047-45B0-AC6F-35780607893C}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>djah_api_test</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -37,75 +41,52 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <TargetName>$(ProjectName)-d</TargetName>
-    <OutDir>..\..\lib\win32\</OutDir>
+    <LinkIncremental>true</LinkIncremental>
     <IntDir>..\..\temp\$(ProjectName)\$(Configuration)\</IntDir>
+    <OutDir>..\..\tests\binaries\</OutDir>
+    <TargetName>$(ProjectName)-debug</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <TargetName>$(ProjectName)</TargetName>
-    <OutDir>..\..\lib\win32\</OutDir>
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\..\tests\binaries\</OutDir>
     <IntDir>..\..\temp\$(ProjectName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\include\;..\..\..\extlibs\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>..\..\lib\win32\;..\..\..\extlibs\lib\win32\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>djah_system-d.lib;djah_filesystem-d.lib;djah_opengl-d.lib;djah_debug-d.lib;djah_resources-d.lib;djah_core-d.lib;djah_3d-d.lib;opengl32.lib;FreeImage.lib;freetype.lib;winmm.lib;dbghelp.lib;XInput.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <Lib>
-      <AdditionalLibraryDirectories>..\..\..\..\extlibs\lib\win32\;</AdditionalLibraryDirectories>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\include\;..\..\..\extlibs\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>..\..\lib\win32\;..\..\..\extlibs\lib\win32\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>djah_system.lib;djah_filesystem.lib;djah_opengl.lib;djah_debug.lib;djah_resources.lib;djah_core.lib;djah_3d.lib;opengl32.lib;FreeImage.lib;freetype.lib;winmm.lib;dbghelp.lib;XInput.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <Lib>
-      <AdditionalLibraryDirectories>..\..\..\..\extlibs\lib\win32\;</AdditionalLibraryDirectories>
-    </Lib>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\include\djah\system\clock.hpp" />
-    <ClInclude Include="..\..\include\djah\system\context.hpp" />
-    <ClInclude Include="..\..\include\djah\system\device.hpp" />
-    <ClInclude Include="..\..\include\djah\system\driver.hpp" />
-    <ClInclude Include="..\..\include\djah\system\extensions.hpp" />
-    <ClInclude Include="..\..\include\djah\system\gl.hpp" />
-    <ClInclude Include="..\..\include\djah\system\input\axis.hpp" />
-    <ClInclude Include="..\..\include\djah\system\input\button.hpp" />
-    <ClInclude Include="..\..\include\djah\system\input\gamepad.hpp" />
-    <ClInclude Include="..\..\include\djah\system\input\keyboard.hpp" />
-    <ClInclude Include="..\..\include\djah\system\input\mouse.hpp" />
-    <ClInclude Include="..\..\include\djah\system\system_logger.hpp" />
-    <ClInclude Include="..\..\include\djah\system\video_config.hpp" />
-    <ClInclude Include="..\..\sources\system\win32\wgl_extensions.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\sources\system\device.cpp" />
-    <ClCompile Include="..\..\sources\system\driver.cpp" />
-    <ClCompile Include="..\..\sources\system\extensions.cpp" />
-    <ClCompile Include="..\..\sources\system\system_logger.cpp" />
-    <ClCompile Include="..\..\sources\system\video_config.cpp" />
-    <ClCompile Include="..\..\sources\system\win32\wgl_extensions.cpp" />
-    <ClCompile Include="..\..\sources\system\win32\win32_clock.cpp" />
-    <ClCompile Include="..\..\sources\system\win32\win32_context.cpp" />
-    <ClCompile Include="..\..\sources\system\win32\win32_device.cpp" />
-    <ClCompile Include="..\..\sources\system\win32\win32_gamepad.cpp" />
-    <ClCompile Include="..\..\sources\system\win32\win32_keyboard.cpp" />
-    <ClCompile Include="..\..\sources\system\win32\win32_mouse.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

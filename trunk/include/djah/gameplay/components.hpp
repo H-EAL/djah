@@ -1,6 +1,7 @@
 #ifndef DJAH_GAMEPLAY_COMPONENTS_HPP
 #define DJAH_GAMEPLAY_COMPONENTS_HPP
 
+#include <string>
 #include "rapidjson/document.h"
 #include "djah/math.hpp"
 #include "djah/core/typelist.hpp"
@@ -13,16 +14,12 @@
 
 namespace djah { namespace gameplay { namespace components {
 
-	struct position
+	struct transform
 	{
-		MAKE_COMPONENT(position);
-		math::vector3f value;
-	};
-
-	struct orientation
-	{
-		MAKE_COMPONENT(orientation);
-		math::quatf value;
+		MAKE_COMPONENT(transform);
+		math::vector3f position;
+		math::vector3f orientation;
+		math::vector3f scale;
 	};
 
 	struct fov
@@ -32,11 +29,24 @@ namespace djah { namespace gameplay { namespace components {
 		float vertical;
 	};
 
+	struct static_mesh
+	{
+		MAKE_COMPONENT(static_mesh);
+		std::string file;
+	};
+
+	struct texture
+	{
+		MAKE_COMPONENT(texture);
+		std::string file;
+	};
+
 	typedef TYPELIST
 	(
-		position,
-		orientation,
-		fov
+		transform,
+		fov,
+		static_mesh,
+		texture
 	)
 	default_components_tl;
 

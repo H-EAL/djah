@@ -10,7 +10,7 @@ using namespace djah;
 using namespace d3d;
 
 //--------------------------------------------------------------------------------------------------
-BasicTest::BasicTest(djah::system::device_ptr pDevice, Camera &cam)
+BasicTest::BasicTest(djah::system::device_sptr pDevice, Camera &cam)
 	: test_base(pDevice)
 	, cam_(cam)
 	, pCubeVB_(nullptr)
@@ -27,8 +27,8 @@ BasicTest::BasicTest(djah::system::device_ptr pDevice, Camera &cam)
 	, shaderColored_("uniform_color")
 	, shaderBatch_("batch")
 {
-	const float w = static_cast<float>(pDevice_->videoConfig().width);
-	const float h = static_cast<float>(pDevice_->videoConfig().height);
+	const float w = static_cast<float>(pDevice_->config().width);
+	const float h = static_cast<float>(pDevice_->config().height);
 	matPerspectiveProj_ = math::make_perspective_projection(60.0f, w/h, 0.1f, 1000.f);
 
 	initPrimitive<primitives::cube>
@@ -78,7 +78,7 @@ BasicTest::BasicTest(djah::system::device_ptr pDevice, Camera &cam)
 	
 	batcher_.init<primitives::sphere>(15,15);
 
-	math::transformation_f t;
+	math::transform_f t;
 	t.uniformScale(0.5f);
 	int m = -10;
 	int M = 10;

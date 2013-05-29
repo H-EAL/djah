@@ -88,7 +88,74 @@ namespace djah { namespace dataobject {
 		};
 		//------------------------------------------------------------------------------------------
 
+
+
+
+		//------------------------------------------------------------------------------------------
+		template<typename TL>
+		struct attribute_serializer;
+		//------------------------------------------------------------------------------------------
+		template<>
+		struct attribute_serializer<utils::nulltype>
+		{
+			static bool execute(filesystem::stream_ptr strm, const data_object_ptr &dobj)
+			{
+				return true;
+			}
+		};//------------------------------------------------------------------------------------------
+		template<typename H, typename T>
+		struct attribute_serializer< utils::typelist<H,T> >
+		{
+			//--------------------------------------------------------------------------------------
+			static bool execute(filesystem::stream_ptr strm, const data_object_ptr &dobj)
+			{
+				auto attribs = dobj->attributes<H>();
+				std::stringstream ss;
+				auto itEnd = attribs.end();
+				for(auto it = attribs.begin(); it != itEnd; ++it)
+				{
+					ss << type_name<H>::value() << " " << it->first << " = " << serialize_attribute<H>(it->second.value) << "\n";
+				}
+
+				strm->write(ss.str());
+
+				return attribute_serializer<T>::execute(strm, dobj);
+			}
+			//--------------------------------------------------------------------------------------
+
+			//--------------------------------------------------------------------------------------
+			template<typename T>
+			static std::string serialize_attribute(const T &val)
+			{
+				std::stringstream ss;
+				ss << val;
+				return ss.str();
+			}
+
+			//--------------------------------------------------------------------------------------
+			template<>
+			static std::string serialize_attribute<bool>(const bool &val)
+			{
+				return val ? "true" : "false";
+			}
+			//--------------------------------------------------------------------------------------
+			template<>
+			static std::string serialize_attribute<std::string>(const std::string &val)
+			{
+				return std::string("\"") + val + std::string("\"");
+			}
+			//--------------------------------------------------------------------------------------
+		};
+		//------------------------------------------------------------------------------------------
+
 	public:
+		//------------------------------------------------------------------------------------------
+		static bool serialize(filesystem::stream_ptr strm, const data_object_ptr &dobj)
+		{
+			return attribute_serializer<AttributeTypes>::execute(strm, dobj);
+		}
+		//------------------------------------------------------------------------------------------
+
 		//------------------------------------------------------------------------------------------
 		static bool deserialize(filesystem::stream_ptr strm, data_object_ptr dobj)
 		{

@@ -30,7 +30,7 @@ static glyph_metrics_t sGlyphMetrics[sizeof(chars)];
 static glyph_metrics_t &glyph = sGlyphMetrics[0];
 
 //--------------------------------------------------------------------------------------------------
-FontTest::FontTest(djah::system::device_ptr pDevice, Camera &cam)
+FontTest::FontTest(djah::system::device_sptr pDevice, Camera &cam)
 	: test_base(pDevice)
 	, cam_(cam)
 	, pVB_(nullptr)
@@ -38,8 +38,8 @@ FontTest::FontTest(djah::system::device_ptr pDevice, Camera &cam)
 	, textShader_("text")
 	, colorShader_("colored")
 {
-	const float w = static_cast<float>(pDevice_->videoConfig().width);
-	const float h = static_cast<float>(pDevice_->videoConfig().height);
+	const float w = static_cast<float>(pDevice_->config().width);
+	const float h = static_cast<float>(pDevice_->config().height);
 	matOrthoProj_ = math::make_orthographic_projection(0.0f, w, h, 0.0f, -1.0f, 1.0f);
 
 	initFont("fonts/mode_seven.ttf", 14);

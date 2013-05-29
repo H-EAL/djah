@@ -30,17 +30,8 @@
     <Filter Include="include\math\_vector">
       <UniqueIdentifier>{b47d1f16-26d5-4bfe-9869-3eaca96ed485}</UniqueIdentifier>
     </Filter>
-    <Filter Include="include\dataobject">
-      <UniqueIdentifier>{fd76b756-c100-4f83-be8c-0743934a2679}</UniqueIdentifier>
-    </Filter>
     <Filter Include="include\detail">
       <UniqueIdentifier>{5ed21e80-e7b2-4351-953c-311aef6c1ccf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="sources\gameplay">
-      <UniqueIdentifier>{0203eaec-de71-4bfb-8cd9-a452436168f5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="include\gameplay">
-      <UniqueIdentifier>{d95da081-06e7-462e-a37e-de375aa040a7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -92,23 +83,8 @@
     <ClInclude Include="..\..\include\djah\types.hpp">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\djah\dataobject\attribute.hpp">
-      <Filter>include\dataobject</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\djah\core\detail\command_base.hpp">
       <Filter>include\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\djah\gameplay\component_database.hpp">
-      <Filter>include\gameplay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\djah\gameplay\component_serializer.hpp">
-      <Filter>include\gameplay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\djah\gameplay\components.hpp">
-      <Filter>include\gameplay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\djah\dataobject\data_object.hpp">
-      <Filter>include\dataobject</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\djah\core\detail\functor_handler.hpp">
       <Filter>include\detail</Filter>
@@ -118,18 +94,6 @@
     </ClInclude>
     <ClInclude Include="..\..\include\djah\geometry\geometry_utils.hpp">
       <Filter>include\geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\djah\gameplay\game_object.hpp">
-      <Filter>include\gameplay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\djah\dataobject\global_registry.hpp">
-      <Filter>include\dataobject</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\djah\dataobject\ini_serializer.hpp">
-      <Filter>include\dataobject</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\djah\gameplay\json_serializer.hpp">
-      <Filter>include\gameplay</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\djah\math\math_utils.hpp">
       <Filter>include\math</Filter>
@@ -203,9 +167,6 @@
     <ClInclude Include="..\..\include\djah\geometry\plane.hpp">
       <Filter>include\geometry</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\djah\dataobject\serializer.hpp">
-      <Filter>include\dataobject</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\djah\math\projection.hpp">
       <Filter>include\math</Filter>
     </ClInclude>
@@ -218,10 +179,16 @@
     <ClInclude Include="..\..\include\djah\time\timer.hpp">
       <Filter>include\time</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\djah\dataobject\registry.hpp">
-      <Filter>include\dataobject</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\djah\math\transform.hpp">
+      <Filter>include\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\math\dual_number.hpp">
+      <Filter>include\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\core\state_machine.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\math\angles.hpp">
       <Filter>include\math</Filter>
     </ClInclude>
   </ItemGroup>
@@ -244,22 +211,16 @@
     <None Include="..\..\include\djah\geometry\plane.inl">
       <Filter>include\geometry</Filter>
     </None>
-    <None Include="..\..\include\djah\dataobject\registry.inl">
-      <Filter>include\dataobject</Filter>
-    </None>
     <None Include="..\..\include\djah\math\transform.inl">
+      <Filter>include\math</Filter>
+    </None>
+    <None Include="..\..\include\djah\math\dual_number.inl">
       <Filter>include\math</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\sources\application_base.cpp">
-      <Filter>sources</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\sources\core\randomizer.cpp">
       <Filter>sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\sources\gameplay\components.cpp">
-      <Filter>sources\gameplay</Filter>
     </ClCompile>
     <ClCompile Include="..\..\sources\core\time\timer.cpp">
       <Filter>sources\time</Filter>

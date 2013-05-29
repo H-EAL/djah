@@ -24,7 +24,7 @@ class ShadowTest
 	: public test_base
 {
 public:
-	ShadowTest(djah::system::device_ptr pDevice, 
+	ShadowTest(djah::system::device_sptr pDevice, 
 		djah::system::input::mouse    &m, 
 		djah::system::input::keyboard &k,
 		djah::system::input::gamepad  &g,

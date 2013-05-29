@@ -1,6 +1,9 @@
 #ifndef DJAH_DATA_OBJECT_SERIALIZER_HPP
 #define DJAH_DATA_OBJECT_SERIALIZER_HPP
 
+#include <string>
+#include "djah/math/vector3.hpp"
+#include "djah/math/quaternion.hpp"
 
 template<typename T>
 struct type_name

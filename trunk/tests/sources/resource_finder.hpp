@@ -5,6 +5,7 @@
 #include "djah/resources/image_loader.hpp"
 #include "djah/resources/mesh_loader.hpp"
 #include "djah/resources/resource_manager.hpp"
+#include "djah/resources/media_manager.hpp"
 #include "djah/opengl/texture.hpp"
 #include "djah/filesystem/browser.hpp"
 #include "djah/system/gl.hpp"
@@ -15,7 +16,7 @@
 template<typename T>
 inline std::shared_ptr<T> find_resource(const std::string &url)
 {
-	DJAH_AUTO_PROFILE("Loading " + url);
+	//DJAH_AUTO_PROFILE("Loading " + url);
 	static resources::default_media_manager s_dmm;
 	static bool initialized = false;
 	if(!initialized)

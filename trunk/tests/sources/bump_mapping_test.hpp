@@ -12,7 +12,7 @@ class BumpMappingTest
 	: public test_base
 {
 public:
-	BumpMappingTest(djah::system::device_ptr pDevice, const djah::system::input::gamepad &g, Camera &cam);
+	BumpMappingTest(djah::system::device_sptr pDevice, const djah::system::input::gamepad &g, Camera &cam);
 	virtual ~BumpMappingTest();
 	virtual void onInit();
 	virtual void onExit();

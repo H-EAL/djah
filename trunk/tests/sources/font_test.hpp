@@ -10,7 +10,7 @@ class FontTest
 	: public test_base
 {
 public:
-	FontTest(djah::system::device_ptr pDevice, Camera &cam);
+	FontTest(djah::system::device_sptr pDevice, Camera &cam);
 	virtual ~FontTest();
 	virtual void onInit();
 	virtual void onExit();

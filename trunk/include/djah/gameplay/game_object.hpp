@@ -68,10 +68,10 @@ namespace djah { namespace gameplay {
 	public:
 		component_usage()
 			: cid_(INVALID_COMPONENT_ID)
-			//, pData_(nullptr)
+			, pData_(nullptr)
 		{}
 		CID cid_;
-		//ComponentType *pData_;
+		ComponentType *pData_;
 	};
 	//--------------------------------------------------------------------------------------------------
 	template<typename ComponentTypeList>
@@ -129,14 +129,7 @@ namespace djah { namespace gameplay {
 			DJAH_ASSERT( !isUsing<ComponentType>() );
 			component_usage<ComponentType>::cid_ = db_.add<ComponentType>(comp);
 			DJAH_ASSERT( isUsing<ComponentType>() );
-			//component_usage<ComponentType>::pData_ = &getData<ComponentType>();
-
-			/*
-			std::cout
-				<< "Adding component \"" << ComponentType::name() << "\"["
-				<< component_usage<ComponentType>::cid_ << "] to GO " << name_
-				<< std::endl;
-			*/
+			component_usage<ComponentType>::pData_ = &get<ComponentType>();
 
 			return (*this);
 		}
@@ -147,16 +140,9 @@ namespace djah { namespace gameplay {
 		{
 			DJAH_ASSERT( isUsing<ComponentType>() );
 
-			/*
-			std::cout
-				<< "Removing component \"" << ComponentType::name() << "\"["
-				<< component_usage<ComponentType>::cid_ << "] from GO " << name_
-				<< std::endl;
-			*/
-
 			db_.remove<ComponentType>(component_usage<ComponentType>::cid_);
 			component_usage<ComponentType>::cid_ = INVALID_COMPONENT_ID;
-			//component_usage<ComponentType>::pData_ = nullptr;
+			component_usage<ComponentType>::pData_ = nullptr;
 
 			return (*this);
 		}
@@ -169,7 +155,7 @@ namespace djah { namespace gameplay {
 
 		//----------------------------------------------------------------------------------------------
 		template<typename ComponentType>
-		inline component<ComponentType> getSafe()
+		inline component<ComponentType> getSafe() const
 		{
 			DJAH_ASSERT( isUsing<ComponentType>() );
 			return db_.get<ComponentType>(component_usage<ComponentType>::cid_);
@@ -177,14 +163,13 @@ namespace djah { namespace gameplay {
 
 		//----------------------------------------------------------------------------------------------
 		template<typename ComponentType>
-		inline ComponentType& get()
+		inline ComponentType& get() const
 		{
 			return getSafe<ComponentType>().data();
 		}
 
 	private:
 		static component_database<ComponentTypeList> db_;
-		static game_object_serializer<ComponentTypeList> serializer_;
 		std::string name_;
 	};
 	//--------------------------------------------------------------------------------------------------

@@ -217,7 +217,7 @@ namespace djah { namespace math {
 	template<typename T>
 	inline std::ostream& operator <<(std::ostream &out, const quaternion<T> &rhs)
 	{
-		out << "( " << rhs.x << " " << rhs.y << " " << rhs.z << " "<< rhs.w << ")";
+		out << rhs.x << " " << rhs.y << " " << rhs.z << " "<< rhs.w;
 		return out;
 	}
 	//----------------------------------------------------------------------------------------------

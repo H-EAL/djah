@@ -129,6 +129,7 @@ namespace djah { namespace math {
 			{
 				// If dot result is -1 then from and to vectors form a 180 degree angle
 				angle = pi;
+				DJAH_LOG_TODO("Determine which axis");
 			}
 			else
 			{

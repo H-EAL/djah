@@ -33,7 +33,7 @@ public:
 
 private:
 	std::string section_name_;
-	time::timer clock_;
+	djah::time::timer clock_;
 	static int i;
 };
 

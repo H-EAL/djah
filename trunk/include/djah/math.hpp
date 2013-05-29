@@ -22,5 +22,6 @@
 
 #include "math/projection.hpp"
 #include "math/transform.hpp"
+#include "math/dual_number.hpp"
 
 #endif /* MATH_HPP */

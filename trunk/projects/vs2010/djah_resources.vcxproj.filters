@@ -21,6 +21,15 @@
     <Filter Include="sources\_resources">
       <UniqueIdentifier>{30a052be-9263-4791-8473-44b03bf5bc2a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include\dataobject">
+      <UniqueIdentifier>{59b9ec00-48ed-40b8-817b-ee9b0e3f7b80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\gameplay">
+      <UniqueIdentifier>{b61b667a-5429-4ed2-a1c8-7e510d90085f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sources\gameplay">
+      <UniqueIdentifier>{ebbbc831-0b56-48ad-83bd-da02823914f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\djah\resources\media_manager.hpp">
@@ -47,10 +56,49 @@
     <ClInclude Include="..\..\include\djah\resources\mesh_loader.hpp">
       <Filter>include\_loaders</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\djah\dataobject\attribute.hpp">
+      <Filter>include\dataobject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\dataobject\data_object.hpp">
+      <Filter>include\dataobject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\dataobject\global_registry.hpp">
+      <Filter>include\dataobject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\dataobject\ini_serializer.hpp">
+      <Filter>include\dataobject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\dataobject\registry.hpp">
+      <Filter>include\dataobject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\dataobject\serializer.hpp">
+      <Filter>include\dataobject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\gameplay\components.hpp">
+      <Filter>include\gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\gameplay\component_database.hpp">
+      <Filter>include\gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\gameplay\component_serializer.hpp">
+      <Filter>include\gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\gameplay\game_object.hpp">
+      <Filter>include\gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\gameplay\game_service.hpp">
+      <Filter>include\gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\gameplay\json_serializer.hpp">
+      <Filter>include\gameplay</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\include\djah\resources\media_manager.inl">
       <Filter>include</Filter>
+    </None>
+    <None Include="..\..\include\djah\dataobject\registry.inl">
+      <Filter>include\dataobject</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -71,6 +119,9 @@
     </ClCompile>
     <ClCompile Include="..\..\sources\resources\mesh_loader.cpp">
       <Filter>sources\_loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\gameplay\components.cpp">
+      <Filter>sources\gameplay</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

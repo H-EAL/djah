@@ -36,7 +36,7 @@ using namespace djah;
 #define SH_VP_H 1 << 9
 
 //--------------------------------------------------------------------------------------------------
-ShadowTest::ShadowTest(djah::system::device_ptr pDevice,
+ShadowTest::ShadowTest(djah::system::device_sptr pDevice,
 	djah::system::input::mouse    &m, 
 	djah::system::input::keyboard &k,
 	djah::system::input::gamepad  &g,
@@ -69,8 +69,8 @@ ShadowTest::~ShadowTest()
 //--------------------------------------------------------------------------------------------------
 void ShadowTest::init()
 {
-	const float w = static_cast<float>(pDevice_->videoConfig().width);
-	const float h = static_cast<float>(pDevice_->videoConfig().height);
+	const float w = static_cast<float>(pDevice_->config().width);
+	const float h = static_cast<float>(pDevice_->config().height);
 	matPerspectiveProj_ = math::make_perspective_projection(60.0f, w/h, 0.1f, 1000.f);
 
 	astroboy_	= new model("astroboy");
@@ -92,9 +92,9 @@ void ShadowTest::init()
 	*/
 
 	pFBO_ = new djah::opengl::frame_buffer;
-	pFBO_->bind();
+	pFBO_->bindWriting();
 	pFBO_->attach(*pShadowMap_);
-	pFBO_->unbind();
+	pFBO_->unbindWriting();
 
 	const std::vector<d3d::primitives::triangle> &triangles = d3d::primitives::cube().construct();
 	pVertexBuffer_ = new opengl::vertex_buffer(triangles.size() * sizeof(d3d::primitives::triangle), opengl::eBU_StaticDraw);
@@ -152,7 +152,7 @@ static const math::matrix4f matFloor =  math::make_scale(15.0f,0.1f,15.0f) * mat
 //--------------------------------------------------------------------------------------------------
 void ShadowTest::draw()
 {
-	pFBO_->bind();
+	pFBO_->bindWriting();
 	glDepthMask(GL_TRUE);
 	glEnable(GL_DEPTH_TEST);
 	glClear(GL_DEPTH_BUFFER_BIT);
@@ -190,9 +190,9 @@ void ShadowTest::draw()
 	drawAxis(false);
 
 
-	opengl::frame_buffer::bind_default_frame_buffer();
+	pFBO_->unbindWriting();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glViewport(0, 0, pDevice_->videoConfig().width, pDevice_->videoConfig().height);
+	glViewport(0, 0, pDevice_->config().width, pDevice_->config().height);
 	//glCullFace(GL_BACK);
 
 	glMatrixMode(GL_PROJECTION);

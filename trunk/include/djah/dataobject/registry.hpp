@@ -23,6 +23,7 @@ namespace djah { namespace dataobject {
 		bool			has(const std::string &dataObjectName) const;
 		data_object_ptr get(const std::string &dataObjectName);
 		void			reload(const std::string &dataObjectName);
+		void			save(const std::string &dataObjectName);
 
 	private:
 		data_object_ptr load(const std::string &dataObjectName) const;

@@ -9,69 +9,69 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\tests\sources\application.hpp">
+    <ClInclude Include="..\..\tests\sources\application.hpp">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\tests\sources\profiler.hpp">
+    <ClInclude Include="..\..\tests\sources\basic_test.hpp">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\tests\sources\model.hpp">
+    <ClInclude Include="..\..\tests\sources\bump_mapping_test.hpp">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\tests\sources\resource_finder.hpp">
+    <ClInclude Include="..\..\tests\sources\camera.hpp">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\tests\sources\camera.hpp">
+    <ClInclude Include="..\..\tests\sources\deferred_shading_test.hpp">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\tests\sources\test.hpp">
+    <ClInclude Include="..\..\tests\sources\font_test.hpp">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\tests\sources\shadow_test.hpp">
+    <ClInclude Include="..\..\tests\sources\model.hpp">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\tests\sources\basic_test.hpp">
+    <ClInclude Include="..\..\tests\sources\profiler.hpp">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\tests\sources\deferred_shading_test.hpp">
+    <ClInclude Include="..\..\tests\sources\resource_finder.hpp">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\tests\sources\solar_system_test.hpp">
+    <ClInclude Include="..\..\tests\sources\shadow_test.hpp">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\tests\sources\bump_mapping_test.hpp">
+    <ClInclude Include="..\..\tests\sources\solar_system_test.hpp">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\tests\sources\font_test.hpp">
+    <ClInclude Include="..\..\tests\sources\tess_test.hpp">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\tests\sources\tess_test.hpp">
+    <ClInclude Include="..\..\tests\sources\test.hpp">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\tests\sources\application.cpp">
+    <ClCompile Include="..\..\tests\sources\application.cpp">
       <Filter>sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\tests\sources\shadow_test.cpp">
+    <ClCompile Include="..\..\tests\sources\tess_test.cpp">
       <Filter>sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\tests\sources\deferred_shading_test.cpp">
+    <ClCompile Include="..\..\tests\sources\basic_test.cpp">
       <Filter>sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\tests\sources\bump_mapping_test.cpp">
+    <ClCompile Include="..\..\tests\sources\bump_mapping_test.cpp">
       <Filter>sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\tests\sources\basic_test.cpp">
+    <ClCompile Include="..\..\tests\sources\deferred_shading_test.cpp">
       <Filter>sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\tests\sources\solar_system_test.cpp">
+    <ClCompile Include="..\..\tests\sources\font_test.cpp">
       <Filter>sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\tests\sources\font_test.cpp">
+    <ClCompile Include="..\..\tests\sources\shadow_test.cpp">
       <Filter>sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\tests\sources\tess_test.cpp">
+    <ClCompile Include="..\..\tests\sources\solar_system_test.cpp">
       <Filter>sources</Filter>
     </ClCompile>
   </ItemGroup>

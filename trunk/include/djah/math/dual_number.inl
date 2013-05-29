@@ -2,135 +2,140 @@ namespace djah { namespace math {
 
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	transform<T>::transform(const vector<3,T> &tr, const quaternion<T> &rot, const vector<3,T> &s)
-		: translation_(tr)
-		, scale_(s)
-		, rotation_(rot)
+	dual_number<T>::dual_number(T _real, T _dual)
+		: real_(_real)
+		, dual_(_dual)
 	{
+
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	/**********************************************************************************************/
+
+
+	//----------------------------------------------------------------------------------------------
+	template<typename T>
+	inline T&		dual_number<T>::real()		 { return real_; }
+	template<typename T>
+	inline const T& dual_number<T>::real() const { return real_; }
+	//----------------------------------------------------------------------------------------------
+	template<typename T>
+	inline T&		dual_number<T>::dual()		 { return dual_; }
+	template<typename T>
+	inline const T& dual_number<T>::dual() const { return dual_; }
+	//----------------------------------------------------------------------------------------------
+
+
+	/**********************************************************************************************/
+
+
+	//----------------------------------------------------------------------------------------------
+	template<typename T>
+	inline dual_number<T> dual_number<T>::operator -() const
+	{
+		return dual_number<T>(-real_, -dual_);
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline const vector<3,T>& transform<T>::scale() const
+	inline dual_number<T>& dual_number<T>::operator +=(const dual_number<T> &rhs)
 	{
-		return scale_;
+		real_ += rhs.real();
+		dual_ += rhs.dual();
+		return (*this);
 	}
 	//----------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline const vector<3,T>& transform<T>::translation() const
+	inline dual_number<T>& dual_number<T>::operator -=(const dual_number<T> &rhs)
 	{
-		return translation_;
+		real_ -= rhs.real();
+		dual_ -= rhs.dual();
+		return (*this);
 	}
 	//----------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline const quaternion<T>& transform<T>::rotation() const
+	inline dual_number<T>& dual_number<T>::operator *=(const dual_number<T> &rhs)
 	{
-		return rotation_;
-	}
-	//----------------------------------------------------------------------------------------------
-
-		
-	//----------------------------------------------------------------------------------------------
-	template<typename T>
-	inline void transform<T>::setScale(const vector<3,T> &s)
-	{
-		scale_ = s;
+		real_ *= rhs.real();
+		dual_ = (real_ * rhs.dual()) + (dual_ * rhs.real());
+		return (*this);
 	}
 	//----------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline void transform<T>::setScale(T s)
+	inline dual_number<T>& dual_number<T>::operator *=(T rhs)
 	{
-		scale_.x = s;
-		scale_.y = s;
-		scale_.z = s;
+		real_ *= rhs;
+		dual_ *= rhs;
+		return (*this);
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	/**********************************************************************************************/
+
+
+	//----------------------------------------------------------------------------------------------
+	template<typename T>
+	inline bool operator ==(const dual_number<T> &lhs, const dual_number<T> &rhs)
+	{
+		return lhs.real() == rhs.real() && lhs.dual() == rhs.dual();
 	}
 	//----------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline void transform<T>::setTranslation(const vector<3,T> &tr)
+	inline bool operator !=(const dual_number<T> &lhs, const dual_number<T> &rhs)
 	{
-		translation_ = tr;
+		return !(lhs == rhs);
 	}
 	//----------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline void transform<T>::setRotation(const quaternion<T> &rot)
+	inline dual_number<T> operator +(const dual_number<T> &lhs, const dual_number<T> &rhs)
 	{
-		rotation_ = rot;
-	}
-	//----------------------------------------------------------------------------------------------
-
-	
-	//----------------------------------------------------------------------------------------------
-	template<typename T>
-	inline void transform<T>::uniformScale(T s)
-	{
-		scale_ *= s;
-	}
-	//----------------------------------------------------------------------------------------------
-
-	
-	//----------------------------------------------------------------------------------------------
-	template<typename T>
-	inline void transform<T>::scale(const vector<3,T> &s)
-	{
-		scale_.x *= s.x;
-		scale_.y *= s.y;
-		scale_.z *= s.z;
+		return dual_number<T>(lhs) += rhs;
 	}
 	//----------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline void transform<T>::translate(const vector<3,T> &tr)
+	inline dual_number<T> operator -(const dual_number<T> &lhs, const dual_number<T> &rhs)
 	{
-		translation_ += tr;
+		return dual_number<T>(lhs) -= rhs;
 	}
 	//----------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline void transform<T>::rotate(const quaternion<T> &rot)
+	inline dual_number<T> operator *(const dual_number<T> &lhs, const dual_number<T> &rhs)
 	{
-		rotation_ = rotation_ * rot;
+		return dual_number<T>(lhs) *= rhs;
 	}
 	//----------------------------------------------------------------------------------------------
 
-		
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline transform<T>& transform<T>::combine(const transform<T> &other)
+	inline dual_number<T> operator *(T lhs, const dual_number<T> &rhs)
 	{
-		scale( other.scale_ );
-		translate( other.translation_ );
-		rotate( other.rotation_ );
+		return dual_number<T>(rhs) *= lhs;
 	}
 	//----------------------------------------------------------------------------------------------
 
-		
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline const matrix<4,4,T> transform<T>::toMatrix4() const
+	inline dual_number<T> operator *(const dual_number<T> &lhs, T rhs)
 	{
-		T matScaleTrans[4*4] =
-		{
-			scale_.x,       T(0),	        T(0),           T(0),
-			T(0),           scale_.y,       T(0),           T(0),
-			T(0),           T(0),	        scale_.z,       T(0),
-			translation_.x, translation_.y, translation_.z, T(1)
-		};
-
-		return quat_to_matrix4(rotation_) * matrix<4,4,T>(matScaleTrans);
+		return dual_number<T>(lhs) *= rhs;
 	}
 	//----------------------------------------------------------------------------------------------
 

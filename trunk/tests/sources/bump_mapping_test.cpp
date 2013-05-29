@@ -10,7 +10,7 @@ using namespace djah;
 using namespace d3d;
 
 //--------------------------------------------------------------------------------------------------
-BumpMappingTest::BumpMappingTest(djah::system::device_ptr pDevice, const djah::system::input::gamepad &g, Camera &cam)
+BumpMappingTest::BumpMappingTest(djah::system::device_sptr pDevice, const djah::system::input::gamepad &g, Camera &cam)
 	: test_base(pDevice)
 	, cam_(cam)
 	, gamepad_(g)
@@ -22,8 +22,8 @@ BumpMappingTest::BumpMappingTest(djah::system::device_ptr pDevice, const djah::s
 	, pPlaneNormalMap_(nullptr)
 	, shader_("bump_mapping")
 {
-	const float w = static_cast<float>(pDevice_->videoConfig().width);
-	const float h = static_cast<float>(pDevice_->videoConfig().height);
+	const float w = static_cast<float>(pDevice_->config().width);
+	const float h = static_cast<float>(pDevice_->config().height);
 	matPerspectiveProj_ = math::make_perspective_projection(60.0f, w/h, 0.1f, 1000.f);
 
 	// CTHULHU

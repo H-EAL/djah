@@ -12,7 +12,7 @@ class BasicTest
 	: public test_base
 {
 public:
-	BasicTest(djah::system::device_ptr pDevice, Camera &cam);
+	BasicTest(djah::system::device_sptr pDevice, Camera &cam);
 	virtual ~BasicTest();
 	virtual void onInit();
 	virtual void onExit();

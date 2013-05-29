@@ -17,7 +17,7 @@ class TesselationTest
 	: public test_base
 {
 public:
-	TesselationTest(djah::system::device_ptr pDevice, djah::system::input::keyboard &kb, Camera &cam);
+	TesselationTest(djah::system::device_sptr pDevice, djah::system::input::keyboard &kb, Camera &cam);
 	virtual ~TesselationTest();
 	virtual void onInit();
 	virtual void onExit();

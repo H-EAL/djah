@@ -72,7 +72,7 @@ namespace djah { namespace opengl {
 		if( lhs.vertex_attributes_.size() == rhs.vertex_attributes_.size() )
 		{
 			result = true;
-			unsigned int nbAttributes = lhs.vertex_attributes_.size();
+			const unsigned int nbAttributes = lhs.vertex_attributes_.size();
 			for(unsigned int i = 0; i < nbAttributes && result; ++i)
 			{
 				result = (lhs.vertex_attributes_[i] == rhs.vertex_attributes_[i]);
