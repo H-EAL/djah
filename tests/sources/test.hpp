@@ -12,7 +12,7 @@ using namespace djah;
 class test_base
 {
 public:
-	test_base(djah::system::device_ptr pDevice) : pDevice_(pDevice) {}
+	test_base(djah::system::device_sptr pDevice) : pDevice_(pDevice) {}
 	virtual ~test_base() {}
 	virtual void onInit() = 0;
 	virtual void onExit() = 0;
@@ -21,7 +21,7 @@ public:
 	virtual const char* name() const = 0;
 
 protected:
-	djah::system::device_ptr pDevice_;
+	djah::system::device_sptr pDevice_;
 };
 
 inline void testURL()

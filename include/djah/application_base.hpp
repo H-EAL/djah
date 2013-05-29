@@ -9,7 +9,7 @@ namespace djah {
 
 	namespace system {
 
-		class video_config;
+		class device_config;
 		class device;
 		class driver_base;
 
@@ -19,7 +19,7 @@ namespace djah {
 	{
 	public:
 
-		explicit application_base(const system::video_config &config);
+		explicit application_base(const system::device_config &config);
 		virtual ~application_base();
 
 		void init();
@@ -32,7 +32,7 @@ namespace djah {
 		virtual void runImpl() = 0;
 		virtual void exitImpl() = 0;
 
-		system::video_config video_config_;
+		system::device_config video_config_;
 		system::device		*device_;
 		system::driver_base *driver_;
 	};

@@ -66,7 +66,7 @@ namespace djah { namespace math {
 		T dot(const vector<N,T> &v) const;
 
 		// Unary minus
-		const vector<N,T> operator -() const;
+		vector<N,T> operator -() const;
 
 		// Operators
 		vector<N,T>& operator +=(const vector<N,T> &rhs);

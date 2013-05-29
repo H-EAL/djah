@@ -48,6 +48,11 @@ namespace djah { namespace dataobject {
 		{
 			iniRegistry_.reload(dataObject->name());
 		}
+		
+		void saveDO(data_object_ptr dataObject)
+		{
+			iniRegistry_.save(dataObject->name());
+		}
 
 	private:
 		global_registry() {}

@@ -6,8 +6,8 @@
 #include "vector_utils.hpp"
 #include "quaternion_utils.hpp"
 
-namespace djah { namespace math {
-	
+namespace djah { namespace math {	
+
 	//----------------------------------------------------------------------------------------------
 	static const double pi_d = 3.1415926535897932384626433;
 	static const float  pi_f = static_cast<float>(pi_d);

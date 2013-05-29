@@ -5,7 +5,7 @@ using namespace djah;
 
 static const float s = 4.0f;
 //--------------------------------------------------------------------------------------------------
-DeferredShadingTest::DeferredShadingTest(djah::system::device_ptr pDevice, const djah::system::input::gamepad &g, Camera &cam)
+DeferredShadingTest::DeferredShadingTest(djah::system::device_sptr pDevice, const djah::system::input::gamepad &g, Camera &cam)
 	: test_base(pDevice)
 	, cam_(cam)
 	, cow_("cow")
@@ -13,14 +13,14 @@ DeferredShadingTest::DeferredShadingTest(djah::system::device_ptr pDevice, const
 	, pVertexBuffer_(nullptr)
 	, pFloorTexture_(nullptr)
 	, deferredFBO_()
-	, depthFB_(GL_DEPTH_COMPONENT32F, pDevice->videoConfig().width, pDevice->videoConfig().height)
+	, depthFB_(GL_DEPTH_COMPONENT32F, pDevice->config().width, pDevice->config().height)
 	, currentBuffer_(eGB_Positions)
 	, shaderProgram_("textured")
 	, deferredProgram_("deferred_geometry")
 	, compositorProgram_("deferred_compositor")
 {
-	const float w = static_cast<float>(pDevice_->videoConfig().width);
-	const float h = static_cast<float>(pDevice_->videoConfig().height);
+	const float w = static_cast<float>(pDevice_->config().width);
+	const float h = static_cast<float>(pDevice_->config().height);
 	matPerspectiveProj_ = math::make_perspective_projection(60.0f, w/h, 0.1f, 1000.f);
 	matOrthoProj_		= math::make_orthographic_projection(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f);
 
@@ -42,7 +42,7 @@ DeferredShadingTest::DeferredShadingTest(djah::system::device_ptr pDevice, const
 
 	for(int i = 0; i < eGB_Count; ++i)
 	{
-		pGeometryBuffers_[i] = new opengl::texture(GL_RGB32F, pDevice_->videoConfig().width, pDevice_->videoConfig().height);
+		pGeometryBuffers_[i] = new opengl::texture(GL_RGB32F, pDevice_->config().width, pDevice_->config().height);
 		pGeometryBuffers_[i]->bind();
 		pGeometryBuffers_[i]->setNoFiltering();
 		pGeometryBuffers_[i]->setPixelBuffer(GL_RGB, GL_FLOAT, nullptr);
@@ -52,7 +52,7 @@ DeferredShadingTest::DeferredShadingTest(djah::system::device_ptr pDevice, const
 	depthFB_.setNoFiltering();
 	depthFB_.setPixelBuffer(GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
 
-	deferredFBO_.bind();
+	deferredFBO_.bindWriting();
 	GLenum drawBuffers[eGB_Count];
 	for(int i = 0; i < eGB_Count; ++i)
 	{
@@ -62,7 +62,7 @@ DeferredShadingTest::DeferredShadingTest(djah::system::device_ptr pDevice, const
 
 	glDrawBuffers(eGB_Count, drawBuffers);
 
-	deferredFBO_.unbind();
+	deferredFBO_.unbindWriting();
 }
 //--------------------------------------------------------------------------------------------------
 
@@ -118,7 +118,7 @@ void DeferredShadingTest::draw()
 //--------------------------------------------------------------------------------------------------
 void DeferredShadingTest::renderGeometryPass(const math::matrix4f &matViewProj)
 {
-	deferredFBO_.bind();
+	deferredFBO_.bindWriting();
 	glClearColor(1,1,1,1);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -141,7 +141,7 @@ void DeferredShadingTest::renderGeometryPass(const math::matrix4f &matViewProj)
 
 	opengl::texture::unbind();
 
-	deferredFBO_.unbind();
+	deferredFBO_.unbindWriting();
 }
 //--------------------------------------------------------------------------------------------------
 
@@ -165,7 +165,7 @@ void DeferredShadingTest::renderFinalPass(const math::matrix4f &matViewProj)
 {
 	opengl::frame_buffer::bind_default_frame_buffer();
 
-	const math::vector2f screenSize( static_cast<float>(pDevice_->videoConfig().width), static_cast<float>(pDevice_->videoConfig().height) );
+	const math::vector2f screenSize( static_cast<float>(pDevice_->config().width), static_cast<float>(pDevice_->config().height) );
 
 	static const math::matrix4f &sc = math::make_scale(2.0f);
 

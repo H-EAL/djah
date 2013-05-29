@@ -76,6 +76,18 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\include\djah\dataobject\attribute.hpp" />
+    <ClInclude Include="..\..\include\djah\dataobject\data_object.hpp" />
+    <ClInclude Include="..\..\include\djah\dataobject\global_registry.hpp" />
+    <ClInclude Include="..\..\include\djah\dataobject\ini_serializer.hpp" />
+    <ClInclude Include="..\..\include\djah\dataobject\registry.hpp" />
+    <ClInclude Include="..\..\include\djah\dataobject\serializer.hpp" />
+    <ClInclude Include="..\..\include\djah\gameplay\components.hpp" />
+    <ClInclude Include="..\..\include\djah\gameplay\component_database.hpp" />
+    <ClInclude Include="..\..\include\djah\gameplay\component_serializer.hpp" />
+    <ClInclude Include="..\..\include\djah\gameplay\game_object.hpp" />
+    <ClInclude Include="..\..\include\djah\gameplay\game_service.hpp" />
+    <ClInclude Include="..\..\include\djah\gameplay\json_serializer.hpp" />
     <ClInclude Include="..\..\include\djah\resources\image.hpp" />
     <ClInclude Include="..\..\include\djah\resources\image_loader.hpp" />
     <ClInclude Include="..\..\include\djah\resources\loader.hpp" />
@@ -86,9 +98,13 @@
     <ClInclude Include="..\..\include\djah\resources\resource_manager.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\include\djah\dataobject\registry.inl">
+      <FileType>Document</FileType>
+    </None>
     <None Include="..\..\include\djah\resources\media_manager.inl" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\sources\gameplay\components.cpp" />
     <ClCompile Include="..\..\sources\resources\image.cpp" />
     <ClCompile Include="..\..\sources\resources\image_loader.cpp" />
     <ClCompile Include="..\..\sources\resources\mesh.cpp" />

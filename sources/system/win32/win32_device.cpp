@@ -1,10 +1,8 @@
 #include "djah/system/device.hpp"
+#include "djah/system/video_config.hpp"
 #include "djah/system/system_logger.hpp"
-#include "djah/system/gl.hpp"
-#include "djah/system/opengl_driver.hpp"
-#include "djah/system/context.hpp"
 #include "djah/debug/assertion.hpp"
-#include "./wgl_extensions.hpp"
+#include "djah/platform.hpp"
 
 
 namespace djah { namespace system {
@@ -17,15 +15,16 @@ namespace djah { namespace system {
 		device_impl() : hInstance_(0), hWindow_(0), hDC_(0) {}
 		~device_impl() {}
 
-		void createWindow(const video_config &cfg);
-		void createContext(const video_config &cfg);
+		void createWindow(const device_config_sptr &pConfig);
+		void destroyWindow();
+		void setupFullScreen(int width, int height);
+		void setupWindowed(int width, int height);
 
 		// Platform specific
-		void setupPixelFormat(const video_config &cfg);
+		void setupPixelFormat(int colorBits, int depthBits, int stencilBits);
 		HINSTANCE	hInstance_;		// Application handler
 		HWND		hWindow_;		// Window handler
 		HDC			hDC_;			// Device Context handler
-		HGLRC		hGLRC_;			// Temporary opengl context
 
 		friend LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	};
@@ -35,22 +34,21 @@ namespace djah { namespace system {
 	//----------------------------------------------------------------------------------------------
 	LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
-		device* dev = device::get_current();
+		device *pDevice = device::get_current();
 
-		assert(dev);
+		check(pDevice);
 
 		switch(msg)
 		{	
 		case WM_CLOSE:
-			dev->shutDown();
+			pDevice->shutDown();
 			break;
 
 		case WM_SIZE:
-			dev->resize(LOWORD(lParam), HIWORD(lParam));
+			pDevice->resize(LOWORD(lParam), HIWORD(lParam));
 			break;
 
 		case WM_CREATE:
-			DJAH_SYSTEM_NOTIFICATION() << "Received WM_CREATE message" << DJAH_END_LOG();
 			break;
 
 		case WM_CHAR:
@@ -64,94 +62,79 @@ namespace djah { namespace system {
 
 
 	//----------------------------------------------------------------------------------------------
-	void device_impl::createWindow(const video_config &cfg)
+	void device_impl::createWindow(const device_config_sptr &pConfig)
 	{
 		hInstance_ = GetModuleHandle(0);
-		assert(hInstance_);
-		WNDCLASSEXA window_class =
+		DJAH_ASSERT(hInstance_);
+
+		static int nbClass = 0;
+		std::stringstream ss;
+		ss << "win32_device_" << (nbClass++);
+		const std::string &className = ss.str();
+
+		WNDCLASS windowClass =
 		{
-			sizeof(WNDCLASSEX),
 			CS_OWNDC | CS_VREDRAW | CS_HREDRAW,
-			WinProc, 0, 0, hInstance_,
+			WinProc,
+			0, 0, hInstance_,
 			0, LoadCursor(0, IDC_ARROW),
-			0, 0, "win32_device", 0
+			0, 0, className.c_str()
 		};
-		assert( RegisterClassExA(&window_class) );
-
-		// Take into account borders
-		int real_width  = cfg.width  + (GetSystemMetrics(SM_CXFIXEDFRAME) * 2);
-		int real_height = cfg.height + GetSystemMetrics(SM_CYCAPTION) + (GetSystemMetrics(SM_CYFIXEDFRAME) * 2);
-
-		// Center on the screen
-		int pos_x = (GetSystemMetrics(SM_CXSCREEN) - real_width)  / 2;
-		int pos_y = (GetSystemMetrics(SM_CYSCREEN) - real_height) / 2;
-
-		long style = WS_VISIBLE;
-		long ex_style = 0;
+		check( RegisterClass(&windowClass) );
 		
-		if(cfg.fullscreen)
-		{
-			style |= WS_POPUPWINDOW | WS_MAXIMIZE;
-			pos_x = pos_y = 0;
-			real_width  = cfg.width;
-			real_height = cfg.height;
-		}
-		else
-		{
-			style |= WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX;
-		}
-
-		hWindow_ = CreateWindowExA
+		hWindow_ = CreateWindow
 		(
-			ex_style,
-			"win32_device",
-			"Djah's Heavenly Window",
-			style,
-			pos_x, pos_y,
-			real_width, real_height,
+			className.c_str(),
+			pConfig->title.c_str(),
+			0,
+			10, 10,
+			10, 10,
 			0, 0,
 			hInstance_,
 			0
 		);
+		check(hWindow_);
 
-		assert(hWindow_);
-	}
-	//----------------------------------------------------------------------------------------------		
-
-
-	//----------------------------------------------------------------------------------------------
-	void device_impl::createContext(const video_config &cfg)
-	{
 		hDC_ = GetDC(hWindow_);
-		DJAH_ASSERT(hDC_ != nullptr);
+		check(hDC_);
 
-		setupPixelFormat(cfg);
-		hGLRC_ = wglCreateContext(hDC_);
-		DJAH_ASSERT(hGLRC_ != nullptr);
-		
-		wglMakeCurrent(hDC_, hGLRC_);
-		load_wgl_extensions();
+		setupPixelFormat(pConfig->colorBits, pConfig->depthBits, pConfig->stencilBits);
 
-		/*
-		wglDeleteContext(hGLRC_);
-		*/
+		if( pConfig->fullscreen )
+		{
+			setupFullScreen(pConfig->width, pConfig->height);
+		}
+		else
+		{
+			setupWindowed(pConfig->width, pConfig->height);
+		}
+
+		SetActiveWindow(hWindow_);
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	void device_impl::setupPixelFormat(const video_config &cfg)
+	void device_impl::destroyWindow()
+	{
+		ReleaseDC(hWindow_, hDC_);
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	void device_impl::setupPixelFormat(int colorBits, int depthBits, int stencilBits)
 	{
 		PIXELFORMATDESCRIPTOR pfd =
 		{	 
 			sizeof(PIXELFORMATDESCRIPTOR), 1,
 			PFD_SUPPORT_OPENGL | PFD_DRAW_TO_WINDOW | PFD_DOUBLEBUFFER,
 			PFD_TYPE_RGBA,
-			static_cast<BYTE>(cfg.colorBits),	// Bits de couleur
+			static_cast<BYTE>(colorBits),	// Bits de couleur
 			0, 0, 0, 0, 0, 0, 0, 0,
 			0, 0, 0, 0, 0,
-			static_cast<BYTE>(cfg.depthBits),	// Bits de profondeur
-			static_cast<BYTE>(cfg.stencilBits),	// Bits du buffer stencil
+			static_cast<BYTE>(depthBits),	// Bits de profondeur
+			static_cast<BYTE>(stencilBits),	// Bits du buffer stencil
 			0,									// Nombre de buffers auxiliaires
 			0, 0, 0, 0, 0
 		};
@@ -170,6 +153,56 @@ namespace djah { namespace system {
 	}
 	//----------------------------------------------------------------------------------------------
 
+
+	//----------------------------------------------------------------------------------------------
+	void device_impl::setupFullScreen(int width, int height)
+	{
+		DEVMODE devMode;
+		devMode.dmSize = sizeof(DEVMODE);
+
+		int i = 0;
+		bool displaySettingsFound = false;
+		while( !displaySettingsFound && EnumDisplaySettings(NULL, i++, &devMode) )
+		{
+			displaySettingsFound = (devMode.dmPelsWidth == width) && (devMode.dmPelsHeight == height);
+		}
+		check(displaySettingsFound);
+
+		const int result = ChangeDisplaySettings(&devMode, CDS_FULLSCREEN);
+		check(result == DISP_CHANGE_SUCCESSFUL);
+
+		SetWindowLongPtr(hWindow_, GWL_STYLE, WS_SYSMENU | WS_POPUP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VISIBLE);
+		MoveWindow(hWindow_, 0, 0, width, height, TRUE);
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	void device_impl::setupWindowed(int width, int height)
+	{
+		const int result = ChangeDisplaySettings(nullptr, 0);
+		check(result == DISP_CHANGE_SUCCESSFUL);
+
+		// Take into account borders
+		int real_width  = width  + (GetSystemMetrics(SM_CXFIXEDFRAME) * 2);
+		int real_height = height + GetSystemMetrics(SM_CYCAPTION) + (GetSystemMetrics(SM_CYFIXEDFRAME) * 2);
+
+		// Center on the screen
+		int pos_x = (GetSystemMetrics(SM_CXSCREEN) - real_width)  / 2;
+		int pos_y = (GetSystemMetrics(SM_CYSCREEN) - real_height) / 2;
+
+		RECT rect;
+		rect.left   = pos_x;
+		rect.top    = pos_y;
+		rect.right  = real_width;
+		rect.bottom = real_height;
+
+		SetWindowLongPtr(hWindow_, GWL_STYLE, WS_VISIBLE | WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX);
+		AdjustWindowRect(&rect, WS_CAPTION | WS_POPUPWINDOW, FALSE);
+		MoveWindow(hWindow_, pos_x, pos_y, real_width, real_height, TRUE);
+	}
+	//----------------------------------------------------------------------------------------------
+
 } /*system*/ } /*djah*/
 
 
@@ -177,11 +210,13 @@ namespace djah { namespace system {
 namespace djah { namespace system {
 
 	//----------------------------------------------------------------------------------------------
-	device::device()
-		: hasToQuit_(false)
-		, pDriver_(0)
-		, pImpl_(new device_impl)
+	device::device(const device_config_sptr &_pConfig)
+		: pImpl_(new device_impl)
+		, pConfig_(_pConfig)
+		, hasToQuit_(false)
 	{
+		sp_device_inst_ = this;
+		pImpl_->createWindow(pConfig_);
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -189,52 +224,18 @@ namespace djah { namespace system {
 	//----------------------------------------------------------------------------------------------
 	device::~device()
 	{
+		pImpl_->destroyWindow();
+
+		if( sp_device_inst_ == this )
+			sp_device_inst_ = nullptr;
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	void device::deleteTempContext()
-	{
-		wglDeleteContext(pImpl_->hGLRC_);
-	}
-	//----------------------------------------------------------------------------------------------
-
-
-	//----------------------------------------------------------------------------------------------
-	void* device::windowHandle() const
+	void* device::internalHandle() const
 	{
 		return reinterpret_cast<void*>( pImpl_->hWindow_ );
-	}
-	//----------------------------------------------------------------------------------------------
-
-
-	//----------------------------------------------------------------------------------------------
-	void device::create(const video_config &cfg)
-	{
-		sp_device_inst_ = this;
-		videoConfig_    = cfg;
-		
-		pImpl_->createWindow(videoConfig_);
-		pImpl_->createContext(videoConfig_);	// -> to context class
-
-		setVSync( cfg.vsync );
-	}
-	//----------------------------------------------------------------------------------------------
-
-
-	//----------------------------------------------------------------------------------------------
-	void device::destroy()
-	{
-		pDriver_->destroy();
-		delete pDriver_;
-		pDriver_ = nullptr;
-		
-		gl_context::done_current();
-
-		ReleaseDC(pImpl_->hWindow_, pImpl_->hDC_);
-
-		sp_device_inst_ = 0;
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -270,7 +271,30 @@ namespace djah { namespace system {
 	//----------------------------------------------------------------------------------------------
 	void device::resize(int width, int height)
 	{
-		pDriver_->setViewport(geometry::rect_i(0,0,width,height));
+		/*
+		auto itEnd = linkedDrivers_.end();
+		for(auto it = linkedDrivers_.begin(); it != itEnd; ++it)
+		{
+			if( !it->expired() )
+			{
+				//(*it)->setViewport(geometry::rect_i(0,0,width,height));
+			}
+		}*/
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	void device::toggleFullScreen(bool fullScreen)
+	{
+		if( fullScreen )
+		{
+			pImpl_->setupFullScreen(pConfig_->width, pConfig_->height);
+		}
+		else
+		{
+			pImpl_->setupWindowed(pConfig_->width, pConfig_->height);
+		}
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -284,7 +308,7 @@ namespace djah { namespace system {
 
 	
 	//----------------------------------------------------------------------------------------------
-	bool device::isWindowActive() const
+	bool device::isActive() const
 	{
 		return GetActiveWindow() == pImpl_->hWindow_;
 	}
@@ -292,7 +316,7 @@ namespace djah { namespace system {
 
 
 	//----------------------------------------------------------------------------------------------
-	bool device::hasWindowFocus() const
+	bool device::hasFocus() const
 	{
 		return GetFocus() == pImpl_->hWindow_;
 	}
@@ -300,35 +324,9 @@ namespace djah { namespace system {
 
 		
 	//----------------------------------------------------------------------------------------------
-	void device::setWindowTitle(const std::string &title)
+	void device::setTitle(const std::string &title)
 	{
-		SetWindowTextA(pImpl_->hWindow_, title.c_str());
-	}
-	//----------------------------------------------------------------------------------------------
-
-
-	//----------------------------------------------------------------------------------------------
-	void device::setVSync(bool enabled)
-	{
-		wglSwapIntervalEXT(enabled ? 1 : 0);
-	}
-	//----------------------------------------------------------------------------------------------
-	void device::enableVSync()
-	{
-		setVSync(true);
-	}
-	//----------------------------------------------------------------------------------------------
-	void device::disableVSync()
-	{
-		setVSync(false);
-	}
-	//----------------------------------------------------------------------------------------------
-
-		
-	//----------------------------------------------------------------------------------------------
-	void device::swapBuffers()
-	{
-		SwapBuffers(pImpl_->hDC_);
+		SetWindowText(pImpl_->hWindow_, title.c_str());
 	}
 	//----------------------------------------------------------------------------------------------
 

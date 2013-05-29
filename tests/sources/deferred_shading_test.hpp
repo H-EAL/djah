@@ -13,7 +13,7 @@ class DeferredShadingTest
 	: public test_base
 {
 public:
-	DeferredShadingTest(djah::system::device_ptr pDevice, const djah::system::input::gamepad &g, Camera &cam);
+	DeferredShadingTest(djah::system::device_sptr pDevice, const djah::system::input::gamepad &g, Camera &cam);
 	virtual ~DeferredShadingTest();
 	virtual void onInit();
 	virtual void onExit();

@@ -3,64 +3,70 @@
 
 #include <string>
 #include <memory>
-#include "../platform.hpp"
-#include "video_config.hpp"
-#include "driver_base.hpp"
+#include "djah/math/vector2.hpp"
 
 namespace djah { namespace system {
 
-	// Forward declaration
-	class device_impl;
-	
+	//----------------------------------------------------------------------------------------------
+	// Forward declarations
+	//----------------------------------------------------------------------------------------------
+	class device;
+	class driver;
+	class device_config;
+	//----------------------------------------------------------------------------------------------
+
+	//----------------------------------------------------------------------------------------------
+	// Useful type definitions
+	//----------------------------------------------------------------------------------------------
+	typedef std::shared_ptr<device> device_sptr;
+	typedef std::weak_ptr<device>   device_wptr;
+	//----------------------------------------------------------------------------------------------
+
+	//----------------------------------------------------------------------------------------------
+	// Device class
 	//----------------------------------------------------------------------------------------------
 	class device
 	{
 	public:
-		device();
+		device(const std::shared_ptr<device_config> &_config);
 		~device();
 
-		void deleteTempContext();
+		static device* get_current()	{ return sp_device_inst_;	}
 
-		static device* get_current()				{ return sp_device_inst_;	}
-
-		void* windowHandle() const;
+		template<typename T>
+		T handle()						{ return static_cast<T>(internalHandle()); }
 		
-		const video_config& videoConfig()	const	{ return videoConfig_;		}
-		video_config&		videoConfig()			{ return videoConfig_;		}
+		const std::shared_ptr<device_config>&	config() const	{ return pConfig_;	}
+		std::shared_ptr<device_config>&			config()		{ return pConfig_;	}
 
-		void setVideoDriver(driver_ptr driver)		{ pDriver_ = driver;		} 
-		driver_ptr videoDriver()			const	{ return pDriver_;			}
-
-		void create(const video_config &cfg);
-		void destroy();
 		bool run();
 		void shutDown();
+
 		void resize(int width, int height);
-
+		void toggleFullScreen(bool fullScreen);
 		void show();
-		bool isWindowActive() const;
-		bool hasWindowFocus() const;
+		bool isActive() const;
+		bool hasFocus() const;
+		void setTitle(const std::string &title);
 
-		void setWindowTitle(const std::string &title);
-
-		void setVSync(bool enabled);
-		void enableVSync();
-		void disableVSync();
-
-		void swapBuffers();
+		void setActiveDriver(const std::weak_ptr<driver> &activeDriver);
 
 		math::vector2i clientMousePosition(const math::vector2i &screenMousePos) const;
 		math::vector2i screenMousePosition(const math::vector2i &clientMousePos) const;
 
 	private:
-		// Video driver used
-		driver_ptr pDriver_;
+		// no copy
+		device(const device &);
+		device& operator =(const device &);
+
+		void* internalHandle() const;
+
+	private:
+		// Private implementation, platform dependent
+		std::unique_ptr<class device_impl> pImpl_;
 
 		// Current config
-		video_config videoConfig_;
-
-		// Private implementation, platform dependent
-		std::unique_ptr<device_impl> pImpl_;
+		std::shared_ptr<device_config> pConfig_;
 
 		// Set to true when the application is shut down
 		bool hasToQuit_;
@@ -69,18 +75,16 @@ namespace djah { namespace system {
 		static device *sp_device_inst_;
 	};
 	//----------------------------------------------------------------------------------------------
-	
-	//----------------------------------------------------------------------------------------------
-	// Pointer to a device : should be reference counted
-	typedef device* device_ptr;
-	//----------------------------------------------------------------------------------------------
+
 
 	//----------------------------------------------------------------------------------------------
-	device_ptr create_device(const video_config &cfg);
+	// Helper function to create a device
 	//----------------------------------------------------------------------------------------------
-	device_ptr create_device(int width, int height,
-							 int colorBits = 32, int depthBits = 24, int stencilBits = 0,
-							 bool fullscreen = false, bool vsync = true);
+	device_sptr create_device(const std::shared_ptr<device_config> &_config);
+	//----------------------------------------------------------------------------------------------
+	device_sptr create_device(int width, int height, int colorBits = 32, int depthBits = 24,
+							  int stencilBits = 0, bool fullscreen = false,
+							  const std::string &title = "Djah's Heavenly Window");
 	//----------------------------------------------------------------------------------------------
 
 } /*system*/ } /*djah*/

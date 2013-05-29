@@ -13,7 +13,15 @@ namespace djah { namespace opengl {
 	{
 		eBU_StreamDraw  = GL_STREAM_DRAW,
 		eBU_StaticDraw  = GL_STATIC_DRAW,
-		eBU_DynamicDraw = GL_DYNAMIC_DRAW
+		eBU_DynamicDraw = GL_DYNAMIC_DRAW,
+
+		eBU_StreamCopy  = GL_STREAM_COPY,
+		eBU_StaticCopy  = GL_STATIC_COPY,
+		eBU_DynamicCopy = GL_DYNAMIC_COPY,
+
+		eBU_StreamRead  = GL_STREAM_READ,
+		eBU_StaticRead  = GL_STATIC_READ,
+		eBU_DynamicRead = GL_DYNAMIC_READ,
 	};
 
 	class buffer_base

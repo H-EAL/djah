@@ -5,27 +5,18 @@
 namespace djah { namespace gameplay { namespace components {
 
 	//----------------------------------------------------------------------------------------------
-	void position::serialize(djah::filesystem::stream &strm) const
+	void transform::serialize(djah::filesystem::stream &strm) const
 	{
-		strm << value;
+		strm << position;
+		strm << orientation;
+		strm << scale;
 	}
 	//----------------------------------------------------------------------------------------------
-	void position::deserialize(const rapidjson::Value &node)
+	void transform::deserialize(const rapidjson::Value &node)
 	{
-		value = json_serializer<math::vector3f>::deserialize(node, "value");
-	}
-	//----------------------------------------------------------------------------------------------
-
-
-	//----------------------------------------------------------------------------------------------
-	void orientation::serialize(djah::filesystem::stream &strm) const
-	{
-		strm << value;
-	}
-	//----------------------------------------------------------------------------------------------
-	void orientation::deserialize(const rapidjson::Value &node)
-	{
-		value = json_serializer<math::quatf>::deserialize(node, "value");
+		position = json_serializer<math::vector3f>::deserialize(node, "position");
+		orientation = json_serializer<math::vector3f>::deserialize(node, "orientation");
+		scale = json_serializer<math::vector3f>::deserialize(node, "scale");
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -41,6 +32,32 @@ namespace djah { namespace gameplay { namespace components {
 	{
 		horizontal = json_serializer<float>::deserialize(node, "horizontal");
 		vertical = json_serializer<float>::deserialize(node, "vertical");
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	void static_mesh::serialize(djah::filesystem::stream &strm) const
+	{
+		strm << file;
+	}
+	//----------------------------------------------------------------------------------------------
+	void static_mesh::deserialize(const rapidjson::Value &node)
+	{
+		file = json_serializer<std::string>::deserialize(node, "file");
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	void texture::serialize(djah::filesystem::stream &strm) const
+	{
+		strm << file;
+	}
+	//----------------------------------------------------------------------------------------------
+	void texture::deserialize(const rapidjson::Value &node)
+	{
+		file = json_serializer<std::string>::deserialize(node, "file");
 	}
 	//----------------------------------------------------------------------------------------------
 

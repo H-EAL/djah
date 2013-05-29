@@ -16,7 +16,7 @@ namespace {
         #elif defined(DJAH_COMPILE_WINDOWS)
 			func = reinterpret_cast<T>( wglGetProcAddress(name) );
         #endif
-		DJAH_ASSERT_MSG(func != nullptr, "Unable to load extension");
+			DJAH_ASSERT_MSG(func != nullptr, "Unable to load extension \"%s\"", name);
 	}
 	//----------------------------------------------------------------------------------------------
 

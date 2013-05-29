@@ -63,12 +63,45 @@ namespace djah { namespace dataobject {
 
 	//----------------------------------------------------------------------------------------------
 	template<typename AttributeTypes, template<typename> class Serializer>
+	void registry<AttributeTypes,Serializer>::save(const std::string &dataObjectName)
+	{
+		auto it = dataObjects_.find(dataObjectName);
+		if( it != dataObjects_.end() )
+		{
+			filesystem::stream_ptr strm = filesystem::browser::get().openWriteStream(dataObjectName);
+			if( strm )
+			{
+				Serializer<AttributeTypes>::serialize(strm, it->second);
+			}
+			else
+			{
+				DJAH_BEGIN_LOG(warning)
+					<< "registry<>::save("
+					<< dataObjectName
+					<< ") : unable to open stream"
+					<< DJAH_END_LOG();
+			}
+		}
+		else
+		{
+			DJAH_BEGIN_LOG(warning)
+				<< "registry<>::save("
+				<< dataObjectName
+				<< ") : can't save what has never been loaded"
+				<< DJAH_END_LOG();
+		}
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	template<typename AttributeTypes, template<typename> class Serializer>
 	typename registry<AttributeTypes,Serializer>::data_object_ptr
 	registry<AttributeTypes,Serializer>::load(const std::string &dataObjectName) const
 	{
 		data_object_ptr dataObject;
 
-		filesystem::stream_ptr strm = filesystem::browser::get().openReadStream(dataObjectName);
+  		filesystem::stream_ptr strm = filesystem::browser::get().openReadStream(dataObjectName);
 		if( strm )
 		{
 			data_object_ptr dobjTmp( new data_object_t(dataObjectName) );

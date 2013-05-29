@@ -1,5 +1,6 @@
 #include "djah/system/context.hpp"
 #include "djah/system/device.hpp"
+#include "djah/system/video_config.hpp"
 #include "djah/system/gl.hpp"
 #include "djah/debug/assertion.hpp"
 #include "djah/types.hpp"
@@ -25,24 +26,51 @@ namespace djah { namespace system {
 			hDC_   = nullptr;
 		}
 
-		bool create(const gl_format &f)
+		void createTemporaryContext(const device_sptr &pDevice)
 		{
-			DJAH_ASSERT( device::get_current() );
+			hDC_ = GetDC( pDevice->handle<HWND>() );
+			check(hDC_);
 
-			hDC_ = GetDC( (HWND)device::get_current()->windowHandle() );
-			DJAH_ASSERT( hDC_ != nullptr );
+			hGLRC_ = wglCreateContext(hDC_);
+			check(hGLRC_);
 
-			int flags = WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB;
-			if( f.enableDebug )
+			wglMakeCurrent(hDC_, hGLRC_);
+			load_wgl_extensions();
+
+			glGetIntegerv(GL_MAJOR_VERSION, &driver_config::s_default_major_version);
+			glGetIntegerv(GL_MINOR_VERSION, &driver_config::s_default_minor_version);
+		}
+
+		bool create(const device_sptr &pDevice, const driver_config_sptr &pConfig)
+		{
+			int majorVersion = pConfig->majorVersion;
+			int minorVersion = pConfig->minorVersion;
+
+			if( pConfig->majorVersion == 0 )
+			{
+				majorVersion = driver_config::s_default_major_version;
+				minorVersion = driver_config::s_default_minor_version;
+			}
+
+			check(majorVersion > 0);
+
+			hDC_ = GetDC( pDevice->handle<HWND>() );
+			check(hDC_);
+
+			int flags = pConfig->enableCompatibilityProfile ? WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB : 0;
+			if( pConfig->enableDebug )
 				flags |= WGL_CONTEXT_DEBUG_BIT_ARB;
-			int mask = WGL_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB;// WGL_CONTEXT_CORE_PROFILE_BIT_ARB;
+
+			const int profileMask = pConfig->enableCompatibilityProfile
+								  ? WGL_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB
+								  : WGL_CONTEXT_CORE_PROFILE_BIT_ARB;
 
 			const int attributes[] =
 			{
-				WGL_CONTEXT_MAJOR_VERSION_ARB,	f.majorVersion,
-				WGL_CONTEXT_MINOR_VERSION_ARB,	f.minorVersion,
+				WGL_CONTEXT_MAJOR_VERSION_ARB,	majorVersion,
+				WGL_CONTEXT_MINOR_VERSION_ARB,	minorVersion,
 				WGL_CONTEXT_FLAGS_ARB,			flags,
-				WGL_CONTEXT_PROFILE_MASK_ARB,	mask,
+				WGL_CONTEXT_PROFILE_MASK_ARB,	profileMask,
 				0
 			};
 
@@ -68,11 +96,22 @@ namespace djah { namespace system {
 
 
 	//----------------------------------------------------------------------------------------------
-	gl_context::gl_context(const gl_format &_format)
-		: pImpl_( new context_impl )
-		, initialized_(false)
-		, format_(_format)
+	gl_context::gl_context(const device_sptr &pDevice, const  driver_config_sptr &_pConfig)
+		: successfullyCreated_(false)
+		, pConfig_(_pConfig)
+		, pImpl_( new context_impl )
 	{
+		if( sp_current_context_ == nullptr )
+		{
+			pImpl_->createTemporaryContext(pDevice);
+			successfullyCreated_ = true;
+			makeCurrent();
+		}
+		else
+		{
+			successfullyCreated_ = pImpl_->create(pDevice, pConfig_);
+			setVSync(pConfig_->vsync);
+		}
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -80,15 +119,10 @@ namespace djah { namespace system {
 	//----------------------------------------------------------------------------------------------
 	gl_context::~gl_context()
 	{
-	}
-	//----------------------------------------------------------------------------------------------
-
-
-	//----------------------------------------------------------------------------------------------
-	bool gl_context::create()
-	{
-		initialized_ = pImpl_->create(format_);
-		return initialized_;
+		if( sp_current_context_ == this )
+		{
+			done_current();
+		}
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -96,6 +130,7 @@ namespace djah { namespace system {
 	//----------------------------------------------------------------------------------------------
 	void gl_context::makeCurrent()
 	{
+		check(successfullyCreated_);
 		wglMakeCurrent(pImpl_->hDC_, pImpl_->hGLRC_);
 		sp_current_context_ = this;
 	}
@@ -107,6 +142,22 @@ namespace djah { namespace system {
 	{
 		wglMakeCurrent(nullptr, nullptr);
 		sp_current_context_ = nullptr;
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//-------------------------------------------------------------------------------------------------
+	void gl_context::setVSync(bool enabled)
+	{
+		wglSwapIntervalEXT(enabled ? 1 : 0);
+	}
+	//-------------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	void gl_context::swapBuffers()
+	{
+		SwapBuffers(pImpl_->hDC_);
 	}
 	//----------------------------------------------------------------------------------------------
 

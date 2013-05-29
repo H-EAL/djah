@@ -34,7 +34,7 @@ struct model
 				pDo_->get<int>("tex_coords", 2)
 			);
 
-			trans_ = djah::math::transformation_f
+			trans_ = djah::math::transform_f
 			(
 				pDo_->get<djah::math::vector3f>("position"),
 				pDo_->get<djah::math::quatf>("orientation"),
@@ -121,7 +121,7 @@ struct model
 	djah::d3d::texture_ptr tex_;
 	djah::d3d::texture_ptr nmap_;
 	djah::math::matrix4f mat_world_;
-	djah::math::transformation_f trans_;
+	djah::math::transform_f trans_;
 	djah::dataobject::default_registry::data_object_ptr pDo_;
 };
 

@@ -12,6 +12,10 @@ namespace djah { namespace system { namespace input {
 		mouse();
 		~mouse();
 
+		void showCursor() { setCursorVisibility(true);  }
+		void hideCursor() { setCursorVisibility(false); }
+		void setCursorVisibility(bool visible);
+
 		void update();
 
 		const button&			leftButton()	const { return left_button_;	}

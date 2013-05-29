@@ -12,7 +12,7 @@ class SolarSystemTest
 	: public test_base
 {
 public:
-	SolarSystemTest(djah::system::device_ptr pDevice, const djah::system::input::gamepad &g, Camera &cam);
+	SolarSystemTest(djah::system::device_sptr pDevice, const djah::system::input::gamepad &g, Camera &cam);
 	virtual ~SolarSystemTest();
 	virtual void onInit();
 	virtual void onExit();

@@ -78,7 +78,7 @@ public:
 		return  math::rotate( trans_.rotation(), math::vector3f(0.0f, 1.0f, 0.0f) );
 	}
 
-	math::transformation_f trans_;
+	math::transform_f trans_;
 	float h;
 };
 

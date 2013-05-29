@@ -1,6 +1,7 @@
 #ifndef DJAH_GAMEPLAY_COMPONENT_DATABASE_HPP
 #define DJAH_GAMEPLAY_COMPONENT_DATABASE_HPP
 
+#include <stack>
 #include "djah/core/hierarchy_generation.hpp"
 
 namespace djah { namespace gameplay {

@@ -75,7 +75,7 @@ namespace djah { namespace math {
 	
 	//----------------------------------------------------------------------------------------------
 	template<int N, typename T>
-	inline const vector<N,T> vector<N,T>::operator -() const
+	inline vector<N,T> vector<N,T>::operator -() const
 	{
 		vector<N,T> result;
 
@@ -262,10 +262,8 @@ namespace djah { namespace math {
 	template<int N, typename T>
 	inline std::ostream& operator <<(std::ostream &out, const vector<N,T> &rhs)
 	{
-		out << "( ";
 		for(int i = 0; i < N; ++i)
 			out << rhs[i] << " ";
-		out << ")";
 
 		return out;
 	}

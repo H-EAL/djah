@@ -1,33 +1,29 @@
-#include "djah/system/device.hpp"
 #include "djah/system/gl.hpp"
-#include "djah/system/opengl_driver.hpp"
-#include "djah/system/context.hpp"
+#include "djah/system/device.hpp"
+#include "djah/system/driver.hpp"
+#include "djah/system/video_config.hpp"
 
 
 namespace djah { namespace system {
 
 	//----------------------------------------------------------------------------------------------
-	device_ptr create_device(const video_config &cfg)
+	device_sptr create_device(const std::shared_ptr<device_config> &_pConfig)
 	{
-		device_ptr dev	  = new device;
-		driver_ptr driver = new opengl_driver;
-		dev->setVideoDriver(driver);
-		dev->create(cfg);
-		driver->create();
-		return dev;
+		return std::make_shared<device>(_pConfig);
 	}
 	//----------------------------------------------------------------------------------------------
-	device_ptr create_device(int width, int height,
-							 int colorBits, int depthBits, int stencilBits,
-							 bool fullscreen, bool vsync)
+	device_sptr create_device(int width, int height, int colorBits, int depthBits, int stencilBits,
+							  bool fullscreen, const std::string &title)
 	{
-		return create_device( video_config(width, height, colorBits, depthBits, stencilBits, fullscreen, vsync) );
+		return create_device(std::make_shared<device_config>(
+			width, height, colorBits, depthBits, stencilBits, fullscreen, title
+		));
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	device_ptr device::sp_device_inst_ = 0;
+	device* device::sp_device_inst_ = nullptr;
 	//----------------------------------------------------------------------------------------------
 
 } /*system*/ } /*djah*/

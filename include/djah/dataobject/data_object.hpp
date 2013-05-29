@@ -68,6 +68,14 @@ namespace djah { namespace dataobject {
 
 		//------------------------------------------------------------------------------------------
 		template<typename T>
+		const typename attribute_holder<T>::attribute_map_t& attributes() const
+		{
+			return attribute_holder<T>::attributes_;
+		}
+		//------------------------------------------------------------------------------------------
+
+		//------------------------------------------------------------------------------------------
+		template<typename T>
 		T get(const std::string &attributeName, const T &default_value = T()) const
 		{
 			T result = default_value;
@@ -77,6 +85,16 @@ namespace djah { namespace dataobject {
 				result = it->second.value;
 
 			return result;
+		}
+		//------------------------------------------------------------------------------------------
+
+		//------------------------------------------------------------------------------------------
+		template<typename T>
+		void set(const std::string &attributeName, const T &value)
+		{
+			auto it = attribute_holder<T>::attributes_.find(attributeName);
+			if( it != attribute_holder<T>::attributes_.end() )
+				it->second.value = value;
 		}
 		//------------------------------------------------------------------------------------------
 

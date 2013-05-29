@@ -39,16 +39,10 @@
     <ClInclude Include="..\..\include\djah\system\device.hpp">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\djah\system\driver_base.hpp">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\djah\system\extensions.hpp">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\djah\system\gl.hpp">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\djah\system\opengl_driver.hpp">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\djah\system\system_logger.hpp">
@@ -60,18 +54,11 @@
     <ClInclude Include="..\..\sources\system\win32\wgl_extensions.hpp">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\djah\system\driver.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\sources\system\device.cpp" />
-    <ClCompile Include="..\..\sources\system\driver_base.cpp" />
-    <ClCompile Include="..\..\sources\system\extensions.cpp" />
-    <ClCompile Include="..\..\sources\system\opengl_driver.cpp" />
-    <ClCompile Include="..\..\sources\system\system_logger.cpp" />
-    <ClCompile Include="..\..\sources\system\video_config.cpp" />
-    <ClCompile Include="..\..\sources\system\win32\wgl_extensions.cpp" />
-    <ClCompile Include="..\..\sources\system\win32\win32_clock.cpp" />
-    <ClCompile Include="..\..\sources\system\win32\win32_context.cpp" />
-    <ClCompile Include="..\..\sources\system\win32\win32_device.cpp" />
     <ClCompile Include="..\..\sources\system\win32\win32_keyboard.cpp">
       <Filter>sources\_input</Filter>
     </ClCompile>
@@ -80,6 +67,33 @@
     </ClCompile>
     <ClCompile Include="..\..\sources\system\win32\win32_gamepad.cpp">
       <Filter>sources\_input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\system\device.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\system\win32\win32_device.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\system\extensions.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\system\system_logger.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\system\video_config.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\system\win32\wgl_extensions.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\system\win32\win32_clock.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\system\win32\win32_context.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\system\driver.cpp">
+      <Filter>sources</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

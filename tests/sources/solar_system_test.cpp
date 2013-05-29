@@ -9,15 +9,15 @@ using namespace djah;
 using namespace d3d;
 
 //--------------------------------------------------------------------------------------------------
-SolarSystemTest::SolarSystemTest(djah::system::device_ptr pDevice, const djah::system::input::gamepad &g, Camera &cam)
+SolarSystemTest::SolarSystemTest(djah::system::device_sptr pDevice, const djah::system::input::gamepad &g, Camera &cam)
 	: test_base(pDevice)
 	, cam_(cam)
 	, gamepad_(g)
 	, pSphereVB_(nullptr)
 	, shader_("lit_textured")
 {
-	const float w = static_cast<float>(pDevice_->videoConfig().width);
-	const float h = static_cast<float>(pDevice_->videoConfig().height);
+	const float w = static_cast<float>(pDevice_->config().width);
+	const float h = static_cast<float>(pDevice_->config().height);
 	matPerspectiveProj_ = math::make_perspective_projection(60.0f, w/h, 0.1f, 1000.f);
 
 	primitives::sphere p;
