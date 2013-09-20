@@ -30,7 +30,7 @@ namespace djah { namespace system {
 	class driver
 	{
 	public:
-		driver(const std::shared_ptr<device> &_pDevice, const driver_config_sptr &_pConfig);
+		driver(device *_pDevice, const driver_config_sptr &_pConfig, const driver_sptr &pSharedDriver);
 		~driver();
 
 		void beginFrame();
@@ -51,22 +51,10 @@ namespace djah { namespace system {
 		driver& operator =(const driver &);
 
 	private:
-		std::shared_ptr<device>			pDevice_;
 		driver_config_sptr				pConfig_;
 		std::unique_ptr<gl_context>		pContext_;
 		opengl::capabilities			capabilities_;
 	};
-	//----------------------------------------------------------------------------------------------
-
-
-	//----------------------------------------------------------------------------------------------
-	// Helper function to create a driver
-	//----------------------------------------------------------------------------------------------
-	driver_sptr create_driver(const std::shared_ptr<device> &pDevice, const driver_config_sptr &_pConfig);
-	//----------------------------------------------------------------------------------------------
-	driver_sptr create_driver(const std::shared_ptr<device> &pDevice,
-							  eOpenglVersion version = OpenGL_Version_Default,
-							  bool enableDebug = false, bool enableCompatibilityProfile = true);
 	//----------------------------------------------------------------------------------------------
 
 } /*system*/ } /*djah*/

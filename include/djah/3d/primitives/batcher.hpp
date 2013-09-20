@@ -30,7 +30,7 @@ namespace djah { namespace d3d { namespace primitives {
 		void clean();
 		void resetTransformationsBuffer();
 		void init(const std::vector<triangle> &triangles);
-		void init(const resources::mesh_ptr &pMesh);
+		void init(const resources::mesh_sptr &pMesh);
 
 		//------------------------------------------------------------------------------------------
 		template<typename PrimType>
@@ -44,7 +44,7 @@ namespace djah { namespace d3d { namespace primitives {
 		opengl::shader_program& program() { return batchShader_.program(); }
 
 	private:
-		resources::mesh_ptr	   pMesh_;
+		resources::mesh_sptr	   pMesh_;
 		opengl::vertex_buffer *pPrimitiveVertexBuffer_;
 		opengl::vertex_buffer *pTransformationsBuffer_;
 		opengl::vertex_format  vertexFormat_;

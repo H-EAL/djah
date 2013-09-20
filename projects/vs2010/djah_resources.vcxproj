@@ -76,41 +76,37 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\include\djah\dataobject\attribute.hpp" />
-    <ClInclude Include="..\..\include\djah\dataobject\data_object.hpp" />
-    <ClInclude Include="..\..\include\djah\dataobject\global_registry.hpp" />
-    <ClInclude Include="..\..\include\djah\dataobject\ini_serializer.hpp" />
-    <ClInclude Include="..\..\include\djah\dataobject\registry.hpp" />
-    <ClInclude Include="..\..\include\djah\dataobject\serializer.hpp" />
     <ClInclude Include="..\..\include\djah\gameplay\components.hpp" />
     <ClInclude Include="..\..\include\djah\gameplay\component_database.hpp" />
     <ClInclude Include="..\..\include\djah\gameplay\component_serializer.hpp" />
     <ClInclude Include="..\..\include\djah\gameplay\game_object.hpp" />
     <ClInclude Include="..\..\include\djah\gameplay\game_service.hpp" />
     <ClInclude Include="..\..\include\djah\gameplay\json_serializer.hpp" />
+    <ClInclude Include="..\..\include\djah\resources\asset.hpp" />
+    <ClInclude Include="..\..\include\djah\resources\asset_finder.hpp" />
+    <ClInclude Include="..\..\include\djah\resources\asset_warehouse.hpp" />
+    <ClInclude Include="..\..\include\djah\resources\config_object.hpp" />
+    <ClInclude Include="..\..\include\djah\resources\data_object_loader.hpp" />
+    <ClInclude Include="..\..\include\djah\resources\data_object.hpp" />
     <ClInclude Include="..\..\include\djah\resources\image.hpp" />
     <ClInclude Include="..\..\include\djah\resources\image_loader.hpp" />
-    <ClInclude Include="..\..\include\djah\resources\loader.hpp" />
-    <ClInclude Include="..\..\include\djah\resources\media_manager.hpp" />
+    <ClInclude Include="..\..\include\djah\resources\ini_serializer.hpp" />
+    <ClInclude Include="..\..\include\djah\resources\loaders.hpp" />
     <ClInclude Include="..\..\include\djah\resources\mesh.hpp" />
     <ClInclude Include="..\..\include\djah\resources\mesh_loader.hpp" />
-    <ClInclude Include="..\..\include\djah\resources\resource_base.hpp" />
-    <ClInclude Include="..\..\include\djah\resources\resource_manager.hpp" />
+    <ClInclude Include="..\..\include\djah\resources\serializer.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\include\djah\dataobject\registry.inl">
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\include\djah\resources\media_manager.inl" />
+    <None Include="..\..\include\djah\resources\asset_finder.inl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\sources\gameplay\components.cpp" />
+    <ClCompile Include="..\..\sources\resources\asset.cpp" />
+    <ClCompile Include="..\..\sources\resources\asset_warehouse.cpp" />
     <ClCompile Include="..\..\sources\resources\image.cpp" />
     <ClCompile Include="..\..\sources\resources\image_loader.cpp" />
     <ClCompile Include="..\..\sources\resources\mesh.cpp" />
     <ClCompile Include="..\..\sources\resources\mesh_loader.cpp" />
-    <ClCompile Include="..\..\sources\resources\resource_base.cpp" />
-    <ClCompile Include="..\..\sources\resources\resource_manager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

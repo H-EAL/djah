@@ -92,6 +92,7 @@
     <ClInclude Include="..\..\include\djah\core\randomizer.hpp" />
     <ClInclude Include="..\..\include\djah\core\singleton.hpp" />
     <ClInclude Include="..\..\include\djah\core\string_utils.hpp" />
+    <ClInclude Include="..\..\include\djah\core\time\timer.hpp" />
     <ClInclude Include="..\..\include\djah\core\typelist.hpp" />
     <ClInclude Include="..\..\include\djah\core\type_traits.hpp" />
     <ClInclude Include="..\..\include\djah\geometry\geometry_utils.hpp" />
@@ -127,7 +128,6 @@
     <ClInclude Include="..\..\include\djah\math\vector_utils.hpp" />
     <ClInclude Include="..\..\include\djah\opengl.hpp" />
     <ClInclude Include="..\..\include\djah\platform.hpp" />
-    <ClInclude Include="..\..\include\djah\time\timer.hpp" />
     <ClInclude Include="..\..\include\djah\types.hpp" />
   </ItemGroup>
   <ItemGroup>

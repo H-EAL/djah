@@ -9,7 +9,7 @@
 
 #define MAKE_COMPONENT(COMP) \
 	static const char* name() { return #COMP; }\
-	void serialize(djah::filesystem::stream &strm) const;\
+	void serialize(djah::filesystem::stream &pStream) const;\
 	void deserialize(const rapidjson::Value &node);\
 
 namespace djah { namespace gameplay { namespace components {
@@ -48,7 +48,7 @@ namespace djah { namespace gameplay { namespace components {
 		static_mesh,
 		texture
 	)
-	default_components_tl;
+	DefaultComponentTypes;
 
 } /*components*/ } /*gameplay*/ } /*djah*/
 

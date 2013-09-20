@@ -6,7 +6,7 @@
 
 #include <djah/system/video_config.hpp>
 #include <djah/system/device.hpp>
-#include <djah/system/driver_base.hpp>
+#include <djah/system/driver.hpp>
 
 #include <djah/debug/log.hpp>
 #include <djah/debug/core_logger.hpp>
@@ -23,8 +23,8 @@
 #include <djah/filesystem/memory_stream.hpp>
 #include <djah/filesystem/url.hpp>
 
-#include <djah/resources/media_manager.hpp>
-#include <djah/resources/resource_manager.hpp>
+#include <djah/resources/asset_finder.hpp>
+#include <djah/resources/asset_warehouse.hpp>
 #include <djah/resources/image_loader.hpp>
 
 #include <djah/dataobject/registry.hpp>
@@ -192,7 +192,7 @@ void application::initImpl()
 	pSolarSystemTest_		= new SolarSystemTest(device_, gamepad_, cam);
 	pTessTest_				= new TesselationTest(device_, keyboard_, cam);
 
-	resources::resource_manager::get().cleanUp();
+	resources::asset_warehouse::get().cleanUp();
 
 	pCurrentTest_ = pBasicTest_;
 	pCurrentTest_->onInit();

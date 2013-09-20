@@ -9,7 +9,7 @@
 #include "djah/gameplay/game_object.hpp"
 #include "djah/gameplay/components.hpp"
 
-typedef djah::gameplay::game_object<djah::gameplay::components::default_components_tl> game_object_t;
+typedef djah::gameplay::game_object<djah::gameplay::components::DefaultComponentTypes> game_object_t;
 
 class Camera;
 
@@ -36,7 +36,7 @@ private:
 	djah::opengl::vertex_buffer *pVB_;
 	djah::opengl::vertex_array  vertArr_;
 	djah::d3d::shader			shader_;
-	djah::d3d::texture_ptr		pTexture_;
+	djah::d3d::texture_sptr		pTexture_;
 
 	game_object_t				pGO;
 };

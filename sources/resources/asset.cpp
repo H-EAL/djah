@@ -1,59 +1,36 @@
-#include "djah/resources/resource_manager.hpp"
+#include "djah/resources/asset.hpp"
+#include "djah/resources/asset_warehouse.hpp"
 
 namespace djah { namespace resources {
 
 	//----------------------------------------------------------------------------------------------
-	void resource_manager::add(const std::string &name, resource_ptr res)
+	asset::asset()
 	{
-		resource_map_t::const_iterator it = resources_.find(name);
-		if( it == resources_.end() )
-		{
-			res->setName(name);
-			resources_.insert( resource_map_t::value_type(name, res) );
-		}
+
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	void resource_manager::remove(const std::string &name)
+	asset::~asset()
 	{
-		resource_map_t::iterator it = resources_.find(name);
-		if( it != resources_.end() )
-		{
-			resources_.erase(it);
-		}
+		asset_warehouse::get().remove(name_);
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	void resource_manager::remove(resource_ptr res)
+	const std::string& asset::name() const
 	{
-		if( res )
-		{
-			remove(res->name());
-		}
+		return name_;
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	void resource_manager::cleanUp()
+	void asset::setName(const std::string &name)
 	{
-		auto it    = resources_.begin();
-		auto itEnd = resources_.end();
-		while(it != itEnd)
-		{
-			if( it->second.unique() )
-			{
-				it = resources_.erase(it);
-			}
-			else
-			{
-				++it;
-			}
-		}
+		name_ = name;
 	}
 	//----------------------------------------------------------------------------------------------
 

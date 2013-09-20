@@ -42,7 +42,7 @@ private:
 	djah::d3d::shader		shaderProgram_;
 	djah::d3d::shader		deferredProgram_;
 	djah::d3d::shader		compositorProgram_;
-	djah::d3d::texture_ptr	pFloorTexture_;
+	djah::d3d::texture_sptr	pFloorTexture_;
 
 
 	enum eGeometryBuffer

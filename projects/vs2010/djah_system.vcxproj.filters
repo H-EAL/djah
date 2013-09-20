@@ -57,6 +57,9 @@
     <ClInclude Include="..\..\include\djah\system\driver.hpp">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\djah\system\input\trigger.hpp">
+      <Filter>include\input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\sources\system\win32\win32_keyboard.cpp">

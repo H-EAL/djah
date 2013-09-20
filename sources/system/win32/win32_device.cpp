@@ -15,13 +15,13 @@ namespace djah { namespace system {
 		device_impl() : hInstance_(0), hWindow_(0), hDC_(0) {}
 		~device_impl() {}
 
-		void createWindow(const device_config_sptr &pConfig);
+		void createWindow(device *pThisDevice);
 		void destroyWindow();
-		void setupFullScreen(int width, int height);
-		void setupWindowed(int width, int height);
-
-		// Platform specific
+		bool setupFullScreen(int width, int height);
+		bool setupWindowed(int width, int height);
 		void setupPixelFormat(int colorBits, int depthBits, int stencilBits);
+		bool pumpMessages();
+
 		HINSTANCE	hInstance_;		// Application handler
 		HWND		hWindow_;		// Window handler
 		HDC			hDC_;			// Device Context handler
@@ -34,21 +34,27 @@ namespace djah { namespace system {
 	//----------------------------------------------------------------------------------------------
 	LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
-		device *pDevice = device::get_current();
+		static bool windowCreated = false;
+		if(msg == WM_CREATE || msg == WM_NCCREATE)
+		{
+			DJAH_LOG_TODO("Fix this UserData ptr stuff");
+			SetWindowLongPtr(hWnd, GWLP_USERDATA,
+				LONG_PTR(reinterpret_cast<LPCREATESTRUCT>(lParam)->lpCreateParams));
+			windowCreated = true;
+			return DefWindowProc(hWnd, msg, wParam, lParam);
+		}
 
-		check(pDevice);
-
+		device *pThisDevice = reinterpret_cast<device*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
+		check(!windowCreated || pThisDevice);
+		
 		switch(msg)
 		{	
 		case WM_CLOSE:
-			pDevice->shutDown();
+			pThisDevice->shutDown();
 			break;
 
 		case WM_SIZE:
-			pDevice->resize(LOWORD(lParam), HIWORD(lParam));
-			break;
-
-		case WM_CREATE:
+			//pThisDevice->resize(LOWORD(lParam), HIWORD(lParam));
 			break;
 
 		case WM_CHAR:
@@ -62,10 +68,12 @@ namespace djah { namespace system {
 
 
 	//----------------------------------------------------------------------------------------------
-	void device_impl::createWindow(const device_config_sptr &pConfig)
+	void device_impl::createWindow(device *pThisDevice)
 	{
+		const device_config_sptr &pConfig = pThisDevice->config();
+
 		hInstance_ = GetModuleHandle(0);
-		DJAH_ASSERT(hInstance_);
+		check(hInstance_);
 
 		static int nbClass = 0;
 		std::stringstream ss;
@@ -91,7 +99,7 @@ namespace djah { namespace system {
 			10, 10,
 			0, 0,
 			hInstance_,
-			0
+			LPVOID(pThisDevice)
 		);
 		check(hWindow_);
 
@@ -100,14 +108,16 @@ namespace djah { namespace system {
 
 		setupPixelFormat(pConfig->colorBits, pConfig->depthBits, pConfig->stencilBits);
 
+		bool resolutionSuccessfullySetup = false;
 		if( pConfig->fullscreen )
 		{
-			setupFullScreen(pConfig->width, pConfig->height);
+			resolutionSuccessfullySetup = setupFullScreen(pConfig->width, pConfig->height);
 		}
 		else
 		{
-			setupWindowed(pConfig->width, pConfig->height);
+			resolutionSuccessfullySetup = setupWindowed(pConfig->width, pConfig->height);
 		}
+		check(resolutionSuccessfullySetup);
 
 		SetActiveWindow(hWindow_);
 	}
@@ -130,24 +140,24 @@ namespace djah { namespace system {
 			sizeof(PIXELFORMATDESCRIPTOR), 1,
 			PFD_SUPPORT_OPENGL | PFD_DRAW_TO_WINDOW | PFD_DOUBLEBUFFER,
 			PFD_TYPE_RGBA,
-			static_cast<BYTE>(colorBits),	// Bits de couleur
+			BYTE(colorBits),
 			0, 0, 0, 0, 0, 0, 0, 0,
 			0, 0, 0, 0, 0,
-			static_cast<BYTE>(depthBits),	// Bits de profondeur
-			static_cast<BYTE>(stencilBits),	// Bits du buffer stencil
-			0,									// Nombre de buffers auxiliaires
+			BYTE(depthBits),
+			BYTE(stencilBits),
+			0,
 			0, 0, 0, 0, 0
 		};
 
 		const int pixelFormat = ChoosePixelFormat(hDC_, &pfd);
 		if (!pixelFormat)
 		{
-			MessageBoxA(hWindow_, "Mode graphique non supporté", "Problème", MB_ICONERROR | MB_OK);
+			MessageBoxA(hWindow_, "Mode graphique non supporté", "Problem", MB_ICONERROR | MB_OK);
 			exit(1);
 		}	
 		if (!SetPixelFormat(hDC_, pixelFormat, &pfd))
 		{
-			MessageBoxA(hWindow_, "Mode graphique non supporté", "Problème", MB_ICONERROR | MB_OK);
+			MessageBoxA(hWindow_, "Mode graphique non supporté", "Problem", MB_ICONERROR | MB_OK);
 			exit(1);
 		}	
 	}
@@ -155,33 +165,43 @@ namespace djah { namespace system {
 
 
 	//----------------------------------------------------------------------------------------------
-	void device_impl::setupFullScreen(int width, int height)
+	bool device_impl::setupFullScreen(int width, int height)
 	{
 		DEVMODE devMode;
 		devMode.dmSize = sizeof(DEVMODE);
 
 		int i = 0;
 		bool displaySettingsFound = false;
-		while( !displaySettingsFound && EnumDisplaySettings(NULL, i++, &devMode) )
+		while( !displaySettingsFound && EnumDisplaySettings(nullptr, i++, &devMode) )
 		{
 			displaySettingsFound = (devMode.dmPelsWidth == width) && (devMode.dmPelsHeight == height);
 		}
-		check(displaySettingsFound);
 
-		const int result = ChangeDisplaySettings(&devMode, CDS_FULLSCREEN);
-		check(result == DISP_CHANGE_SUCCESSFUL);
+		bool success = false;
 
-		SetWindowLongPtr(hWindow_, GWL_STYLE, WS_SYSMENU | WS_POPUP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VISIBLE);
-		MoveWindow(hWindow_, 0, 0, width, height, TRUE);
+		if( displaySettingsFound )
+		{
+			const int result = ChangeDisplaySettings(&devMode, CDS_FULLSCREEN);
+			if( result == DISP_CHANGE_SUCCESSFUL )
+			{
+				SetWindowLongPtr(hWindow_, GWL_STYLE,
+					WS_SYSMENU | WS_POPUP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VISIBLE);
+				MoveWindow(hWindow_, 0, 0, width, height, TRUE);
+				success = true;
+			}
+		}
+
+		return success;
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	void device_impl::setupWindowed(int width, int height)
+	bool device_impl::setupWindowed(int width, int height)
 	{
 		const int result = ChangeDisplaySettings(nullptr, 0);
-		check(result == DISP_CHANGE_SUCCESSFUL);
+		if( result != DISP_CHANGE_SUCCESSFUL )
+			return false;
 
 		// Take into account borders
 		int real_width  = width  + (GetSystemMetrics(SM_CXFIXEDFRAME) * 2);
@@ -191,15 +211,30 @@ namespace djah { namespace system {
 		int pos_x = (GetSystemMetrics(SM_CXSCREEN) - real_width)  / 2;
 		int pos_y = (GetSystemMetrics(SM_CYSCREEN) - real_height) / 2;
 
-		RECT rect;
-		rect.left   = pos_x;
-		rect.top    = pos_y;
-		rect.right  = real_width;
-		rect.bottom = real_height;
-
-		SetWindowLongPtr(hWindow_, GWL_STYLE, WS_VISIBLE | WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX);
-		AdjustWindowRect(&rect, WS_CAPTION | WS_POPUPWINDOW, FALSE);
+		SetWindowLongPtr(hWindow_, GWL_STYLE,
+			WS_VISIBLE | WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX);
 		MoveWindow(hWindow_, pos_x, pos_y, real_width, real_height, TRUE);
+
+		return true;
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	bool device_impl::pumpMessages()
+	{
+		MSG msg;
+		while( PeekMessage(&msg, hWindow_, 0, 0, PM_NOREMOVE) )
+		{
+			if( GetMessage(&msg, hWindow_, 0, 0) <= 0 )
+				return false;
+
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
+
+		UpdateWindow(hWindow_);
+		return true;
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -215,8 +250,10 @@ namespace djah { namespace system {
 		, pConfig_(_pConfig)
 		, hasToQuit_(false)
 	{
+		DJAH_SYSTEM_NOTIFICATION() << "Creating window..." << DJAH_END_LOG();
+		pImpl_->createWindow(this);
 		sp_device_inst_ = this;
-		pImpl_->createWindow(pConfig_);
+		DJAH_SYSTEM_NOTIFICATION() << "Window successfully created" << DJAH_END_LOG();
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -224,6 +261,7 @@ namespace djah { namespace system {
 	//----------------------------------------------------------------------------------------------
 	device::~device()
 	{
+		DJAH_SYSTEM_NOTIFICATION() << "Destroying device..." << DJAH_END_LOG();
 		pImpl_->destroyWindow();
 
 		if( sp_device_inst_ == this )
@@ -243,19 +281,7 @@ namespace djah { namespace system {
 	//----------------------------------------------------------------------------------------------
 	bool device::run()
 	{
-		MSG msg;
-		while( PeekMessage(&msg, pImpl_->hWindow_, 0, 0, PM_NOREMOVE) )
-		{
-			if( GetMessage(&msg, pImpl_->hWindow_, 0, 0) <= 0 )
-				return false;
-
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-		}
-
-		UpdateWindow(pImpl_->hWindow_);
-
-		return !hasToQuit_;
+		return !hasToQuit_ && pImpl_->pumpMessages();
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -269,36 +295,42 @@ namespace djah { namespace system {
 
 
 	//----------------------------------------------------------------------------------------------
-	void device::resize(int width, int height)
+	bool device::setResolution(int width, int height, bool fullScreen)
 	{
-		/*
-		auto itEnd = linkedDrivers_.end();
-		for(auto it = linkedDrivers_.begin(); it != itEnd; ++it)
-		{
-			if( !it->expired() )
-			{
-				//(*it)->setViewport(geometry::rect_i(0,0,width,height));
-			}
-		}*/
-	}
-	//----------------------------------------------------------------------------------------------
+		bool success = false;
 
-
-	//----------------------------------------------------------------------------------------------
-	void device::toggleFullScreen(bool fullScreen)
-	{
 		if( fullScreen )
 		{
-			pImpl_->setupFullScreen(pConfig_->width, pConfig_->height);
+			DJAH_SYSTEM_NOTIFICATION() << "Trying to set fullscreen resolution to " << width << "x" << height << DJAH_END_LOG();
+			success = pImpl_->setupFullScreen(width, height);
 		}
 		else
 		{
-			pImpl_->setupWindowed(pConfig_->width, pConfig_->height);
+			DJAH_SYSTEM_NOTIFICATION() << "Trying to set window resolution to " << width << "x" << height << DJAH_END_LOG();
+			success = pImpl_->setupWindowed(width, height);
 		}
+
+		if( success )
+		{
+			DJAH_SYSTEM_NOTIFICATION() << "Resolution successfully set to " << width << "x" << height << DJAH_END_LOG();
+			pConfig_->width = width;
+			pConfig_->height = height;
+			pConfig_->fullscreen = fullScreen;
+		}
+		else
+		{
+			DJAH_SYSTEM_WARNING()
+				<< "Unable to set resolution to "
+				<< width << "x" << height
+				<< " in " << (fullScreen ? "fullscreen" : "windowed") << " mode"
+				<< DJAH_END_LOG();
+		}
+
+		return success;
 	}
 	//----------------------------------------------------------------------------------------------
 
-	
+
 	//----------------------------------------------------------------------------------------------
 	void device::show()
 	{
@@ -327,26 +359,6 @@ namespace djah { namespace system {
 	void device::setTitle(const std::string &title)
 	{
 		SetWindowText(pImpl_->hWindow_, title.c_str());
-	}
-	//----------------------------------------------------------------------------------------------
-
-
-	//----------------------------------------------------------------------------------------------
-	math::vector2i device::clientMousePosition(const math::vector2i &screenMousePos) const
-	{
-		POINT ptScreen = {screenMousePos.x, screenMousePos.y};
-		ScreenToClient(pImpl_->hWindow_, &ptScreen);
-		return math::vector2i(ptScreen.x, ptScreen.y);
-	}
-	//----------------------------------------------------------------------------------------------
-
-
-	//----------------------------------------------------------------------------------------------
-	math::vector2i device::screenMousePosition(const math::vector2i &clientMousePos) const
-	{
-		POINT ptClient = {clientMousePos.x, clientMousePos.y};
-		ClientToScreen(pImpl_->hWindow_, &ptClient);
-		return math::vector2i(ptClient.x, ptClient.y);
 	}
 	//----------------------------------------------------------------------------------------------
 

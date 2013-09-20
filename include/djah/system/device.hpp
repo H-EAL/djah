@@ -1,9 +1,9 @@
 #ifndef DJAH_SYSTEM_DEVICE_HPP
 #define DJAH_SYSTEM_DEVICE_HPP
 
+#include <vector>
 #include <string>
 #include <memory>
-#include "djah/math/vector2.hpp"
 
 namespace djah { namespace system {
 
@@ -11,8 +11,9 @@ namespace djah { namespace system {
 	// Forward declarations
 	//----------------------------------------------------------------------------------------------
 	class device;
-	class driver;
 	class device_config;
+	class driver;
+	class driver_config;
 	//----------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------
@@ -31,10 +32,17 @@ namespace djah { namespace system {
 		device(const std::shared_ptr<device_config> &_config);
 		~device();
 
+		// Create a driver linked to this device
+		std::shared_ptr<driver> createDriver(const std::shared_ptr<driver_config> &pDriverConfig,
+											 const std::shared_ptr<driver> &pSharedDriver = std::shared_ptr<driver>());
+		void removeDriver(const std::shared_ptr<driver> &pDriver);
+
+		// Pointer to current device
 		static device* get_current()	{ return sp_device_inst_;	}
 
+		// Casted platform specific device handle
 		template<typename T>
-		T handle()						{ return static_cast<T>(internalHandle()); }
+		T handle()						{ return static_cast<T>(internalHandle());	}
 		
 		const std::shared_ptr<device_config>&	config() const	{ return pConfig_;	}
 		std::shared_ptr<device_config>&			config()		{ return pConfig_;	}
@@ -42,26 +50,28 @@ namespace djah { namespace system {
 		bool run();
 		void shutDown();
 
-		void resize(int width, int height);
-		void toggleFullScreen(bool fullScreen);
+		// Change resolution on the fly
+		bool setResolution(bool fullScreen);
+		bool setResolution(int width, int height);
+		bool setResolution(int width, int height, bool fullScreen);
+
 		void show();
 		bool isActive() const;
 		bool hasFocus() const;
 		void setTitle(const std::string &title);
 
-		void setActiveDriver(const std::weak_ptr<driver> &activeDriver);
-
-		math::vector2i clientMousePosition(const math::vector2i &screenMousePos) const;
-		math::vector2i screenMousePosition(const math::vector2i &clientMousePos) const;
-
 	private:
-		// no copy
+		// No copy
 		device(const device &);
 		device& operator =(const device &);
 
+		// Platform specific device handle
 		void* internalHandle() const;
 
 	private:
+		// List of drivers linked to this device
+		std::vector<std::weak_ptr<driver>> pLinkedDrivers_;
+
 		// Private implementation, platform dependent
 		std::unique_ptr<class device_impl> pImpl_;
 

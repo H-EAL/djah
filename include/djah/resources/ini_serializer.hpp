@@ -3,20 +3,20 @@
 
 #include <map>
 #include <memory>
-#include "data_object.hpp"
-#include "serializer.hpp"
-#include "../filesystem/stream.hpp"
-#include "../filesystem/memory_stream.hpp"
-#include "../core/string_utils.hpp"
+#include "djah/core/string_utils.hpp"
+#include "djah/filesystem/stream.hpp"
+#include "djah/filesystem/memory_stream.hpp"
+#include "djah/resources/serializer.hpp"
+#include "djah/resources/data_object.hpp"
 
-namespace djah { namespace dataobject {
+namespace djah { namespace resources {
 
 	template<typename AttributeTypes>
 	class ini_serializer
 	{
 	private:
-		typedef data_object<AttributeTypes> data_object_t;
-		typedef std::shared_ptr<data_object_t> data_object_ptr;
+		typedef resources::data_object<AttributeTypes> data_object_t;
+		typedef std::shared_ptr<data_object_t> data_object_sptr;
 
 	private:
 		//------------------------------------------------------------------------------------------
@@ -33,7 +33,7 @@ namespace djah { namespace dataobject {
 		template<>
 		struct attribute_deserializer<utils::nulltype>
 		{
-			static bool execute(attribute_set_t &attributes, data_object_ptr)
+			static bool execute(attribute_set_t &attributes, data_object_sptr)
 			{
 				return attributes.empty();
 			}
@@ -43,7 +43,7 @@ namespace djah { namespace dataobject {
 		struct attribute_deserializer< utils::typelist<H,T> >
 		{
 			//--------------------------------------------------------------------------------------
-			static bool execute(attribute_set_t &attributes, data_object_ptr dobj)
+			static bool execute(attribute_set_t &attributes, data_object_sptr dobj)
 			{
 				attribute_set_t::const_iterator itKvList = attributes.find( type_name<H>::value() );
 				if( itKvList != attributes.end() )
@@ -98,7 +98,7 @@ namespace djah { namespace dataobject {
 		template<>
 		struct attribute_serializer<utils::nulltype>
 		{
-			static bool execute(filesystem::stream_ptr strm, const data_object_ptr &dobj)
+			static bool execute(filesystem::stream_ptr strm, const data_object_sptr &dobj)
 			{
 				return true;
 			}
@@ -107,7 +107,7 @@ namespace djah { namespace dataobject {
 		struct attribute_serializer< utils::typelist<H,T> >
 		{
 			//--------------------------------------------------------------------------------------
-			static bool execute(filesystem::stream_ptr strm, const data_object_ptr &dobj)
+			static bool execute(filesystem::stream_ptr strm, const data_object_sptr &dobj)
 			{
 				auto attribs = dobj->attributes<H>();
 				std::stringstream ss;
@@ -150,16 +150,16 @@ namespace djah { namespace dataobject {
 
 	public:
 		//------------------------------------------------------------------------------------------
-		static bool serialize(filesystem::stream_ptr strm, const data_object_ptr &dobj)
+		static bool serialize(filesystem::stream_ptr strm, const data_object_sptr &dobj)
 		{
 			return attribute_serializer<AttributeTypes>::execute(strm, dobj);
 		}
 		//------------------------------------------------------------------------------------------
 
 		//------------------------------------------------------------------------------------------
-		static bool deserialize(filesystem::stream_ptr strm, data_object_ptr dobj)
+		static bool deserialize(filesystem::stream &stream, data_object_sptr dobj)
 		{
-			filesystem::memory_stream memStream(strm);
+			filesystem::memory_stream memStream(&stream);
 			std::string &stringStream = memStream.toString();
 
 			utils::string_list_t lines;
@@ -196,6 +196,6 @@ namespace djah { namespace dataobject {
 		//------------------------------------------------------------------------------------------
 	};
 
-} /*dataobject*/ } /*djah*/
+} /*resources*/ } /*djah*/
 
 #endif /* DJAH_DATA_OBJECT_INI_SERIALIZER_HPP */

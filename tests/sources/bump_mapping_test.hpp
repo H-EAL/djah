@@ -28,16 +28,16 @@ private:
 
 	djah::opengl::vertex_buffer  *pVB_;
 	djah::opengl::vertex_array   va_;
-	djah::d3d::texture_ptr	pDiffuse_;
-	djah::d3d::texture_ptr	pNormalMap_;
+	djah::d3d::texture_sptr	pDiffuse_;
+	djah::d3d::texture_sptr	pNormalMap_;
 	djah::d3d::shader		shader_;
 
 
 	djah::opengl::index_buffer   *pPlaneIB_;
 	djah::opengl::vertex_buffer  *pPlaneVB_;
 	djah::opengl::vertex_array   planeVA_;
-	djah::d3d::texture_ptr		 pPlaneDiffuse_;
-	djah::d3d::texture_ptr		 pPlaneNormalMap_;
+	djah::d3d::texture_sptr		 pPlaneDiffuse_;
+	djah::d3d::texture_sptr		 pPlaneNormalMap_;
 };
 
 #endif /* DJAH_BUMP_MAPPING_TEST_HPP */

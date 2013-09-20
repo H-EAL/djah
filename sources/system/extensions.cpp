@@ -137,6 +137,11 @@ namespace djah { namespace system {
 		//------------------------------------------------------------------------------------------
 		LOAD_EXTENSION( glActiveTexture		);
 		LOAD_EXTENSION( glGenerateMipmap	);
+		LOAD_EXTENSION( glGenSamplers		);
+		LOAD_EXTENSION( glDeleteSamplers	);
+		LOAD_EXTENSION( glBindSampler		);
+		LOAD_EXTENSION( glIsSampler			);
+		LOAD_EXTENSION( glSamplerParameteri	);
 
 		//------------------------------------------------------------------------------------------
 		// Debug

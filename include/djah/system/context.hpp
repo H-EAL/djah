@@ -18,7 +18,7 @@ namespace djah { namespace system {
 	class gl_context
 	{
 	public:
-		gl_context(const std::shared_ptr<device> &_pDevice, const std::shared_ptr<driver_config> &_pConfig);
+		gl_context(device *_pDevice, const std::shared_ptr<driver_config> &_pConfig, gl_context *pSharedContext = nullptr);
 		~gl_context();
 
 		void setVSync(bool enabled);

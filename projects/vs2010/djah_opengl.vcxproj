@@ -19,8 +19,10 @@
     <ClInclude Include="..\..\include\djah\opengl\index_buffer.hpp" />
     <ClInclude Include="..\..\include\djah\opengl\opengl_logger.hpp" />
     <ClInclude Include="..\..\include\djah\opengl\pixel_shader.hpp" />
+    <ClInclude Include="..\..\include\djah\opengl\renderer_state.hpp" />
     <ClInclude Include="..\..\include\djah\opengl\render_buffer.hpp" />
     <ClInclude Include="..\..\include\djah\opengl\resource.hpp" />
+    <ClInclude Include="..\..\include\djah\opengl\sampler.hpp" />
     <ClInclude Include="..\..\include\djah\opengl\shader_base.hpp" />
     <ClInclude Include="..\..\include\djah\opengl\shader_program.hpp" />
     <ClInclude Include="..\..\include\djah\opengl\tessellation_shader.hpp" />
@@ -43,6 +45,7 @@
     <ClCompile Include="..\..\sources\opengl\frame_buffer.cpp" />
     <ClCompile Include="..\..\sources\opengl\opengl_logger.cpp" />
     <ClCompile Include="..\..\sources\opengl\render_buffer.cpp" />
+    <ClCompile Include="..\..\sources\opengl\sampler.cpp" />
     <ClCompile Include="..\..\sources\opengl\shader_program.cpp" />
     <ClCompile Include="..\..\sources\opengl\texture.cpp" />
     <ClCompile Include="..\..\sources\opengl\vertex_array.cpp" />

@@ -34,9 +34,10 @@ namespace djah { namespace opengl {
 		void bind() const;
 		static void unbind();
 
-		int width() const			{ return width_; }
-		int height() const			{ return height_; }
-		int internalFormat() const	{ return internalFormat_; }
+		int  width() const			{ return width_; }
+		int  height() const			{ return height_; }
+		int  internalFormat() const	{ return internalFormat_; }
+		bool hasMipmapping()  const { return hasMipmapping_; }
 
 		void setPixelBuffer(int pixelFormat, int pixelDataType, const byte *pixelBuffer);
 		void updatePixelBuffer(int xOffset, int yOffset, int w, int h, int pixelFormat, int pixelDataType, const byte *subPixelBuffer);

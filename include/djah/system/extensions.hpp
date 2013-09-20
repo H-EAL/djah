@@ -126,6 +126,11 @@ DEFINE_EXTENSION( PFNGLUNIFORMMATRIX4X3FVPROC,		glUniformMatrix4x3fv		);
 //--------------------------------------------------------------------------------------------------
 DEFINE_EXTENSION( PFNGLACTIVETEXTUREPROC,			glActiveTexture				);
 DEFINE_EXTENSION( PFNGLGENERATEMIPMAPPROC,			glGenerateMipmap			);
+DEFINE_EXTENSION( PFNGLGENSAMPLERSPROC,				glGenSamplers				);
+DEFINE_EXTENSION( PFNGLDELETESAMPLERSPROC,			glDeleteSamplers			);
+DEFINE_EXTENSION( PFNGLBINDSAMPLERPROC,				glBindSampler				);
+DEFINE_EXTENSION( PFNGLISSAMPLERPROC,				glIsSampler					);
+DEFINE_EXTENSION( PFNGLSAMPLERPARAMETERIPROC,		glSamplerParameteri			);
 
 //--------------------------------------------------------------------------------------------------
 // Debug

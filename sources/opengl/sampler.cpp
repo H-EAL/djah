@@ -1,130 +1,132 @@
-#include "djah/filesystem/memory_stream.hpp"
-#include <cstring>
+#include "djah/system/gl.hpp"
+#include "djah/opengl/opengl_logger.hpp"
+#include "djah/opengl/sampler.hpp"
+#include "djah/opengl/texture.hpp"
 
-namespace djah { namespace filesystem {
+namespace djah { namespace opengl {
 
 	//----------------------------------------------------------------------------------------------
-	memory_stream::memory_stream(const void *buffer, size_t size)
-		: buffer_(new byte[size])
-		, buffer_size_(size)
-		, r_cursor_(buffer_)
-		, w_cursor_(buffer_)
+	sampler::sampler(std::shared_ptr<texture> pTexture)
+		: pTexture_(pTexture)
 	{
-		memcpy(buffer_, buffer, size);
+		aquire();
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	memory_stream::memory_stream(stream *other_stream)
-		: buffer_(new byte[other_stream->size()])
-		, buffer_size_(other_stream->size())
-		, r_cursor_(buffer_)
-		, w_cursor_(buffer_)
+	sampler::~sampler()
 	{
-		other_stream->seek(0, ESD_BEG);
-		other_stream->read(buffer_, other_stream->size());
+		release();
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	memory_stream::memory_stream(stream_ptr other_stream, size_t size, size_t offset)
-		: buffer_(new byte[size])
-		, buffer_size_(size)
-		, r_cursor_(buffer_)
-		, w_cursor_(buffer_)
+	void sampler::bind(int textureUnit) const
 	{
-		other_stream->seek(offset, ESD_BEG);
-		other_stream->read(buffer_, size);
-	}
-	//----------------------------------------------------------------------------------------------
-
-
-	//----------------------------------------------------------------------------------------------
-	memory_stream::~memory_stream()
-	{
-		delete [] buffer_;
-	}
-	//----------------------------------------------------------------------------------------------
-
-
-	//----------------------------------------------------------------------------------------------
-	const byte* memory_stream::buffer() const
-	{
-		return buffer_;
-	}
-	//----------------------------------------------------------------------------------------------
-
-
-	//----------------------------------------------------------------------------------------------
-	std::string memory_stream::toString() const
-	{
-		std::string str = reinterpret_cast<const char*>(buffer());
-		str.resize(buffer_size_);
-		return str;
-	}
-	//----------------------------------------------------------------------------------------------
-
-
-	//----------------------------------------------------------------------------------------------
-	size_t memory_stream::size()
-	{
-		return buffer_size_;
-	}
-	//----------------------------------------------------------------------------------------------
-
-
-	//----------------------------------------------------------------------------------------------
-	bool memory_stream::eof()
-	{
-		return static_cast<size_t>(r_cursor_ - buffer_) > buffer_size_;
-	}
-	//----------------------------------------------------------------------------------------------
-
-
-	//----------------------------------------------------------------------------------------------
-	void memory_stream::seek(size_t offset, E_SEEK_DIR dir)
-	{
-		switch(dir)
+		if(textureUnit == -1)
 		{
-		case ESD_BEG:
-			r_cursor_ = buffer() + offset;
-			break;
-		case ESD_CUR:
-			r_cursor_ += offset;
-			break;
-		case ESD_END:
-			r_cursor_ = buffer() + (buffer_size_ - offset);
-			break;
+			textureUnit = texture::active_unit();
 		}
+		glBindSampler(textureUnit, id_);
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	void memory_stream::close()
+	void sampler::unbind(int textureUnit)
 	{
-
+		if(textureUnit == -1)
+		{
+			textureUnit = texture::active_unit();
+		}
+		glBindSampler(0, 0);
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	size_t memory_stream::readImpl(char* buff, size_t size)
+	void sampler::aquire()
 	{
-		memcpy(buff, r_cursor_, size);
-		return size;
+		glGenSamplers(1, &id_);
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	size_t memory_stream::writeImpl(const char* buff, size_t size)
+	void sampler::release()
 	{
-		memcpy(w_cursor_, buff, size);
-		return size;
+		glDeleteSamplers(1, &id_);
+		id_ = INVALID_ID;
 	}
 	//----------------------------------------------------------------------------------------------
 
-} /*filesystem*/ } /*djah*/
+
+	//----------------------------------------------------------------------------------------------
+	bool sampler::isValidResource() const
+	{
+		return glIsSampler(id_) != 0;
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	void sampler::setWrapMode(int wrapMode)
+	{
+		glSamplerParameteri(id_, GL_TEXTURE_WRAP_S, wrapMode);
+		glSamplerParameteri(id_, GL_TEXTURE_WRAP_T, wrapMode);
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	void sampler::setFiltering(eBilinearMode bilinearMode, eMimappingMode mipmappingMode)
+	{
+		check(pTexture_);
+
+		const int magFilter = (bilinearMode & eBM_Near) ? GL_LINEAR : GL_NEAREST;
+		// Filter for objects that are close to the camera
+		glSamplerParameteri(id_, GL_TEXTURE_MAG_FILTER, magFilter);
+
+		const bool bilinearFar = (bilinearMode & eBM_Far) != 0;
+		int minFilter = bilinearFar ? GL_LINEAR : GL_NEAREST;
+
+		if( pTexture_->hasMipmapping() )
+		{
+			switch( mipmappingMode )
+			{
+			case eMM_Standard:
+				minFilter = bilinearFar ? GL_LINEAR_MIPMAP_NEAREST : GL_NEAREST_MIPMAP_NEAREST;
+				break;
+
+			case eMM_Trilinear:
+				minFilter = bilinearFar ? GL_LINEAR_MIPMAP_LINEAR : GL_NEAREST_MIPMAP_LINEAR;
+				break;
+
+			default:
+				DJAH_OPENGL_WARNING() << "Invalid mipmapping filtering set" << DJAH_END_LOG();
+			case eMM_None:
+				break;
+			}
+		}
+
+		// Filter for objects that are far away from the camera
+		glSamplerParameteri(id_, GL_TEXTURE_MIN_FILTER, minFilter);
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	void sampler::setNoFiltering()
+	{
+		setFiltering(eBM_None, eMM_None);
+	}
+	//----------------------------------------------------------------------------------------------
+	void sampler::setBestFiltering()
+	{
+		setFiltering(eBM_NearFar, eMM_Trilinear);
+	}
+	//----------------------------------------------------------------------------------------------
+
+} /*opengl*/ } /*djah*/

@@ -40,12 +40,13 @@ namespace djah { namespace gameplay {
 	{
 		component_holder()
 		{
+			DJAH_LOG_TODO("Keep a timestamp as of when a component got instanciated");
 			components_.reserve(NB_GO);
 		}
 
 		inline component<ComponentType> get(CID cid)
 		{
-			assert(cid < components_.size());
+			check(cid < components_.size());
 			return component<ComponentType>(cid, components_);
 		}
 

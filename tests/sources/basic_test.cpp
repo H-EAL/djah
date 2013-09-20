@@ -2,7 +2,7 @@
 #include "djah/types.hpp"
 #include "resource_finder.hpp"
 #include "djah/3d/primitives.hpp"
-#include "djah/resources/media_manager.hpp"
+#include "djah/resources/asset_finder.hpp"
 #include "djah/core/randomizer.hpp"
 #include "djah/core/noise.hpp"
 
@@ -118,7 +118,7 @@ void BasicTest::initPrimitive(
 	djah::opengl::vertex_buffer *&pVB,
 	djah::opengl::vertex_array &pVA,
 	const std::string &textureFile,
-	djah::d3d::texture_ptr &pTex,
+	djah::d3d::texture_sptr &pTex,
 	int level1, int level2)
 {
 	const std::vector<primitives::triangle> &triangles = P().construct(level1, level2);

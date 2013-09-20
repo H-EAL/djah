@@ -52,7 +52,6 @@ namespace djah { namespace opengl {
 		template<int M, int N>
 		void sendUniform(const std::string &name, const math::matrix<M,N,float> &mat, bool transpose = false) const;
 
-
 	private:
 		virtual void aquire();
 		virtual void release();

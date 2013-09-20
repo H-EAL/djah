@@ -66,7 +66,7 @@ private:
 	djah::opengl::vertex_array  vertexArray_;
 	djah::opengl::vertex_buffer *pVertexBuffer_;
 	djah::opengl::texture		*pShadowMap_;
-	djah::d3d::texture_ptr		pFloorTexture_;
+	djah::d3d::texture_sptr		pFloorTexture_;
 };
 
 #endif /* DJAH_SHADOW_TEST_HPP */

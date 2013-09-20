@@ -4,7 +4,6 @@
 #include <map>
 #include <stack>
 #include "djah/system/gl.hpp"
-#include "djah/opengl/vertex_format.hpp"
 #include "djah/opengl/resource.hpp"
 
 namespace djah { namespace opengl {
@@ -13,6 +12,7 @@ namespace djah { namespace opengl {
 	class vertex_buffer;
 	class index_buffer;
 	class shader_program;
+	class vertex_format;
 
 	class vertex_array
 		: public resource

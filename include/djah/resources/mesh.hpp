@@ -4,7 +4,7 @@
 #include <vector>
 #include <memory>
 #include "djah/types.hpp"
-#include "djah/resources/resource_base.hpp"
+#include "djah/resources/asset.hpp"
 #include "djah/opengl.hpp"
 
 namespace djah { namespace resources {
@@ -24,6 +24,8 @@ namespace djah { namespace resources {
 			delete pVertexBuffer;
 		}
 
+		u32 size() const { return vertexCount * vertexFormat.vertexSize(); }
+
 		unsigned int			vertexCount;
 		opengl::vertex_format	vertexFormat;
 		opengl::vertex_array	vertexArray;
@@ -34,11 +36,13 @@ namespace djah { namespace resources {
 
 	//----------------------------------------------------------------------------------------------
 	class mesh
-		: public resource_base
+		: public asset
 	{
 	public:
 		mesh(unsigned int subMeshCount);
 		virtual ~mesh();
+
+		virtual u32 size() const;
 
 		void addSubMesh(submesh *pSubMesh);
 		void draw() const;
@@ -55,7 +59,7 @@ namespace djah { namespace resources {
 	};
 	//----------------------------------------------------------------------------------------------
 
-	typedef std::shared_ptr<mesh> mesh_ptr;
+	typedef std::shared_ptr<mesh> mesh_sptr;
 
 } /*resources*/ } /*djah*/
 
