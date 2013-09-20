@@ -31,7 +31,7 @@ namespace djah { namespace math {
 		quaternion<T>  getConjugate() const;
 
 		// Negate
-		const quaternion<T> operator -() const;
+		quaternion<T> operator -() const;
 
 		// Addition
 		quaternion<T>& operator +=(const quaternion<T> &rhs);

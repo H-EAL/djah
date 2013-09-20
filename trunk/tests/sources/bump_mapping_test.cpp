@@ -2,7 +2,7 @@
 #include "djah/types.hpp"
 #include "resource_finder.hpp"
 #include "djah/3d/primitives.hpp"
-#include "djah/resources/media_manager.hpp"
+#include "djah/resources/asset_finder.hpp"
 #include "djah/filesystem/browser.hpp"
 #include "djah/filesystem/memory_stream.hpp"
 

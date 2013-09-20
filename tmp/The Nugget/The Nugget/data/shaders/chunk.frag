@@ -1,9 +1,11 @@
 #version 400
 
 uniform sampler2D in_MatSampler;
-uniform ivec2     in_CameraChunk;
+uniform sampler2D in_WoodSampler;
+//uniform ivec2     in_CameraChunk;
 uniform bool	  in_IsBlock;
 uniform ivec2 	  in_ChunkCoord;
+uniform float 	  in_ChunkProbability;
 
 in vec3 vs_Normal;
 in vec2 vs_TexCoord;
@@ -61,9 +63,39 @@ void main()
 	light.base.diffuseIntensity = 0.7;
 	light.direction = normalize( vec3(0,0,-1) );
 	
-	vec4 Color = (in_CameraChunk == in_ChunkCoord) ? vec4(0,1,0,1) : vec4(1,1,1,1);
-		
-	FragColor = Color * texture(in_MatSampler, vs_TexCoord) * calcDirectionalLight(light, normalize(vs_Normal));
-	FragColor.a = (in_IsBlock && vs_Health < 0.5f) ? 0.0f : 1.0f;
-		
+	//vec4 Color = (in_CameraChunk == in_ChunkCoord) ? vec4(0,1,0,1) : vec4(1,1,1,1);
+	FragColor = /*Color */ calcDirectionalLight(light, normalize(vs_Normal));
+	
+	vec2 TexCoord = vs_TexCoord;
+	float type = vs_Health * in_ChunkProbability;
+	if( type < 0.25f )
+	{
+		// SAND
+		TexCoord.x += 0.5f;
+	}
+	else if( type < 0.5f )
+	{
+		// GRASS
+		TexCoord.y += 0.5f;
+	}
+	else if( type < 0.75f )
+	{
+		// DIRT
+		TexCoord.x += 0.5f;
+		TexCoord.y += 0.5f;
+	}
+	//else
+	// ROCK 
+	
+	if( in_IsBlock )
+	{
+		FragColor *= texture(in_MatSampler, TexCoord);
+		FragColor.a = (vs_Health == 0.0) ? 0.0f : 1.0f;
+	}
+	else
+	{
+		FragColor *= texture(in_WoodSampler, vs_TexCoord);
+		FragColor.a = 1.0f;
+	}
+	
 }

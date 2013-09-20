@@ -36,7 +36,7 @@ private:
 
 	djah::opengl::vertex_buffer  *pSphereVB_;
 	djah::opengl::vertex_array   sphereVA_;
-	djah::d3d::texture_ptr		 pTextures_[ePO_Count];
+	djah::d3d::texture_sptr		 pTextures_[ePO_Count];
 	djah::d3d::shader			  shader_;
 };
 

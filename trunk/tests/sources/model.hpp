@@ -6,7 +6,7 @@
 #include "resource_finder.hpp"
 #include "djah/dataobject/global_registry.hpp"
 #include "djah/opengl.hpp"
-#include "djah/resources/media_manager.hpp"
+#include "djah/resources/asset_finder.hpp"
 #include "djah/3d/shader.hpp"
 
 struct model
@@ -118,8 +118,8 @@ struct model
 	djah::opengl::vertex_buffer *vb_;
 	djah::opengl::vertex_array va_;
 	djah::d3d::shader      *sp_;
-	djah::d3d::texture_ptr tex_;
-	djah::d3d::texture_ptr nmap_;
+	djah::d3d::texture_sptr tex_;
+	djah::d3d::texture_sptr nmap_;
 	djah::math::matrix4f mat_world_;
 	djah::math::transform_f trans_;
 	djah::dataobject::default_registry::data_object_ptr pDo_;

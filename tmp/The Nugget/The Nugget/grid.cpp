@@ -7,7 +7,7 @@ using namespace djah;
 
 static const int CHUNK_WIDTH = 7;
 static const int CHUNK_HEIGHT = 4;
-static const float CELL_SIZE = 1.18f;
+static const float CELL_SIZE = 1.1f;
 
 //--------------------------------------------------------------------------------------------------
 Grid::Grid(int _width, int _height)
@@ -18,7 +18,8 @@ Grid::Grid(int _width, int _height)
 	initChunks();
 	initFrameBuffer(1280, 800);
 
-	pMatTex_ = d3d::texture_manager::get().find("drybed_diffuse01.jpg");
+	pMatTex_ = d3d::texture_manager::get().find("brick_mats.png");
+	pWoodTex_ = d3d::texture_manager::get().find("Wood_Plank_01.jpg");
 }
 //--------------------------------------------------------------------------------------------------
 
@@ -116,10 +117,13 @@ void Grid::draw(const math::vector3f &cameraPosition, const math::matrix4f &matV
 	shader_.program().sendUniform("in_CellsPerChunk", math::vector2i(CHUNK_WIDTH,CHUNK_HEIGHT));
 	shader_.program().sendUniform("in_CellSize", CELL_SIZE);
 	shader_.program().sendUniform("in_MatSampler", 0);
+	shader_.program().sendUniform("in_WoodSampler", 1);
 
 	pMatTex_->bind();
+	opengl::texture::set_active_unit(1);
+	pWoodTex_->bind();
 	const math::vector2i &cameraChunk = cameraPositionInChunkSpace(cameraPosition);
-	shader_.program().sendUniform("in_CameraChunk", cameraChunk);
+	//shader_.program().sendUniform("in_CameraChunk", cameraChunk);
 
 	for(int i = 0; i < NB_CHUNKS_W; ++i)
 	{
@@ -130,6 +134,8 @@ void Grid::draw(const math::vector3f &cameraPosition, const math::matrix4f &matV
 			pChunks_[i][j]->draw();
 		}
 	}
+	pWoodTex_->unbind();
+	opengl::texture::set_active_unit(0);
 	pMatTex_->unbind();
 
 	shader_.program().end();

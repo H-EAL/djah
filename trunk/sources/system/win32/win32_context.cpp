@@ -2,6 +2,7 @@
 #include "djah/system/device.hpp"
 #include "djah/system/video_config.hpp"
 #include "djah/system/gl.hpp"
+#include "djah/system/system_logger.hpp"
 #include "djah/debug/assertion.hpp"
 #include "djah/types.hpp"
 #include "./wgl_extensions.hpp"
@@ -26,7 +27,7 @@ namespace djah { namespace system {
 			hDC_   = nullptr;
 		}
 
-		void createTemporaryContext(const device_sptr &pDevice)
+		void createTemporaryContext(device *pDevice)
 		{
 			hDC_ = GetDC( pDevice->handle<HWND>() );
 			check(hDC_);
@@ -41,7 +42,7 @@ namespace djah { namespace system {
 			glGetIntegerv(GL_MINOR_VERSION, &driver_config::s_default_minor_version);
 		}
 
-		bool create(const device_sptr &pDevice, const driver_config_sptr &pConfig)
+		bool create(device *pDevice, const driver_config_sptr &pConfig, context_impl *pSharedContextImpl)
 		{
 			int majorVersion = pConfig->majorVersion;
 			int minorVersion = pConfig->minorVersion;
@@ -74,7 +75,8 @@ namespace djah { namespace system {
 				0
 			};
 
-			hGLRC_ = wglCreateContextAttribsARB(hDC_, nullptr, attributes);
+			HGLRC sharedHGLRC = pSharedContextImpl ? pSharedContextImpl->hGLRC_ : nullptr;
+			hGLRC_ = wglCreateContextAttribsARB(hDC_, sharedHGLRC, attributes);
 
 			return (hGLRC_ != nullptr);
 		}
@@ -96,22 +98,28 @@ namespace djah { namespace system {
 
 
 	//----------------------------------------------------------------------------------------------
-	gl_context::gl_context(const device_sptr &pDevice, const  driver_config_sptr &_pConfig)
+	gl_context::gl_context(device *pDevice, const  driver_config_sptr &_pConfig, gl_context *pSharedContext)
 		: successfullyCreated_(false)
 		, pConfig_(_pConfig)
 		, pImpl_( new context_impl )
 	{
-		if( sp_current_context_ == nullptr )
+		static bool firstContextCreation = true;
+		if( firstContextCreation )
 		{
-			pImpl_->createTemporaryContext(pDevice);
-			successfullyCreated_ = true;
-			makeCurrent();
+			context_impl defaultContextImpl;
+			defaultContextImpl.createTemporaryContext(pDevice);
+			firstContextCreation = false;
+
+			DJAH_SYSTEM_NOTIFICATION()
+				<< "Temporary OpenGL context created (version "
+				<< driver_config::s_default_major_version
+				<< "."
+				<< driver_config::s_default_minor_version
+				<< ")" << DJAH_END_LOG();
 		}
-		else
-		{
-			successfullyCreated_ = pImpl_->create(pDevice, pConfig_);
-			setVSync(pConfig_->vsync);
-		}
+
+		context_impl *pSharedContextImpl = pSharedContext ? pSharedContext->pImpl_.get() : nullptr;
+		successfullyCreated_ = pImpl_->create(pDevice, pConfig_, pSharedContextImpl);
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -149,6 +157,7 @@ namespace djah { namespace system {
 	//-------------------------------------------------------------------------------------------------
 	void gl_context::setVSync(bool enabled)
 	{
+		DJAH_SYSTEM_NOTIFICATION() << (enabled ? "Enabling" : "Disabling") << " VSync" << DJAH_END_LOG();
 		wglSwapIntervalEXT(enabled ? 1 : 0);
 	}
 	//-------------------------------------------------------------------------------------------------

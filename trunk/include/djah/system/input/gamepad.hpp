@@ -5,16 +5,16 @@
 #include <vector>
 #include "axis.hpp"
 #include "button.hpp"
+#include "trigger.hpp"
 
 namespace djah { namespace system { namespace input {
 
-	enum ePovDirection
+	enum eGamepads
 	{
-		ePD_Neutral = -1,
-		ePD_Down,
-		ePD_Up,
-		ePD_Left,
-		ePD_Right
+		eGP_Gamepad_0 = 0,
+		eGP_Gamepad_1,
+		eGP_Gamepad_2,
+		eGP_Gamepad_3
 	};
 
 	enum eXbox360Buttons
@@ -25,17 +25,34 @@ namespace djah { namespace system { namespace input {
 		eX360_Y,
 		eX360_LB,
 		eX360_RB,
-		eX360_Select,
+		eX360_LeftThumb,
+		eX360_RighThumb,
+		eX360_Back,
 		eX360_Start,
+		eX360_DPad_Down,
+		eX360_DPad_Up,
+		eX360_DPad_Left,
+		eX360_DPad_Right,
+
+		eX360_ButtonsCount
 	};
 
 	enum eXbox360Axis
 	{
 		eX360_LeftX,
 		eX360_LeftY,
-		eX360_LeftRightTrigger,
 		eX360_RightX,
 		eX360_RightY,
+
+		eX360_AxisCount
+	};
+
+	enum eX360_Triggers
+	{
+		eX360_LeftTrigger,
+		eX360_RightTrigger,
+
+		eX360_TriggersCount
 	};
 
 	class gamepad
@@ -45,28 +62,25 @@ namespace djah { namespace system { namespace input {
 		~gamepad();
 
 		void			update();
-		unsigned int	nbButtons()							const { return buttons_.size();		}
-		unsigned int	nbButtonsDown()						const { return nb_buttons_down_;	}
-		bool			isPlugged()							const { return plugged_;			}
-		const button&	getButton(unsigned int button_id)	const { return buttons_[button_id]; }
-		const axis&		getAxis(unsigned int axis_id)		const { return axis_[axis_id];		}
+		unsigned int	nbButtons()							const { return buttons_.size();			}
+		bool			isPlugged()							const { return plugged_;				}
+		const button&	getButton(unsigned int button_id)	const { return buttons_[button_id];		}
+		const axis&		getAxis(unsigned int axis_id)		const { return axis_[axis_id];			}
+		const trigger&	getTrigger(unsigned int trigger_id)	const { return triggers_[trigger_id];	}
 		
-		void vibrate(int val);
-		void vibrate(int left, int right);
+		void vibrate(float val);
+		void vibrate(float left, float right);
 
 	private:
 		void init();
-		void initButtons(unsigned int nb_buttons);
-		void initPOV() {}
 
 	private:
-		unsigned int		id_;
-		std::string			name_;
-		bool				plugged_;
-		std::vector<axis>	axis_;
-		std::vector<button> buttons_;
-		//button				pov_[4];
-		unsigned int		nb_buttons_down_;
+		unsigned int		 id_;
+		std::string			 name_;
+		bool				 plugged_;
+		std::vector<axis>	 axis_;
+		std::vector<button>	 buttons_;
+		std::vector<trigger> triggers_;
 	};
 
 } /*input*/ } /*system*/ } /*djah*/

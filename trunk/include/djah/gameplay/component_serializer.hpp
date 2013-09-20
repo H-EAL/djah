@@ -116,6 +116,16 @@ namespace djah { namespace gameplay {
 			}
 		}
 
+		static void deserialize(game_object_t &go)
+		{
+			comp_map_t compMap;
+
+			deserialize(go, compMap );
+
+			component_serializer<ComponentTypeList>::deserialize(compMap);
+			clearDocStack();
+		}
+
 		static void deserialize(std::vector<game_object_t*> &goList)
 		{
 			comp_map_t compMap;

@@ -9,12 +9,12 @@
 		static bool always_ignore = false;\
 		if( !always_ignore && !(Condition) )\
 		{\
-			djah::debug::eAssertResult res = djah::debug::assert_function( File, Line, #Condition );\
-			if( res == djah::debug::eAR_Retry )\
+			djah::debug::eAssertResult pAsset = djah::debug::assert_function( File, Line, #Condition );\
+			if( pAsset == djah::debug::eAR_Retry )\
 			{\
 				djah::debug::debugger_break();\
 			}\
-			else if( res == djah::debug::eAR_AlwaysIgnore )\
+			else if( pAsset == djah::debug::eAR_AlwaysIgnore )\
 			{\
 				always_ignore = true;\
 			}\
@@ -31,12 +31,12 @@
 		static bool always_ignore = false;\
 		if( !always_ignore && !(Condition) )\
 		{\
-			djah::debug::eAssertResult res = djah::debug::assert_function( File, Line, #Condition, Msg, __VA_ARGS__ );\
-			if( res == djah::debug::eAR_Retry )\
+			djah::debug::eAssertResult pAsset = djah::debug::assert_function( File, Line, #Condition, Msg, __VA_ARGS__ );\
+			if( pAsset == djah::debug::eAR_Retry )\
 			{\
 				djah::debug::debugger_break();\
 			}\
-			else if( res == djah::debug::eAR_AlwaysIgnore )\
+			else if( pAsset == djah::debug::eAR_AlwaysIgnore )\
 			{\
 				always_ignore = true;\
 			}\

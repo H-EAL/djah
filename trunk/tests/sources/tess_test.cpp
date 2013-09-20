@@ -2,7 +2,7 @@
 #include "djah/types.hpp"
 #include "resource_finder.hpp"
 #include "djah/3d/primitives.hpp"
-#include "djah/resources/media_manager.hpp"
+#include "djah/resources/asset_finder.hpp"
 #include "djah/core/randomizer.hpp"
 #include "djah/core/noise.hpp"
 #include "camera.hpp"

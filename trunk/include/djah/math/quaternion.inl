@@ -78,7 +78,7 @@ namespace djah { namespace math {
 	
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline const quaternion<T> quaternion<T>::operator -() const
+	inline quaternion<T> quaternion<T>::operator -() const
 	{
 		return (*this) * T(-1);
 	}

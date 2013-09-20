@@ -3,13 +3,13 @@
 
 #include <vector>
 #include <memory>
-#include "resource_base.hpp"
-#include "../types.hpp"
+#include "djah/resources/asset.hpp"
+#include "djah/types.hpp"
 
 namespace djah { namespace resources {
 
 	class image
-		: public resource_base
+		: public asset
 	{
 	public:
 		image(unsigned int _width, u32 _height, u32 _channels, const byte *pPixels);
@@ -20,6 +20,8 @@ namespace djah { namespace resources {
 		u32			channels() const { return channels_; }
 		const byte*	pixels()   const { return &pPixels_[0]; }
 
+		virtual u32 size() const { return pPixels_.size(); }
+
 	private:
 		unsigned int		width_;
 		unsigned int		height_;
@@ -27,7 +29,7 @@ namespace djah { namespace resources {
 		std::vector<byte>	pPixels_;
 	};
 
-	typedef std::shared_ptr<image> image_ptr;
+	typedef std::shared_ptr<image> image_sptr;
 
 } /*resources*/ } /*djah*/
 

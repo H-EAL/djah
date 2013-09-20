@@ -36,6 +36,7 @@ private:
 	Chunk *pChunks_[NB_CHUNKS_W][NB_CHUNKS_H];
 
 	d3d::texture_ptr pMatTex_;
+	d3d::texture_ptr pWoodTex_;
 
 	djah::opengl::frame_buffer frameBuffer_;
 	djah::opengl::texture	  *pColorBuffer;

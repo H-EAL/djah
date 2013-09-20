@@ -100,7 +100,7 @@ namespace djah { namespace d3d { namespace primitives {
 
 
 		//------------------------------------------------------------------------------------------
-		void batcher::init(const resources::mesh_ptr &pMesh)
+		void batcher::init(const resources::mesh_sptr &pMesh)
 		{
 			clean();
 			pMesh_ = pMesh;

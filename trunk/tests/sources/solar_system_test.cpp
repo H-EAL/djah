@@ -3,7 +3,7 @@
 #include "resource_finder.hpp"
 #include "djah/3d/primitives.hpp"
 #include "djah/3d/lights.hpp"
-#include "djah/resources/media_manager.hpp"
+#include "djah/resources/asset_finder.hpp"
 
 using namespace djah;
 using namespace d3d;

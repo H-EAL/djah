@@ -1,14 +1,36 @@
-#ifndef DATA_OBJECT_HPP
-#define DATA_OBJECT_HPP
+#ifndef DJAH_RESOURCES_DATA_OBJECT_HPP
+#define DJAH_RESOURCES_DATA_OBJECT_HPP
 
 #include <map>
 #include <string>
+#include <ostream>
+#include <sstream>
 #include "djah/debug/assertion.hpp"
 #include "djah/core/typelist.hpp"
 #include "djah/core/hierarchy_generation.hpp"
-#include "djah/dataobject/attribute.hpp"
+#include "djah/resources/asset.hpp"
+#include "djah/math/vector3.hpp"
+#include "djah/math/quaternion.hpp"
+#include "djah/debug/log.hpp"
 
-namespace djah { namespace dataobject {
+namespace djah { namespace resources {
+
+	//----------------------------------------------------------------------------------------------
+	// An attribute is a name and a value
+	template<typename T>
+	struct attribute
+	{
+		attribute(const std::string &n = "unknown", const T &v = T())
+			: name(n)
+			, value(v)
+		{
+			DJAH_LOG_TODO("Get rid of this class (attribute<T>), use directly T in the attribute_holder map");
+		}
+
+		std::string name;
+		T			value;
+	};
+	//----------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------
 	// An attribute hook enables the iteration on all the attributes of all types
@@ -20,6 +42,9 @@ namespace djah { namespace dataobject {
 	{
 		template<typename DO>
 		static bool has(const DO&, const std::string&) { return false; }
+
+		template<typename DO>
+		static std::string to_string(const DO&) { return std::string(); }
 	};
 	//----------------------------------------------------------------------------------------------
 	template<typename HeadAttribute, typename TailList>
@@ -30,6 +55,20 @@ namespace djah { namespace dataobject {
 		{
 			return dobj.has<HeadAttribute>(attributeName)
 				|| attribute_hook<TailList>::has(dobj, attributeName);
+		}
+
+		template<typename DO>
+		static std::string to_string(const DO &dobj)
+		{
+			std::stringstream result;
+			auto _attributes = dobj.attributes<HeadAttribute>();
+			auto itEnd = _attributes.end();
+			for(auto it = _attributes.begin(); it != itEnd; ++it)
+			{
+				result << it->first << " = " << it->second.value << "\n";
+			}
+
+			return result.str() + attribute_hook<TailList>::to_string(dobj);
 		}
 	};
 	//----------------------------------------------------------------------------------------------
@@ -49,11 +88,33 @@ namespace djah { namespace dataobject {
 
 
 	//----------------------------------------------------------------------------------------------
+	// List of supported types
+	typedef TYPELIST
+	(
+		int, 
+		float, 
+		bool, 
+		double, 
+		std::string, 
+		math::vector3f, 
+		math::quatf
+	)
+	DefaultAttributeTypes;
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
 	// A data object is a collection of attributes of different types
-	template<typename AttributeTypes>
+	template<typename AttributeTypes = DefaultAttributeTypes>
 	class data_object
 		: public utils::gen_scatter_hierarchy<AttributeTypes, attribute_holder>
+		, public asset
 	{
+	public:
+		typedef data_object<AttributeTypes>	   data_object_t;
+		typedef std::shared_ptr<data_object_t> data_object_sptr;
+		typedef std::weak_ptr<data_object_t>   data_object_wptr;
+
 	public:
 		//------------------------------------------------------------------------------------------
 		data_object(const std::string &name)
@@ -123,11 +184,24 @@ namespace djah { namespace dataobject {
 		}
 		//----------------------------------------------------------------------------------------------
 
+		//----------------------------------------------------------------------------------------------
+		std::string toString() const
+		{
+			return attribute_hook<AttributeTypes>::to_string(*this);
+		}
+		//----------------------------------------------------------------------------------------------
+
 	private:
 		std::string name_;
 	};
 	//----------------------------------------------------------------------------------------------
 
-} /*dataobject*/ } /*djah*/
+	template<typename AttributeTypes>
+	std::ostream& operator <<(std::ostream &out, const data_object<AttributeTypes> &dataObject)
+	{
+		return out << dataObject.toString();
+	}
 
-#endif /* DATA_OBJECT_HPP */
+} /*resources*/ } /*djah*/
+
+#endif /* DJAH_RESOURCES_DATA_OBJECT_HPP */

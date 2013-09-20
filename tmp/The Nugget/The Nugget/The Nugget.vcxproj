@@ -68,12 +68,15 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Development\Projects\djah\trunk\include;D:\Development\Projects\djah\extlibs\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>D:\Development\Projects\djah\trunk\lib\win32;D:\Development\Projects\djah\extlibs\lib\win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>djah_3d.lib;djah_core.lib;djah_debug.lib;djah_filesystem.lib;djah_opengl.lib;djah_resources.lib;djah_system.lib;opengl32.lib;FreeImage.lib;freetype.lib;winmm.lib;dbghelp.lib;XInput.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -84,6 +87,7 @@
   <ItemGroup>
     <ClInclude Include="chunk.hpp" />
     <ClInclude Include="grid.hpp" />
+    <ClInclude Include="item.hpp" />
     <ClInclude Include="resource_finder.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

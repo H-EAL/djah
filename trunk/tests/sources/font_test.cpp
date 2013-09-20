@@ -3,7 +3,7 @@
 #include "resource_finder.hpp"
 #include "djah/3d/primitives.hpp"
 #include "djah/3d/font_engine.hpp"
-#include "djah/resources/media_manager.hpp"
+#include "djah/resources/asset_finder.hpp"
 
 #include <ft2build.h>
 #include FT_FREETYPE_H

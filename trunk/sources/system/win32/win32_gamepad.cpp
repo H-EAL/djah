@@ -1,24 +1,9 @@
 #include "djah/system/input/gamepad.hpp"
 
-#include <sstream>
-#include <iostream>
+#include <climits>
 
 #include "djah/platform.hpp"
 #include "djah/types.hpp"
-
-
-
-/*
-	USE THIS SOMEWHERE ELSE TO CREATE GAMEPADS, PROBABLY IN THE DEVICE CLASS
-*/
-/*
-u32 nbGamePads = joyGetNumDevs();
-std::cout << "Supporting " << nbGamePads << " gamepads" << std::endl;
-		
-JOYINFO ji;
-for(u32 i = 0; i < nbGamePads; ++i)
-	std::cout << "[" << i << "] " << (joyGetPos(i, &ji) == JOYERR_NOERROR) << std::endl;
-*/
 
 namespace djah { namespace system { namespace input {
 
@@ -26,7 +11,6 @@ namespace djah { namespace system { namespace input {
 	gamepad::gamepad(unsigned int id)
 		: id_(id)
 		, plugged_(false)
-		, nb_buttons_down_(0)
 	{
 		init();
 	}
@@ -35,114 +19,103 @@ namespace djah { namespace system { namespace input {
 	//----------------------------------------------------------------------------------------------
 	gamepad::~gamepad()
 	{
+		if( plugged_ )
+			vibrate(0.0f);
 	}
 	//----------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------
 	void gamepad::init()
 	{
-		JOYCAPS jc;
+		// Clean the state
+		XINPUT_STATE controllerState;
+		memset(&controllerState, 0, sizeof(XINPUT_STATE));
 
-		MMRESULT result = joyGetDevCaps( id_, &jc, sizeof(JOYCAPS) );
-		if( result == JOYERR_NOERROR )
-		{
-			name_ = jc.szPname;
+		// Get the state
+		DWORD result = XInputGetState(id_, &controllerState);
+		plugged_ = ( result == ERROR_SUCCESS );
+		if( !plugged_ )
+			return;
 
-			// Buttons
-			initButtons( jc.wNumButtons );
+		name_ = "X360_Controller_0";
 
-			// Point Of View hat
-			initPOV();
+		// Buttons
+		buttons_.reserve(eX360_ButtonsCount);
+		buttons_.push_back( button("GAMEPAD_BTN_A", XINPUT_GAMEPAD_A) );
+		buttons_.push_back( button("GAMEPAD_BTN_B", XINPUT_GAMEPAD_B) );
+		buttons_.push_back( button("GAMEPAD_BTN_X", XINPUT_GAMEPAD_X) );
+		buttons_.push_back( button("GAMEPAD_BTN_Y", XINPUT_GAMEPAD_Y) );
+		buttons_.push_back( button("GAMEPAD_BTN_LB", XINPUT_GAMEPAD_LEFT_SHOULDER) );
+		buttons_.push_back( button("GAMEPAD_BTN_RIGHT_THUMB", XINPUT_GAMEPAD_RIGHT_THUMB) );
+		buttons_.push_back( button("GAMEPAD_BTN_LEFT_THUMB", XINPUT_GAMEPAD_LEFT_THUMB) );
+		buttons_.push_back( button("GAMEPAD_BTN_RB", XINPUT_GAMEPAD_RIGHT_SHOULDER) );
+		buttons_.push_back( button("GAMEPAD_BTN_BACK", XINPUT_GAMEPAD_BACK) );
+		buttons_.push_back( button("GAMEPAD_BTN_START", XINPUT_GAMEPAD_START) );
+		buttons_.push_back( button("GAMEPAD_BTN_DPAD_DOWN", XINPUT_GAMEPAD_DPAD_DOWN) );
+		buttons_.push_back( button("GAMEPAD_BTN_DPAD_UP", XINPUT_GAMEPAD_DPAD_UP) );
+		buttons_.push_back( button("GAMEPAD_BTN_DPAD_LEFT", XINPUT_GAMEPAD_DPAD_LEFT) );
+		buttons_.push_back( button("GAMEPAD_BTN_DPAD_RIGHT", XINPUT_GAMEPAD_DPAD_RIGHT) );
 			
-			// Axis
-			static const char axis_names[] =
-			{
-				'X', 'Y',
-				'Z', 'R',
-				'U', 'V',
-			};
-			const unsigned int min_values[] =
-			{
-				jc.wXmin, jc.wYmin,
-				jc.wZmin, jc.wRmin,
-				jc.wUmin, jc.wVmin,
-			};
-			const unsigned int max_values[] =
-			{
-				jc.wXmax, jc.wYmax,
-				jc.wZmax, jc.wRmax,
-				jc.wUmax, jc.wVmax,
-			};
+		// Axis
+		axis_.reserve(eX360_AxisCount);
+		axis_.push_back( axis("GAMEPAD_AXIS_LX", eX360_LeftX,  SHRT_MIN, SHRT_MAX, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)  );
+		axis_.push_back( axis("GAMEPAD_AXIS_LY", eX360_LeftY,  SHRT_MIN, SHRT_MAX, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)  );
+		axis_.push_back( axis("GAMEPAD_AXIS_RX", eX360_RightX, SHRT_MIN, SHRT_MAX, XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) );
+		axis_.push_back( axis("GAMEPAD_AXIS_RY", eX360_RightY, SHRT_MIN, SHRT_MAX, XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) );
 
-			const u32 nb_axis = jc.wNumAxes > 6 ? 6 : jc.wNumAxes;
-			axis_.reserve(nb_axis);
-			for(u32 a = 0; a < nb_axis; ++a)
-			{
-				std::string axis_name = "GAMEPAD_AXIS_";
-				axis_name += axis_names[a];
-				axis_.push_back( axis(axis_name, a, min_values[a], max_values[a]) );
-			}
-		}
-	}
-	//----------------------------------------------------------------------------------------------
-
-	//----------------------------------------------------------------------------------------------
-	void gamepad::initButtons(unsigned int nb_buttons)
-	{
-		nb_buttons = nb_buttons > 32 ? 32 : nb_buttons;
-		buttons_.reserve(nb_buttons);
-
-		for(u32 b = 0; b < nb_buttons; ++b)
-		{
-			std::stringstream ss;
-			ss << "GAMEPAD_BTN_" << (b+1);
-			buttons_.push_back( button(ss.str(), (1 << b)) );
-		}
+		// Triggers
+		triggers_.reserve(eX360_TriggersCount);
+		triggers_.push_back( trigger("GAMEPAD_TRIGGER_LEFT",  eX360_LeftTrigger,  UCHAR_MAX, XINPUT_GAMEPAD_TRIGGER_THRESHOLD ) );
+		triggers_.push_back( trigger("GAMEPAD_TRIGGER_RIGHT", eX360_RightTrigger, UCHAR_MAX, XINPUT_GAMEPAD_TRIGGER_THRESHOLD ) );
 	}
 	//----------------------------------------------------------------------------------------------
 
 	//----------------------------------------------------------------------------------------------
 	void gamepad::update()
 	{
-		XINPUT_STATE state;
+		// Clean the state
+		XINPUT_STATE controllerState;
+		memset(&controllerState, 0, sizeof(XINPUT_STATE));
 
-		JOYINFOEX jie;
-		jie.dwSize = sizeof(JOYINFOEX);
+		// Get the state
+		DWORD result = XInputGetState(id_, &controllerState);
 
-		plugged_ = joyGetPosEx(id_, &jie) == JOYERR_NOERROR;
-		if( plugged_ )
+		// Check if the gamepad is still plugged in
+		plugged_ = (result == ERROR_SUCCESS);
+		if( !plugged_ )
 		{
-			// Buttons
-			nb_buttons_down_ = jie.dwButtonNumber;
-			const u32 nb_buttons = buttons_.size();
-			for(u32 b = 0; b < nb_buttons; ++b)
-			{
-				buttons_[b].setState( (jie.dwButtons & buttons_[b].id()) != 0 );
-				//std::cout << buttons_[b].isDown() << std::endl;
-			}
-
-			// POV
-			//std::cout << jie.dwPOV << std::endl;
-
-			// Axis
-			const int axis_values[] = 
-			{
-				jie.dwXpos, jie.dwYpos,
-				jie.dwZpos, jie.dwRpos,
-				jie.dwUpos, jie.dwVpos,
-			};
-			const u32 nb_axis = axis_.size();
-			for(u32 a = 0; a < nb_axis; ++a)
-			{
-				axis_[a].setValue( static_cast<float>(axis_values[a]) );
-			}
+			return;
 		}
+
+		// Check if there's any change in the gamepad state
+		static DWORD dwLastPacketNumber = 0;
+		if( dwLastPacketNumber == controllerState.dwPacketNumber )
+		{
+			// No changes
+			return;
+		}
+		dwLastPacketNumber = controllerState.dwPacketNumber;
+
+
+		// Update buttons state
+		const u32 nb_buttons = buttons_.size();
+		for(u32 b = 0; b < nb_buttons; ++b)
+		{
+			buttons_[b].setState( (controllerState.Gamepad.wButtons & buttons_[b].id()) != 0 );
+		}
+		
+		// Update axis state
+		axis_[eX360_LeftX].setRawValue(float(controllerState.Gamepad.sThumbLX));
+
+		// Update triggers state
+		triggers_[eX360_LeftTrigger].setRawValue(float(controllerState.Gamepad.bLeftTrigger));
+		triggers_[eX360_RightTrigger].setRawValue(float(controllerState.Gamepad.bRightTrigger));
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	void gamepad::vibrate(int val)
+	void gamepad::vibrate(float val)
 	{
 		vibrate(val, val);
 	}
@@ -150,20 +123,20 @@ namespace djah { namespace system { namespace input {
 
 
 	//----------------------------------------------------------------------------------------------
-	void gamepad::vibrate(int left, int right)
+	void gamepad::vibrate(float left, float right)
 	{
 		// Create a Vibration State
-		XINPUT_VIBRATION Vibration;
+		XINPUT_VIBRATION vibration;
 
-		// Zeroise the Vibration
-		ZeroMemory(&Vibration, sizeof(XINPUT_VIBRATION));
+		// Clean the vibration
+		memset(&vibration, 0, sizeof(XINPUT_VIBRATION));
 
 		// Set the Vibration Values
-		Vibration.wLeftMotorSpeed = left;
-		Vibration.wRightMotorSpeed = right;
+		vibration.wLeftMotorSpeed  = static_cast<u16>(left  * std::numeric_limits<u16>::max());
+		vibration.wRightMotorSpeed = static_cast<u16>(right * std::numeric_limits<u16>::max());
 
 		// Vibrate the controller
-		XInputSetState(0, &Vibration);
+		XInputSetState(0, &vibration);
 	}
 	//----------------------------------------------------------------------------------------------
 

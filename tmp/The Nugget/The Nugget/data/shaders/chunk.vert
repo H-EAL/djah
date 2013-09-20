@@ -24,7 +24,7 @@ void main()
 {	
 	ivec2 CellCoord = ivec2(gl_InstanceID % in_CellsPerChunk.x, gl_InstanceID / in_CellsPerChunk.x);
 	vec3 chunkTranslation = vec3(in_ChunkCoord * in_CellsPerChunk * in_CellSize + vec2(in_CellSize/2.0), 0);
-	vec3 cellTranslation  = vec3(CellCoord * in_CellSize, in_IsBlock ? 0.2 : 0.0);
+	vec3 cellTranslation  = vec3(CellCoord * in_CellSize, in_IsBlock ? -0.2 : 0.0);
 	
 	gl_Position = in_VP * vec4(Position + chunkTranslation + cellTranslation, 1);
 	

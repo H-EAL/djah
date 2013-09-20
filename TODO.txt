@@ -1,0 +1,25 @@
+[DEBUG]
+Add a memory tracker
+Add a profiler
+Change the logger to log into a queue instead of directly to a file
+*Stack trace
+
+[CORE]
+Thread management
+
+[MATH]
+Radian and degree classes to manipulate angle values and more generally a unit class
+Use SIMD in vector and matrix classes
+
+[SYSTEM]
+*Add a screen (rendering surface) class that holds all the relevant data about the screen (position, size, ...)
+*Use the Pimpl idiom to implement platform dependant objects (device, screen, graphic context...)
+*Rework driver/device/context classes
+*Proper fullscreen mode
+
+[RESOURCES]
+Add assets_warehouse to stock assets (basically rename resource manager)
+
+[GRAPHIC ENGINE]
+Add a shader generator that creates a shader based on mesh DNA (nb bones, nb mat, ...)
+Graphic debug (sphere, circle, line, ...)

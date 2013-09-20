@@ -1,7 +1,7 @@
 #ifndef DJAH_SYSTEM_INPUT_MOUSE_HPP
 #define DJAH_SYSTEM_INPUT_MOUSE_HPP
 
-#include "../../math/vector2.hpp"
+#include "djah/math/vector2.hpp"
 #include "button.hpp"
 
 namespace djah { namespace system { namespace input {

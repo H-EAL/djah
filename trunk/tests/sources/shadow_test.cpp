@@ -19,8 +19,8 @@
 #include <djah/filesystem/memory_stream.hpp>
 #include <djah/filesystem/url.hpp>
 
-#include <djah/resources/media_manager.hpp>
-#include <djah/resources/resource_manager.hpp>
+#include <djah/resources/asset_finder.hpp>
+#include <djah/resources/asset_warehouse.hpp>
 #include <djah/resources/image_loader.hpp>
 
 #include <djah/dataobject/registry.hpp>

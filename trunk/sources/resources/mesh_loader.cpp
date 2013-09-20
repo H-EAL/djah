@@ -5,23 +5,9 @@
 namespace djah { namespace resources {
 
 	//----------------------------------------------------------------------------------------------
-	mesh_loader::mesh_loader()
+	mesh_sptr mesh_loader::loadFromStream(filesystem::stream &strm, const std::string &fileName)
 	{
-	}
-	//----------------------------------------------------------------------------------------------
-
-
-	//----------------------------------------------------------------------------------------------
-	mesh_loader::~mesh_loader()
-	{
-	}
-	//----------------------------------------------------------------------------------------------
-
-
-	//----------------------------------------------------------------------------------------------
-	mesh* mesh_loader::loadFromStream(filesystem::stream &strm, const std::string &fileName)
-	{
-		mesh *pMesh = nullptr;
+		mesh_sptr pMesh;
 
 		unsigned int version = 0;
 		strm >> version;
@@ -31,13 +17,13 @@ namespace djah { namespace resources {
 			unsigned int subMeshCount = 0;
 			strm >> subMeshCount;
 
-			DJAH_ASSERT(subMeshCount > 0);
-			pMesh = new mesh(subMeshCount);
+			check(subMeshCount > 0);
+			pMesh = std::make_shared<mesh>(subMeshCount);
 
 			for(unsigned int i = 0; i < subMeshCount; ++i)
 			{
 				submesh *pSubMesh = loadSubMesh(strm);
-				DJAH_ASSERT(pSubMesh);
+				check(pSubMesh);
 
 				pMesh->addSubMesh(pSubMesh);
 			}
@@ -54,11 +40,11 @@ namespace djah { namespace resources {
 		submesh *pSubMesh = new submesh;
 
 		strm >> pSubMesh->vertexCount;
-		DJAH_ASSERT(pSubMesh->vertexCount > 0);
+		check(pSubMesh->vertexCount > 0);
 
 		unsigned int attributeCount = 0;
 		strm >> attributeCount;
-		DJAH_ASSERT(attributeCount > 0);
+		check(attributeCount > 0);
 
 		for(unsigned int i = 0; i < attributeCount; ++i)
 		{
@@ -84,7 +70,8 @@ namespace djah { namespace resources {
 		const unsigned int vertexBufferSize = pSubMesh->vertexCount * pSubMesh->vertexFormat.vertexSize();
 
 		std::unique_ptr<byte[]> data( new byte[vertexBufferSize] );
-		strm.read(data.get(), vertexBufferSize);
+		const auto bytesRead = strm.read(data.get(), vertexBufferSize);
+		check(bytesRead == vertexBufferSize);
 
 		pSubMesh->pVertexBuffer = new opengl::vertex_buffer(vertexBufferSize, opengl::eBU_StaticDraw);
 		pSubMesh->pVertexBuffer->write(data.get(), vertexBufferSize);

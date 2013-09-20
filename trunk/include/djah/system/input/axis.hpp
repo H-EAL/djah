@@ -8,36 +8,39 @@ namespace djah { namespace system { namespace input {
 	class axis
 	{
 	public:
-		axis(const std::string &name, unsigned int id, unsigned int min_value, unsigned int max_value)
-			: name_(name)
-			, id_(id)
+		axis(const std::string &_name, unsigned int _id, unsigned int _minValue,
+			 unsigned int _maxValue, const unsigned int _deadZone)
+			: name_(_name)
+			, id_(_id)
 			, value_(0.0f)
-			, min_value_(static_cast<float>(min_value))
-			, max_value_(static_cast<float>(max_value))
-			, scale_coeff_(2.0f / (max_value - min_value))
+			, minValue_(float(_minValue))
+			, maxValue_(float(_maxValue))
+			, deadZone_(float(_deadZone))
+			, scaleCoeff_(2.0f / (_maxValue - _minValue))
 		{
 		}
 		~axis() {}
 
-		unsigned int		id()			const	{ return id_;					}
-		const std::string&	name()			const	{ return name_;					}
-		float				rawValue()		const	{ return value_;				}
-		float				correctedValue(float deadZone = 0.0f) const
+		unsigned int		id()			const	{ return id_;			}
+		const std::string&	name()			const	{ return name_;			}
+		float				rawValue()		const	{ return value_;		}
+		float				value()			const
 		{
 			// Set value between -1 and 1
-			const float v = (value_ - min_value_) * scale_coeff_ - 1.0f;
-			return std::abs(v) < deadZone ? 0.0f : v;
+			const float v = (value_ - minValue_) * scaleCoeff_ - 1.0f;
+			return std::abs(v) < deadZone_ ? 0.0f : v;
 		}
 
-		void				setValue(float value)	{ value_ = value;				}
+		void				setRawValue(float _value)	{ value_ = _value;	}
 
 	private:
 		unsigned int	id_;
 		std::string		name_;
 		float			value_;
-		float			min_value_;
-		float			max_value_;
-		float			scale_coeff_;
+		float			minValue_;
+		float			maxValue_;
+		float			deadZone_;
+		float			scaleCoeff_;
 	};
 
 } /*input*/ } /*system*/ } /*djah*/

@@ -26,6 +26,9 @@ private:
 	math::vector2i			coordinates_;
 	int						width_;
 	int						height_;
+	float					proba_;
+
+
 	opengl::shader_program	&shader_;
 	opengl::vertex_format	transformFormat_;
 	opengl::vertex_buffer	*pTransformBuffer_;
