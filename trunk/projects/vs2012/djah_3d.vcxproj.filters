@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="lights">
+      <UniqueIdentifier>{73e2733c-3e4a-4a7b-9e21-f5882d879cce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="primitives">
+      <UniqueIdentifier>{48cd8a9b-26e8-42fc-8aa9-6177e60f120c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\djah\3d\3d_logger.hpp" />
+    <ClInclude Include="..\..\include\djah\3d\font_engine.hpp" />
+    <ClInclude Include="..\..\include\djah\3d\lights.hpp" />
+    <ClInclude Include="..\..\include\djah\3d\primitives.hpp" />
+    <ClInclude Include="..\..\include\djah\3d\shader.hpp" />
+    <ClInclude Include="..\..\include\djah\3d\text.hpp" />
+    <ClInclude Include="..\..\include\djah\3d\base_light.hpp">
+      <Filter>lights</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\3d\point_light.hpp">
+      <Filter>lights</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\3d\directional_light.hpp">
+      <Filter>lights</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\3d\primitives\triangle.hpp">
+      <Filter>primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\3d\primitives\sphere.hpp">
+      <Filter>primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\3d\primitives\ribbon.hpp">
+      <Filter>primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\3d\primitives\cylinder.hpp">
+      <Filter>primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\3d\primitives\batcher.hpp">
+      <Filter>primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\3d\primitives\cone.hpp">
+      <Filter>primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\3d\primitives\cube.hpp">
+      <Filter>primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\3d\spot_light.hpp">
+      <Filter>lights</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\sources\3d\3d_logger.cpp" />
+    <ClCompile Include="..\..\sources\3d\font_engine.cpp" />
+    <ClCompile Include="..\..\sources\3d\shader.cpp" />
+    <ClCompile Include="..\..\sources\3d\text.cpp" />
+    <ClCompile Include="..\..\sources\3d\base_light.cpp">
+      <Filter>lights</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\3d\primitives\triangle.cpp">
+      <Filter>primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\3d\primitives\sphere.cpp">
+      <Filter>primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\3d\primitives\ribbon.cpp">
+      <Filter>primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\3d\primitives\cylinder.cpp">
+      <Filter>primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\3d\primitives\batcher.cpp">
+      <Filter>primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\3d\primitives\cone.cpp">
+      <Filter>primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\3d\primitives\cube.cpp">
+      <Filter>primitives</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

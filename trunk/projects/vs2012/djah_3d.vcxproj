@@ -11,63 +11,56 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\include\djah\opengl\buffer_base.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\capabilities.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\frame_buffer.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\geometry_shader.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\gl_types.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\index_buffer.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\opengl_logger.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\pixel_shader.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\renderer_state.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\render_buffer.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\resource.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\sampler.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\shader_base.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\shader_program.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\tessellation_shader.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\texture.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\texture_unit.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\uniform_buffer.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\vertex_array.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\vertex_attrib.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\vertex_buffer.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\vertex_format.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\vertex_shader.hpp" />
+    <ClInclude Include="..\..\include\djah\3d\3d_logger.hpp" />
+    <ClInclude Include="..\..\include\djah\3d\base_light.hpp" />
+    <ClInclude Include="..\..\include\djah\3d\directional_light.hpp" />
+    <ClInclude Include="..\..\include\djah\3d\font_engine.hpp" />
+    <ClInclude Include="..\..\include\djah\3d\lights.hpp" />
+    <ClInclude Include="..\..\include\djah\3d\point_light.hpp" />
+    <ClInclude Include="..\..\include\djah\3d\primitives.hpp" />
+    <ClInclude Include="..\..\include\djah\3d\primitives\batcher.hpp" />
+    <ClInclude Include="..\..\include\djah\3d\primitives\cone.hpp" />
+    <ClInclude Include="..\..\include\djah\3d\primitives\cube.hpp" />
+    <ClInclude Include="..\..\include\djah\3d\primitives\cylinder.hpp" />
+    <ClInclude Include="..\..\include\djah\3d\primitives\ribbon.hpp" />
+    <ClInclude Include="..\..\include\djah\3d\primitives\sphere.hpp" />
+    <ClInclude Include="..\..\include\djah\3d\primitives\triangle.hpp" />
+    <ClInclude Include="..\..\include\djah\3d\shader.hpp" />
+    <ClInclude Include="..\..\include\djah\3d\spot_light.hpp" />
+    <ClInclude Include="..\..\include\djah\3d\text.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\include\djah\opengl\buffer_base.inl" />
-    <None Include="..\..\include\djah\opengl\shader_base.inl" />
-    <None Include="..\..\include\djah\opengl\shader_program.inl" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\sources\opengl\buffer_base.cpp" />
-    <ClCompile Include="..\..\sources\opengl\capabilities.cpp" />
-    <ClCompile Include="..\..\sources\opengl\frame_buffer.cpp" />
-    <ClCompile Include="..\..\sources\opengl\opengl_logger.cpp" />
-    <ClCompile Include="..\..\sources\opengl\render_buffer.cpp" />
-    <ClCompile Include="..\..\sources\opengl\sampler.cpp" />
-    <ClCompile Include="..\..\sources\opengl\shader_program.cpp" />
-    <ClCompile Include="..\..\sources\opengl\texture.cpp" />
-    <ClCompile Include="..\..\sources\opengl\vertex_array.cpp" />
-    <ClCompile Include="..\..\sources\opengl\vertex_format.cpp" />
+    <ClCompile Include="..\..\sources\3d\3d_logger.cpp" />
+    <ClCompile Include="..\..\sources\3d\base_light.cpp" />
+    <ClCompile Include="..\..\sources\3d\font_engine.cpp" />
+    <ClCompile Include="..\..\sources\3d\primitives\batcher.cpp" />
+    <ClCompile Include="..\..\sources\3d\primitives\cone.cpp" />
+    <ClCompile Include="..\..\sources\3d\primitives\cube.cpp" />
+    <ClCompile Include="..\..\sources\3d\primitives\cylinder.cpp" />
+    <ClCompile Include="..\..\sources\3d\primitives\ribbon.cpp" />
+    <ClCompile Include="..\..\sources\3d\primitives\sphere.cpp" />
+    <ClCompile Include="..\..\sources\3d\primitives\triangle.cpp" />
+    <ClCompile Include="..\..\sources\3d\shader.cpp" />
+    <ClCompile Include="..\..\sources\3d\text.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{7A05DD56-1939-488D-9E6D-F5DEA55ACAA4}</ProjectGuid>
+    <ProjectGuid>{543CE95D-AEAA-480F-9DDD-F04CE4FE8123}</ProjectGuid>
     <RootNamespace>djah_video</RootNamespace>
-    <ProjectName>djah_opengl</ProjectName>
+    <ProjectName>djah_3d</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">

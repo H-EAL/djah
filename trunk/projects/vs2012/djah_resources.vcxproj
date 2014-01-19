@@ -10,64 +10,23 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\include\djah\opengl\buffer_base.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\capabilities.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\frame_buffer.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\geometry_shader.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\gl_types.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\index_buffer.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\opengl_logger.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\pixel_shader.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\renderer_state.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\render_buffer.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\resource.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\sampler.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\shader_base.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\shader_program.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\tessellation_shader.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\texture.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\texture_unit.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\uniform_buffer.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\vertex_array.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\vertex_attrib.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\vertex_buffer.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\vertex_format.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\vertex_shader.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\include\djah\opengl\buffer_base.inl" />
-    <None Include="..\..\include\djah\opengl\shader_base.inl" />
-    <None Include="..\..\include\djah\opengl\shader_program.inl" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\sources\opengl\buffer_base.cpp" />
-    <ClCompile Include="..\..\sources\opengl\capabilities.cpp" />
-    <ClCompile Include="..\..\sources\opengl\frame_buffer.cpp" />
-    <ClCompile Include="..\..\sources\opengl\opengl_logger.cpp" />
-    <ClCompile Include="..\..\sources\opengl\render_buffer.cpp" />
-    <ClCompile Include="..\..\sources\opengl\sampler.cpp" />
-    <ClCompile Include="..\..\sources\opengl\shader_program.cpp" />
-    <ClCompile Include="..\..\sources\opengl\texture.cpp" />
-    <ClCompile Include="..\..\sources\opengl\vertex_array.cpp" />
-    <ClCompile Include="..\..\sources\opengl\vertex_format.cpp" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{7A05DD56-1939-488D-9E6D-F5DEA55ACAA4}</ProjectGuid>
-    <RootNamespace>djah_video</RootNamespace>
-    <ProjectName>djah_opengl</ProjectName>
+    <ProjectGuid>{E553EFC9-96B6-46B1-844F-E33388018025}</ProjectGuid>
+    <RootNamespace>djah_resources</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -85,7 +44,6 @@
     <IntDir>..\..\temp\$(ProjectName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <TargetName>$(ProjectName)</TargetName>
     <OutDir>..\..\lib\win32\</OutDir>
     <IntDir>..\..\temp\$(ProjectName)\$(Configuration)\</IntDir>
   </PropertyGroup>
@@ -119,6 +77,50 @@
       <AdditionalLibraryDirectories>..\..\..\..\extlibs\lib\win32\;</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\djah\gameplay\components.hpp" />
+    <ClInclude Include="..\..\include\djah\gameplay\components\action_map.hpp" />
+    <ClInclude Include="..\..\include\djah\gameplay\components\component.hpp" />
+    <ClInclude Include="..\..\include\djah\gameplay\components\fov.hpp" />
+    <ClInclude Include="..\..\include\djah\gameplay\components\texture.hpp" />
+    <ClInclude Include="..\..\include\djah\gameplay\components\transform.hpp" />
+    <ClInclude Include="..\..\include\djah\gameplay\components\visual_mesh.hpp" />
+    <ClInclude Include="..\..\include\djah\gameplay\component_database.hpp" />
+    <ClInclude Include="..\..\include\djah\gameplay\component_serializer.hpp" />
+    <ClInclude Include="..\..\include\djah\gameplay\game_object.hpp" />
+    <ClInclude Include="..\..\include\djah\gameplay\json_serializer.hpp" />
+    <ClInclude Include="..\..\include\djah\gameplay\services\action_service.hpp" />
+    <ClInclude Include="..\..\include\djah\gameplay\services\game_service.hpp" />
+    <ClInclude Include="..\..\include\djah\resources\asset.hpp" />
+    <ClInclude Include="..\..\include\djah\resources\asset_finder.hpp" />
+    <ClInclude Include="..\..\include\djah\resources\asset_warehouse.hpp" />
+    <ClInclude Include="..\..\include\djah\resources\config_object.hpp" />
+    <ClInclude Include="..\..\include\djah\resources\data_object_loader.hpp" />
+    <ClInclude Include="..\..\include\djah\resources\data_object.hpp" />
+    <ClInclude Include="..\..\include\djah\resources\image.hpp" />
+    <ClInclude Include="..\..\include\djah\resources\image_loader.hpp" />
+    <ClInclude Include="..\..\include\djah\resources\ini_serializer.hpp" />
+    <ClInclude Include="..\..\include\djah\resources\loaders.hpp" />
+    <ClInclude Include="..\..\include\djah\resources\mesh.hpp" />
+    <ClInclude Include="..\..\include\djah\resources\mesh_loader.hpp" />
+    <ClInclude Include="..\..\include\djah\resources\serializer.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\include\djah\resources\asset_finder.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\sources\gameplay\components\action_map.cpp" />
+    <ClCompile Include="..\..\sources\gameplay\components\fov.cpp" />
+    <ClCompile Include="..\..\sources\gameplay\components\texture.cpp" />
+    <ClCompile Include="..\..\sources\gameplay\components\transform.cpp" />
+    <ClCompile Include="..\..\sources\gameplay\components\visual_mesh.cpp" />
+    <ClCompile Include="..\..\sources\resources\asset.cpp" />
+    <ClCompile Include="..\..\sources\resources\asset_warehouse.cpp" />
+    <ClCompile Include="..\..\sources\resources\image.cpp" />
+    <ClCompile Include="..\..\sources\resources\image_loader.cpp" />
+    <ClCompile Include="..\..\sources\resources\mesh.cpp" />
+    <ClCompile Include="..\..\sources\resources\mesh_loader.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
