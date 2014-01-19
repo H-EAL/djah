@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{E6AD5850-0F26-4F2B-923E-8F9CBF8037F8}</ProjectGuid>
+    <RootNamespace>djah_core</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <TargetName>$(ProjectName)-d</TargetName>
+    <OutDir>..\..\lib\win32\</OutDir>
+    <IntDir>..\..\temp\$(ProjectName)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <TargetName>$(ProjectName)</TargetName>
+    <OutDir>..\..\lib\win32\</OutDir>
+    <IntDir>..\..\temp\$(ProjectName)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\include\;..\..\..\extlibs\include\</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>..\..\..\..\extlibs\lib\win32\;</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>..\..\include\;..\..\..\extlibs\include\</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>..\..\..\..\extlibs\lib\win32\;</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\djah\application_base.hpp" />
+    <ClInclude Include="..\..\include\djah\core\command.hpp" />
+    <ClInclude Include="..\..\include\djah\core\detail\command_base.hpp" />
+    <ClInclude Include="..\..\include\djah\core\detail\functor_handler.hpp" />
+    <ClInclude Include="..\..\include\djah\core\detail\functor_impl.hpp" />
+    <ClInclude Include="..\..\include\djah\core\detail\member_function_handler.hpp" />
+    <ClInclude Include="..\..\include\djah\core\state_machine.hpp" />
+    <ClInclude Include="..\..\include\djah\core\functor.hpp" />
+    <ClInclude Include="..\..\include\djah\core\hierarchy_generation.hpp" />
+    <ClInclude Include="..\..\include\djah\core\macros.hpp" />
+    <ClInclude Include="..\..\include\djah\core\murmur_hash.hpp" />
+    <ClInclude Include="..\..\include\djah\core\noise.hpp" />
+    <ClInclude Include="..\..\include\djah\core\randomizer.hpp" />
+    <ClInclude Include="..\..\include\djah\core\singleton.hpp" />
+    <ClInclude Include="..\..\include\djah\core\string_utils.hpp" />
+    <ClInclude Include="..\..\include\djah\core\time\timer.hpp" />
+    <ClInclude Include="..\..\include\djah\core\typelist.hpp" />
+    <ClInclude Include="..\..\include\djah\core\type_traits.hpp" />
+    <ClInclude Include="..\..\include\djah\geometry\geometry_utils.hpp" />
+    <ClInclude Include="..\..\include\djah\geometry\plane.hpp" />
+    <ClInclude Include="..\..\include\djah\geometry\ray.hpp" />
+    <ClInclude Include="..\..\include\djah\geometry\rect.hpp" />
+    <ClInclude Include="..\..\include\djah\geometry\sphere.hpp" />
+    <ClInclude Include="..\..\include\djah\geometry\triangle.hpp" />
+    <ClInclude Include="..\..\include\djah\math.hpp" />
+    <ClInclude Include="..\..\include\djah\math\angles.hpp" />
+    <ClInclude Include="..\..\include\djah\math\dual_number.hpp" />
+    <ClInclude Include="..\..\include\djah\math\math_utils.hpp" />
+    <ClInclude Include="..\..\include\djah\math\matrix.hpp" />
+    <ClInclude Include="..\..\include\djah\math\matrix2.hpp" />
+    <ClInclude Include="..\..\include\djah\math\matrix2x3.hpp" />
+    <ClInclude Include="..\..\include\djah\math\matrix2x4.hpp" />
+    <ClInclude Include="..\..\include\djah\math\matrix3.hpp" />
+    <ClInclude Include="..\..\include\djah\math\matrix3x2.hpp" />
+    <ClInclude Include="..\..\include\djah\math\matrix3x4.hpp" />
+    <ClInclude Include="..\..\include\djah\math\matrix4.hpp" />
+    <ClInclude Include="..\..\include\djah\math\matrix4x2.hpp" />
+    <ClInclude Include="..\..\include\djah\math\matrix4x3.hpp" />
+    <ClInclude Include="..\..\include\djah\math\matrix_utils.hpp" />
+    <ClInclude Include="..\..\include\djah\math\projection.hpp" />
+    <ClInclude Include="..\..\include\djah\math\quaternion.hpp" />
+    <ClInclude Include="..\..\include\djah\math\quaternion_utils.hpp" />
+    <ClInclude Include="..\..\include\djah\math\splines.hpp" />
+    <ClInclude Include="..\..\include\djah\math\transform.hpp" />
+    <ClInclude Include="..\..\include\djah\math\vector.hpp" />
+    <ClInclude Include="..\..\include\djah\math\vector2.hpp" />
+    <ClInclude Include="..\..\include\djah\math\vector3.hpp" />
+    <ClInclude Include="..\..\include\djah\math\vector4.hpp" />
+    <ClInclude Include="..\..\include\djah\math\vector_utils.hpp" />
+    <ClInclude Include="..\..\include\djah\opengl.hpp" />
+    <ClInclude Include="..\..\include\djah\platform.hpp" />
+    <ClInclude Include="..\..\include\djah\types.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\include\djah\geometry\plane.inl" />
+    <None Include="..\..\include\djah\geometry\rect.inl" />
+    <None Include="..\..\include\djah\geometry\triangle.inl" />
+    <None Include="..\..\include\djah\math\dual_number.inl" />
+    <None Include="..\..\include\djah\math\matrix.inl" />
+    <None Include="..\..\include\djah\math\quaternion.inl" />
+    <None Include="..\..\include\djah\math\transform.inl" />
+    <None Include="..\..\include\djah\math\vector.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\sources\core\randomizer.cpp" />
+    <ClCompile Include="..\..\sources\core\time\timer.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

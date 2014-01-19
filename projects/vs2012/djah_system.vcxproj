@@ -10,64 +10,23 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\include\djah\opengl\buffer_base.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\capabilities.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\frame_buffer.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\geometry_shader.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\gl_types.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\index_buffer.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\opengl_logger.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\pixel_shader.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\renderer_state.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\render_buffer.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\resource.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\sampler.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\shader_base.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\shader_program.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\tessellation_shader.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\texture.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\texture_unit.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\uniform_buffer.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\vertex_array.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\vertex_attrib.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\vertex_buffer.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\vertex_format.hpp" />
-    <ClInclude Include="..\..\include\djah\opengl\vertex_shader.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\include\djah\opengl\buffer_base.inl" />
-    <None Include="..\..\include\djah\opengl\shader_base.inl" />
-    <None Include="..\..\include\djah\opengl\shader_program.inl" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\sources\opengl\buffer_base.cpp" />
-    <ClCompile Include="..\..\sources\opengl\capabilities.cpp" />
-    <ClCompile Include="..\..\sources\opengl\frame_buffer.cpp" />
-    <ClCompile Include="..\..\sources\opengl\opengl_logger.cpp" />
-    <ClCompile Include="..\..\sources\opengl\render_buffer.cpp" />
-    <ClCompile Include="..\..\sources\opengl\sampler.cpp" />
-    <ClCompile Include="..\..\sources\opengl\shader_program.cpp" />
-    <ClCompile Include="..\..\sources\opengl\texture.cpp" />
-    <ClCompile Include="..\..\sources\opengl\vertex_array.cpp" />
-    <ClCompile Include="..\..\sources\opengl\vertex_format.cpp" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{7A05DD56-1939-488D-9E6D-F5DEA55ACAA4}</ProjectGuid>
-    <RootNamespace>djah_video</RootNamespace>
-    <ProjectName>djah_opengl</ProjectName>
+    <ProjectGuid>{AFA71315-A65A-4309-AEB3-AB7788E32E4F}</ProjectGuid>
+    <RootNamespace>djah_system</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -119,6 +78,37 @@
       <AdditionalLibraryDirectories>..\..\..\..\extlibs\lib\win32\;</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\djah\system\clock.hpp" />
+    <ClInclude Include="..\..\include\djah\system\context.hpp" />
+    <ClInclude Include="..\..\include\djah\system\device.hpp" />
+    <ClInclude Include="..\..\include\djah\system\driver.hpp" />
+    <ClInclude Include="..\..\include\djah\system\extensions.hpp" />
+    <ClInclude Include="..\..\include\djah\system\gl.hpp" />
+    <ClInclude Include="..\..\include\djah\system\input\axis.hpp" />
+    <ClInclude Include="..\..\include\djah\system\input\button.hpp" />
+    <ClInclude Include="..\..\include\djah\system\input\gamepad.hpp" />
+    <ClInclude Include="..\..\include\djah\system\input\keyboard.hpp" />
+    <ClInclude Include="..\..\include\djah\system\input\mouse.hpp" />
+    <ClInclude Include="..\..\include\djah\system\input\trigger.hpp" />
+    <ClInclude Include="..\..\include\djah\system\system_logger.hpp" />
+    <ClInclude Include="..\..\include\djah\system\video_config.hpp" />
+    <ClInclude Include="..\..\sources\system\win32\wgl_extensions.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\sources\system\device.cpp" />
+    <ClCompile Include="..\..\sources\system\driver.cpp" />
+    <ClCompile Include="..\..\sources\system\extensions.cpp" />
+    <ClCompile Include="..\..\sources\system\system_logger.cpp" />
+    <ClCompile Include="..\..\sources\system\video_config.cpp" />
+    <ClCompile Include="..\..\sources\system\win32\wgl_extensions.cpp" />
+    <ClCompile Include="..\..\sources\system\win32\win32_clock.cpp" />
+    <ClCompile Include="..\..\sources\system\win32\win32_context.cpp" />
+    <ClCompile Include="..\..\sources\system\win32\win32_device.cpp" />
+    <ClCompile Include="..\..\sources\system\win32\win32_gamepad.cpp" />
+    <ClCompile Include="..\..\sources\system\win32\win32_keyboard.cpp" />
+    <ClCompile Include="..\..\sources\system\win32\win32_mouse.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

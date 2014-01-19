@@ -90,6 +90,9 @@
     <ClInclude Include="..\..\include\djah\opengl\texture_unit.hpp">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\djah\opengl\uniform.hpp">
+      <Filter>include\_shaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\include\djah\opengl\buffer_base.inl">

@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="include\_log">
+      <UniqueIdentifier>{5649a4ca-8781-4816-901d-e2fca96e2100}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sources\_log">
+      <UniqueIdentifier>{fcea3cb8-80ab-4d59-a629-8a323f607b08}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\djah\debug\assertion.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\debug\disable_debug_new.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\debug\enable_debug_new.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\debug\memory_tracker.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\debug\xml_sink.hpp">
+      <Filter>include\_log</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\debug\record.hpp">
+      <Filter>include\_log</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\debug\log_filter.hpp">
+      <Filter>include\_log</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\debug\log.hpp">
+      <Filter>include\_log</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\debug\core_logger.hpp">
+      <Filter>include\_log</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\debug\console_sink.hpp">
+      <Filter>include\_log</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\debug\basic_sink.hpp">
+      <Filter>include\_log</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\debug\basic_logger.hpp">
+      <Filter>include\_log</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\sources\debug\assertion.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\debug\memory_tracker.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\debug\basic_logger.cpp">
+      <Filter>sources\_log</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\debug\console_sink.cpp">
+      <Filter>sources\_log</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\debug\core_logger.cpp">
+      <Filter>sources\_log</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\debug\log_filter.cpp">
+      <Filter>sources\_log</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\debug\xml_sink.cpp">
+      <Filter>sources\_log</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
