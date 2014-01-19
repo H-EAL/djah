@@ -6,7 +6,7 @@
 #include "djah/resources/mesh_loader.hpp"
 #include "djah/resources/asset_warehouse.hpp"
 #include "djah/resources/asset_finder.hpp"
-#include "djah/opengl/texture.hpp"
+#include "djah/opengl/texture_unit.hpp"
 #include "djah/filesystem/browser.hpp"
 #include "djah/system/gl.hpp"
 #include "profiler.hpp"
@@ -47,12 +47,9 @@ namespace djah { namespace d3d {
 				resources::image_sptr img = assetFinder_.get<resources::image>("textures/"+ textureName);
 				if( img )
 				{
-					texture_sptr pNewTex( new opengl::texture(GL_RGB, img->width(), img->height()) );
-					pNewTex->bind();
-					pNewTex->setBestFiltering();
+					texture_sptr pNewTex( new opengl::texture(GL_RGB, img->width(), img->height(), true) );
 					GLenum pixelFormat = img->channels() == 1 ? GL_RED : GL_BGR;			
 					pNewTex->setPixelBuffer(pixelFormat, GL_UNSIGNED_BYTE, img->pixels());
-					pNewTex->unbind();
 
 					it = textures_.insert( texture_map_t::value_type(textureName, pNewTex) ).first;
 				}
@@ -64,7 +61,7 @@ namespace djah { namespace d3d {
 	private:
 		texture_manager()
 		{
-			assetFinder_.registerLoader(std::make_shared<resources::loader<resources::image>>(), "png jpg tga");
+			assetFinder_.registerLoader<resources::image>("png jpg tga");
 		}
 		virtual ~texture_manager() {}
 

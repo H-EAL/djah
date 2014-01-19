@@ -4,7 +4,7 @@ namespace djah { namespace filesystem {
 
 	//----------------------------------------------------------------------------------------------
 	url::url(const std::string &urlStr)
-		: url_str_(urlStr)
+		: urlStr_(urlStr)
 	{
 		parse();
 	}
@@ -22,8 +22,8 @@ namespace djah { namespace filesystem {
 	{
 		return protocol_
 			+ (protocol_.empty() ? "" : "://")
-			+ dir_name_
-			+ (dir_name_.empty() ? "" : "/")
+			+ dirName_
+			+ (dirName_.empty() ? "" : "/")
 			+ baseName();
 	}
 	//----------------------------------------------------------------------------------------------
@@ -32,7 +32,7 @@ namespace djah { namespace filesystem {
 	//----------------------------------------------------------------------------------------------
 	const std::string url::baseName() const
 	{
-		return file_name_
+		return fileName_
 			+ (extension_.empty() ? "" : ".")
 			+ extension_; 
 	}
@@ -45,7 +45,7 @@ namespace djah { namespace filesystem {
 	{
 		// protocol://branch/.../path/fileName.extension
 
-		const size_t protocolEndsAt = url_str_.find("://");
+		const size_t protocolEndsAt = urlStr_.find("://");
 
 		size_t dirNameBeginsAt = 0;
 		size_t fileNameBeginsAt = 0;
@@ -53,27 +53,27 @@ namespace djah { namespace filesystem {
 		if( protocolEndsAt != std::string::npos )
 		{
 			// Protocol found
-			protocol_ = url_str_.substr(0, protocolEndsAt);
+			protocol_ = urlStr_.substr(0, protocolEndsAt);
 			dirNameBeginsAt = protocolEndsAt+3;
 			fileNameBeginsAt = dirNameBeginsAt+1;
 		}
 
-		size_t dirNameEndsAt = url_str_.find_last_of("/\\");
+		size_t dirNameEndsAt = urlStr_.find_last_of("/\\");
 		if( dirNameEndsAt != std::string::npos && dirNameEndsAt > dirNameBeginsAt )
 		{
 			// Dir name found
-			dir_name_ = url_str_.substr(dirNameBeginsAt, dirNameEndsAt - dirNameBeginsAt);
+			dirName_ = urlStr_.substr(dirNameBeginsAt, dirNameEndsAt - dirNameBeginsAt);
 			fileNameBeginsAt = dirNameEndsAt+1;
 		}
 
-		const size_t extensionBeginsAt = url_str_.find_last_of('.');
+		const size_t extensionBeginsAt = urlStr_.find_last_of('.');
 
-		file_name_ = url_str_.substr(fileNameBeginsAt, extensionBeginsAt - fileNameBeginsAt);
+		fileName_ = urlStr_.substr(fileNameBeginsAt, extensionBeginsAt - fileNameBeginsAt);
 
 		if( extensionBeginsAt != std::string::npos )
 		{
 			// Extension found
-			extension_ = url_str_.substr(extensionBeginsAt+1);
+			extension_ = urlStr_.substr(extensionBeginsAt+1);
 		}
 	}
 	//----------------------------------------------------------------------------------------------

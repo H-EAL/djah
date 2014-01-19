@@ -9,12 +9,12 @@
 		static bool always_ignore = false;\
 		if( !always_ignore && !(Condition) )\
 		{\
-			djah::debug::eAssertResult pAsset = djah::debug::assert_function( File, Line, #Condition );\
-			if( pAsset == djah::debug::eAR_Retry )\
+			djah::debug::eAssertResult assertResult = djah::debug::assert_function( File, Line, #Condition );\
+			if( assertResult == djah::debug::eAR_Retry )\
 			{\
 				djah::debug::debugger_break();\
 			}\
-			else if( pAsset == djah::debug::eAR_AlwaysIgnore )\
+			else if( assertResult == djah::debug::eAR_AlwaysIgnore )\
 			{\
 				always_ignore = true;\
 			}\
@@ -23,6 +23,7 @@
 //--------------------------------------------------------------------------------------------------
 #define DJAH_ASSERT(Condition) DJAH_ASSERT_AUX( (Condition), __FILE__, __LINE__ )
 #define check(Condition) DJAH_ASSERT_AUX( (Condition), __FILE__, __LINE__ )
+#define ensure(Condition) ((Condition) ? true : djah::debug::assert_and_return_false(__FILE__, __LINE__, #Condition))
 //--------------------------------------------------------------------------------------------------
 
 //--------------------------------------------------------------------------------------------------
@@ -31,12 +32,12 @@
 		static bool always_ignore = false;\
 		if( !always_ignore && !(Condition) )\
 		{\
-			djah::debug::eAssertResult pAsset = djah::debug::assert_function( File, Line, #Condition, Msg, __VA_ARGS__ );\
-			if( pAsset == djah::debug::eAR_Retry )\
+			djah::debug::eAssertResult assertResult = djah::debug::assert_function( File, Line, #Condition, Msg, __VA_ARGS__ );\
+			if( assertResult == djah::debug::eAR_Retry )\
 			{\
 				djah::debug::debugger_break();\
 			}\
-			else if( pAsset == djah::debug::eAR_AlwaysIgnore )\
+			else if( assertResult == djah::debug::eAR_AlwaysIgnore )\
 			{\
 				always_ignore = true;\
 			}\
@@ -64,6 +65,7 @@ namespace djah { namespace debug {
 	extern std::string	 stack_trace();
 	extern void			 debugger_break();
 	extern eAssertResult assert_function(const char *file, int line, const char *expression, const char *description = "", ...);
+	extern bool			 assert_and_return_false(const char *file, int line, const char *expression);
 
 } /*debug*/ } /*djah*/
 

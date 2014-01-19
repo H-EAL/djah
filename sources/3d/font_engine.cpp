@@ -104,7 +104,7 @@ namespace djah { namespace d3d {
 			if( c.tex && c.tex->isValid() )
 			{
 				if( opengl::monitor<opengl::texture>::boundId() != c.tex->id() )
-				c.tex->bind();
+				//c.tex->bindToUnit(0);
 				glBegin(GL_QUADS);
 				{
 					glTexCoord2f(0.0f, c.tex_coord.y);
@@ -194,8 +194,8 @@ namespace djah { namespace d3d {
 						}
 
 						new_font->metrics[c].tex = new opengl::texture(GL_RGBA, width, height);
-						new_font->metrics[c].tex->bind();
-						new_font->metrics[c].tex->setNoFiltering();
+						//new_font->metrics[c].tex->bindToUnit(0);
+						//new_font->metrics[c].tex->setNoFiltering();
 						new_font->metrics[c].tex->setPixelBuffer(GL_RED, GL_UNSIGNED_SHORT, expanded);
 
 						delete [] expanded;

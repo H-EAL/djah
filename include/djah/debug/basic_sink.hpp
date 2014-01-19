@@ -1,6 +1,7 @@
 #ifndef DJAH_DEBUG_BASIC_SINK_HPP
 #define DJAH_DEBUG_BASIC_SINK_HPP
 
+#include <memory>
 #include <string>
 #include <fstream>
 #include "record.hpp"
@@ -29,7 +30,7 @@ namespace djah { namespace debug {
 		log_filter filter_;
 	};
 
-	typedef std::shared_ptr<basic_sink> sink_ptr;
+	typedef std::shared_ptr<basic_sink> sink_sptr;
 
 } /*debug*/ } /*debug*/
 

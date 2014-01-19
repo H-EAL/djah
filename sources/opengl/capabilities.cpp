@@ -14,10 +14,7 @@ namespace djah { namespace opengl {
 	//----------------------------------------------------------------------------------------------
 	std::string safe_gl_get_string(GLenum name, int i)
 	{	
-		if( !glGetStringi )
-			return "";
-
-		const GLubyte *buf = glGetStringi(name, i);
+		const GLubyte *buf = glGetStringi ? glGetStringi(name, i) : nullptr;
 		return buf ? reinterpret_cast<const char*>(buf) : "";
 	}
 	//----------------------------------------------------------------------------------------------
@@ -25,7 +22,7 @@ namespace djah { namespace opengl {
 	//----------------------------------------------------------------------------------------------
 	void capabilities::init()
 	{
-		const int nbExtensions = valueOf<int>(GL_NUM_EXTENSIONS);
+		const int nbExtensions = value_of<int>(GL_NUM_EXTENSIONS);
 		extensions_.reserve(nbExtensions);
 		for(int i = 0; i < nbExtensions; ++i)
 		{

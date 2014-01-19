@@ -13,6 +13,8 @@
 #include "opengl/frame_buffer.hpp"
 #include "opengl/render_buffer.hpp"
 #include "opengl/texture.hpp"
+#include "opengl/sampler.hpp"
+#include "opengl/texture_unit.hpp"
 
 #include "opengl/shader_program.hpp"
 #include "opengl/pixel_shader.hpp"

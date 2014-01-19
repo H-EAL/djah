@@ -20,8 +20,13 @@ namespace djah { namespace gameplay {
 		typedef std::vector<ComponentType> component_list_t;
 
 	public:
-		inline operator ComponentType() { return components_[cid_]; }
-		inline ComponentType& data() { return components_[cid_]; }
+		inline ComponentType& data()		{ return components_[cid_]; }
+		inline ComponentType& operator *()	{ return data(); }
+		inline ComponentType* operator->()	{ return &data(); }
+
+		inline const ComponentType& data() const		{ return components_[cid_]; }
+		inline const ComponentType& operator *() const 	{ return data(); }
+		inline const ComponentType* operator->() const 	{ return &data(); }
 
 	private:
 		inline component(CID cid, component_list_t &components)
@@ -40,7 +45,7 @@ namespace djah { namespace gameplay {
 	{
 		component_holder()
 		{
-			DJAH_LOG_TODO("Keep a timestamp as of when a component got instanciated");
+			DJAH_LOG_TODO("Keep a timestamp as of when a component got instantiated");
 			components_.reserve(NB_GO);
 		}
 

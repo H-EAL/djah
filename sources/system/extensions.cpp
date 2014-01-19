@@ -11,11 +11,11 @@ namespace {
 	template<typename T>
 	inline void load_extension(T& func, const char *name)
 	{
-        #if defined(DJAH_COMPILE_LINUX)
+		#if defined(DJAH_COMPILE_LINUX)
 			func = reinterpret_cast<T>( glXGetProcAddress(reinterpret_cast<const GLubyte *>(name)) );
-        #elif defined(DJAH_COMPILE_WINDOWS)
+		#elif defined(DJAH_COMPILE_WINDOWS)
 			func = reinterpret_cast<T>( wglGetProcAddress(name) );
-        #endif
+		#endif
 			DJAH_ASSERT_MSG(func != nullptr, "Unable to load extension \"%s\"", name);
 	}
 	//----------------------------------------------------------------------------------------------
@@ -73,6 +73,7 @@ namespace djah { namespace system {
 		LOAD_EXTENSION( glBlitFramebuffer			);
 
 		LOAD_EXTENSION( glDrawArraysInstanced		);
+		LOAD_EXTENSION( glDrawElementsInstanced		);
 
 		//------------------------------------------------------------------------------------------
 		// Shaders
@@ -132,6 +133,11 @@ namespace djah { namespace system {
 		LOAD_EXTENSION( glUniformMatrix3x4fv	);
 		LOAD_EXTENSION( glUniformMatrix4x3fv	);
 
+		LOAD_EXTENSION( glGetUniformfv	);
+		LOAD_EXTENSION( glGetUniformdv	);
+		LOAD_EXTENSION( glGetUniformiv	);
+		LOAD_EXTENSION( glGetUniformuiv	);
+
 		//------------------------------------------------------------------------------------------
 		// Textures
 		//------------------------------------------------------------------------------------------
@@ -142,6 +148,7 @@ namespace djah { namespace system {
 		LOAD_EXTENSION( glBindSampler		);
 		LOAD_EXTENSION( glIsSampler			);
 		LOAD_EXTENSION( glSamplerParameteri	);
+		LOAD_EXTENSION( glSamplerParameterf	);
 
 		//------------------------------------------------------------------------------------------
 		// Debug

@@ -8,6 +8,7 @@ namespace djah { namespace opengl {
 	enum E_DRAWING_MODE
 	{
 		EDM_LINES			= GL_LINES,
+		EDM_LINE_STRIP		= GL_LINE_STRIP,
 		EDM_TRIANGLES		= GL_TRIANGLES,
 		EDM_TRIANGLE_STRIP	= GL_TRIANGLE_STRIP
 	};

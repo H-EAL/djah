@@ -25,14 +25,7 @@ namespace djah { namespace opengl {
 	template<typename StatesList>
 	class renderer_state;
 
-	renderer_state
-	<TYPELIST(
-		GL_BLEND,
-		GL_CULL_FACE,
-		GL_DEPTH_TEST,
-		GL_LINE_SMOOTH
-	)> rendererState;
-
+	renderer_state<TYPELIST(GL_BLEND, GL_CULL_FACE, GL_DEPTH_TEST, GL_LINE_SMOOTH)> rendererState;
 
 } /*opengl*/ } /*djah*/
 

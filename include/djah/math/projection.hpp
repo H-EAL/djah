@@ -2,6 +2,7 @@
 #define DJAH_MATH_PROJECTION_HPP
 
 #include "math_utils.hpp"
+#include "angles.hpp"
 #include "matrix4.hpp"
 #include "vector3.hpp"
 
@@ -9,9 +10,9 @@ namespace djah { namespace math {
 
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline const matrix<4,4,T> make_perspective_projection(T fovy, T aspect, T near_, T far_)
+	inline const matrix<4,4,T> make_perspective_projection(radian<T> fovy, T aspect, T near_, T far_)
 	{
-		const T F = T(1) / tan( math::deg_to_rad(fovy/T(2)) );
+		const T F = T(1) / tan( fovy/T(2) );
 		const T n_m_f = near_ - far_;
 		const T n_p_f = near_ + far_;
 		const T n_t_f = near_ * far_;
@@ -60,10 +61,10 @@ namespace djah { namespace math {
 
 		return matrix<4,4,T>
 		(
-			       side.x,        up.x,      -forward.x,  0,
-			       side.y,        up.y,      -forward.y,  0,
-			       side.z,        up.z,      -forward.z,  0,
-			-(side * eye), -(up * eye), (forward * eye),  1
+			       side.x,        up.x,      -forward.x,    0,
+			       side.y,        up.y,      -forward.y,    0,
+			       side.z,        up.z,      -forward.z,    0,
+			-(side * eye), -(up * eye), (forward * eye),  T(1)
 		);
 	}
 	//----------------------------------------------------------------------------------------------

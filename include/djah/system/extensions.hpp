@@ -62,6 +62,7 @@ DEFINE_EXTENSION( PFNGLDRAWBUFFERSPROC,				glDrawBuffers				);
 DEFINE_EXTENSION( PFNGLBLITFRAMEBUFFERPROC,			glBlitFramebuffer			);
 
 DEFINE_EXTENSION( PFNGLDRAWARRAYSINSTANCEDPROC,		glDrawArraysInstanced		);
+DEFINE_EXTENSION( PFNGLDRAWELEMENTSINSTANCEDPROC,	glDrawElementsInstanced		);
 
 //--------------------------------------------------------------------------------------------------
 // Shaders
@@ -121,6 +122,11 @@ DEFINE_EXTENSION( PFNGLUNIFORMMATRIX4X2FVPROC,		glUniformMatrix4x2fv		);
 DEFINE_EXTENSION( PFNGLUNIFORMMATRIX3X4FVPROC,		glUniformMatrix3x4fv		);
 DEFINE_EXTENSION( PFNGLUNIFORMMATRIX4X3FVPROC,		glUniformMatrix4x3fv		);
 
+DEFINE_EXTENSION( PFNGLGETUNIFORMFVPROC,			glGetUniformfv				);
+DEFINE_EXTENSION( PFNGLGETUNIFORMDVPROC,			glGetUniformdv				);
+DEFINE_EXTENSION( PFNGLGETUNIFORMIVPROC,			glGetUniformiv				);
+DEFINE_EXTENSION( PFNGLGETUNIFORMUIVPROC,			glGetUniformuiv				);
+
 //--------------------------------------------------------------------------------------------------
 // Textures
 //--------------------------------------------------------------------------------------------------
@@ -131,6 +137,7 @@ DEFINE_EXTENSION( PFNGLDELETESAMPLERSPROC,			glDeleteSamplers			);
 DEFINE_EXTENSION( PFNGLBINDSAMPLERPROC,				glBindSampler				);
 DEFINE_EXTENSION( PFNGLISSAMPLERPROC,				glIsSampler					);
 DEFINE_EXTENSION( PFNGLSAMPLERPARAMETERIPROC,		glSamplerParameteri			);
+DEFINE_EXTENSION( PFNGLSAMPLERPARAMETERFPROC,		glSamplerParameterf			);
 
 //--------------------------------------------------------------------------------------------------
 // Debug

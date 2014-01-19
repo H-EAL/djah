@@ -73,7 +73,7 @@ namespace djah { namespace math {
 	
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline matrix<4,4,T> make_rotation(T angle, vector<3,T> axis)
+	inline matrix<4,4,T> make_rotation(radian<T> angle, vector<3,T> axis)
 	{
 		axis.normalize();
 
@@ -96,13 +96,13 @@ namespace djah { namespace math {
 	}
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline matrix<4,4,T> make_rotation(T angle, const vector<4,T> &axis)
+	inline matrix<4,4,T> make_rotation(radian<T> angle, const vector<4,T> &axis)
 	{
 		return make_rotation(angle, resize<3>(axis));
 	}
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline matrix<4,4,T> make_rotation(T angle, T t_x, T t_y, T t_z)
+	inline matrix<4,4,T> make_rotation(radian<T> angle, T t_x, T t_y, T t_z)
 	{
 		return make_rotation(angle, vector<3,T>(t_x, t_y, t_z));
 	}
@@ -110,7 +110,7 @@ namespace djah { namespace math {
 	template<typename T>
 	inline matrix<4,4,T> make_rotation(const vector<3,T> &from_vec, const vector<3,T> &to_vec)
 	{
-		float angle;
+		radian<T>   angle;
 		vector<3,T> axis;
 		std::tie(angle, axis) = oriented_angle(from_vec, to_vec);
 		return (angle == pi) ? make_scale(T(-1)) : make_rotation(angle, axis);

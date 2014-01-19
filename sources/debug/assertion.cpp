@@ -96,8 +96,8 @@ namespace djah { namespace debug {
 			switch( result )
 			{
 			case IDABORT:
+				assertResult = eAR_Abort;
 				exit(1);
-				result = eAR_Abort;
 				break;
 
 			case IDRETRY:
@@ -111,6 +111,19 @@ namespace djah { namespace debug {
 		#endif // DJAH_COMPILE_WINDOWS
 
 		return assertResult;
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	bool assert_and_return_false(const char *file, int line, const char *expression)
+	{
+		const eAssertResult assertResult = assert_function(file, line, expression);
+		if( assertResult == djah::debug::eAR_Retry )
+		{
+			debugger_break();
+		}
+		return false;
 	}
 	//----------------------------------------------------------------------------------------------
 

@@ -1,6 +1,7 @@
 #ifndef DJAH_OPENGL_SAMPLER_HPP
 #define DJAH_OPENGL_SAMPLER_HPP
 
+#include <set>
 #include <memory>
 #include "djah/types.hpp"
 #include "djah/opengl/resource.hpp"
@@ -13,6 +14,7 @@ namespace djah { namespace opengl {
 		: public resource
 	{
 		DJAH_OPENGL_RESOURCE(texture);
+		template<int Unit> friend class texture_unit;
 
 	public:
 		enum eBilinearMode
@@ -23,7 +25,7 @@ namespace djah { namespace opengl {
 			eBM_NearFar   = eBM_Near | eBM_Far
 		};
 
-		enum eMimappingMode
+		enum eMipmappingMode
 		{
 			eMM_None,
 			eMM_Standard,
@@ -31,16 +33,21 @@ namespace djah { namespace opengl {
 		};
 
 	public:
-		sampler(std::shared_ptr<texture> pTexture);
+		sampler();
 		virtual ~sampler();
 
-		void bind(int textureUnit = -1) const;
-		static void unbind(int textureUnit = -1);
+		void bindToUnit(unsigned int textureUnit) const;
+		void unbindFromUnit(unsigned int textureUnit) const;
+		void unbindFromAll() const;
+		bool isBoundToAnyUnit() const { return !boundTextureUnits_.empty(); }
+		bool isBoundToUnit(unsigned int textureUnit) const { return boundTextureUnits_.find(textureUnit) != boundTextureUnits_.end(); }
 
 		void setWrapMode(int wrapMode);
-		void setFiltering(eBilinearMode bilinearMode, eMimappingMode mipmappingMode);
+		void setFiltering(eBilinearMode bilinearMode, eMipmappingMode mipmappingMode, float maxAnisotropy);
 		void setNoFiltering();
 		void setBestFiltering();
+
+		bool hasMipmappingFiltering() const;
 
 	private:
 		virtual void aquire();
@@ -48,7 +55,10 @@ namespace djah { namespace opengl {
 		virtual bool isValidResource() const;
 
 	private:
-		std::shared_ptr<texture> pTexture_;
+		mutable std::set<unsigned int> boundTextureUnits_;
+		eBilinearMode   bilinearMode_;
+		eMipmappingMode mipmappingMode_;
+		float			maxAnisotropy_;
 	};
 
 } /*opengl*/ } /*djah*/

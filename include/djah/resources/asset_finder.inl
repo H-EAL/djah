@@ -3,9 +3,11 @@ namespace djah { namespace resources {
 	//----------------------------------------------------------------------------------------------
 	template<typename ExtraAssetsTypes_, bool UseDefaultTypes_>
 	template<typename T>
-	void asset_finder<ExtraAssetsTypes_, UseDefaultTypes_>::registerLoader(std::shared_ptr<loader<T>> pLoader, const std::string &ext)
+	void asset_finder<ExtraAssetsTypes_, UseDefaultTypes_>::registerLoader(const std::string &ext)
 	{
-		DJAH_LOG_TODO("Use loaders as  static classes");
+		DJAH_LOG_TODO("Use loaders as static classes");
+
+		auto pLoader = std::make_shared<loader<T>>();
 
 		std::vector<std::string> extensions;
 		utils::split_string(ext, extensions, " /\\*.,;|-_\t\n'\"");
@@ -14,7 +16,7 @@ namespace djah { namespace resources {
 		for(auto it = extensions.begin(); it != itEnd; ++it)
 		{
 			const std::string &extension = utils::to_lower_case(*it);
-			loader_holder<T>::loaders_[extension] = pLoader;
+			loader_holder<T>::loaders_.insert( loader_holder<T>::loaders_map_t::value_type(extension, pLoader) );
 		}
 	}
 	//----------------------------------------------------------------------------------------------
@@ -27,6 +29,9 @@ namespace djah { namespace resources {
 	{
 		// Get it from the resource manager
 		auto pAsset = asset_warehouse::get().find<T>(url);
+
+		DJAH_LOG_TODO("Save timestamp in asset then check if it's the same than the current one");
+
 		// If not found try to load it through the asset manager
 		if( !pAsset && loadIfNotFound )
 		{

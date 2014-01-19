@@ -17,7 +17,7 @@ namespace djah { namespace system {
 							  bool fullscreen, const std::string &title)
 	{
 		return create_device(std::make_shared<device_config>(
-			width, height, colorBits, depthBits, stencilBits, fullscreen, title
+			width, height, colorBits, depthBits, stencilBits/*, fullscreen, title*/
 		));
 	}
 	//----------------------------------------------------------------------------------------------

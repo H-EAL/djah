@@ -57,7 +57,7 @@ namespace djah { namespace resources {
 
 	public:
 		template<typename T>
-		void registerLoader(std::shared_ptr<loader<T>> pLoader, const std::string &extensions);
+		void registerLoader(const std::string &extensions);
 
 		template<typename T>
 		std::shared_ptr<T> get(const std::string &url, bool loadIfNotFound = true);

@@ -16,23 +16,6 @@
 namespace djah { namespace resources {
 
 	//----------------------------------------------------------------------------------------------
-	// An attribute is a name and a value
-	template<typename T>
-	struct attribute
-	{
-		attribute(const std::string &n = "unknown", const T &v = T())
-			: name(n)
-			, value(v)
-		{
-			DJAH_LOG_TODO("Get rid of this class (attribute<T>), use directly T in the attribute_holder map");
-		}
-
-		std::string name;
-		T			value;
-	};
-	//----------------------------------------------------------------------------------------------
-
-	//----------------------------------------------------------------------------------------------
 	// An attribute hook enables the iteration on all the attributes of all types
 	template<typename AttributeTypes>
 	struct attribute_hook;
@@ -65,7 +48,7 @@ namespace djah { namespace resources {
 			auto itEnd = _attributes.end();
 			for(auto it = _attributes.begin(); it != itEnd; ++it)
 			{
-				result << it->first << " = " << it->second.value << "\n";
+				result << it->first << " = " << it->second << "\n";
 			}
 
 			return result.str() + attribute_hook<TailList>::to_string(dobj);
@@ -79,9 +62,7 @@ namespace djah { namespace resources {
 	template<typename T>
 	struct attribute_holder
 	{
-		typedef typename attribute<T> attribute_ptr;
-		typedef std::map<std::string, attribute_ptr> attribute_map_t;
-
+		typedef std::map<std::string, T> attribute_map_t;
 		attribute_map_t attributes_;
 	};
 	//----------------------------------------------------------------------------------------------
@@ -143,7 +124,7 @@ namespace djah { namespace resources {
 
 			auto it = attribute_holder<T>::attributes_.find(attributeName);
 			if( it != attribute_holder<T>::attributes_.end() )
-				result = it->second.value;
+				result = it->second;
 
 			return result;
 		}
@@ -155,7 +136,7 @@ namespace djah { namespace resources {
 		{
 			auto it = attribute_holder<T>::attributes_.find(attributeName);
 			if( it != attribute_holder<T>::attributes_.end() )
-				it->second.value = value;
+				it->second = value;
 		}
 		//------------------------------------------------------------------------------------------
 
@@ -177,10 +158,10 @@ namespace djah { namespace resources {
 
 		//------------------------------------------------------------------------------------------
 		template<typename T>
-		void add(const attribute<T> &attr)
+		void add(const std::string &attrName, const T &attrValue)
 		{
-			DJAH_ASSERT_MSG( !has<T>(attr.name), "data_object[%s]::add(%s), trying to add an already existing attribute", name_.c_str(), attr.name.c_str() );
-			attribute_holder<T>::attributes_[attr.name] = attr;
+			DJAH_ASSERT_MSG( !has<T>(attrName), "data_object[%s]::add(%s), trying to add an already existing attribute", name_.c_str(), attrName.c_str() );
+			attribute_holder<T>::attributes_[attrName] = attrValue;
 		}
 		//----------------------------------------------------------------------------------------------
 
