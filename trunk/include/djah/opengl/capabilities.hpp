@@ -13,10 +13,10 @@ namespace djah { namespace opengl {
 
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	struct value_of;
+	struct ValueOf;
 	//----------------------------------------------------------------------------------------------
 	template<>
-	struct value_of<int>
+	struct ValueOf<int>
 	{
 		static int get(int glEnum)
 		{
@@ -27,7 +27,7 @@ namespace djah { namespace opengl {
 	};
 	//----------------------------------------------------------------------------------------------
 	template<>
-	struct value_of<float>
+	struct ValueOf<float>
 	{
 		static float get(int glEnum)
 		{
@@ -38,7 +38,7 @@ namespace djah { namespace opengl {
 	};
 	//----------------------------------------------------------------------------------------------
 	template<>
-	struct value_of<std::string>
+	struct ValueOf<std::string>
 	{
 		static std::string get(int glEnum)
 		{
@@ -54,8 +54,11 @@ namespace djah { namespace opengl {
 	struct caps_holder
 	{
 		typedef std::map<int, T>  attrib_map_t;
-		attrib_map_t attributes_;
+		static attrib_map_t attributes_;
 	};
+	//----------------------------------------------------------------------------------------------
+	template<typename T>
+	typename caps_holder<T>::attrib_map_t caps_holder<T>::attributes_;
 	//----------------------------------------------------------------------------------------------
 
 
@@ -68,19 +71,28 @@ namespace djah { namespace opengl {
 		bool has_extension(const std::string &extension);
 
 		template<typename T>
-		T valueOf(int glEnum)
+		static T value_of(int glEnum, bool updateCache = false)
 		{
-			auto it = caps_holder<T>::attributes_.find(glEnum);
-			if( it == caps_holder<T>::attributes_.end() )
+			T val;
+
+			auto it = caps_holder<T>::attributes_.end();
+
+			if( !updateCache )
 			{
-				T val = value_of<T>::get(glEnum);
-				it = caps_holder<T>::attributes_.insert(
-					caps_holder<T>::attrib_map_t::value_type(glEnum, val) ).first;
+				it = caps_holder<T>::attributes_.find(glEnum);
 			}
 
-			check( it != caps_holder<T>::attributes_.end() );
+			if( it != caps_holder<T>::attributes_.end() )
+			{
+				val = it->second;
+			}
+			else
+			{
+				val = ValueOf<T>::get(glEnum);
+				caps_holder<T>::attributes_[glEnum] = val;
+			}
 
-			return it->second;
+			return val;
 		}
 
 	private:

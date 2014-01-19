@@ -22,7 +22,8 @@ namespace djah { namespace resources {
 			data_object_sptr pDataObject = std::make_shared<data_object_t>(url);
 			data_object_sptr pLoadedDataObject = std::make_shared<data_object_t>(url);
 
-			if( ini_serializer<AttributeTypes>::deserialize(stream, pLoadedDataObject) )			{
+			if( ini_serializer<AttributeTypes>::deserialize(stream, pLoadedDataObject) )
+			{
 				pDataObject = pLoadedDataObject;
 			}
 			else

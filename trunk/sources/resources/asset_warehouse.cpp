@@ -17,15 +17,11 @@ namespace djah { namespace resources {
 	void asset_warehouse::add(const std::string &name, asset_sptr pAsset)
 	{
 		auto it = assets_.find(name);
-		if( it == assets_.end() || it->second.expired() )
+		if( ensure(it == assets_.end() || it->second.expired()) )
 		{
 			pAsset->setName(name);
 			loadedAssetsTotalWeight_ += pAsset->size();
 			assets_.insert( asset_map_t::value_type(name, asset_wptr(pAsset)) );
-		}
-		else
-		{
-			DJAH_LOG_TODO("Log a warning");
 		}
 	}
 	//----------------------------------------------------------------------------------------------

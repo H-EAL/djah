@@ -2,7 +2,7 @@
 #define DJAH_OPENGL_RESOURCE_HPP
 
 #include <string>
-#include "../debug/assertion.hpp"
+#include "djah/debug/assertion.hpp"
 
 #define DJAH_OPENGL_RESOURCE(R) public: static const char* type_name() { return #R; } private:
 
@@ -29,7 +29,7 @@ namespace djah { namespace opengl {
 
 		// Meant to be used as a base class
 		resource(const std::string &_name = "", unsigned int _id = INVALID_ID) : id_(_id), name_(_name) {}
-		virtual ~resource() { DJAH_ASSERT(id_ == INVALID_ID); }
+		virtual ~resource() { check(id_ == INVALID_ID); }
 
 		// Non copyable
 		resource(const resource &res);

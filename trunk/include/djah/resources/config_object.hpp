@@ -39,7 +39,7 @@ namespace djah { namespace resources {
 			static bool s_initialized = false;
 			if( !s_initialized )
 			{
-				s_asset_finder.registerLoader(std::make_shared<loader<data_object<>>>(), "config");
+				s_asset_finder.registerLoader<data_object<>>("config");
 				s_initialized = true;
 			}
 
@@ -68,7 +68,7 @@ namespace djah { namespace resources {
 			}
 			else
 			{
-				pDataObject_->add(attribute<T>(varName, var));
+				pDataObject_->add(varName, var);
 			}
 		}
 

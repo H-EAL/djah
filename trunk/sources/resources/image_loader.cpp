@@ -1,5 +1,6 @@
 #include "djah/resources/image_loader.hpp"
-#include <FreeImage.h>
+//#include <FreeImage.h>
+#include "SOIL.h"
 #include "djah/filesystem/stream.hpp"
 
 namespace djah { namespace resources {
@@ -7,9 +8,11 @@ namespace djah { namespace resources {
 	//----------------------------------------------------------------------------------------------
 	image_loader::image_loader()
 	{
+		/*
 		#ifdef FREE_IMAGE_LIB
 			FreeImage_Initialise();
 		#endif
+		*/
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -17,9 +20,11 @@ namespace djah { namespace resources {
 	//----------------------------------------------------------------------------------------------
 	image_loader::~image_loader()
 	{
+		/*
 		#ifdef FREE_IMAGE_LIB
 			FreeImage_DeInitialise();
 		#endif
+		*/
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -27,13 +32,22 @@ namespace djah { namespace resources {
 	//----------------------------------------------------------------------------------------------
 	image_sptr image_loader::loadFromStream(filesystem::stream &strm, const std::string &fileName)
 	{
-		BYTE *buffer;
+		//BYTE *buffer;
 		size_t bufferSize = strm.size();
-		buffer = new BYTE[bufferSize];
-		strm.read(buffer, bufferSize);
+		std::unique_ptr<byte[]> buffer(new byte[bufferSize]);
+		strm.read(buffer.get(), bufferSize);
 
 		image_sptr pImg;
 
+
+		int width = 0, height = 0, channels = 0;
+		byte *pImgData = SOIL_load_image_from_memory(buffer.get(), bufferSize, &width, &height, &channels, SOIL_LOAD_AUTO);
+		if( pImgData != nullptr )
+		{
+			pImg = std::make_shared<image>(width, height, channels, pImgData);
+			SOIL_free_image_data(pImgData);
+		}
+		/*
 		// Load image from memory
 		FIMEMORY *memory = FreeImage_OpenMemory(buffer, static_cast<DWORD>(bufferSize));
 		// Reading and parsing image header
@@ -72,7 +86,7 @@ namespace djah { namespace resources {
 		// Release memory
 		FreeImage_CloseMemory(memory);
 		delete [] buffer;
-
+		*/
 		return pImg;
 	}
 	//----------------------------------------------------------------------------------------------

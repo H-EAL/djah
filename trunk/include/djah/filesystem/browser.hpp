@@ -16,7 +16,6 @@ namespace djah { namespace filesystem {
 		DJAH_MAKE_SINGLETON(browser);
 
 	public:
-
 		void addLoadingChannel(source *src);
 		void addSavingChannel(source *src);
 
@@ -24,9 +23,10 @@ namespace djah { namespace filesystem {
 		stream_ptr openWriteStream(const std::string &url);
 
 	private:
-
+		browser();
 		virtual ~browser();
 
+	private:
 		// Predicate used to compare 2 sources
 		struct source_comp { bool operator ()(const source *lhs, const source *rhs) { return *lhs < *rhs; } };
 		typedef std::multiset<source*, source_comp> source_list_t;

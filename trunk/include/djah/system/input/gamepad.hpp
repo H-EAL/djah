@@ -78,6 +78,7 @@ namespace djah { namespace system { namespace input {
 		unsigned int		 id_;
 		std::string			 name_;
 		bool				 plugged_;
+        bool                 initialized_;
 		std::vector<axis>	 axis_;
 		std::vector<button>	 buttons_;
 		std::vector<trigger> triggers_;

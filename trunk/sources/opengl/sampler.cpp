@@ -1,13 +1,16 @@
+#include <algorithm>
 #include "djah/system/gl.hpp"
 #include "djah/opengl/opengl_logger.hpp"
 #include "djah/opengl/sampler.hpp"
-#include "djah/opengl/texture.hpp"
+#include "djah/opengl/capabilities.hpp"
 
 namespace djah { namespace opengl {
 
 	//----------------------------------------------------------------------------------------------
-	sampler::sampler(std::shared_ptr<texture> pTexture)
-		: pTexture_(pTexture)
+	sampler::sampler()
+		: bilinearMode_(eBM_None)
+		, mipmappingMode_(eMM_None)
+		, maxAnisotropy_(1.0f)
 	{
 		aquire();
 	}
@@ -17,31 +20,46 @@ namespace djah { namespace opengl {
 	//----------------------------------------------------------------------------------------------
 	sampler::~sampler()
 	{
+		check( !isBoundToAnyUnit() );
 		release();
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	void sampler::bind(int textureUnit) const
+	void sampler::bindToUnit(unsigned int textureUnit) const
 	{
-		if(textureUnit == -1)
+		if( !isBoundToUnit(textureUnit) )
 		{
-			textureUnit = texture::active_unit();
+			glBindSampler(textureUnit, id_);
+			boundTextureUnits_.insert(textureUnit);
 		}
-		glBindSampler(textureUnit, id_);
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	void sampler::unbind(int textureUnit)
+	void sampler::unbindFromUnit(unsigned int textureUnit) const
 	{
-		if(textureUnit == -1)
+		if( ensure(isBoundToUnit(textureUnit)) )
 		{
-			textureUnit = texture::active_unit();
+			glBindSampler(textureUnit, 0);
+			boundTextureUnits_.erase(textureUnit);
 		}
-		glBindSampler(0, 0);
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	void sampler::unbindFromAll() const
+	{
+		std::for_each(boundTextureUnits_.begin(), boundTextureUnits_.end(),
+			[&](unsigned int textureUnit)
+		{
+			unbindFromUnit(textureUnit);
+		});
+
+		check( boundTextureUnits_.empty() );
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -76,15 +94,14 @@ namespace djah { namespace opengl {
 	{
 		glSamplerParameteri(id_, GL_TEXTURE_WRAP_S, wrapMode);
 		glSamplerParameteri(id_, GL_TEXTURE_WRAP_T, wrapMode);
+		glSamplerParameteri(id_, GL_TEXTURE_WRAP_R, wrapMode);
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	void sampler::setFiltering(eBilinearMode bilinearMode, eMimappingMode mipmappingMode)
+	void sampler::setFiltering(eBilinearMode bilinearMode, eMipmappingMode mipmappingMode, float maxAnisotropy)
 	{
-		check(pTexture_);
-
 		const int magFilter = (bilinearMode & eBM_Near) ? GL_LINEAR : GL_NEAREST;
 		// Filter for objects that are close to the camera
 		glSamplerParameteri(id_, GL_TEXTURE_MAG_FILTER, magFilter);
@@ -92,27 +109,34 @@ namespace djah { namespace opengl {
 		const bool bilinearFar = (bilinearMode & eBM_Far) != 0;
 		int minFilter = bilinearFar ? GL_LINEAR : GL_NEAREST;
 
-		if( pTexture_->hasMipmapping() )
+		switch( mipmappingMode )
 		{
-			switch( mipmappingMode )
-			{
-			case eMM_Standard:
-				minFilter = bilinearFar ? GL_LINEAR_MIPMAP_NEAREST : GL_NEAREST_MIPMAP_NEAREST;
-				break;
+		case eMM_None:
+			break;
 
-			case eMM_Trilinear:
-				minFilter = bilinearFar ? GL_LINEAR_MIPMAP_LINEAR : GL_NEAREST_MIPMAP_LINEAR;
-				break;
+		case eMM_Standard:
+			minFilter = bilinearFar ? GL_LINEAR_MIPMAP_NEAREST : GL_NEAREST_MIPMAP_NEAREST;
+			break;
 
-			default:
-				DJAH_OPENGL_WARNING() << "Invalid mipmapping filtering set" << DJAH_END_LOG();
-			case eMM_None:
-				break;
-			}
+		case eMM_Trilinear:
+			minFilter = bilinearFar ? GL_LINEAR_MIPMAP_LINEAR : GL_NEAREST_MIPMAP_LINEAR;
+			break;
+
+		default:
+			DJAH_OPENGL_WARNING() << "Invalid mipmapping filtering set (" << mipmappingMode << ")" << DJAH_END_LOG();
+			break;
 		}
 
 		// Filter for objects that are far away from the camera
 		glSamplerParameteri(id_, GL_TEXTURE_MIN_FILTER, minFilter);
+
+		// Set anisotropy
+		glSamplerParameterf(id_, GL_TEXTURE_MAX_ANISOTROPY_EXT, maxAnisotropy);
+
+		// Save values
+		bilinearMode_   = bilinearMode;
+		mipmappingMode_ = mipmappingMode;
+		maxAnisotropy_  = maxAnisotropy;
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -120,12 +144,20 @@ namespace djah { namespace opengl {
 	//----------------------------------------------------------------------------------------------
 	void sampler::setNoFiltering()
 	{
-		setFiltering(eBM_None, eMM_None);
+		setFiltering(eBM_None, eMM_None, 1.0f);
 	}
 	//----------------------------------------------------------------------------------------------
 	void sampler::setBestFiltering()
 	{
-		setFiltering(eBM_NearFar, eMM_Trilinear);
+		setFiltering(eBM_NearFar, eMM_Trilinear, capabilities::value_of<float>(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT));
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	bool sampler::hasMipmappingFiltering() const
+	{
+		return mipmappingMode_ != eMM_None;
 	}
 	//----------------------------------------------------------------------------------------------
 

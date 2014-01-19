@@ -11,6 +11,7 @@ namespace djah { namespace system { namespace input {
 	gamepad::gamepad(unsigned int id)
 		: id_(id)
 		, plugged_(false)
+		, initialized_(false)
 	{
 		init();
 	}
@@ -67,6 +68,8 @@ namespace djah { namespace system { namespace input {
 		triggers_.reserve(eX360_TriggersCount);
 		triggers_.push_back( trigger("GAMEPAD_TRIGGER_LEFT",  eX360_LeftTrigger,  UCHAR_MAX, XINPUT_GAMEPAD_TRIGGER_THRESHOLD ) );
 		triggers_.push_back( trigger("GAMEPAD_TRIGGER_RIGHT", eX360_RightTrigger, UCHAR_MAX, XINPUT_GAMEPAD_TRIGGER_THRESHOLD ) );
+
+		initialized_ = true;
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -84,7 +87,13 @@ namespace djah { namespace system { namespace input {
 		plugged_ = (result == ERROR_SUCCESS);
 		if( !plugged_ )
 		{
+			initialized_ = false;
 			return;
+		}
+		
+		if( !initialized_ )
+		{
+			init();
 		}
 
 		// Check if there's any change in the gamepad state
@@ -106,6 +115,9 @@ namespace djah { namespace system { namespace input {
 		
 		// Update axis state
 		axis_[eX360_LeftX].setRawValue(float(controllerState.Gamepad.sThumbLX));
+		axis_[eX360_LeftY].setRawValue(float(controllerState.Gamepad.sThumbLY));
+		axis_[eX360_RightX].setRawValue(float(controllerState.Gamepad.sThumbRX));
+		axis_[eX360_RightY].setRawValue(float(controllerState.Gamepad.sThumbRY));
 
 		// Update triggers state
 		triggers_[eX360_LeftTrigger].setRawValue(float(controllerState.Gamepad.bLeftTrigger));

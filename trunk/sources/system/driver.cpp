@@ -13,7 +13,10 @@ namespace djah { namespace system {
 	driver::driver(device *_pDevice, const driver_config_sptr &_pConfig, const driver_sptr &pSharedDriver)
 		: pConfig_(_pConfig)
 	{
-		DJAH_SYSTEM_NOTIFICATION() << "Creating OpenGL context..." << DJAH_END_LOG();
+		DJAH_SYSTEM_NOTIFICATION()
+			<< "Creating OpenGL context "
+			<< _pConfig->majorVersion << "." << _pConfig->minorVersion
+			<< "..." << DJAH_END_LOG();
 
 		gl_context *pSharedContext = nullptr;
 		if( pSharedDriver && pSharedDriver->pContext_ && pSharedDriver->pContext_->isValid() )
@@ -32,7 +35,7 @@ namespace djah { namespace system {
 
 		DJAH_SYSTEM_NOTIFICATION()
 			<< "OpenGL context created (version "
-			<< capabilities_.valueOf<std::string>(GL_VERSION)
+			<< capabilities_.value_of<std::string>(GL_VERSION)
 			<< ")" << DJAH_END_LOG();
 	}
 	//-------------------------------------------------------------------------------------------------

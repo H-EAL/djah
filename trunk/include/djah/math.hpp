@@ -23,5 +23,6 @@
 #include "math/projection.hpp"
 #include "math/transform.hpp"
 #include "math/dual_number.hpp"
+#include "math/angles.hpp"
 
 #endif /* MATH_HPP */

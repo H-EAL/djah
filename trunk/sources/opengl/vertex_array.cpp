@@ -77,8 +77,8 @@ namespace djah { namespace opengl {
 	//----------------------------------------------------------------------------------------------
 	void vertex_array::addVertexBuffer(vertex_buffer *pVB, const vertex_format &format)
 	{
-		DJAH_ASSERT(pVB != nullptr);
-		DJAH_ASSERT(vertexBuffers_.find(pVB) == vertexBuffers_.end());
+		check(pVB != nullptr);
+		check(vertexBuffers_.find(pVB) == vertexBuffers_.end());
 		vertexBuffers_.insert( vb_list_t::value_type(pVB,format) );
 	}
 	//----------------------------------------------------------------------------------------------
@@ -87,10 +87,10 @@ namespace djah { namespace opengl {
 	//----------------------------------------------------------------------------------------------
 	void vertex_array::removeVertexBuffer(vertex_buffer *pVB)
 	{
-		DJAH_ASSERT(pVB != nullptr);
+		check(pVB != nullptr);
 
 		auto it = vertexBuffers_.find(pVB);
-		DJAH_ASSERT(it != vertexBuffers_.end());
+		check(it != vertexBuffers_.end());
 
 		vertexBuffers_.erase(it);
 	}
@@ -116,7 +116,7 @@ namespace djah { namespace opengl {
 	//----------------------------------------------------------------------------------------------
 	void vertex_array::init(const shader_program &sp)
 	{
-		DJAH_ASSERT( !vertexBuffers_.empty() );
+		check( !vertexBuffers_.empty() );
 
 		std::stack<int> attributesStack;
 
@@ -152,46 +152,53 @@ namespace djah { namespace opengl {
 	
 
 	//----------------------------------------------------------------------------------------------
-	void vertex_array::enableVertexBuffer(vertex_buffer *pVB, const vertex_format &format, const shader_program &sp, std::stack<int> &attributesStack)
+	void vertex_array::enableVertexBuffer(vertex_buffer *pVB, const vertex_format &vertexFormat, const shader_program &sp, std::stack<int> &attributesStack)
 	{
-		const unsigned int stride = format.stride();
+		const unsigned int stride = vertexFormat.stride();
 		unsigned int offset = 0;
 
-		const vertex_format::attr_list_t &attributes = format.attributes();
+		const vertex_format::attr_list_t &attributes = vertexFormat.attributes();
+		auto attrIt									 = attributes.begin();
+		auto attrItEnd								 = attributes.end();
 
 		pVB->bind();
 
-		auto itEnd = attributes.end();
-		for(auto it = attributes.begin(); it != itEnd; ++it)
+		const shader_program::cache_t &attributeMap = sp.getAttributeMap();
+		std::for_each(attributeMap.begin(), attributeMap.end(), [&](const shader_program::cache_t::value_type &attributeInfo)
 		{
-			const int attrIndex = sp.getVertexAttributeLocation(it->name());
-			if( attrIndex >= 0 )
+			auto currentAttributeIt = std::find_if(attrIt, attrItEnd, [&](const opengl::format::vertex_attrib_base &attr)
 			{
+				return attr.name() == attributeInfo.first;
+			});
+
+			if( currentAttributeIt != attrItEnd )
+			{
+				const auto &currentAttribute = (*currentAttributeIt);
+
+				const unsigned int attrIndex = attributeInfo.second;
 				glEnableVertexAttribArray(attrIndex);
-				glVertexAttribDivisor(attrIndex, it->divisor());
-				const int attribSizeDiv4 = it->count() / 4;
+				glVertexAttribDivisor(attrIndex, currentAttribute.divisor()); 
+				const int attribSizeDiv4 = currentAttribute.count() / 4;
 				int i = 0;
 				for(i = 0; i < attribSizeDiv4; ++i)
 				{
-					glVertexAttribPointer(attrIndex + i, 4, it->valueType(), GL_FALSE, stride, buffer_offset(offset));
+					glVertexAttribPointer(attrIndex + i, 4, currentAttribute.valueType(), GL_FALSE, stride, buffer_offset(offset));
 				}
-				const int attribSizeMod4 = it->count() % 4;
+				const int attribSizeMod4 = currentAttribute.count() % 4;
 				if( attribSizeMod4 != 0 )
 				{
-					glVertexAttribPointer(attrIndex + i, attribSizeMod4, it->valueType(), GL_FALSE, stride, buffer_offset(offset));
+					glVertexAttribPointer(attrIndex + i, attribSizeMod4, currentAttribute.valueType(), GL_FALSE, stride, buffer_offset(offset));
 				}
-				
+
 				attributesStack.push(attrIndex);
+				offset += currentAttribute.count() * currentAttribute.size() * (vertexFormat.isPacked() ? vertexCount_ : 1);
 			}
 			else
 			{
-				DJAH_OPENGL_WARNING()
-					<< "Attribute \"" << it->name() << "\" not found in the following shader: "
-					<< sp.name()
-					<< DJAH_END_LOG();
+				DJAH_ASSERT_MSG(false, "[%s] Attribute \"%s\" not found in the vertex format", sp.name().c_str(), attributeInfo.first.c_str());
+				return;
 			}
-			offset += it->count() * it->size() * (format.isPacked() ? vertexCount_ : 1);
-		}
+		});
 
 		pVB->unbind();
 	}
@@ -209,7 +216,7 @@ namespace djah { namespace opengl {
 			if( pIndexBuffer_ )
 			{
 				GLsizei count = static_cast<GLsizei>(pIndexBuffer_->count());
-				glDrawElements(pIndexBuffer_->drawingMode(), count, pIndexBuffer_->dataType(), 0);
+				glDrawElements(pIndexBuffer_->drawingMode(), count, pIndexBuffer_->dataType(), nullptr);
 			}
 			else
 			{
@@ -232,7 +239,7 @@ namespace djah { namespace opengl {
 			if( pIndexBuffer_ )
 			{
 				GLsizei count = static_cast<GLsizei>(pIndexBuffer_->count());
-				glDrawElements(pIndexBuffer_->drawingMode(), count, pIndexBuffer_->dataType(), 0);
+				glDrawElementsInstanced(pIndexBuffer_->drawingMode(), count, pIndexBuffer_->dataType(), nullptr, instanceCount);
 			}
 			else
 			{

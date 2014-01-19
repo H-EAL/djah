@@ -52,7 +52,7 @@ namespace djah { namespace resources {
 					key_value_list_t::const_iterator itEnd = itKvList->second.end();
 					for(it = itKvList->second.begin(); it != itEnd; ++it)
 					{
-						dobj->add( deserialize_attribute<H>(*it) );
+						dobj->add( it->first, deserialize_attribute<H>(it->second) );
 					}
 
 					attributes.erase(itKvList);
@@ -64,25 +64,25 @@ namespace djah { namespace resources {
 
 			//--------------------------------------------------------------------------------------
 			template<typename T>
-			static attribute<T> deserialize_attribute(const key_value_t &kv)
+			static T deserialize_attribute(const std::string &strVal)
 			{
 				T val;
-				std::stringstream ss(kv.second);
+				std::stringstream ss(strVal);
 				ss >> val;
-				return attribute<T>(kv.first, val);
+				return val;
 			}
 
 			//--------------------------------------------------------------------------------------
 			template<>
-			static attribute<bool> deserialize_attribute<bool>(const key_value_t &kv)
+			static bool deserialize_attribute<bool>(const std::string &strVal)
 			{
-				return attribute<bool>(kv.first, utils::to_lower_case(kv.second) == "true");
+				return utils::to_lower_case(strVal) == "true";
 			}
 			//--------------------------------------------------------------------------------------
 			template<>
-			static attribute<std::string> deserialize_attribute<std::string>(const key_value_t &kv)
+			static std::string deserialize_attribute<std::string>(const std::string &strVal)
 			{
-				return attribute<std::string>( kv.first, kv.second.substr(1, kv.second.size() - 2) );
+				return  strVal.substr(1, strVal.size() - 2);
 			}
 			//--------------------------------------------------------------------------------------
 		};
@@ -160,7 +160,7 @@ namespace djah { namespace resources {
 		static bool deserialize(filesystem::stream &stream, data_object_sptr dobj)
 		{
 			filesystem::memory_stream memStream(&stream);
-			std::string &stringStream = memStream.toString();
+			const std::string &stringStream = memStream.toString();
 
 			utils::string_list_t lines;
 			utils::split_string(stringStream, lines, "\n");

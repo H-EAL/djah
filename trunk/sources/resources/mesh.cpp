@@ -62,7 +62,7 @@ namespace djah { namespace resources {
 	void mesh::draw() const
 	{
 		std::for_each(subMeshes_.begin(), subMeshes_.end(),
-		[](submesh *pSubMesh)
+			[](submesh *pSubMesh)
 		{
 			pSubMesh->vertexArray.draw();
 		});
@@ -74,7 +74,7 @@ namespace djah { namespace resources {
 	void mesh::drawInstanced(int instanceCount) const
 	{
 		std::for_each(subMeshes_.begin(), subMeshes_.end(),
-		[&](submesh *pSubMesh)
+			[&](submesh *pSubMesh)
 		{
 			pSubMesh->vertexArray.drawInstanced(instanceCount);
 		});

@@ -79,11 +79,7 @@ namespace djah { namespace gameplay {
 				for(auto it = compData->second.data.begin(); it != itEnd; ++it)
 				{
 					game_object<ComponentTypeList> &go = *(it->pGO);
-					if( !go.isUsing<HeadComponent>() )
-					{
-						go.use<HeadComponent>();
-					}
-					go.get<HeadComponent>().deserialize(*(it->pValue));
+					go.use( HeadComponent(*(it->pValue)) );
 				}
 			}
 			component_serializer<TailComponents>::deserialize(compMap);
@@ -100,19 +96,24 @@ namespace djah { namespace gameplay {
 		typedef game_object<ComponentTypeList> game_object_t;
 		typedef std::map< std::string, component_data<ComponentTypeList> > comp_map_t;
 
+		static void serialize(const game_object_t &go)
+		{
+			const std::string &fileName = go.name() + ".json";
+			filesystem::stream_ptr strm = filesystem::browser::get().openWriteStream(fileName);
+			if( strm )
+			{
+				strm << "{ ";
+				component_serializer<ComponentTypeList>::serialize(go, strm);
+				strm << " }";
+			}
+		}
+
 		static void serialize(std::vector<game_object_t*> &goList)
 		{
 			auto itEnd = goList.end();
 			for(auto it = goList.begin(); it != itEnd; ++it)
 			{
-				const std::string &fileName = (*it)->name() + ".json";
-				filesystem::stream_ptr strm = filesystem::browser::get().openWriteStream(fileName);
-				if( strm )
-				{
-					strm << "{ ";
-					component_serializer<ComponentTypeList>::serialize(*(*it), strm);
-					strm << " }";
-				}
+				serialize(*(*it));
 			}
 		}
 
@@ -156,8 +157,8 @@ namespace djah { namespace gameplay {
 			const std::string &fileName = go.name() + ".json";
 			filesystem::stream_ptr strm = filesystem::browser::get().openReadStream(fileName);
 
-			DJAH_ASSERT(strm && strm->size() > 0);
-			filesystem::memory_stream memStrm(strm);
+			check(strm && strm->size() > 0);
+			filesystem::memory_stream memStrm(strm.get());
 
 			go.stopUsingAll();
 
@@ -165,14 +166,15 @@ namespace djah { namespace gameplay {
 			docStack_.push(pDoc);
 			pDoc->Parse<0>(memStrm.toString().c_str());
 
-			DJAH_ASSERT(!pDoc->HasParseError());
-
-			auto itEnd = pDoc->MemberEnd();
-			for(auto it = pDoc->MemberBegin(); it != itEnd; ++it)
+			if( ensure(!pDoc->HasParseError()) )
 			{
-				std::string compName = it->name.GetString();
-				component_data_aux<ComponentTypeList> data = {&go, &(it->value)};
-				compMap[compName].data.push_back( data );
+				auto itEnd = pDoc->MemberEnd();
+				for(auto it = pDoc->MemberBegin(); it != itEnd; ++it)
+				{
+					const std::string &compName = it->name.GetString();
+					component_data_aux<ComponentTypeList> compData = {&go, &(it->value)};
+					compMap[compName].data.push_back( compData );
+				}
 			}
 		}
 

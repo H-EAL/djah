@@ -126,10 +126,10 @@ namespace djah { namespace gameplay {
 		template<typename ComponentType>
 		game_object<ComponentTypeList>& use(const ComponentType &comp = ComponentType())
 		{
-			DJAH_ASSERT( !isUsing<ComponentType>() );
+			check( !isUsing<ComponentType>() );
 			component_usage<ComponentType>::cid_ = db_.add<ComponentType>(comp);
-			DJAH_ASSERT( isUsing<ComponentType>() );
-			component_usage<ComponentType>::pData_ = &get<ComponentType>();
+			check( isUsing<ComponentType>() );
+			component_usage<ComponentType>::pData_ = &(get<ComponentType>().data());
 
 			return (*this);
 		}
@@ -138,7 +138,7 @@ namespace djah { namespace gameplay {
 		template<typename ComponentType>
 		game_object<ComponentTypeList>& stopUsing()
 		{
-			DJAH_ASSERT( isUsing<ComponentType>() );
+			check( isUsing<ComponentType>() );
 
 			db_.remove<ComponentType>(component_usage<ComponentType>::cid_);
 			component_usage<ComponentType>::cid_ = INVALID_COMPONENT_ID;
@@ -155,17 +155,10 @@ namespace djah { namespace gameplay {
 
 		//----------------------------------------------------------------------------------------------
 		template<typename ComponentType>
-		inline component<ComponentType> getSafe() const
+		inline component<ComponentType> get() const
 		{
-			DJAH_ASSERT( isUsing<ComponentType>() );
+			check( isUsing<ComponentType>() );
 			return db_.get<ComponentType>(component_usage<ComponentType>::cid_);
-		}
-
-		//----------------------------------------------------------------------------------------------
-		template<typename ComponentType>
-		inline ComponentType& get() const
-		{
-			return getSafe<ComponentType>().data();
 		}
 
 	private:

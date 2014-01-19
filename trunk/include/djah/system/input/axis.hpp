@@ -8,15 +8,14 @@ namespace djah { namespace system { namespace input {
 	class axis
 	{
 	public:
-		axis(const std::string &_name, unsigned int _id, unsigned int _minValue,
-			 unsigned int _maxValue, const unsigned int _deadZone)
+		axis(const std::string &_name, unsigned int _id, int _minValue, int _maxValue, int _deadZone)
 			: name_(_name)
 			, id_(_id)
 			, value_(0.0f)
 			, minValue_(float(_minValue))
 			, maxValue_(float(_maxValue))
-			, deadZone_(float(_deadZone))
 			, scaleCoeff_(2.0f / (_maxValue - _minValue))
+			, deadZone_(float(_deadZone) * scaleCoeff_)
 		{
 		}
 		~axis() {}
@@ -39,8 +38,8 @@ namespace djah { namespace system { namespace input {
 		float			value_;
 		float			minValue_;
 		float			maxValue_;
-		float			deadZone_;
 		float			scaleCoeff_;
+		float			deadZone_;
 	};
 
 } /*input*/ } /*system*/ } /*djah*/

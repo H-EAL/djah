@@ -1,13 +1,13 @@
-#ifndef DJAH_GAMEPLAY_GAME_SERVICE_HPP
-#define DJAH_GAMEPLAY_GAME_SERVICE_HPP
+#ifndef DJAH_GAMEPLAY_SERVICES_GAME_SERVICE_HPP
+#define DJAH_GAMEPLAY_SERVICES_GAME_SERVICE_HPP
 
 #include <set>
 #include <vector>
 #include <memory>
 #include <type_traits>
-#include "game_object.hpp"
+#include "djah/gameplay/game_object.hpp"
 
-namespace djah { namespace gameplay {
+namespace djah { namespace gameplay { namespace services {
 
 	template
 	<
@@ -29,7 +29,7 @@ namespace djah { namespace gameplay {
 
 		virtual bool add(game_object_t *pGameObject)
 		{
-			DJAH_ASSERT(pGameObject);
+			check(pGameObject);
 			const bool canAddGO = pGameObject->isUsingList<MandatoryComponents>();
 			
 			if(canAddGO)
@@ -89,6 +89,6 @@ namespace djah { namespace gameplay {
 		go_container_t game_objects_;
 	};
 
-} /*gameplay*/ } /*djah*/
+} /*services*/ } /*gameplay*/ } /*djah*/
 
-#endif /* DJAH_GAMEPLAY_GAME_SERVICE_HPP */
+#endif /* DJAH_GAMEPLAY_SERVICES_GAME_SERVICE_HPP */
