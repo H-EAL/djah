@@ -9,21 +9,23 @@ namespace {
 	
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline void load_extension(T& func, const char *name)
+	inline void load_extension(T& func, const char *name, int major, int minor)
 	{
 		#if defined(DJAH_COMPILE_LINUX)
 			func = reinterpret_cast<T>( glXGetProcAddress(reinterpret_cast<const GLubyte *>(name)) );
 		#elif defined(DJAH_COMPILE_WINDOWS)
 			func = reinterpret_cast<T>( wglGetProcAddress(name) );
 		#endif
-			DJAH_ASSERT_MSG(func != nullptr, "Unable to load extension \"%s\"", name);
+			DJAH_ASSERT_MSG(func != nullptr, "Unable to load extension \"%s\" (core since version %d.%d)", name, major, minor);
 	}
 	//----------------------------------------------------------------------------------------------
 
 }
 
 //--------------------------------------------------------------------------------------------------
-#define LOAD_EXTENSION(EXT) load_extension(EXT, #EXT)
+#define MAJOR(VERSION) int(VERSION)
+#define MINOR(VERSION) int(VERSION * 10.0 - int(VERSION)*10.0)
+#define LOAD_EXTENSION(VERSION, EXT) load_extension(EXT, #EXT, MAJOR(VERSION), MINOR(VERSION))
 //--------------------------------------------------------------------------------------------------
 
 
@@ -35,131 +37,131 @@ namespace djah { namespace system {
 		//------------------------------------------------------------------------------------------
 		// Buffers
 		//------------------------------------------------------------------------------------------
-		LOAD_EXTENSION( glGenVertexArrays			);
-		LOAD_EXTENSION( glDeleteVertexArrays		);
-		LOAD_EXTENSION( glIsVertexArray				);
-		LOAD_EXTENSION( glBindVertexArray			);
+		LOAD_EXTENSION( 3.0, glGenVertexArrays			);
+		LOAD_EXTENSION( 3.0, glDeleteVertexArrays		);
+		LOAD_EXTENSION( 3.0, glIsVertexArray			);
+		LOAD_EXTENSION( 3.0, glBindVertexArray			);
 		
-		LOAD_EXTENSION( glGenBuffers				);
-		LOAD_EXTENSION( glDeleteBuffers				);
-		LOAD_EXTENSION( glIsBuffer					);
-		LOAD_EXTENSION( glBindBuffer				);
-		LOAD_EXTENSION( glBufferData				);
-		LOAD_EXTENSION( glBufferSubData				);
-		LOAD_EXTENSION( glGetBufferSubData			);
-		//LOAD_EXTENSION( glBindVertexBuffer			);
+		LOAD_EXTENSION( 1.5, glGenBuffers				);
+		LOAD_EXTENSION( 1.5, glDeleteBuffers			);
+		LOAD_EXTENSION( 1.5, glIsBuffer					);
+		LOAD_EXTENSION( 1.5, glBindBuffer				);
+		LOAD_EXTENSION( 1.5, glBufferData				);
+		LOAD_EXTENSION( 1.5, glBufferSubData			);
+		LOAD_EXTENSION( 1.5, glGetBufferSubData			);
+		LOAD_EXTENSION( 4.3, glBindVertexBuffer			);
 
-		LOAD_EXTENSION( glEnableVertexAttribArray	);
-		LOAD_EXTENSION( glDisableVertexAttribArray	);
-		LOAD_EXTENSION( glVertexAttribPointer		);
-		LOAD_EXTENSION( glVertexAttribDivisor		);
-		//LOAD_EXTENSION( glVertexAttribFormat		);
-		//LOAD_EXTENSION( glVertexAttribBinding		);
+		LOAD_EXTENSION( 2.0, glEnableVertexAttribArray	);
+		LOAD_EXTENSION( 2.0, glDisableVertexAttribArray	);
+		LOAD_EXTENSION( 2.0, glVertexAttribPointer		);
+		LOAD_EXTENSION( 2.0, glVertexAttribDivisor		);
+		LOAD_EXTENSION( 4.3, glVertexAttribFormat		);
+		LOAD_EXTENSION( 4.3, glVertexAttribBinding		);
 
-		LOAD_EXTENSION( glGenRenderbuffers			);
-		LOAD_EXTENSION( glDeleteRenderbuffers		);
-		LOAD_EXTENSION( glIsRenderbuffer			);
-		LOAD_EXTENSION( glBindRenderbuffer			);
-		LOAD_EXTENSION( glRenderbufferStorage		);
+		LOAD_EXTENSION( 3.0, glGenRenderbuffers			);
+		LOAD_EXTENSION( 3.0, glDeleteRenderbuffers		);
+		LOAD_EXTENSION( 3.0, glIsRenderbuffer			);
+		LOAD_EXTENSION( 3.0, glBindRenderbuffer			);
+		LOAD_EXTENSION( 3.0, glRenderbufferStorage		);
 
-		LOAD_EXTENSION( glGenFramebuffers			);
-		LOAD_EXTENSION( glDeleteFramebuffers		);
-		LOAD_EXTENSION( glIsFramebuffer				);
-		LOAD_EXTENSION( glBindFramebuffer			);
-		LOAD_EXTENSION( glCheckFramebufferStatus	);
-		LOAD_EXTENSION( glFramebufferRenderbuffer	);
-		LOAD_EXTENSION( glFramebufferTexture		);
-		LOAD_EXTENSION( glDrawBuffers				);
-		LOAD_EXTENSION( glBlitFramebuffer			);
+		LOAD_EXTENSION( 3.0, glGenFramebuffers			);
+		LOAD_EXTENSION( 3.0, glDeleteFramebuffers		);
+		LOAD_EXTENSION( 3.0, glIsFramebuffer			);
+		LOAD_EXTENSION( 3.0, glBindFramebuffer			);
+		LOAD_EXTENSION( 3.0, glCheckFramebufferStatus	);
+		LOAD_EXTENSION( 3.0, glFramebufferRenderbuffer	);
+		LOAD_EXTENSION( 3.2, glFramebufferTexture		);
+		LOAD_EXTENSION( 2.0, glDrawBuffers				);
+		LOAD_EXTENSION( 3.0, glBlitFramebuffer			);
 
-		LOAD_EXTENSION( glDrawArraysInstanced		);
-		LOAD_EXTENSION( glDrawElementsInstanced		);
+		LOAD_EXTENSION( 3.1, glDrawArraysInstanced		);
+		LOAD_EXTENSION( 3.1, glDrawElementsInstanced	);
 
 		//------------------------------------------------------------------------------------------
 		// Shaders
 		//------------------------------------------------------------------------------------------
-		LOAD_EXTENSION( glCreateShader		 );
-		LOAD_EXTENSION( glDeleteShader		 );
-		LOAD_EXTENSION( glIsShader			 );
-		LOAD_EXTENSION( glShaderSource		 );
-		LOAD_EXTENSION( glGetShaderiv		 );
-		LOAD_EXTENSION( glGetShaderInfoLog	 );
-		LOAD_EXTENSION( glCompileShader		 );
-		LOAD_EXTENSION( glCreateProgram		 );
-		LOAD_EXTENSION( glDeleteProgram		 );
-		LOAD_EXTENSION( glIsProgram			 );
-		LOAD_EXTENSION( glAttachShader		 );
-		LOAD_EXTENSION( glDetachShader		 );
-		LOAD_EXTENSION( glLinkProgram		 );
-		LOAD_EXTENSION( glUseProgram		 );
-		LOAD_EXTENSION( glGetAttribLocation	 );
-		LOAD_EXTENSION( glGetProgramiv		 );
-		LOAD_EXTENSION( glGetProgramInfoLog	 );
-		LOAD_EXTENSION( glGetUniformLocation );
-		LOAD_EXTENSION( glGetActiveUniform	 );
-		LOAD_EXTENSION( glGetActiveAttrib	 );
-		LOAD_EXTENSION( glPatchParameteri	 );
+		LOAD_EXTENSION( 2.0, glCreateShader			);
+		LOAD_EXTENSION( 2.0, glDeleteShader			);
+		LOAD_EXTENSION( 2.0, glIsShader				);
+		LOAD_EXTENSION( 2.0, glShaderSource			);
+		LOAD_EXTENSION( 2.0, glGetShaderiv			);
+		LOAD_EXTENSION( 2.0, glGetShaderInfoLog		);
+		LOAD_EXTENSION( 2.0, glCompileShader		);
+		LOAD_EXTENSION( 2.0, glCreateProgram		);
+		LOAD_EXTENSION( 2.0, glDeleteProgram		);
+		LOAD_EXTENSION( 2.0, glIsProgram			);
+		LOAD_EXTENSION( 2.0, glAttachShader			);
+		LOAD_EXTENSION( 2.0, glDetachShader			);
+		LOAD_EXTENSION( 2.0, glLinkProgram			);
+		LOAD_EXTENSION( 2.0, glUseProgram			);
+		LOAD_EXTENSION( 2.0, glGetAttribLocation	);
+		LOAD_EXTENSION( 2.0, glGetProgramiv			);
+		LOAD_EXTENSION( 2.0, glGetProgramInfoLog	);
+		LOAD_EXTENSION( 2.0, glGetUniformLocation	);
+		LOAD_EXTENSION( 2.0, glGetActiveUniform		);
+		LOAD_EXTENSION( 2.0, glGetActiveAttrib		);
+		LOAD_EXTENSION( 4.0, glPatchParameteri		);
 
 		//------------------------------------------------------------------------------------------
 		// Uniforms
 		//------------------------------------------------------------------------------------------
-		LOAD_EXTENSION( glUniform1f	 );
-		LOAD_EXTENSION( glUniform2f	 );
-		LOAD_EXTENSION( glUniform3f	 );
-		LOAD_EXTENSION( glUniform4f	 );
+		LOAD_EXTENSION( 2.0, glUniform1f );
+		LOAD_EXTENSION( 2.0, glUniform2f );
+		LOAD_EXTENSION( 2.0, glUniform3f );
+		LOAD_EXTENSION( 2.0, glUniform4f );
 									 
-		LOAD_EXTENSION( glUniform1fv );
-		LOAD_EXTENSION( glUniform2fv );
-		LOAD_EXTENSION( glUniform3fv );
-		LOAD_EXTENSION( glUniform4fv );
-									 
-		LOAD_EXTENSION( glUniform1i	 );
-		LOAD_EXTENSION( glUniform2i	 );
-		LOAD_EXTENSION( glUniform3i	 );
-		LOAD_EXTENSION( glUniform4i	 );
-									 
-		LOAD_EXTENSION( glUniform1iv );
-		LOAD_EXTENSION( glUniform2iv );
-		LOAD_EXTENSION( glUniform3iv );
-		LOAD_EXTENSION( glUniform4iv );
+		LOAD_EXTENSION( 2.0, glUniform1fv );
+		LOAD_EXTENSION( 2.0, glUniform2fv );
+		LOAD_EXTENSION( 2.0, glUniform3fv );
+		LOAD_EXTENSION( 2.0, glUniform4fv );
 
-		LOAD_EXTENSION( glUniformMatrix2fv		);
-		LOAD_EXTENSION( glUniformMatrix3fv		);
-		LOAD_EXTENSION( glUniformMatrix4fv		);
-		LOAD_EXTENSION( glUniformMatrix2x3fv	);
-		LOAD_EXTENSION( glUniformMatrix3x2fv	);
-		LOAD_EXTENSION( glUniformMatrix2x4fv	);
-		LOAD_EXTENSION( glUniformMatrix4x2fv	);
-		LOAD_EXTENSION( glUniformMatrix3x4fv	);
-		LOAD_EXTENSION( glUniformMatrix4x3fv	);
+		LOAD_EXTENSION( 2.0, glUniform1i );
+		LOAD_EXTENSION( 2.0, glUniform2i );
+		LOAD_EXTENSION( 2.0, glUniform3i );
+		LOAD_EXTENSION( 2.0, glUniform4i );
 
-		LOAD_EXTENSION( glGetUniformfv	);
-		LOAD_EXTENSION( glGetUniformdv	);
-		LOAD_EXTENSION( glGetUniformiv	);
-		LOAD_EXTENSION( glGetUniformuiv	);
+		LOAD_EXTENSION( 2.0, glUniform1iv );
+		LOAD_EXTENSION( 2.0, glUniform2iv );
+		LOAD_EXTENSION( 2.0, glUniform3iv );
+		LOAD_EXTENSION( 2.0, glUniform4iv );
+
+		LOAD_EXTENSION( 2.0, glUniformMatrix2fv		);
+		LOAD_EXTENSION( 2.0, glUniformMatrix3fv		);
+		LOAD_EXTENSION( 2.0, glUniformMatrix4fv		);
+		LOAD_EXTENSION( 2.0, glUniformMatrix2x3fv	);
+		LOAD_EXTENSION( 2.0, glUniformMatrix3x2fv	);
+		LOAD_EXTENSION( 2.0, glUniformMatrix2x4fv	);
+		LOAD_EXTENSION( 2.0, glUniformMatrix4x2fv	);
+		LOAD_EXTENSION( 2.0, glUniformMatrix3x4fv	);
+		LOAD_EXTENSION( 2.0, glUniformMatrix4x3fv	);
+
+		LOAD_EXTENSION( 2.0, glGetUniformfv		);
+		LOAD_EXTENSION( 2.0, glGetUniformdv		);
+		LOAD_EXTENSION( 2.0, glGetUniformiv		);
+		LOAD_EXTENSION( 2.0, glGetUniformuiv	);
 
 		//------------------------------------------------------------------------------------------
 		// Textures
 		//------------------------------------------------------------------------------------------
-		LOAD_EXTENSION( glActiveTexture		);
-		LOAD_EXTENSION( glGenerateMipmap	);
-		LOAD_EXTENSION( glGenSamplers		);
-		LOAD_EXTENSION( glDeleteSamplers	);
-		LOAD_EXTENSION( glBindSampler		);
-		LOAD_EXTENSION( glIsSampler			);
-		LOAD_EXTENSION( glSamplerParameteri	);
-		LOAD_EXTENSION( glSamplerParameterf	);
+		LOAD_EXTENSION( 1.3, glActiveTexture		);
+		LOAD_EXTENSION( 3.0, glGenerateMipmap		);
+		LOAD_EXTENSION( 3.3, glGenSamplers			);
+		LOAD_EXTENSION( 3.3, glDeleteSamplers		);
+		LOAD_EXTENSION( 3.3, glBindSampler			);
+		LOAD_EXTENSION( 3.3, glIsSampler			);
+		LOAD_EXTENSION( 3.3, glSamplerParameteri	);
+		LOAD_EXTENSION( 3.3, glSamplerParameterf	);
 
 		//------------------------------------------------------------------------------------------
 		// Debug
 		//------------------------------------------------------------------------------------------
-		LOAD_EXTENSION( glDebugMessageCallbackARB );
+		LOAD_EXTENSION( 4.3, glDebugMessageCallback );
 
 		//------------------------------------------------------------------------------------------
 		// Other
 		//------------------------------------------------------------------------------------------
-		LOAD_EXTENSION( glBlendEquation );
-		LOAD_EXTENSION( glGetStringi	);
+		LOAD_EXTENSION( 2.0, glBlendEquation	);
+		LOAD_EXTENSION( 1.0, glGetStringi		);
 	}
 
 } /*system*/ } /*djah*/

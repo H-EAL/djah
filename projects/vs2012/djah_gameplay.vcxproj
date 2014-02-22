@@ -10,26 +10,22 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\tests\sources\main.cpp" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{73E0D0FA-C047-45B0-AC6F-35780607893C}</ProjectGuid>
-    <Keyword>Win32Proj</Keyword>
-    <RootNamespace>djah_api_test</RootNamespace>
+    <ProjectGuid>{8CF8216B-CD98-4B55-80EB-8D17A4EC425F}</ProjectGuid>
+    <RootNamespace>djah_resources</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -43,52 +39,66 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LinkIncremental>true</LinkIncremental>
+    <TargetName>$(ProjectName)-d</TargetName>
+    <OutDir>..\..\lib\win32\</OutDir>
     <IntDir>..\..\temp\$(ProjectName)\$(Configuration)\</IntDir>
-    <OutDir>..\..\tests\binaries\</OutDir>
-    <TargetName>$(ProjectName)-debug</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\..\tests\binaries\</OutDir>
+    <OutDir>..\..\lib\win32\</OutDir>
     <IntDir>..\..\temp\$(ProjectName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\include\;..\..\..\extlibs\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\..\lib\win32\;..\..\..\extlibs\lib\win32\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>djah_system-d.lib;djah_filesystem-d.lib;djah_opengl-d.lib;djah_debug-d.lib;djah_resources-d.lib;djah_core-d.lib;djah_3d-d.lib;djah_gameplay-d.lib;opengl32.lib;SOIL.lib;freetype.lib;winmm.lib;dbghelp.lib;XInput.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>..\..\..\..\extlibs\lib\win32\;</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\include\;..\..\..\extlibs\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>..\..\lib\win32\;..\..\..\extlibs\lib\win32\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>djah_system.lib;djah_filesystem.lib;djah_opengl.lib;djah_debug.lib;djah_resources.lib;djah_core.lib;djah_3d.lib;djah_gameplay.lib;opengl32.lib;SOIL.lib;freetype.lib;winmm.lib;dbghelp.lib;XInput.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>..\..\..\..\extlibs\lib\win32\;</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\djah\gameplay\components.hpp" />
+    <ClInclude Include="..\..\include\djah\gameplay\components\action_map.hpp" />
+    <ClInclude Include="..\..\include\djah\gameplay\components\component.hpp" />
+    <ClInclude Include="..\..\include\djah\gameplay\components\fov.hpp" />
+    <ClInclude Include="..\..\include\djah\gameplay\components\texture.hpp" />
+    <ClInclude Include="..\..\include\djah\gameplay\components\transform.hpp" />
+    <ClInclude Include="..\..\include\djah\gameplay\components\visual_mesh.hpp" />
+    <ClInclude Include="..\..\include\djah\gameplay\component_database.hpp" />
+    <ClInclude Include="..\..\include\djah\gameplay\component_serializer.hpp" />
+    <ClInclude Include="..\..\include\djah\gameplay\game_object.hpp" />
+    <ClInclude Include="..\..\include\djah\gameplay\json_serializer.hpp" />
+    <ClInclude Include="..\..\include\djah\gameplay\services\actions_service.hpp" />
+    <ClInclude Include="..\..\include\djah\gameplay\services\game_service.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\sources\gameplay\components\action_map.cpp" />
+    <ClCompile Include="..\..\sources\gameplay\components\fov.cpp" />
+    <ClCompile Include="..\..\sources\gameplay\components\texture.cpp" />
+    <ClCompile Include="..\..\sources\gameplay\components\transform.cpp" />
+    <ClCompile Include="..\..\sources\gameplay\components\visual_mesh.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

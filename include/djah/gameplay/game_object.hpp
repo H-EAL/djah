@@ -10,52 +10,52 @@
 namespace djah { namespace gameplay {
 
 	//--------------------------------------------------------------------------------------------------
-	static const int NB_GO = 1 << 10;
+	static const int NB_GO = 100;
 
 	//==================================================================================================
-	template<typename ComponentTypeList>
-	struct component_hook;
+	template<typename ComponentsTypeList>
+	struct components_visitor;
 	//--------------------------------------------------------------------------------------------------
 	template<>
-	struct component_hook<utils::nulltype>
+	struct components_visitor<utils::nulltype>
 	{
 		template<typename GO, typename DB>
 		static void use(GO&, DB&) {}
 
-		template<typename GO, typename DB>
-		static void remove_all(GO&, DB&) {}
+		template<typename GO>
+		static void remove_all(GO&) {}
 
 		template<typename GO>
 		static bool is_using(GO&) { return true; }
 	};
 	//--------------------------------------------------------------------------------------------------
 	template<typename HeadComponent, typename TailList>
-	struct component_hook< utils::typelist<HeadComponent,TailList> >
+	struct components_visitor< utils::typelist<HeadComponent,TailList> >
 	{
-		template<typename GO, typename DB>
-		inline static void use(GO &go, DB &db)
+		template<typename GO>
+		inline static void use(GO &go)
 		{
 			if( !go.isUsing<HeadComponent>() )
 			{
 				go.use<HeadComponent>();
 			}
-			component_hook<TailList>::use(go, db);
+			components_visitor<TailList>::use(go);
 		}
 
-		template<typename GO, typename DB>
-		inline static void remove_all(GO &go, DB &db)
+		template<typename GO>
+		inline static void remove_all(GO &go)
 		{
 			if( go.isUsing<HeadComponent>() )
 			{
 				go.stopUsing<HeadComponent>();
 			}
-			component_hook<TailList>::remove_all(go, db);
+			components_visitor<TailList>::remove_all(go);
 		}
 
 		template<typename GO>
 		inline static bool is_using(GO &go)
 		{
-			return (go.isUsing<HeadComponent>() && component_hook<TailList>::is_using(go));
+			return (go.isUsing<HeadComponent>() && components_visitor<TailList>::is_using(go));
 		}
 	};
 	//==================================================================================================
@@ -74,12 +74,12 @@ namespace djah { namespace gameplay {
 		ComponentType *pData_;
 	};
 	//--------------------------------------------------------------------------------------------------
-	template<typename ComponentTypeList>
+	template<typename ComponentsTypeList>
 	class game_object
-		: public utils::gen_scatter_hierarchy<ComponentTypeList, component_usage>
+		: public utils::gen_scatter_hierarchy<ComponentsTypeList, component_usage>
 	{
 	public:
-		typedef game_object_serializer<ComponentTypeList> serializer_t;
+		typedef game_object_serializer<ComponentsTypeList> serializer_t;
 
 	public:
 		//----------------------------------------------------------------------------------------------
@@ -111,20 +111,20 @@ namespace djah { namespace gameplay {
 		template<typename IsUsingComponents>
 		bool isUsingList() const
 		{
-			return component_hook<IsUsingComponents>::is_using(*this);
+			return components_visitor<IsUsingComponents>::is_using(*this);
 		}
 
 		//----------------------------------------------------------------------------------------------
 		template<typename UseComponents>
-		game_object<ComponentTypeList>& useList()
+		game_object<ComponentsTypeList>& useList()
 		{
-			component_hook<UseComponents>::use(*this, db_);
+			components_visitor<UseComponents>::use(*this);
 			return (*this);
 		}
 
 		//----------------------------------------------------------------------------------------------
 		template<typename ComponentType>
-		game_object<ComponentTypeList>& use(const ComponentType &comp = ComponentType())
+		game_object<ComponentsTypeList>& use(const ComponentType &comp = ComponentType())
 		{
 			check( !isUsing<ComponentType>() );
 			component_usage<ComponentType>::cid_ = db_.add<ComponentType>(comp);
@@ -136,7 +136,7 @@ namespace djah { namespace gameplay {
 
 		//----------------------------------------------------------------------------------------------
 		template<typename ComponentType>
-		game_object<ComponentTypeList>& stopUsing()
+		game_object<ComponentsTypeList>& stopUsing()
 		{
 			check( isUsing<ComponentType>() );
 
@@ -150,7 +150,7 @@ namespace djah { namespace gameplay {
 		//----------------------------------------------------------------------------------------------
 		void stopUsingAll()
 		{
-			component_hook<ComponentTypeList>::remove_all(*this, db_);
+			components_visitor<ComponentsTypeList>::remove_all(*this);
 		}
 
 		//----------------------------------------------------------------------------------------------
@@ -162,7 +162,7 @@ namespace djah { namespace gameplay {
 		}
 
 	private:
-		static component_database<ComponentTypeList> db_;
+		static component_database<ComponentsTypeList> db_;
 		std::string name_;
 	};
 	//--------------------------------------------------------------------------------------------------

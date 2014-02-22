@@ -5,15 +5,15 @@ namespace djah { namespace gameplay { namespace components {
 	//----------------------------------------------------------------------------------------------
 	action_map::action_map(const rapidjson::Value &node)
 	{
-		JSON_READ(actions);
+		load_attributes(actions);
 
 		std::for_each(actions.begin(), actions.end(), [&](const actions_map_t::value_type &entry)
 		{
-			states[entry.first] = false;
+			states[entry.first] = 0.0f;
 		});
 	}
 	//----------------------------------------------------------------------------------------------
-	void action_map::serialize(djah::filesystem::stream &strm) const
+	void action_map::serialize(rapidjson::Document &doc) const
 	{
 	}
 	//----------------------------------------------------------------------------------------------

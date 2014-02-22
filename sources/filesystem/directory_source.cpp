@@ -26,16 +26,16 @@ namespace djah { namespace filesystem {
 
 
 	//----------------------------------------------------------------------------------------------
-	stream_ptr directory_source::newStream(const std::string &url)
+	stream_sptr directory_source::newStream(const std::string &url)
 	{
-		stream_ptr file_strm( new file_stream(path_ + "/" + url, overwrite_) );
+		stream_sptr file_strm( new file_stream(path_ + "/" + url, overwrite_) );
 		return file_strm;
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	stream_ptr directory_source::loadStream(const std::string &url)
+	stream_sptr directory_source::loadStream(const std::string &url)
 	{
 		return newStream(url);
 	}
@@ -43,7 +43,7 @@ namespace djah { namespace filesystem {
 
 
 	//----------------------------------------------------------------------------------------------
-	stream_ptr directory_source::saveStream(const std::string &url)
+	stream_sptr directory_source::saveStream(const std::string &url)
 	{
 		overwrite_ = true;
 		return newStream(url);
@@ -59,9 +59,6 @@ namespace djah { namespace filesystem {
 		const bool fetchable = strm.good();
 		strm.close();
 		return fetchable;
-		/*boost::filesystem::path file(path_);	
-		file = file / url;
-		return overwrite_ ? true : exists(file);*/
 	}
 	//----------------------------------------------------------------------------------------------
 

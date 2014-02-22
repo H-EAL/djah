@@ -33,17 +33,17 @@ namespace djah { namespace utils { namespace detail {
 	struct caller
 	{
 		template<typename FuncType>
-		static std::string exec(FuncType &fun) { return param_to_string(fun()); }
+		static std::string exec(FuncType &fun) { return string_utils::param_to_string(fun()); }
 		template<typename FuncType, typename P1>
-		static std::string exec(FuncType &fun, P1 &p1) { return param_to_string(fun(p1)); }
+		static std::string exec(FuncType &fun, P1 &p1) { return string_utils::param_to_string(fun(p1)); }
 		template<typename FuncType, typename P1, typename P2>
-		static std::string exec(FuncType &fun, P1 &p1, P2 &p2) { return param_to_string(fun(p1, p2)); }
+		static std::string exec(FuncType &fun, P1 &p1, P2 &p2) { return string_utils::param_to_string(fun(p1, p2)); }
 		template<typename FuncType, typename P1, typename P2, typename P3>
-		static std::string exec(FuncType &fun, P1 &p1, P2 &p2, P3 &p3) { return param_to_string(fun(p1, p2, p3)); }
+		static std::string exec(FuncType &fun, P1 &p1, P2 &p2, P3 &p3) { return string_utils::param_to_string(fun(p1, p2, p3)); }
 		template<typename FuncType, typename P1, typename P2, typename P3, typename P4>
-		static std::string exec(FuncType &fun, P1 &p1, P2 &p2, P3 &p3, P4 &p4) { return param_to_string(fun(p1, p2, p3, p4)); }
+		static std::string exec(FuncType &fun, P1 &p1, P2 &p2, P3 &p3, P4 &p4) { return string_utils::param_to_string(fun(p1, p2, p3, p4)); }
 		template<typename FuncType, typename P1, typename P2, typename P3, typename P4, typename P5>
-		static std::string exec(FuncType &fun, P1 &p1, P2 &p2, P3 &p3, P4 &p4, P5 &p5) { return param_to_string(fun(p1, p2, p3, p4, p5)); }
+		static std::string exec(FuncType &fun, P1 &p1, P2 &p2, P3 &p3, P4 &p4, P5 &p5) { return string_utils::param_to_string(fun(p1, p2, p3, p4, p5)); }
 	};
 	//----------------------------------------------------------------------------------------------
 	template<>
@@ -95,7 +95,7 @@ namespace djah { namespace utils { namespace detail {
 		virtual std::string execute(const std::string &params)
 		{
 			typename type_traits<P1>::BaseType p1;
-			extract_params_from_string(params, p1);
+			string_utils::extract_params_from_string(params, p1);
 			return caller<R>::exec(*this, p1);
 		}
 	};
@@ -136,7 +136,7 @@ namespace djah { namespace utils { namespace detail {
 			typename type_traits<P1>::BaseType p1;
 			typename type_traits<P2>::BaseType p2;
 			typename type_traits<P3>::BaseType p3;
-			extract_params_from_string(params, p1, p2, p3);
+			string_utils::extract_params_from_string(params, p1, p2, p3);
 			return caller<R>::exec(*this, p1, p2, p3);
 		}
 	};
@@ -158,7 +158,7 @@ namespace djah { namespace utils { namespace detail {
 			typename type_traits<P2>::BaseType p2;
 			typename type_traits<P3>::BaseType p3;
 			typename type_traits<P4>::BaseType p4;
-			extract_params_from_string(params, p1, p2, p3, p4);
+			string_utils::extract_params_from_string(params, p1, p2, p3, p4);
 			return caller<R>::exec(*this, p1, p2, p3, p4);
 		}
 	};
@@ -181,7 +181,7 @@ namespace djah { namespace utils { namespace detail {
 			typename type_traits<P3>::BaseType p3;
 			typename type_traits<P4>::BaseType p4;
 			typename type_traits<P5>::BaseType p5;
-			extract_params_from_string(params, p1, p2, p3, p4, p5);
+			string_utils::extract_params_from_string(params, p1, p2, p3, p4, p5);
 			return caller<R>::exec(*this, p1, p2, p3, p4, p5);
 		}
 	};

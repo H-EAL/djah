@@ -9,6 +9,15 @@
 
 namespace djah { namespace gameplay { namespace services {
 
+	namespace interfaces {
+		class service
+		{
+		public:
+			virtual void execute(float dt) = 0;
+		};
+	};
+
+
 	template
 	<
 		typename ComponentTypeList,
@@ -17,6 +26,7 @@ namespace djah { namespace gameplay { namespace services {
 		typename Compare = std::less< game_object<ComponentTypeList>* >
 	>
 	class game_service
+		: public interfaces::service
 	{
 	public:
 		typedef game_object<ComponentTypeList> game_object_t;

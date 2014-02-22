@@ -191,6 +191,9 @@
     <ClInclude Include="..\..\include\djah\core\time\timer.hpp">
       <Filter>include\time</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\djah\core\events.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\include\djah\math\matrix.inl">

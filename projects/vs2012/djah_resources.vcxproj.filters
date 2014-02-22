@@ -15,26 +15,11 @@
     <Filter Include="sources\_loaders">
       <UniqueIdentifier>{b47b4f67-b0e6-4fb3-8fff-ed337c984568}</UniqueIdentifier>
     </Filter>
-    <Filter Include="include\gameplay">
-      <UniqueIdentifier>{b61b667a-5429-4ed2-a1c8-7e510d90085f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="sources\gameplay">
-      <UniqueIdentifier>{ebbbc831-0b56-48ad-83bd-da02823914f7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="include\_assets">
       <UniqueIdentifier>{a7742e15-f1f6-4cff-826f-5b16e195b415}</UniqueIdentifier>
     </Filter>
     <Filter Include="sources\_assets">
       <UniqueIdentifier>{30a052be-9263-4791-8473-44b03bf5bc2a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="include\gameplay\components">
-      <UniqueIdentifier>{6ce37cc6-c24b-4b10-b8c0-f99746484ef6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="sources\gameplay\components">
-      <UniqueIdentifier>{664c3882-52cd-4cfd-bf82-03ddc172be84}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="include\gameplay\services">
-      <UniqueIdentifier>{19341c68-6c3a-432a-b4e8-8daff2c73e68}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -49,21 +34,6 @@
     </ClInclude>
     <ClInclude Include="..\..\include\djah\resources\mesh_loader.hpp">
       <Filter>include\_loaders</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\djah\gameplay\components.hpp">
-      <Filter>include\gameplay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\djah\gameplay\component_database.hpp">
-      <Filter>include\gameplay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\djah\gameplay\component_serializer.hpp">
-      <Filter>include\gameplay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\djah\gameplay\game_object.hpp">
-      <Filter>include\gameplay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\djah\gameplay\json_serializer.hpp">
-      <Filter>include\gameplay</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\djah\resources\asset_warehouse.hpp">
       <Filter>include</Filter>
@@ -92,30 +62,6 @@
     <ClInclude Include="..\..\include\djah\resources\data_object_loader.hpp">
       <Filter>include\_loaders</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\djah\gameplay\components\visual_mesh.hpp">
-      <Filter>include\gameplay\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\djah\gameplay\components\component.hpp">
-      <Filter>include\gameplay\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\djah\gameplay\components\transform.hpp">
-      <Filter>include\gameplay\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\djah\gameplay\components\fov.hpp">
-      <Filter>include\gameplay\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\djah\gameplay\components\texture.hpp">
-      <Filter>include\gameplay\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\djah\gameplay\components\action_map.hpp">
-      <Filter>include\gameplay\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\djah\gameplay\services\action_service.hpp">
-      <Filter>include\gameplay\services</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\djah\gameplay\services\game_service.hpp">
-      <Filter>include\gameplay\services</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\include\djah\resources\asset_finder.inl">
@@ -140,21 +86,6 @@
     </ClCompile>
     <ClCompile Include="..\..\sources\resources\asset_warehouse.cpp">
       <Filter>sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\sources\gameplay\components\fov.cpp">
-      <Filter>sources\gameplay\components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\sources\gameplay\components\transform.cpp">
-      <Filter>sources\gameplay\components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\sources\gameplay\components\visual_mesh.cpp">
-      <Filter>sources\gameplay\components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\sources\gameplay\components\texture.cpp">
-      <Filter>sources\gameplay\components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\sources\gameplay\components\action_map.cpp">
-      <Filter>sources\gameplay\components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

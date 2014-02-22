@@ -21,9 +21,9 @@ namespace djah { namespace filesystem {
 
 	//----------------------------------------------------------------------------------------------
 	template<typename CompressionTechnique>
-	stream_ptr compressed_source<CompressionTechnique>::loadStream(const std::string &url)
+	stream_sptr compressed_source<CompressionTechnique>::loadStream(const std::string &url)
 	{
-		stream_ptr strm;
+		stream_sptr strm;
 		file_registry_t::const_iterator it = file_registry_.find(url);
 		if(it != file_registry_.end())
 		{
@@ -37,9 +37,9 @@ namespace djah { namespace filesystem {
 
 	//----------------------------------------------------------------------------------------------
 	template<typename CompressionTechnique>
-	stream_ptr compressed_source<CompressionTechnique>::saveStream(const std::string &url)
+	stream_sptr compressed_source<CompressionTechnique>::saveStream(const std::string &url)
 	{
-		stream_ptr s;
+		stream_sptr s;
 		return s;
 	}
 	//----------------------------------------------------------------------------------------------

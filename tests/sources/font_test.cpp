@@ -143,7 +143,7 @@ void FontTest::initPlane(const std::string &str, const math::vector2f &position)
 //--------------------------------------------------------------------------------------------------
 void FontTest::initFont(const std::string &fontFile, int fontSize)
 {
-	filesystem::stream_ptr strm = filesystem::browser::get().openReadStream(fontFile);
+	filesystem::stream_sptr strm = filesystem::browser::get().openReadStream(fontFile);
 
 	if( !strm )
 		return;

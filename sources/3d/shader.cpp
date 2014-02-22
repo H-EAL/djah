@@ -47,7 +47,7 @@ namespace djah { namespace d3d {
 	{
 		std::string source;
 
-		djah::filesystem::stream_ptr pShaderSourceStrm = djah::filesystem::browser::get().openReadStream(fileName);
+		djah::filesystem::stream_sptr pShaderSourceStrm = djah::filesystem::browser::get().openReadStream(fileName);
 		if( pShaderSourceStrm )
 		{
 			const unsigned int src_size = pShaderSourceStrm->size();

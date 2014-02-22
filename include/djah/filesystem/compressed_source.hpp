@@ -27,8 +27,8 @@ namespace djah { namespace filesystem {
 		compressed_source(const std::string &url, unsigned int priority = 0);
 		~compressed_source();
 
-		stream_ptr loadStream(const std::string &url);
-		stream_ptr saveStream(const std::string &url);
+		stream_sptr loadStream(const std::string &url);
+		stream_sptr saveStream(const std::string &url);
 
 		bool isFetchable(const std::string &url) const;
 		bool isWritable(const std::string &url)  const;
@@ -36,7 +36,7 @@ namespace djah { namespace filesystem {
 	private:
 
 		file_registry_t file_registry_;
-		stream_ptr		compressed_stream_;
+		stream_sptr		compressed_stream_;
 	};
 
 } /*filesystem*/ } /*djah*/

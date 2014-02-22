@@ -43,13 +43,15 @@ namespace djah { namespace resources {
 	template<typename T>
 	inline std::shared_ptr<T> asset_warehouse::find(const std::string &name) const
 	{
-		std::shared_ptr<T> pAsset = nullptr;
+		std::shared_ptr<T> pAsset;
+
 		auto it = assets_.find(name);
 		if( it != assets_.end() && !it->second.expired() )
 		{
 			pAsset = std::shared_ptr<T>(std::dynamic_pointer_cast<T>(it->second.lock()));
 			check(pAsset);
 		}
+
 		return pAsset;
 	}
 	//----------------------------------------------------------------------------------------------

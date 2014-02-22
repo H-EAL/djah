@@ -141,7 +141,7 @@ namespace djah { namespace d3d {
 	{
 		font_data *new_font = 0;
 		/**/
-		filesystem::stream_ptr strm = filesystem::browser::get().openReadStream(fonts_path_ + traits.name);
+		filesystem::stream_sptr strm = filesystem::browser::get().openReadStream(fonts_path_ + traits.name);
 
 		if( strm )
 		{

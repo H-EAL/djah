@@ -5,22 +5,22 @@
 #include <string>
 #include <fstream>
 #include <cstdio>
+
 #include "rapidjson/rapidjson.h"
 #include "rapidjson/document.h"
-#include "game_object.hpp"
+
+#include "djah/core/typelist.hpp"
+
 #include "djah/filesystem/stream.hpp"
-#include "djah/filesystem/memory_stream.hpp"
 #include "djah/filesystem/browser.hpp"
+#include "djah/filesystem/memory_stream.hpp"
 
 
 namespace djah { namespace gameplay {
-	
+
 	//----------------------------------------------------------------------------------------------
 	template<typename ComponentTypeList>
 	class game_object;
-	//----------------------------------------------------------------------------------------------
-	template<typename ComponentTypeList>
-	struct component_serializer;
 	//----------------------------------------------------------------------------------------------
 
 
@@ -41,6 +41,9 @@ namespace djah { namespace gameplay {
 
 
 	//----------------------------------------------------------------------------------------------
+	template<typename ComponentTypeList>
+	struct component_serializer;
+	//----------------------------------------------------------------------------------------------
 	template<>
 	struct component_serializer<utils::nulltype>
 	{
@@ -55,7 +58,7 @@ namespace djah { namespace gameplay {
 	struct component_serializer< utils::typelist<HeadComponent,TailComponents> >
 	{
 		template<typename ComponentTypeList>
-		static void serialize(game_object<ComponentTypeList> &go, filesystem::stream_ptr &strm, bool first = true)
+		static void serialize(game_object<ComponentTypeList> &go, filesystem::stream_sptr &strm, bool first = true)
 		{
 			if( go.isUsing<HeadComponent>() )
 			{
@@ -99,7 +102,7 @@ namespace djah { namespace gameplay {
 		static void serialize(const game_object_t &go)
 		{
 			const std::string &fileName = go.name() + ".json";
-			filesystem::stream_ptr strm = filesystem::browser::get().openWriteStream(fileName);
+			filesystem::stream_sptr strm = filesystem::browser::get().openWriteStream(fileName);
 			if( strm )
 			{
 				strm << "{ ";
@@ -155,7 +158,7 @@ namespace djah { namespace gameplay {
 		static void deserialize(game_object_t &go, comp_map_t &compMap)
 		{
 			const std::string &fileName = go.name() + ".json";
-			filesystem::stream_ptr strm = filesystem::browser::get().openReadStream(fileName);
+			filesystem::stream_sptr strm = filesystem::browser::get().openReadStream(fileName);
 
 			check(strm && strm->size() > 0);
 			filesystem::memory_stream memStrm(strm.get());
