@@ -1,5 +1,5 @@
-#ifndef DJAH_UTILS_STRING_UTILS_HPP
-#define DJAH_UTILS_STRING_UTILS_HPP
+#ifndef DJAH_STRING_UTILS_HPP
+#define DJAH_STRING_UTILS_HPP
 
 #include <vector>
 #include <cctype>
@@ -7,7 +7,7 @@
 #include <sstream>
 #include <algorithm>
 
-namespace djah { namespace utils {
+namespace djah { namespace string_utils {
 
 	//----------------------------------------------------------------------------------------------
 	typedef std::vector<std::string> string_list_t;
@@ -113,6 +113,41 @@ namespace djah { namespace utils {
 	}
 	//----------------------------------------------------------------------------------------------
 
-} /*utils*/ } /*djah*/
 
-#endif /* DJAH_UTILS_STRING_UTILS_HPP */
+	//----------------------------------------------------------------------------------------------
+	inline bool begins_with(const std::string &str, const std::string &beginingStr)
+	{
+		const std::string::size_type beginingSize = beginingStr.size();
+		bool result = beginingSize <= str.size();
+		if( result )
+		{
+			for(std::string::size_type i = 0; i < beginingSize && result; ++i)
+			{
+				result = (str[i] == beginingStr[i]);
+			}
+		}
+		return result;
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	inline bool ends_with(const std::string &str, const std::string &endStr)
+	{
+		const std::string::size_type endSize = endStr.size();
+		const std::string::size_type strSize = str.size();
+		bool result = endSize <= strSize;
+		if( result )
+		{
+			for(std::string::size_type i = 0; i < endSize && result; ++i)
+			{
+				result = (str[strSize-i-1] == endStr[endSize-i-1]);
+			}
+		}
+		return result;
+	}
+	//----------------------------------------------------------------------------------------------
+
+} /*string_utils*/ } /*djah*/
+
+#endif /* DJAH_STRING_UTILS_HPP */

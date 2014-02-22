@@ -94,7 +94,7 @@ namespace djah { namespace gameplay {
 		template<typename ComponentType>
 		inline void remove(CID cid)
 		{
-			assert(cid < component_holder<ComponentType>::components_.size());
+			check(cid < component_holder<ComponentType>::components_.size());
 			component_holder<ComponentType>::components_[cid] = ComponentType();
 			component_holder<ComponentType>::freeSpots_.push(cid);
 		}

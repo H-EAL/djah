@@ -29,7 +29,7 @@ namespace djah { namespace filesystem {
 
 
 	//----------------------------------------------------------------------------------------------
-	memory_stream::memory_stream(stream_ptr other_stream, size_t size, size_t offset)
+	memory_stream::memory_stream(stream_sptr other_stream, size_t size, size_t offset)
 		: buffer_(new byte[size])
 		, buffer_size_(size)
 		, r_cursor_(buffer_)

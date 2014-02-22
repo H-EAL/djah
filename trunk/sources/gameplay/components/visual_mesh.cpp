@@ -5,14 +5,14 @@ namespace djah { namespace gameplay { namespace components {
 	//----------------------------------------------------------------------------------------------
 	visual_mesh::visual_mesh(const rapidjson::Value &node)
 	{
-		JSON_READ(file);
+		load_attributes(file);
 
 		//spMesh = asset_finder::get<resources::mesh>(file)
 	}
 	//----------------------------------------------------------------------------------------------
-	void visual_mesh::serialize(djah::filesystem::stream &strm) const
+	void visual_mesh::serialize(rapidjson::Document &doc) const
 	{
-		JSON_WRITE(file);
+		save_attributes(file);
 	}
 	//----------------------------------------------------------------------------------------------
 

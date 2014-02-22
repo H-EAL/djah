@@ -8,6 +8,7 @@
 #include "djah/filesystem/memory_stream.hpp"
 #include "djah/resources/serializer.hpp"
 #include "djah/resources/data_object.hpp"
+#include "djah/gameplay/json_serializer.hpp"
 
 namespace djah { namespace resources {
 
@@ -36,6 +37,11 @@ namespace djah { namespace resources {
 			static bool execute(attribute_set_t &attributes, data_object_sptr)
 			{
 				return attributes.empty();
+			}
+
+			static bool execute(const std::string &attributeName, const rapidjson::Value &attributeValue, data_object_sptr)
+			{
+				return false;
 			}
 		};
 		//------------------------------------------------------------------------------------------
@@ -76,13 +82,29 @@ namespace djah { namespace resources {
 			template<>
 			static bool deserialize_attribute<bool>(const std::string &strVal)
 			{
-				return utils::to_lower_case(strVal) == "true";
+				return string_utils::to_lower_case(strVal) == "true";
 			}
 			//--------------------------------------------------------------------------------------
 			template<>
 			static std::string deserialize_attribute<std::string>(const std::string &strVal)
 			{
 				return  strVal.substr(1, strVal.size() - 2);
+			}
+			//--------------------------------------------------------------------------------------
+
+
+			//--------------------------------------------------------------------------------------
+			static bool execute(const std::string &attributeName, const rapidjson::Value &attributeValue, data_object_sptr dobj)
+			{
+				if( json_serializer<H>::is_of_type(attributeValue) )
+				{
+					H val;
+					json_serializer<H>::deserialize(attributeValue, val);
+					dobj->add(attributeName, val);
+					return true;
+				}
+
+				return attribute_deserializer<T>::execute(attributeName, attributeValue, dobj);
 			}
 			//--------------------------------------------------------------------------------------
 		};
@@ -98,7 +120,7 @@ namespace djah { namespace resources {
 		template<>
 		struct attribute_serializer<utils::nulltype>
 		{
-			static bool execute(filesystem::stream_ptr strm, const data_object_sptr &dobj)
+			static bool execute(filesystem::stream_sptr strm, const data_object_sptr &dobj)
 			{
 				return true;
 			}
@@ -107,7 +129,7 @@ namespace djah { namespace resources {
 		struct attribute_serializer< utils::typelist<H,T> >
 		{
 			//--------------------------------------------------------------------------------------
-			static bool execute(filesystem::stream_ptr strm, const data_object_sptr &dobj)
+			static bool execute(filesystem::stream_sptr strm, const data_object_sptr &dobj)
 			{
 				auto attribs = dobj->attributes<H>();
 				std::stringstream ss;
@@ -150,7 +172,7 @@ namespace djah { namespace resources {
 
 	public:
 		//------------------------------------------------------------------------------------------
-		static bool serialize(filesystem::stream_ptr strm, const data_object_sptr &dobj)
+		static bool serialize(filesystem::stream_sptr strm, const data_object_sptr &dobj)
 		{
 			return attribute_serializer<AttributeTypes>::execute(strm, dobj);
 		}
@@ -162,15 +184,15 @@ namespace djah { namespace resources {
 			filesystem::memory_stream memStream(&stream);
 			const std::string &stringStream = memStream.toString();
 
-			utils::string_list_t lines;
-			utils::split_string(stringStream, lines, "\n");
+			string_utils::string_list_t lines;
+			string_utils::split_string(stringStream, lines, "\n");
 			
 			attribute_set_t attributeSet;
 
 			auto itEnd = lines.end();
 			for(auto it = lines.begin(); it != itEnd; ++it)
 			{
-				const std::string &trimmedLine = utils::trimmed( *it );
+				const std::string &trimmedLine = string_utils::trimmed( *it );
 				
 				// Don't care about sections nor comments
 				if( !trimmedLine.empty() && trimmedLine[0] != '[' && trimmedLine[0] != '#' )
@@ -181,8 +203,8 @@ namespace djah { namespace resources {
 					if( spacePos != std::string::npos && equalPos != std::string::npos )
 					{
 						const std::string &typeName = trimmedLine.substr(0, spacePos);
-						const std::string &attributeName = utils::trimmed( trimmedLine.substr(spacePos+1, equalPos - spacePos - 1) );
-						const std::string &attributeValue = utils::trimmed( trimmedLine.substr(equalPos+1) );
+						const std::string &attributeName = string_utils::trimmed( trimmedLine.substr(spacePos+1, equalPos - spacePos - 1) );
+						const std::string &attributeValue = string_utils::trimmed( trimmedLine.substr(equalPos+1) );
 
 						attributeSet[typeName].push_back( key_value_t(attributeName, attributeValue) );
 					}
@@ -190,6 +212,28 @@ namespace djah { namespace resources {
 			}
 
 			attribute_deserializer<AttributeTypes>::execute(attributeSet, dobj);
+
+			return true;
+		}
+		//------------------------------------------------------------------------------------------
+
+		//------------------------------------------------------------------------------------------
+		static bool deserialize2(filesystem::stream &stream, data_object_sptr dobj)
+		{
+			filesystem::memory_stream memStrm(&stream);
+
+			rapidjson::Document pDoc;
+			pDoc.Parse<0>(memStrm.toString().c_str());
+
+			if( ensure(!pDoc.HasParseError()) )
+			{
+				auto itEnd = pDoc.MemberEnd();
+				for(auto it = pDoc.MemberBegin(); it != itEnd; ++it)
+				{
+					const std::string &attributeName = it->name.GetString();
+					attribute_deserializer<AttributeTypes>::execute(attributeName, it->value, dobj);
+				}
+			}
 
 			return true;
 		}

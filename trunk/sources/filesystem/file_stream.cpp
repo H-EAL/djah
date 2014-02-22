@@ -1,4 +1,5 @@
 #include "djah/filesystem/file_stream.hpp"
+#include "djah/platform.hpp"
 
 namespace djah { namespace filesystem {
 
@@ -56,6 +57,27 @@ namespace djah { namespace filesystem {
 			stream_.flush();
 			stream_.close();
 		}
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
+	u64 file_stream::lastWrite()
+	{
+		u64 lastWriteTimestamp = 0;
+		HANDLE fileHandle = CreateFile(file_name_.c_str(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
+		if( fileHandle != INVALID_HANDLE_VALUE )
+		{
+			FILETIME ftCreate, ftAccess, ftWrite;
+
+			if( GetFileTime(fileHandle, &ftCreate, &ftAccess, &ftWrite) )
+			{
+				lastWriteTimestamp = make_qword(ftWrite.dwHighDateTime, ftWrite.dwLowDateTime);
+			}
+
+			CloseHandle(fileHandle);
+		}
+		return lastWriteTimestamp;
 	}
 	//----------------------------------------------------------------------------------------------
 

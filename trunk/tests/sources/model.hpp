@@ -21,7 +21,7 @@ struct model
 	{
 		DJAH_ASSERT( pDo_ );
 
-		djah::filesystem::stream_ptr fstrm = djah::filesystem::browser::get().openReadStream(pDo_->get<std::string>("model_file"));
+		djah::filesystem::stream_sptr fstrm = djah::filesystem::browser::get().openReadStream(pDo_->get<std::string>("model_file"));
 
 		if( fstrm && fstrm->size() > 0 )
 		{

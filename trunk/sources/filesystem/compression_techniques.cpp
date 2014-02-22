@@ -20,7 +20,7 @@ namespace djah { namespace filesystem {
 	//----------------------------------------------------------------------------------------------
 	
 	//----------------------------------------------------------------------------------------------
-	void pak_compression::populate_file_registry(stream_ptr &strm, file_registry_t &registry)
+	void pak_compression::populate_file_registry(stream_sptr &strm, file_registry_t &registry)
 	{
 		// Make sure we're at the beginning of the file
 		strm->seek(0, ESD_BEG);
@@ -42,9 +42,9 @@ namespace djah { namespace filesystem {
 
 
 	//----------------------------------------------------------------------------------------------
-	stream_ptr pak_compression::decompress(stream_ptr &strm, const file_struct &fstruct)
+	stream_sptr pak_compression::decompress(stream_sptr &strm, const file_struct &fstruct)
 	{
-		return stream_ptr( new memory_stream(strm, fstruct.real_size_, fstruct.offset_) );
+		return stream_sptr( new memory_stream(strm, fstruct.real_size_, fstruct.offset_) );
 	}
 	//----------------------------------------------------------------------------------------------
 

@@ -5,16 +5,22 @@ namespace djah { namespace gameplay { namespace components {
 	//----------------------------------------------------------------------------------------------
 	transform::transform(const rapidjson::Value &node)
 	{
-		JSON_READ(position);
-		JSON_READ(orientation);
-		JSON_READ(scale);
+		load_attributes
+		(
+			  position
+			, orientation
+			, scale
+		);
 	}
 	//----------------------------------------------------------------------------------------------
-	void transform::serialize(djah::filesystem::stream &strm) const
+	void transform::serialize(rapidjson::Document &doc) const
 	{
-		JSON_WRITE(position);
-		JSON_WRITE(orientation);
-		JSON_WRITE(scale);
+		save_attributes
+		(
+			  position
+			, orientation
+			, scale
+		);
 	}
 	//----------------------------------------------------------------------------------------------
 

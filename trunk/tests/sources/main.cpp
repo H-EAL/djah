@@ -2,6 +2,7 @@
 #include <thread>
 
 #include <djah/core/randomizer.hpp>
+#include <djah/core/events.hpp>
 
 #include <djah/debug/assertion.hpp>
 #include <djah/debug/xml_sink.hpp>
@@ -11,6 +12,7 @@
 #include <djah/system/device.hpp>
 #include <djah/system/driver.hpp>
 
+#include <djah/system/input/mouse.hpp>
 #include <djah/system/input/keyboard.hpp>
 #include <djah/system/input/gamepad.hpp>
 
@@ -22,7 +24,7 @@
 
 #include <djah/gameplay/game_object.hpp>
 #include <djah/gameplay/components.hpp>
-#include <djah/gameplay/services/action_service.hpp>
+#include <djah/gameplay/services/actions_service.hpp>
 
 #include <djah/opengl.hpp>
 
@@ -495,6 +497,45 @@ void readInputs()
 	}
 }
 
+struct TestEvent1
+{
+
+};
+
+struct TestEvent2
+{
+
+};
+
+void test_events()
+{
+	typedef TYPELIST(TestEvent1, TestEvent2) EventTypes;
+
+	event_pipes<EventTypes> mgr;
+
+	mgr.subscribe<TestEvent1>([](const TestEvent1 &event)
+	{
+		DJAH_GLOBAL_NOTIFICATION()
+			<< "TestEvent1 handled"
+			<< DJAH_END_LOG();
+	});
+
+	mgr.subscribe<TestEvent2>([](const TestEvent2 &event)
+	{
+		DJAH_GLOBAL_NOTIFICATION()
+			<< "TestEvent2 handled"
+			<< DJAH_END_LOG();
+	});
+
+	TestEvent1 event1;
+	TestEvent2 event2;
+	mgr.broadcast(event1);
+
+	mgr.push(event1);
+	mgr.push(event2);
+	mgr.process();
+}
+
 int main()
 {
 	initLoggers();
@@ -504,8 +545,10 @@ int main()
 	filesystem::browser::get().addLoadingChannel(new filesystem::directory_source("./assets"));
 
 	resources::asset_finder<> assetFinder;
-	assetFinder.registerLoader<resources::mesh>("mesh");
-	assetFinder.registerLoader<resources::data_object<>>("config");
+	assetFinder.registerExtensions<resources::mesh>("mesh");
+	assetFinder.registerExtensions<resources::data_object<>>("config json");
+
+	test_events();
 
 
 	// 1 - Create device = create window
@@ -523,14 +566,17 @@ int main()
 
 
 	// 3 - Init renderer
-	glDebugMessageCallbackARB(oglDebugProc, nullptr);
+	glDebugMessageCallback(oglDebugProc, nullptr);
 	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+
+	auto testJsonConfig = assetFinder.get<resources::data_object<>>("configTest.json");
 
 	auto pRendererConfig = resources::open_config<renderer_cfg>("renderer.config");
 	const math::vector3f &cc = pRendererConfig->clearColor;
 	glClearColor(cc[0], cc[1], cc[2], 1.0f);
 	glEnable(GL_DEPTH_TEST);
 	glLineWidth(1.5f);
+	system::input::mouse mouse;
 	system::input::keyboard kb;
 	system::input::gamepad gp(0);
 	bool fs = pDeviceConfig->fullscreen;
@@ -546,12 +592,12 @@ int main()
 	auto pTexture = d3d::texture_manager::get().find("feisar-diffuse.png");
 
 
-	gameplay::services::action_service<gpc::DefaultComponentTypes> actionService(kb, gp);
+	gameplay::services::actions_service<gpc::DefaultComponentTypes> actionsService(mouse, kb, gp);
 
 	// 3.6 - Camera
 	game_object_t camera("cameras/main.camera");
 	game_object_t::serializer_t::deserialize(camera);
-	actionService.add(&camera);
+	actionsService.add(&camera);
 
 	gameplay::component<gpc::transform> cameraTransform = camera.get<gpc::transform>();
 	gameplay::component<gpc::fov>		cameraFOV		= camera.get<gpc::fov>();
@@ -616,10 +662,11 @@ int main()
 	// 4 - Run app
 	while( pDevice->run() )
 	{
+		mouse.update();
 		kb.update();
 		gp.update();
 
-		actionService.execute(0.0f);
+		actionsService.execute(0.0f);
 
 		if( kb.pressed(system::input::eKC_ESCAPE) )
 		{
@@ -650,6 +697,10 @@ int main()
 				cameraFOV->nearPlane, cameraFOV->farPlane
 			);
 			vp = v*p;
+
+			pRendererConfig = resources::open_config<renderer_cfg>("renderer.config");
+			const math::vector3f &cc = pRendererConfig->clearColor;
+			glClearColor(cc[0], cc[1], cc[2], 1.0f);
 		}
 
 		if( !uniformColorShader || kb.pressed(system::input::eKC_F5) )
@@ -666,7 +717,7 @@ int main()
 			uniformColorShader->program().end();
 		}
 
-		if( kb.pressed(system::input::eKC_W) )
+		if( kb.pressed(system::input::eKC_P) )
 		{
 			static bool wireframe = false;
 			wireframe = !wireframe;
@@ -738,13 +789,34 @@ int main()
 		{
 			const float camSpeed = 1.0f;
 			const math::vector3f disp = camSpeed * math::vector3f
-				(
-					cameraAM->states["MOVE_RIGHT"]	  - cameraAM->states["MOVE_LEFT"],
-					cameraAM->states["MOVE_UPWARD"]	  - cameraAM->states["MOVE_DOWNWARD"],
-					cameraAM->states["MOVE_BACKWARD"] - cameraAM->states["MOVE_FORWARD"]
-				);
+			(
+				cameraAM->states["MOVE_RIGHT"]	  - cameraAM->states["MOVE_LEFT"],
+				cameraAM->states["MOVE_UPWARD"]	  - cameraAM->states["MOVE_DOWNWARD"],
+				cameraAM->states["MOVE_BACKWARD"] - cameraAM->states["MOVE_FORWARD"]
+			);
 
-			if( disp != math::vector3f::null_vector )
+			bool turned = false;
+			const float turnSpeed = 2.7f;
+
+			const float horizontalTurn = cameraAM->states["LOOK_RIGHT"] - cameraAM->states["LOOK_LEFT"];
+			if( std::abs(horizontalTurn) > 0.0f )
+			{
+				const math::vector3f &realUpDirection = math::rotate(cameraTransform->orientation, upDirection);
+				const math::quatf &nrot = math::make_quaternion(math::radian<float>::from_degree(-horizontalTurn*turnSpeed), realUpDirection);
+				cameraTransform->orientation = nrot * cameraTransform->orientation;
+				turned = true;
+			}
+			
+			const float verticalTurn = cameraAM->states["LOOK_UP"] - cameraAM->states["LOOK_DOWN"];
+			if( std::abs(verticalTurn) > 0.0f )
+			{
+				const math::vector3f realRightDirection(-1.0f, 0.0f, 0.0f);
+				const math::quatf &nrot = math::make_quaternion(math::radian<float>::from_degree(verticalTurn*turnSpeed), realRightDirection);
+				cameraTransform->orientation = cameraTransform->orientation * nrot;
+				turned = true;
+			}
+
+			if( turned || disp != math::vector3f::null_vector )
 			{
 				const math::vector3f &realDisp		  = math::rotate(cameraTransform->orientation, disp);
 				cameraTransform->position += realDisp;
@@ -762,15 +834,16 @@ int main()
 		pDriver->beginFrame();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		/***
+		/**/
 		simpleShader.program().begin();
+		//simpleShader.program().sendUniform("in_World", w);
 		simpleShader.program().sendUniform("in_WVP", wvp);
 		pMesh->draw();
 		simpleShader.program().end();
-		/**/
+		/**
 		uniformColorShader->program().begin();
 		uniformColorShader->program().sendUniform("in_WVP", wvp);
-		static const int nbRings = 5;
+		static const int nbRings = 50;
 		static const int nbFlorets = 3 * nbRings * (nbRings - 1) + 1;
 		uniformColorShader->program().sendUniform("in_Color", math::vector3f(1,1,1));
 		uniformColorShader->program().sendUniform("in_Wireframe", 0);
@@ -791,6 +864,10 @@ int main()
 		glColor3fv(math::vector3f::y_axis.data);
 		glVertex3fv(math::vector3f::null_vector.data);
 		glVertex3fv(math::vector3f::y_axis.data);
+
+		glColor3fv(math::vector3f::z_axis.data);
+		glVertex3fv(math::vector3f::null_vector.data);
+		glVertex3fv(math::vector3f::z_axis.data);
 		glEnd();
 		/**/
 		pDriver->endFrame();

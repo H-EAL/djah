@@ -11,8 +11,8 @@ namespace djah { namespace gameplay { namespace components {
 	struct action_map
 	{
 		MAKE_COMPONENT(action_map);
-
-		typedef std::map<std::string, std::vector<std::string>> actions_map_t;
+		typedef std::vector<std::string> input_sequence_t;
+		typedef std::map<std::string, std::vector<input_sequence_t>> actions_map_t;
 		typedef std::map<std::string, float> actions_state_t;
 
 		// serializable

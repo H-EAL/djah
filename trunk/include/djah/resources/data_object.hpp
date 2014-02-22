@@ -3,6 +3,7 @@
 
 #include <map>
 #include <string>
+#include <memory>
 #include <ostream>
 #include <sstream>
 #include "djah/debug/assertion.hpp"
@@ -99,13 +100,9 @@ namespace djah { namespace resources {
 	public:
 		//------------------------------------------------------------------------------------------
 		data_object(const std::string &name)
-			: name_(name)
+			: asset(name)
 		{
 		}
-		//------------------------------------------------------------------------------------------
-
-		//------------------------------------------------------------------------------------------
-		const std::string& name() const { return name_; }
 		//------------------------------------------------------------------------------------------
 
 		//------------------------------------------------------------------------------------------
@@ -118,9 +115,9 @@ namespace djah { namespace resources {
 
 		//------------------------------------------------------------------------------------------
 		template<typename T>
-		T get(const std::string &attributeName, const T &default_value = T()) const
+		T get(const std::string &attributeName, const T &defaultValue = T()) const
 		{
-			T result = default_value;
+			T result = defaultValue;
 
 			auto it = attribute_holder<T>::attributes_.find(attributeName);
 			if( it != attribute_holder<T>::attributes_.end() )
@@ -171,9 +168,6 @@ namespace djah { namespace resources {
 			return attribute_hook<AttributeTypes>::to_string(*this);
 		}
 		//----------------------------------------------------------------------------------------------
-
-	private:
-		std::string name_;
 	};
 	//----------------------------------------------------------------------------------------------
 

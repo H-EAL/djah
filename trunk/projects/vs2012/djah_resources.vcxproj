@@ -78,19 +78,6 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\include\djah\gameplay\components.hpp" />
-    <ClInclude Include="..\..\include\djah\gameplay\components\action_map.hpp" />
-    <ClInclude Include="..\..\include\djah\gameplay\components\component.hpp" />
-    <ClInclude Include="..\..\include\djah\gameplay\components\fov.hpp" />
-    <ClInclude Include="..\..\include\djah\gameplay\components\texture.hpp" />
-    <ClInclude Include="..\..\include\djah\gameplay\components\transform.hpp" />
-    <ClInclude Include="..\..\include\djah\gameplay\components\visual_mesh.hpp" />
-    <ClInclude Include="..\..\include\djah\gameplay\component_database.hpp" />
-    <ClInclude Include="..\..\include\djah\gameplay\component_serializer.hpp" />
-    <ClInclude Include="..\..\include\djah\gameplay\game_object.hpp" />
-    <ClInclude Include="..\..\include\djah\gameplay\json_serializer.hpp" />
-    <ClInclude Include="..\..\include\djah\gameplay\services\action_service.hpp" />
-    <ClInclude Include="..\..\include\djah\gameplay\services\game_service.hpp" />
     <ClInclude Include="..\..\include\djah\resources\asset.hpp" />
     <ClInclude Include="..\..\include\djah\resources\asset_finder.hpp" />
     <ClInclude Include="..\..\include\djah\resources\asset_warehouse.hpp" />
@@ -109,11 +96,6 @@
     <None Include="..\..\include\djah\resources\asset_finder.inl" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\sources\gameplay\components\action_map.cpp" />
-    <ClCompile Include="..\..\sources\gameplay\components\fov.cpp" />
-    <ClCompile Include="..\..\sources\gameplay\components\texture.cpp" />
-    <ClCompile Include="..\..\sources\gameplay\components\transform.cpp" />
-    <ClCompile Include="..\..\sources\gameplay\components\visual_mesh.cpp" />
     <ClCompile Include="..\..\sources\resources\asset.cpp" />
     <ClCompile Include="..\..\sources\resources\asset_warehouse.cpp" />
     <ClCompile Include="..\..\sources\resources\image.cpp" />

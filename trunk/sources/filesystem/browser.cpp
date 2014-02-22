@@ -43,9 +43,9 @@ namespace djah { namespace filesystem {
 
 
 	//----------------------------------------------------------------------------------------------
-	stream_ptr browser::openReadStream(const std::string &url)
+	stream_sptr browser::openReadStream(const std::string &url)
 	{
-		stream_ptr strm;
+		stream_sptr strm;
 
 		source_list_t::iterator it;
 		source_list_t::iterator it_end = loading_channels_.end();
@@ -63,9 +63,9 @@ namespace djah { namespace filesystem {
 
 
 	//----------------------------------------------------------------------------------------------
-	stream_ptr browser::openWriteStream(const std::string &url)
+	stream_sptr browser::openWriteStream(const std::string &url)
 	{
-		stream_ptr strm;
+		stream_sptr strm;
 
 		source_list_t::iterator it;
 		source_list_t::iterator it_end = saving_channels_.end();

@@ -142,7 +142,7 @@ DEFINE_EXTENSION( PFNGLSAMPLERPARAMETERFPROC,		glSamplerParameterf			);
 //--------------------------------------------------------------------------------------------------
 // Debug
 //--------------------------------------------------------------------------------------------------
-DEFINE_EXTENSION( PFNGLDEBUGMESSAGECALLBACKARBPROC,	glDebugMessageCallbackARB	);
+DEFINE_EXTENSION( PFNGLDEBUGMESSAGECALLBACKPROC,	glDebugMessageCallback		);
 
 //--------------------------------------------------------------------------------------------------
 // Other

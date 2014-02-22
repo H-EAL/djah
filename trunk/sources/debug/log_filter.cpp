@@ -9,8 +9,8 @@ namespace djah { namespace debug {
 		, maxSeverity_(_maxSeverity)
 		, anyChannelPasses_(false)
 	{
-		utils::string_list_t splitChannels;
-		utils::split_string(channels, splitChannels, ";|,");
+		string_utils::string_list_t splitChannels;
+		string_utils::split_string(channels, splitChannels, ";|,");
 		channels_.insert(splitChannels.begin(), splitChannels.end());
 		anyChannelPasses_ = (channels_.find("any") != channels_.end());
 	}

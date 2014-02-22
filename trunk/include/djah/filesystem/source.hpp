@@ -13,8 +13,8 @@ namespace djah { namespace filesystem {
 		source(unsigned int priority) : priority_(priority) {}
 		virtual ~source() {}
 
-		virtual stream_ptr loadStream(const std::string &url) = 0;
-		virtual stream_ptr saveStream(const std::string &url) = 0;
+		virtual stream_sptr loadStream(const std::string &url) = 0;
+		virtual stream_sptr saveStream(const std::string &url) = 0;
 
 		virtual bool isFetchable(const std::string &url) const = 0;
 		virtual bool isWritable(const std::string &url)  const = 0;

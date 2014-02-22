@@ -5,12 +5,12 @@ namespace djah { namespace gameplay { namespace components {
 	//----------------------------------------------------------------------------------------------
 	texture::texture(const rapidjson::Value &node)
 	{
-		JSON_READ(file);
+		load_attributes(file);
 	}
 	//----------------------------------------------------------------------------------------------
-	void texture::serialize(djah::filesystem::stream &strm) const
+	void texture::serialize(rapidjson::Document &doc) const
 	{
-		JSON_WRITE(file);
+		save_attributes(file);
 	}
 	//----------------------------------------------------------------------------------------------
 

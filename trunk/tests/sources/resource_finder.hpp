@@ -21,8 +21,8 @@ inline std::shared_ptr<T> find_resource(const std::string &url)
 	static bool initialized = false;
 	if(!initialized)
 	{
-		s_asset_finder.registerLoader(std::make_shared<resources::loader<resources::image>>(), "png tga jpg");
-		s_asset_finder.registerLoader(std::make_shared<resources::loader<resources::mesh>>(), "mesh");
+		s_asset_finder.registerExtensions(std::make_shared<resources::loader<resources::image>>(), "png tga jpg");
+		s_asset_finder.registerExtensions(std::make_shared<resources::loader<resources::mesh>>(), "mesh");
 		initialized = true;
 	}
 	return s_asset_finder.get<T>(url);
@@ -61,7 +61,7 @@ namespace djah { namespace d3d {
 	private:
 		texture_manager()
 		{
-			assetFinder_.registerLoader<resources::image>("png jpg tga");
+			assetFinder_.registerExtensions<resources::image>("png jpg tga");
 		}
 		virtual ~texture_manager() {}
 

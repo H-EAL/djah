@@ -4,7 +4,7 @@
 #include <ios>
 #include <string>
 #include <memory>
-#include "../types.hpp"
+#include "djah/types.hpp"
 
 namespace djah { namespace filesystem {
 
@@ -18,9 +18,8 @@ namespace djah { namespace filesystem {
 	class stream
 	{
 	public:
-
-		stream() {};
-		virtual ~stream() {};
+		stream() {}
+		virtual ~stream() {}
 
 		template<typename T>
 		size_t read(T &data);
@@ -47,14 +46,14 @@ namespace djah { namespace filesystem {
 		virtual bool   eof() = 0;
 		virtual void   seek(size_t offset, E_SEEK_DIR dir) = 0;
 		virtual void   close() = 0;
+		virtual u64	   lastWrite() { return 0; }
 
 	protected:
-
 		virtual size_t readImpl(char* buff, size_t size) = 0;
 		virtual size_t writeImpl(const char* buff, size_t size) = 0;
 	};
 
-	typedef std::shared_ptr<stream> stream_ptr;
+	typedef std::shared_ptr<stream> stream_sptr;
 
 } /*filesystem*/ } /*djah*/
 

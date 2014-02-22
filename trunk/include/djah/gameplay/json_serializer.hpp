@@ -7,18 +7,34 @@
 #include "rapidjson/document.h"
 #include "djah/math.hpp"
 #include "djah/debug/assertion.hpp"
+#include "djah/debug/log.hpp"
 
 namespace djah { namespace resources {
 
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	void json_deserialize(T &val, const rapidjson::Value &node, const std::string &name)
+	void json_deserialize(const std::string &name, T &val, const rapidjson::Value &node)
 	{
 		if( ensure(node.HasMember(name.c_str())) )
 		{
 			const rapidjson::Value &valueNode = node[name.c_str()];
-			val = json_serializer<T>::deserialize(valueNode, name);
+			if( ensure(json_serializer<T>::is_of_type(valueNode)) )
+			{
+				json_serializer<T>::deserialize(valueNode, val);
+			}
 		}
+	}
+	//----------------------------------------------------------------------------------------------
+	template<typename T>
+	void json_serialize(const std::string &name, const T &val, rapidjson::Value &node)
+	{
+		/*
+		rapidjson::Value valueNode;
+		rapidjson::Value nameNode;
+		nameNode.SetString(name.c_str());
+		json_serializer<T>::serialize(valueNode, val);
+		node.AddMember(nameNode, valueNode);
+		*/
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -30,121 +46,303 @@ namespace djah { namespace resources {
 	template<>
 	struct json_serializer<float>
 	{
-		static float deserialize(const rapidjson::Value &node, const std::string &name)
+		static bool is_of_type(const rapidjson::Value &node)
+		{
+			return node.IsDouble();
+		}
+
+		static void deserialize(const rapidjson::Value &node, float &val)
 		{
 			check(node.IsDouble());
-			return float(node.GetDouble());
+			val = float(node.GetDouble());
+		}
+
+		static void serialize(rapidjson::Value &node, float val)
+		{
+			node.SetDouble(double(val));
 		}
 	};
 	//----------------------------------------------------------------------------------------------
 	template<>
 	struct json_serializer<double>
 	{
-		static double deserialize(const rapidjson::Value &node, const std::string &name)
+		static bool is_of_type(const rapidjson::Value &node)
+		{
+			return node.IsDouble();
+		}
+
+		static void deserialize(const rapidjson::Value &node, double &val)
 		{
 			check(node.IsDouble());
-			return node.GetDouble();
+			val = node.GetDouble();
+		}
+
+		static void serialize(rapidjson::Value &node, double val)
+		{
+			node.SetDouble(val);
 		}
 	};
 	//----------------------------------------------------------------------------------------------
 	template<>
 	struct json_serializer<bool>
 	{
-		static bool deserialize(const rapidjson::Value &node, const std::string &name)
+		static bool is_of_type(const rapidjson::Value &node)
+		{
+			return node.IsBool();
+		}
+
+		static void deserialize(const rapidjson::Value &node, bool &val)
 		{
 			check(node.IsBool());
-			return node.GetBool();
+			val = node.GetBool();
+		}
+
+		static void serialize(rapidjson::Value &node, bool val)
+		{
+			node.SetBool(val);
 		}
 	};
 	//----------------------------------------------------------------------------------------------
 	template<>
 	struct json_serializer<int>
 	{
-		static int deserialize(const rapidjson::Value &node, const std::string &name)
+		static bool is_of_type(const rapidjson::Value &node)
+		{
+			return node.IsInt();
+		}
+
+		static void deserialize(const rapidjson::Value &node, int &val)
 		{
 			check(node.IsInt());
-			return node.GetInt();
+			val = node.GetInt();
+		}
+
+		static void serialize(rapidjson::Value &node, int val)
+		{
+			node.SetInt(val);
+		}
+	};
+	//----------------------------------------------------------------------------------------------
+	template<>
+	struct json_serializer<unsigned int>
+	{
+		static bool is_of_type(const rapidjson::Value &node)
+		{
+			return node.IsUint();
+		}
+
+		static void deserialize(const rapidjson::Value &node, unsigned int &val)
+		{
+			check(node.IsInt());
+			val = node.GetUint();
+		}
+
+		static void serialize(rapidjson::Value &node, unsigned int val)
+		{
+			node.SetUint(val);
 		}
 	};
 	//----------------------------------------------------------------------------------------------
 	template<>
 	struct json_serializer<std::string>
 	{
-		static std::string deserialize(const rapidjson::Value &node, const std::string &name)
+		static bool is_of_type(const rapidjson::Value &node)
+		{
+			return node.IsString();
+		}
+
+		static void deserialize(const rapidjson::Value &node, std::string &val)
 		{
 			check(node.IsString());
-			return std::string(node.GetString());
+			val = std::string(node.GetString(), node.GetStringLength());
+		}
+
+		static void serialize(rapidjson::Value &node, const std::string &val)
+		{
+			node.SetString(val.c_str());
 		}
 	};
 	//----------------------------------------------------------------------------------------------
 	template<int N, typename T>
 	struct json_serializer< math::vector<N,T> >
 	{
-		static math::vector<N,T> deserialize(const rapidjson::Value &node, const std::string &name)
+		static bool is_of_type(const rapidjson::Value &node)
+		{
+			bool result = node.IsArray() && node.Size() == N;
+
+			for(rapidjson::SizeType i = 0; i < N && result; ++i)
+			{
+				result = json_serializer<T>::is_of_type(node[i]);
+			}
+
+			return result;
+		}
+
+		static void deserialize(const rapidjson::Value &node, math::vector<N,T> &val)
 		{
 			check(node.IsArray());
 			check(node.Size() == N);
 
-			math::vector<N,T> v;
 			for(rapidjson::SizeType i = 0; i < N; ++i)
 			{
-				v[i] = json_serializer<T>::deserialize(node[i], "");
+				json_serializer<T>::deserialize(node[i], val[i]);
 			}
-			return v;
+		}
+
+		static void serialize(rapidjson::Value &node, const math::vector<N,T> &val)
+		{
 		}
 	};
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
 	struct json_serializer< math::quaternion<T> >
 	{
-		static math::quatf deserialize(const rapidjson::Value &node, const std::string &name)
+		static bool is_of_type(const rapidjson::Value &node)
+		{
+			bool result = node.IsArray() && node.Size() == 4;
+
+			for(rapidjson::SizeType i = 0; i < 4 && result; ++i)
+			{
+				result = json_serializer<T>::is_of_type(node[i]);
+			}
+
+			return result;
+		}
+
+		static void deserialize(const rapidjson::Value &node, math::quaternion<T> &val)
 		{
 			check(node.IsArray());
 			check(node.Size() == 4);
 
-			math::quaternion<T> q;
 			for(rapidjson::SizeType i = 0; i < 4; ++i)
 			{
-				q[i] = json_serializer<T>::deserialize(node[i], "");
+				json_serializer<T>::deserialize(node[i], val[i]);
 			}
-			return q;
+		}
+
+		static void serialize(rapidjson::Value &node, const math::quaternion<T> &val)
+		{
 		}
 	};
 	//----------------------------------------------------------------------------------------------
-	template<typename V>
-	struct json_serializer< std::map<std::string,V> >
+	template<int N, int M, typename T>
+	struct json_serializer< math::matrix<N,M,T> >
 	{
-		static std::map<std::string,V> deserialize(const rapidjson::Value &node, const std::string &name)
+		static bool is_of_type(const rapidjson::Value &node)
 		{
-			check(node.IsObject());
+			bool result = node.IsArray() && node.Size() == N;
 
-			std::map<std::string, V> dictionary;
-			auto itEnd = node.MemberEnd();
-			for(auto it = node.MemberBegin(); it != itEnd; ++it)
+			for(rapidjson::SizeType i = 0; i < N && result; ++i)
 			{
-				const std::string &key = it->name.GetString();
-				dictionary[key] = json_serializer<V>::deserialize(it->value, key);
+				result = node.IsArray() && node.Size() == M;
+
+				for(rapidjson::SizeType j = 0; j < M && result; ++j)
+				{
+					result = json_serializer<T>::is_of_type(node[i][j]);
+				}
 			}
-			return dictionary;
+
+			return result;
+		}
+
+		static void deserialize(const rapidjson::Value &node, math::matrix<N,M,T> &val)
+		{
+			check(node.IsArray());
+			check(node.Size() == N);
+
+			for(rapidjson::SizeType i = 0; i < N; ++i)
+			{
+				check(node[i].IsArray());
+				check(node[i].Size() == M);
+
+				for(rapidjson::SizeType j = 0; j < M; ++j)
+				{
+					json_serializer<T>::deserialize(node[i][j], val[i][j]);
+				}
+			}
+		}
+
+		static void serialize(rapidjson::Value &node, const math::matrix<N,M,T> &val)
+		{
 		}
 	};
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
 	struct json_serializer< std::vector<T> >
 	{
-		static std::vector<T> deserialize(const rapidjson::Value &node, const std::string &name)
+		static bool is_of_type(const rapidjson::Value &node)
+		{
+			bool result = node.IsArray();
+
+			const rapidjson::SizeType arraySize = node.Size();
+			for(rapidjson::SizeType i = 0; i < arraySize && result; ++i)
+			{
+				result = json_serializer<T>::is_of_type(node[i]);
+			}
+
+			return result;
+		}
+
+		static void deserialize(const rapidjson::Value &node, std::vector<T> &val)
 		{
 			check(node.IsArray());
 
 			const rapidjson::SizeType vecSize = node.Size();
-			std::vector<T> vec;
-			vec.reserve(vecSize);
+			val.clear();
+			val.resize(vecSize);
 			for(rapidjson::SizeType i = 0; i < vecSize; ++i)
 			{
-				T val = json_serializer<T>::deserialize(node[i], "");
-				vec.push_back(val);
+				json_serializer<T>::deserialize(node[i], val[i]);
 			}
-			return vec;
+		}
+
+		static void serialize(rapidjson::Value &node, const std::vector<T> &val)
+		{
+		}
+	};
+	//----------------------------------------------------------------------------------------------
+	template<typename T>
+	struct json_serializer< std::map<std::string,T> >
+	{
+		static bool is_of_type(const rapidjson::Value &node)
+		{
+			bool result = node.IsObject();
+			if( result )
+			{
+				const auto itEnd = node.MemberEnd();
+				for(auto it = node.MemberBegin(); it != itEnd && result; ++it)
+				{
+					result = json_serializer<T>::is_of_type(it->value);
+				}
+			}
+			return result;
+		}
+
+		static void deserialize(const rapidjson::Value &node, std::map<std::string,T> &val)
+		{
+			check(node.IsObject());
+
+			val.clear();
+
+			const auto itEnd = node.MemberEnd();
+			for(auto it = node.MemberBegin(); it != itEnd; ++it)
+			{
+				const std::string &key = it->name.GetString();
+
+				if( val.find(key) != val.end() )
+				{
+					DJAH_GLOBAL_WARNING()
+						<< "Duplicate keys (" << key << ") found in attribute \""
+						<< it->name.GetString() << "\""
+						<< DJAH_END_LOG();
+				}
+				// Duplicate keys are overridden
+				json_serializer<T>::deserialize(it->value, val[key]);
+			}
+		}
+
+		static void serialize(rapidjson::Value &node, const std::map<std::string,T> &val)
+		{
 		}
 	};
 	//----------------------------------------------------------------------------------------------
@@ -240,17 +438,22 @@ namespace djah { namespace resources {
 			docStack_.push(pDoc);
 			pDoc->Parse<0>(stringStream.c_str());
 
-			check(!pDoc->HasParseError());
-			auto itEnd = pDoc->MemberEnd();
-			for(auto it = pDoc->MemberBegin(); it != itEnd; ++it)
+			if( ensure(!pDoc->HasParseError()) )
 			{
+				const auto itEnd = pDoc->MemberEnd();
+				for(auto it = pDoc->MemberBegin(); it != itEnd; ++it)
+				{
+					if( it->value.IsBool() )
+					{
+						dobj->add(it->name, it->value.GetBool());
+					}
+				}
 			}
 
 			return true;
 		}
 		//------------------------------------------------------------------------------------------
-	};
-	*/
+	};*/
 
 } /*resources*/ } /*djah*/
 

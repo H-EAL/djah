@@ -2,13 +2,11 @@
 #define DJAH_FILESYSTEM_BROWSER_HPP
 
 #include <set>
-#include "../core/singleton.hpp"
-#include "source.hpp"
-#include "stream.hpp"
+#include "djah/core/singleton.hpp"
+#include "djah/filesystem/source.hpp"
+#include "djah/filesystem/stream.hpp"
 
 namespace djah { namespace filesystem {
-
-	class source;
 
 	class browser
 		: public utils::singleton<browser>
@@ -19,8 +17,8 @@ namespace djah { namespace filesystem {
 		void addLoadingChannel(source *src);
 		void addSavingChannel(source *src);
 
-		stream_ptr openReadStream(const std::string &url);
-		stream_ptr openWriteStream(const std::string &url);
+		stream_sptr openReadStream(const std::string &url);
+		stream_sptr openWriteStream(const std::string &url);
 
 	private:
 		browser();

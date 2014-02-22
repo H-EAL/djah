@@ -39,7 +39,7 @@ namespace djah { namespace resources {
 			static bool s_initialized = false;
 			if( !s_initialized )
 			{
-				s_asset_finder.registerLoader<data_object<>>("config");
+				s_asset_finder.registerExtensions<data_object<>>("config");
 				s_initialized = true;
 			}
 
