@@ -1,5 +1,4 @@
 #include <algorithm>
-#include "djah/system/gl.hpp"
 #include "djah/system/device.hpp"
 #include "djah/system/driver.hpp"
 #include "djah/system/video_config.hpp"

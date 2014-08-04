@@ -19,7 +19,7 @@ namespace djah { namespace system {
 		const word version	= low_word( (dword)oglVersion );
 		majorVersion		= high_byte( version );
 		minorVersion		= low_byte ( version );
-		isOpenglES			= high_word( (dword)version ) != 0;
+		isOpenglES			= high_word( (dword)oglVersion ) != 0;
 	}
 	//----------------------------------------------------------------------------------------------
 

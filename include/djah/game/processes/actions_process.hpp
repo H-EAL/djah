@@ -1,5 +1,5 @@
-#ifndef DJAH_GAMEPLAY_SERVICES_ACTIONS_SERVICE_HPP
-#define DJAH_GAMEPLAY_SERVICES_ACTIONS_SERVICE_HPP
+#ifndef DJAH_GAME_PROCESSES_ACTIONS_PROCESS_HPP
+#define DJAH_GAME_PROCESSES_ACTIONS_PROCESS_HPP
 
 #include <map>
 #include <string>
@@ -8,19 +8,19 @@
 #include "djah/system/input/mouse.hpp"
 #include "djah/system/input/keyboard.hpp"
 #include "djah/system/input/gamepad.hpp"
-#include "djah/gameplay/services/game_service.hpp"
-#include "djah/gameplay/components/action_map.hpp"
+#include "djah/gameplay/component_process.hpp"
+#include "djah/game/components/action_map.hpp"
 
-namespace djah { namespace gameplay { namespace services {
+namespace djah { namespace game { namespace processes {
 
-	typedef TYPELIST(components::action_map) ActionsServiceComponents;
+	typedef TYPELIST(components::action_map) ActionsProcessComponents;
 
 	template<typename ComponentTypeList>
-	class actions_service
-		: public game_service<ComponentTypeList, ActionsServiceComponents>
+	class actions_process
+		: public gameplay::component_process<ComponentTypeList, ActionsProcessComponents>
 	{
 	public:
-		actions_service(const system::input::mouse &_m, const system::input::keyboard &_kb, const system::input::gamepad &_gp)
+		actions_process(const system::input::mouse &_m, const system::input::keyboard &_kb, const system::input::gamepad &_gp)
 			: m(_m)
 			, kb(_kb)
 			, gp(_gp)
@@ -64,7 +64,7 @@ namespace djah { namespace gameplay { namespace services {
 	protected:
 		virtual void executeFor(game_object_t &gameObject, float dt)
 		{
-			component<components::action_map> actionMap = gameObject.get<components::action_map>();
+			gameplay::component<components::action_map> actionMap = gameObject.get<components::action_map>();
 
 			std::for_each(actionMap->actions.begin(), actionMap->actions.end(),
 			[&](const components::action_map::actions_map_t::value_type &entry)
@@ -193,6 +193,6 @@ namespace djah { namespace gameplay { namespace services {
 		std::map<std::string, system::input::eXbox360Buttons>	inputX360BtnDico;
 	};
 
-} /*services*/ } /*gameplay*/ } /*djah*/
+} /*services*/ } /*game*/ } /*djah*/
 
-#endif /* DJAH_GAMEPLAY_SERVICES_ACTIONS_SERVICE_HPP */
+#endif /* DJAH_GAME_PROCESSES_ACTIONS_PROCESS_HPP */

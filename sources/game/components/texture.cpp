@@ -1,6 +1,6 @@
-#include "djah/gameplay/components/texture.hpp"
+#include "djah/game/components/texture.hpp"
 
-namespace djah { namespace gameplay { namespace components {
+namespace djah { namespace game { namespace components {
 
 	//----------------------------------------------------------------------------------------------
 	texture::texture(const rapidjson::Value &node)
@@ -14,4 +14,4 @@ namespace djah { namespace gameplay { namespace components {
 	}
 	//----------------------------------------------------------------------------------------------
 
-} /*components*/ } /*gameplay*/ } /*djah*/
+} /*components*/ } /*game*/ } /*djah*/

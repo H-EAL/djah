@@ -65,13 +65,35 @@ namespace djah { namespace opengl {
 
 
 	//----------------------------------------------------------------------------------------------
+	unsigned int vertex_format::attributeOffset(const std::string &attributeName, unsigned int vertexCount) const
+	{
+		unsigned int attrOffset = 0;
+
+		const unsigned int nbAttributes = vertex_attributes_.size();
+		for(unsigned int i = 0; i < nbAttributes; ++i)
+		{
+			if( vertex_attributes_[i].name() != attributeName )
+			{
+				attrOffset += vertex_attributes_[i].count() * vertex_attributes_[i].size() * (isPacked() ? vertexCount : 1);
+			}
+			else
+			{
+				break;
+			}
+		}
+
+		return attrOffset;
+	}
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
 	bool operator ==(const vertex_format &lhs, const vertex_format &rhs)
 	{
-		bool result = false;
+		bool result = lhs.vertex_attributes_.size() == rhs.vertex_attributes_.size();
 
-		if( lhs.vertex_attributes_.size() == rhs.vertex_attributes_.size() )
+		if( result )
 		{
-			result = true;
 			const unsigned int nbAttributes = lhs.vertex_attributes_.size();
 			for(unsigned int i = 0; i < nbAttributes && result; ++i)
 			{

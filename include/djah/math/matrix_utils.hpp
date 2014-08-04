@@ -117,7 +117,7 @@ namespace djah { namespace math {
 	}
 	//----------------------------------------------------------------------------------------------
 
-	
+
 	//----------------------------------------------------------------------------------------------
 	template<int M, int N, typename T>
 	inline vector<N,T> operator *(const matrix<M,N,T> &m, const vector<N,T> &v)
@@ -132,6 +132,12 @@ namespace djah { namespace math {
 
 		return result;
 	}
+	//----------------------------------------------------------------------------------------------
+	template<int M, int N, typename T>
+	inline vector<N,T> apply_transform(const matrix<M,N,T> &m, const vector<N,T> &v)
+	{
+		return m * v;
+	}	
 	//----------------------------------------------------------------------------------------------
 
 } /*math*/ } /*djah*/

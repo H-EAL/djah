@@ -39,6 +39,9 @@ namespace djah { namespace opengl {
 		// Retrieve attributes
 		const attr_list_t& attributes() const;
 
+		// Compute the offset of a given attribute
+		unsigned int attributeOffset(const std::string &attributeName, unsigned int vertexCount) const;
+
 		// Compare two vertex formats
 		friend bool operator ==(const vertex_format &lhs, const vertex_format &rhs);
 

@@ -47,7 +47,7 @@ namespace djah { namespace system {
 			int majorVersion = pConfig->majorVersion;
 			int minorVersion = pConfig->minorVersion;
 
-			if( pConfig->majorVersion == 0 )
+			if( majorVersion == 0 )
 			{
 				majorVersion = driver_config::s_default_major_version;
 				minorVersion = driver_config::s_default_minor_version;
@@ -58,7 +58,7 @@ namespace djah { namespace system {
 			hDC_ = GetDC( pDevice->handle<HWND>() );
 			check(hDC_);
 
-			int flags = pConfig->enableCompatibilityProfile ? WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB : 0;
+			int flags = 0;//pConfig->enableCompatibilityProfile ? WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB : 0;
 			if( pConfig->enableDebug )
 				flags |= WGL_CONTEXT_DEBUG_BIT_ARB;
 

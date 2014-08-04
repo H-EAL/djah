@@ -155,27 +155,28 @@ namespace djah { namespace opengl {
 	void vertex_array::enableVertexBuffer(vertex_buffer *pVB, const vertex_format &vertexFormat, const shader_program &sp, std::stack<int> &attributesStack)
 	{
 		const unsigned int stride = vertexFormat.stride();
-		unsigned int offset = 0;
 
 		const vertex_format::attr_list_t &attributes = vertexFormat.attributes();
-		auto attrIt									 = attributes.begin();
-		auto attrItEnd								 = attributes.end();
+		const auto &attrIt							 = attributes.begin();
+		const auto &attrItEnd						 = attributes.end();
 
 		pVB->bind();
 
-		const shader_program::cache_t &attributeMap = sp.getAttributeMap();
-		std::for_each(attributeMap.begin(), attributeMap.end(), [&](const shader_program::cache_t::value_type &attributeInfo)
+		const shader_program::cache_t &attributeCache = sp.getAttributeMap();
+		std::for_each(attributeCache.begin(), attributeCache.end(), [&](const shader_program::cache_t::value_type &attributeInfos)
 		{
 			auto currentAttributeIt = std::find_if(attrIt, attrItEnd, [&](const opengl::format::vertex_attrib_base &attr)
 			{
-				return attr.name() == attributeInfo.first;
+				return attr.name() == attributeInfos.first;
 			});
 
 			if( currentAttributeIt != attrItEnd )
 			{
 				const auto &currentAttribute = (*currentAttributeIt);
 
-				const unsigned int attrIndex = attributeInfo.second;
+				const unsigned int offset = vertexFormat.attributeOffset(currentAttribute.name(), vertexCount_);
+
+				const unsigned int attrIndex = attributeInfos.second;
 				glEnableVertexAttribArray(attrIndex);
 				glVertexAttribDivisor(attrIndex, currentAttribute.divisor()); 
 				const int attribSizeDiv4 = currentAttribute.count() / 4;
@@ -191,12 +192,10 @@ namespace djah { namespace opengl {
 				}
 
 				attributesStack.push(attrIndex);
-				offset += currentAttribute.count() * currentAttribute.size() * (vertexFormat.isPacked() ? vertexCount_ : 1);
 			}
 			else
 			{
-				DJAH_ASSERT_MSG(false, "[%s] Attribute \"%s\" not found in the vertex format", sp.name().c_str(), attributeInfo.first.c_str());
-				return;
+				DJAH_ASSERT_MSG(false, "[%s] Attribute \"%s\" not found in the vertex format", sp.name().c_str(), attributeInfos.first.c_str());
 			}
 		});
 

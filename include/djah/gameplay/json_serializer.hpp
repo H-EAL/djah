@@ -26,15 +26,15 @@ namespace djah { namespace resources {
 	}
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	void json_serialize(const std::string &name, const T &val, rapidjson::Value &node)
+	void json_serialize(rapidjson::Document &document, rapidjson::Value &node, const std::string &name, const T &val)
 	{
-		/*
-		rapidjson::Value valueNode;
 		rapidjson::Value nameNode;
-		nameNode.SetString(name.c_str());
-		json_serializer<T>::serialize(valueNode, val);
-		node.AddMember(nameNode, valueNode);
-		*/
+		nameNode.SetString(name.c_str(), name.size(), document.GetAllocator());
+
+		rapidjson::Value valueNode;
+		json_serializer<T>::serialize(document, valueNode, val);
+
+		node.AddMember(nameNode, valueNode, document.GetAllocator());
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -48,16 +48,16 @@ namespace djah { namespace resources {
 	{
 		static bool is_of_type(const rapidjson::Value &node)
 		{
-			return node.IsDouble();
+			return node.IsDouble() || node.IsInt();
 		}
 
 		static void deserialize(const rapidjson::Value &node, float &val)
 		{
-			check(node.IsDouble());
+			check(is_of_type(node));
 			val = float(node.GetDouble());
 		}
 
-		static void serialize(rapidjson::Value &node, float val)
+		static void serialize(rapidjson::Document &document, rapidjson::Value &node, float val)
 		{
 			node.SetDouble(double(val));
 		}
@@ -68,16 +68,16 @@ namespace djah { namespace resources {
 	{
 		static bool is_of_type(const rapidjson::Value &node)
 		{
-			return node.IsDouble();
+			return node.IsDouble() || node.IsInt();
 		}
 
 		static void deserialize(const rapidjson::Value &node, double &val)
 		{
-			check(node.IsDouble());
+			check(is_of_type(node));
 			val = node.GetDouble();
 		}
 
-		static void serialize(rapidjson::Value &node, double val)
+		static void serialize(rapidjson::Document &document, rapidjson::Value &node, double val)
 		{
 			node.SetDouble(val);
 		}
@@ -93,11 +93,11 @@ namespace djah { namespace resources {
 
 		static void deserialize(const rapidjson::Value &node, bool &val)
 		{
-			check(node.IsBool());
+			check(is_of_type(node));
 			val = node.GetBool();
 		}
 
-		static void serialize(rapidjson::Value &node, bool val)
+		static void serialize(rapidjson::Document &document, rapidjson::Value &node, bool val)
 		{
 			node.SetBool(val);
 		}
@@ -113,11 +113,11 @@ namespace djah { namespace resources {
 
 		static void deserialize(const rapidjson::Value &node, int &val)
 		{
-			check(node.IsInt());
+			check(is_of_type(node));
 			val = node.GetInt();
 		}
 
-		static void serialize(rapidjson::Value &node, int val)
+		static void serialize(rapidjson::Document &document, rapidjson::Value &node, int val)
 		{
 			node.SetInt(val);
 		}
@@ -133,11 +133,11 @@ namespace djah { namespace resources {
 
 		static void deserialize(const rapidjson::Value &node, unsigned int &val)
 		{
-			check(node.IsInt());
+			check(is_of_type(node));
 			val = node.GetUint();
 		}
 
-		static void serialize(rapidjson::Value &node, unsigned int val)
+		static void serialize(rapidjson::Document &document, rapidjson::Value &node, unsigned int val)
 		{
 			node.SetUint(val);
 		}
@@ -153,11 +153,11 @@ namespace djah { namespace resources {
 
 		static void deserialize(const rapidjson::Value &node, std::string &val)
 		{
-			check(node.IsString());
+			check(is_of_type(node));
 			val = std::string(node.GetString(), node.GetStringLength());
 		}
 
-		static void serialize(rapidjson::Value &node, const std::string &val)
+		static void serialize(rapidjson::Document &document, rapidjson::Value &node, const std::string &val)
 		{
 			node.SetString(val.c_str());
 		}
@@ -180,8 +180,7 @@ namespace djah { namespace resources {
 
 		static void deserialize(const rapidjson::Value &node, math::vector<N,T> &val)
 		{
-			check(node.IsArray());
-			check(node.Size() == N);
+			check(is_of_type(node));
 
 			for(rapidjson::SizeType i = 0; i < N; ++i)
 			{
@@ -189,8 +188,17 @@ namespace djah { namespace resources {
 			}
 		}
 
-		static void serialize(rapidjson::Value &node, const math::vector<N,T> &val)
+		static void serialize(rapidjson::Document &document, rapidjson::Value &node, const math::vector<N,T> &val)
 		{
+			node.SetArray();
+			node.Reserve(N, document.GetAllocator());
+
+			for(rapidjson::SizeType i = 0; i < N; ++i)
+			{
+				rapidjson::Value valueNode;
+				json_serializer<T>::serialize(document, valueNode, val[i]);
+				node.PushBack(valueNode, document.GetAllocator());
+			}
 		}
 	};
 	//----------------------------------------------------------------------------------------------
@@ -211,8 +219,7 @@ namespace djah { namespace resources {
 
 		static void deserialize(const rapidjson::Value &node, math::quaternion<T> &val)
 		{
-			check(node.IsArray());
-			check(node.Size() == 4);
+			check(is_of_type(node));
 
 			for(rapidjson::SizeType i = 0; i < 4; ++i)
 			{
@@ -220,8 +227,17 @@ namespace djah { namespace resources {
 			}
 		}
 
-		static void serialize(rapidjson::Value &node, const math::quaternion<T> &val)
+		static void serialize(rapidjson::Document &document, rapidjson::Value &node, const math::quaternion<T> &val)
 		{
+			node.SetArray();
+			node.Reserve(4, document.GetAllocator());
+
+			for(rapidjson::SizeType i = 0; i < 4; ++i)
+			{
+				rapidjson::Value valueNode;
+				json_serializer<T>::serialize(document, valueNode, val[i]);
+				node.PushBack(valueNode, document.GetAllocator());
+			}
 		}
 	};
 	//----------------------------------------------------------------------------------------------
@@ -234,7 +250,7 @@ namespace djah { namespace resources {
 
 			for(rapidjson::SizeType i = 0; i < N && result; ++i)
 			{
-				result = node.IsArray() && node.Size() == M;
+				result = node[i].IsArray() && node[i].Size() == M;
 
 				for(rapidjson::SizeType j = 0; j < M && result; ++j)
 				{
@@ -247,14 +263,10 @@ namespace djah { namespace resources {
 
 		static void deserialize(const rapidjson::Value &node, math::matrix<N,M,T> &val)
 		{
-			check(node.IsArray());
-			check(node.Size() == N);
+			check(is_of_type(node));
 
 			for(rapidjson::SizeType i = 0; i < N; ++i)
 			{
-				check(node[i].IsArray());
-				check(node[i].Size() == M);
-
 				for(rapidjson::SizeType j = 0; j < M; ++j)
 				{
 					json_serializer<T>::deserialize(node[i][j], val[i][j]);
@@ -262,8 +274,26 @@ namespace djah { namespace resources {
 			}
 		}
 
-		static void serialize(rapidjson::Value &node, const math::matrix<N,M,T> &val)
+		static void serialize(rapidjson::Document &document, rapidjson::Value &node, const math::matrix<N,M,T> &val)
 		{
+			node.SetArray();
+			node.Reserve(N, document.GetAllocator());
+
+			for(rapidjson::SizeType i = 0; i < N; ++i)
+			{
+				rapidjson::Value rowNode;
+				rowNode.SetArray();
+				rowNode.Reserve(M);
+
+				for(rapidjson::SizeType j = 0; j < M; ++j)
+				{
+					rapidjson::Value valueNode;
+					json_serializer<T>::serialize(document, valueNode, val[i][j]);
+					rowNode.PushBack(valueNode, document.GetAllocator());
+				}
+
+				node.PushBack(rowNode, document.GetAllocator());
+			}
 		}
 	};
 	//----------------------------------------------------------------------------------------------
@@ -285,7 +315,7 @@ namespace djah { namespace resources {
 
 		static void deserialize(const rapidjson::Value &node, std::vector<T> &val)
 		{
-			check(node.IsArray());
+			check(is_of_type(node));
 
 			const rapidjson::SizeType vecSize = node.Size();
 			val.clear();
@@ -296,8 +326,19 @@ namespace djah { namespace resources {
 			}
 		}
 
-		static void serialize(rapidjson::Value &node, const std::vector<T> &val)
+		static void serialize(rapidjson::Document &document, rapidjson::Value &node, const std::vector<T> &val)
 		{
+			const rapidjson::SizeType vecSize = val.size();
+
+			node.SetArray();
+			node.Reserve(vecSize, document.GetAllocator());
+
+			for(rapidjson::SizeType i = 0; i < vecSize; ++i)
+			{
+				rapidjson::Value valueNode;
+				json_serializer<T>::serialize(document, valueNode, val[i]);
+				node.PushBack(valueNode, document.GetAllocator());
+			}
 		}
 	};
 	//----------------------------------------------------------------------------------------------
@@ -320,7 +361,7 @@ namespace djah { namespace resources {
 
 		static void deserialize(const rapidjson::Value &node, std::map<std::string,T> &val)
 		{
-			check(node.IsObject());
+			check(is_of_type(node));
 
 			val.clear();
 
@@ -333,127 +374,30 @@ namespace djah { namespace resources {
 				{
 					DJAH_GLOBAL_WARNING()
 						<< "Duplicate keys (" << key << ") found in attribute \""
-						<< it->name.GetString() << "\""
+						<< it->name.GetString() << "\", the value will be overwritten"
 						<< DJAH_END_LOG();
 				}
-				// Duplicate keys are overridden
+				// Duplicate keys are overwritten
 				json_serializer<T>::deserialize(it->value, val[key]);
 			}
 		}
 
-		static void serialize(rapidjson::Value &node, const std::map<std::string,T> &val)
+		static void serialize(rapidjson::Document &document, rapidjson::Value &node, const std::map<std::string,T> &val)
 		{
+			node.SetObject();
+			std::for_each(val.begin(), val.end(), [&](const std::map<std::string,T>::value_type &entry)
+			{
+				rapidjson::Value keyNode;
+				keyNode.SetString(entry.first.c_str());
+
+				rapidjson::Value valueNode;
+				json_serializer<T>::serialize(document, valueNode, entry.second);
+
+				node.AddMember(keyNode, valueNode, document.GetAllocator());
+			});
 		}
 	};
 	//----------------------------------------------------------------------------------------------
-
-
-
-
-	/*
-	//----------------------------------------------------------------------------------------------
-	template<typename AttributeTypes>
-	class json_serializer2
-	{
-	private:
-		typedef resources::data_object<AttributeTypes> data_object_t;
-		typedef data_object_t::data_object_sptr data_object_sptr;
-
-	private:
-		//------------------------------------------------------------------------------------------
-		template<typename TL>
-		struct attribute_deserializer;
-		//------------------------------------------------------------------------------------------
-		template<>
-		struct attribute_deserializer<utils::nulltype>
-		{
-			static bool execute(attribute_set_t &attributes, data_object_sptr)
-			{
-				return attributes.empty();
-			}
-		};
-		//------------------------------------------------------------------------------------------
-		template<typename H, typename T>
-		struct attribute_deserializer< utils::typelist<H,T> >
-		{
-			//--------------------------------------------------------------------------------------
-			static bool execute(attribute_set_t &attributes, data_object_sptr dobj)
-			{
-				return attribute_deserializer<T>::execute(attributes, dobj);
-			}
-			//--------------------------------------------------------------------------------------
-		};
-		//------------------------------------------------------------------------------------------
-
-
-		//------------------------------------------------------------------------------------------
-		template<typename TL>
-		struct attribute_serializer;
-		//------------------------------------------------------------------------------------------
-		template<>
-		struct attribute_serializer<utils::nulltype>
-		{
-			static bool execute(filesystem::stream_ptr strm, const data_object_sptr &dobj)
-			{
-				return true;
-			}
-		};//------------------------------------------------------------------------------------------
-		template<typename H, typename T>
-		struct attribute_serializer< utils::typelist<H,T> >
-		{
-			//--------------------------------------------------------------------------------------
-			static bool execute(filesystem::stream_ptr strm, const data_object_sptr &dobj)
-			{
-				auto attribs = dobj->attributes<H>();
-				std::stringstream ss;
-				auto itEnd = attribs.end();
-				for(auto it = attribs.begin(); it != itEnd; ++it)
-				{
-					ss << type_name<H>::value() << " " << it->first << " = " << serialize_attribute<H>(it->second.value) << "\n";
-				}
-
-				strm->write(ss.str());
-
-				return attribute_serializer<T>::execute(strm, dobj);
-			}
-			//--------------------------------------------------------------------------------------
-		};
-		//------------------------------------------------------------------------------------------
-
-	public:
-		//------------------------------------------------------------------------------------------
-		static bool serialize(filesystem::stream_ptr strm, const data_object_sptr &dobj)
-		{
-			return attribute_serializer<AttributeTypes>::execute(strm, dobj);
-		}
-		//------------------------------------------------------------------------------------------
-
-		//------------------------------------------------------------------------------------------
-		static bool deserialize(filesystem::stream &stream, data_object_sptr dobj)
-		{
-			filesystem::memory_stream memStream(&stream);
-			const std::string &stringStream = memStream.toString();
-
-			rapidjson::Document *pDoc = new rapidjson::Document;
-			docStack_.push(pDoc);
-			pDoc->Parse<0>(stringStream.c_str());
-
-			if( ensure(!pDoc->HasParseError()) )
-			{
-				const auto itEnd = pDoc->MemberEnd();
-				for(auto it = pDoc->MemberBegin(); it != itEnd; ++it)
-				{
-					if( it->value.IsBool() )
-					{
-						dobj->add(it->name, it->value.GetBool());
-					}
-				}
-			}
-
-			return true;
-		}
-		//------------------------------------------------------------------------------------------
-	};*/
 
 } /*resources*/ } /*djah*/
 

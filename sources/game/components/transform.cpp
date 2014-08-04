@@ -1,6 +1,6 @@
-#include "djah/gameplay/components/transform.hpp"
+#include "djah/game/components/transform.hpp"
 
-namespace djah { namespace gameplay { namespace components {
+namespace djah { namespace game { namespace components {
 
 	//----------------------------------------------------------------------------------------------
 	transform::transform(const rapidjson::Value &node)
@@ -24,4 +24,4 @@ namespace djah { namespace gameplay { namespace components {
 	}
 	//----------------------------------------------------------------------------------------------
 
-} /*components*/ } /*gameplay*/ } /*djah*/
+} /*components*/ } /*game*/ } /*djah*/

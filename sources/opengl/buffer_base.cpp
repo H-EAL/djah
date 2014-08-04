@@ -99,7 +99,7 @@ namespace djah { namespace opengl {
 			return;
 
 		bind();
-		glBufferData(target_, size_, 0, usage_);
+		glBufferData(target_, size_, nullptr, usage_);
 		unbind();
 
 		allocated_ = true;

@@ -36,6 +36,30 @@ namespace djah { namespace opengl {
 
 	} /*BufferUsage*/
 
+	namespace BufferAccessFrequency
+	{
+		enum Type
+		{
+			Stream,
+			Static,
+			Dynamic,
+
+			BufferAccessFrequency_Count
+		};
+	} /*BufferAccessFrequency*/
+
+	namespace BufferAccessType
+	{
+		enum Type
+		{
+			Draw,
+			Read,
+			Copy,
+
+			BufferAccessType_Count
+		};
+	} /*BufferAccessType*/
+
 } /*opengl*/ } /*djah*/
 
 #endif /* DJAH_OPENGL_ENUM_BUFFER_USAGE_HPP */
