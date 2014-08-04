@@ -13,10 +13,57 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Fichiers sources\game">
+      <UniqueIdentifier>{433ea1f6-5b1a-4a2e-825a-d229e1fef420}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\game\components">
+      <UniqueIdentifier>{c08e77d9-cb71-44d9-9602-ab39d73b1d6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\game\processes">
+      <UniqueIdentifier>{8ef2c56f-3882-4abc-b633-304be495b846}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\tests\sources\main.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\sources\game\components\visual_mesh.cpp">
+      <Filter>Fichiers sources\game\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\game\components\action_map.cpp">
+      <Filter>Fichiers sources\game\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\game\components\fov.cpp">
+      <Filter>Fichiers sources\game\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\game\components\texture.cpp">
+      <Filter>Fichiers sources\game\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sources\game\components\transform.cpp">
+      <Filter>Fichiers sources\game\components</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\djah\game\components_registry.hpp">
+      <Filter>Fichiers sources\game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\game\components\action_map.hpp">
+      <Filter>Fichiers sources\game\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\game\components\fov.hpp">
+      <Filter>Fichiers sources\game\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\game\components\texture.hpp">
+      <Filter>Fichiers sources\game\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\game\components\transform.hpp">
+      <Filter>Fichiers sources\game\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\game\components\visual_mesh.hpp">
+      <Filter>Fichiers sources\game\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\game\processes\actions_process.hpp">
+      <Filter>Fichiers sources\game\processes</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

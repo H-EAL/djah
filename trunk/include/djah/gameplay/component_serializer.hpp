@@ -8,6 +8,8 @@
 
 #include "rapidjson/rapidjson.h"
 #include "rapidjson/document.h"
+#include "rapidjson/filestream.h"
+#include "rapidjson/prettywriter.h"
 
 #include "djah/core/typelist.hpp"
 
@@ -48,7 +50,7 @@ namespace djah { namespace gameplay {
 	struct component_serializer<utils::nulltype>
 	{
 		template<typename ComponentTypeList>
-		static void serialize(game_object<ComponentTypeList> &, filesystem::stream&, bool) {}
+		static void serialize(rapidjson::Document&, const game_object<ComponentTypeList>&) {}
 
 		template<typename ComponentTypeList>
 		static void deserialize(const std::map< std::string, component_data<ComponentTypeList> >&) {}
@@ -58,18 +60,13 @@ namespace djah { namespace gameplay {
 	struct component_serializer< utils::typelist<HeadComponent,TailComponents> >
 	{
 		template<typename ComponentTypeList>
-		static void serialize(game_object<ComponentTypeList> &go, filesystem::stream_sptr &strm, bool first = true)
+		static void serialize(rapidjson::Document &document, const game_object<ComponentTypeList> &go)
 		{
 			if( go.isUsing<HeadComponent>() )
 			{
-				if( !first )
-				{
-					strm << ", ";
-				}
-				first = false;
-				go.getData<HeadComponent>().serialize(strm);
+				go.get<HeadComponent>()->serialize(document);
 			}
-			component_serializer<TailComponents>::serialize(go, strm, first);
+			component_serializer<TailComponents>::serialize(document, go);
 		}
 
 		template<typename ComponentTypeList>
@@ -105,9 +102,19 @@ namespace djah { namespace gameplay {
 			filesystem::stream_sptr strm = filesystem::browser::get().openWriteStream(fileName);
 			if( strm )
 			{
-				strm << "{ ";
-				component_serializer<ComponentTypeList>::serialize(go, strm);
-				strm << " }";
+				rapidjson::Document doc;
+				doc.SetObject();
+				component_serializer<ComponentTypeList>::serialize(doc, go);
+
+				rapidjson::FileStream f(stdout);
+				struct JSON_Writer
+				{
+					JSON_Writer(filesystem::stream &_stream) : stream_(_stream) {}
+					void Put(char c) { stream_ << c; }
+					filesystem::stream &stream_;
+				} w(*strm);
+				rapidjson::PrettyWriter<JSON_Writer> writer(w);
+				doc.Accept(writer);
 			}
 		}
 
@@ -163,14 +170,14 @@ namespace djah { namespace gameplay {
 			check(strm && strm->size() > 0);
 			filesystem::memory_stream memStrm(strm.get());
 
-			go.stopUsingAll();
-
 			rapidjson::Document *pDoc = new rapidjson::Document;
 			docStack_.push(pDoc);
 			pDoc->Parse<0>(memStrm.toString().c_str());
 
 			if( ensure(!pDoc->HasParseError()) )
 			{
+				go.stopUsingAll();
+
 				auto itEnd = pDoc->MemberEnd();
 				for(auto it = pDoc->MemberBegin(); it != itEnd; ++it)
 				{

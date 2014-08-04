@@ -2,11 +2,14 @@
 #define DJAH_GAMEPLAY_COMPONENT_DATABASE_HPP
 
 #include <stack>
+#include <vector>
+#include "djah/types.hpp"
 #include "djah/core/hierarchy_generation.hpp"
+#include "djah/debug/assertion.hpp"
 
 namespace djah { namespace gameplay {
 
-	typedef unsigned short CID;
+	typedef u16 CID;
 	enum { INVALID_COMPONENT_ID = CID(-1) };
 
 	//==================================================================================================
@@ -17,24 +20,43 @@ namespace djah { namespace gameplay {
 	class component
 	{
 		friend struct component_holder<ComponentType>;
-		typedef std::vector<ComponentType> component_list_t;
 
 	public:
-		inline ComponentType& data()		{ return components_[cid_]; }
+		struct component_data
+		{
+			u32 creationTimestamp;
+			ComponentType componentData;
+		};
+		typedef std::vector<component_data> component_list_t;
+
+	public:
+		inline ComponentType& data()
+		{
+			check(components_[cid_].creationTimestamp == handlerTimestamp_);
+			return components_[cid_].componentData;
+		}
 		inline ComponentType& operator *()	{ return data(); }
 		inline ComponentType* operator->()	{ return &data(); }
 
-		inline const ComponentType& data() const		{ return components_[cid_]; }
+		inline const ComponentType& data() const
+		{
+			check(components_[cid_].creationTimestamp == handlerTimestamp_);
+			return components_[cid_].componentData;
+		}
 		inline const ComponentType& operator *() const 	{ return data(); }
 		inline const ComponentType* operator->() const 	{ return &data(); }
 
 	private:
-		inline component(CID cid, component_list_t &components)
+		component(CID cid, component_list_t &components)
 			: cid_(cid)
 			, components_(components)
+			, handlerTimestamp_(components[cid].creationTimestamp)
 		{}
+
+	private:
 		CID cid_;
 		component_list_t &components_;
+		u32 handlerTimestamp_;
 	};
 	//==================================================================================================
 
@@ -45,17 +67,18 @@ namespace djah { namespace gameplay {
 	{
 		component_holder()
 		{
-			DJAH_LOG_TODO("Keep a timestamp as of when a component got instantiated");
-			components_.reserve(NB_GO);
+			components_.reserve(ComponentType::NB_COMP);
 		}
 
 		inline component<ComponentType> get(CID cid)
 		{
 			check(cid < components_.size());
+			check(components_[cid].creationTimestamp != 0);
+
 			return component<ComponentType>(cid, components_);
 		}
 
-		typedef std::vector<ComponentType> component_list_t;
+		typedef typename component<ComponentType>::component_list_t	component_list_t;
 		component_list_t	components_;
 		std::stack<CID>		freeSpots_;
 	};
@@ -76,16 +99,22 @@ namespace djah { namespace gameplay {
 		{
 			CID cid = INVALID_COMPONENT_ID;
 
+			typename component<ComponentType>::component_data compData =
+			{
+				static_cast<u32>(::time(nullptr)),
+				comp
+			};
+
 			if( component_holder<ComponentType>::freeSpots_.empty() )
 			{
-				component_holder<ComponentType>::components_.push_back( comp );
+				component_holder<ComponentType>::components_.push_back( compData );
 				cid = component_holder<ComponentType>::components_.size() - 1;
 			}
 			else
 			{
 				cid = component_holder<ComponentType>::freeSpots_.top();
 				component_holder<ComponentType>::freeSpots_.pop();
-				component_holder<ComponentType>::components_[cid] = comp;
+				component_holder<ComponentType>::components_[cid] = compData;
 			}
 
 			return cid;
@@ -94,8 +123,10 @@ namespace djah { namespace gameplay {
 		template<typename ComponentType>
 		inline void remove(CID cid)
 		{
+			typename component<ComponentType>::component_data compData = { 0, ComponentType() };
+
 			check(cid < component_holder<ComponentType>::components_.size());
-			component_holder<ComponentType>::components_[cid] = ComponentType();
+			component_holder<ComponentType>::components_[cid] = compData;
 			component_holder<ComponentType>::freeSpots_.push(cid);
 		}
 	};

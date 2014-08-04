@@ -5,12 +5,8 @@
 #include "djah/core/typelist.hpp"
 #include "djah/core/hierarchy_generation.hpp"
 #include "djah/gameplay/component_database.hpp"
-#include "djah/gameplay/component_serializer.hpp"
 
 namespace djah { namespace gameplay {
-
-	//--------------------------------------------------------------------------------------------------
-	static const int NB_GO = 100;
 
 	//==================================================================================================
 	template<typename ComponentsTypeList>
@@ -19,19 +15,58 @@ namespace djah { namespace gameplay {
 	template<>
 	struct components_visitor<utils::nulltype>
 	{
-		template<typename GO, typename DB>
-		static void use(GO&, DB&) {}
+        template<typename GO>
+        static void clone(const GO&, GO&) {}
+        
+        template<typename GO>
+        static void merge(GO&, const GO&) {}
+        
+		template<typename GO>
+		static void use(GO&) {}
 
 		template<typename GO>
 		static void remove_all(GO&) {}
 
 		template<typename GO>
-		static bool is_using(GO&) { return true; }
+		static bool is_using(const GO&) { return true; }
 	};
 	//--------------------------------------------------------------------------------------------------
 	template<typename HeadComponent, typename TailList>
 	struct components_visitor< utils::typelist<HeadComponent,TailList> >
 	{
+        template<typename GO>
+        inline static void clone(const GO &srcGo, GO &dstGo)
+        {
+            if( srcGo.template isUsing<HeadComponent>() )
+            {
+                component<HeadComponent> comp = srcGo.template get<HeadComponent>();
+                dstGo.template use<HeadComponent>(*comp);
+            }
+            
+            components_visitor<TailList>::clone(srcGo, dstGo);
+        }
+        
+        template<typename GO>
+        inline static void merge(GO &mergeInto, const GO &mergeWith)
+        {
+            if( mergeWith.template isUsing<HeadComponent>() )
+            {
+                component<HeadComponent> compB = mergeWith.template get<HeadComponent>();
+                
+                if( mergeInto.template isUsing<HeadComponent>() )
+                {
+                    component<HeadComponent> compA = mergeInto.template get<HeadComponent>();
+                    *compA = *compB;
+                }
+                else
+                {
+                    mergeInto.template use<HeadComponent>(*compB);
+                }
+            }
+            
+            components_visitor<TailList>::merge(mergeInto, mergeWith);
+        }
+        
 		template<typename GO>
 		inline static void use(GO &go)
 		{
@@ -53,7 +88,7 @@ namespace djah { namespace gameplay {
 		}
 
 		template<typename GO>
-		inline static bool is_using(GO &go)
+		inline static bool is_using(const GO &go)
 		{
 			return (go.isUsing<HeadComponent>() && components_visitor<TailList>::is_using(go));
 		}
@@ -63,15 +98,10 @@ namespace djah { namespace gameplay {
 
 	//==================================================================================================
 	template<typename ComponentType>
-	class component_usage
+	struct component_usage
 	{
-	public:
-		component_usage()
-			: cid_(INVALID_COMPONENT_ID)
-			, pData_(nullptr)
-		{}
+		component_usage() : cid_(INVALID_COMPONENT_ID) {}
 		CID cid_;
-		ComponentType *pData_;
 	};
 	//--------------------------------------------------------------------------------------------------
 	template<typename ComponentsTypeList>
@@ -79,12 +109,10 @@ namespace djah { namespace gameplay {
 		: public utils::gen_scatter_hierarchy<ComponentsTypeList, component_usage>
 	{
 	public:
-		typedef game_object_serializer<ComponentsTypeList> serializer_t;
-
-	public:
 		//----------------------------------------------------------------------------------------------
-		game_object(const std::string &goName)
+		game_object(const std::string &goName = "unnamed_gameobject")
 			: name_(goName)
+        	, enabled_(true)
 		{
 		}
 
@@ -99,6 +127,50 @@ namespace djah { namespace gameplay {
 		{
 			return name_;
 		}
+        
+		//----------------------------------------------------------------------------------------------
+        std::string& name()
+		{
+			return name_;
+		}
+        
+		//----------------------------------------------------------------------------------------------
+        bool isEnabled() const
+        {
+            return enabled_;
+        }
+        
+		//----------------------------------------------------------------------------------------------
+        void setEnabled(bool enabled)
+        {
+            enabled_ = enabled;
+        }
+        
+		//----------------------------------------------------------------------------------------------
+        void enable()
+        {
+            setEnabled(true);
+        }
+        
+		//----------------------------------------------------------------------------------------------
+        void disable()
+        {
+            setEnabled(false);
+        }
+        
+		//----------------------------------------------------------------------------------------------
+        game_object<ComponentsTypeList> clone(const std::string &cloneName = "") const
+        {
+            game_object<ComponentsTypeList> clonedGo(cloneName.empty() ? name_ + "_clone" : cloneName);
+            components_visitor<ComponentsTypeList>::clone(*this, clonedGo);
+            return clonedGo;
+        }
+        
+		//----------------------------------------------------------------------------------------------
+        void merge(const game_object<ComponentsTypeList> &other)
+        {
+            components_visitor<ComponentsTypeList>::merge(*this, other);
+        }
 
 		//----------------------------------------------------------------------------------------------
 		template<typename ComponentType>
@@ -129,7 +201,6 @@ namespace djah { namespace gameplay {
 			check( !isUsing<ComponentType>() );
 			component_usage<ComponentType>::cid_ = db_.add<ComponentType>(comp);
 			check( isUsing<ComponentType>() );
-			component_usage<ComponentType>::pData_ = &(get<ComponentType>().data());
 
 			return (*this);
 		}
@@ -142,7 +213,6 @@ namespace djah { namespace gameplay {
 
 			db_.remove<ComponentType>(component_usage<ComponentType>::cid_);
 			component_usage<ComponentType>::cid_ = INVALID_COMPONENT_ID;
-			component_usage<ComponentType>::pData_ = nullptr;
 
 			return (*this);
 		}
@@ -164,6 +234,7 @@ namespace djah { namespace gameplay {
 	private:
 		static component_database<ComponentsTypeList> db_;
 		std::string name_;
+        bool enabled_;
 	};
 	//--------------------------------------------------------------------------------------------------
 	template<typename ComponentTypeList>

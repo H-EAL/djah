@@ -66,7 +66,7 @@ namespace djah { namespace opengl {
 			const bool isStorageWritable   = (_storageFlags & GL_MAP_WRITE_BIT) != 0;
 			const bool isStoragePersistent = (_storageFlags & GL_MAP_PERSISTENT_BIT) != 0;
 			const bool isStorageCoherent   = (_storageFlags & GL_MAP_COHERENT_BIT) != 0;
-			const bool isClientStorage     = (_storageFlags & GL_MAP_COHERENT_BIT) != 0;
+			const bool isClientStorage     = (_storageFlags & GL_CLIENT_STORAGE_BIT) != 0;
 
 			if( isStoragePersistent )
 			{
@@ -103,7 +103,7 @@ namespace djah { namespace opengl {
 			const bool isStorageWritable   = (_storageFlags & GL_MAP_WRITE_BIT) != 0;
 			const bool isStoragePersistent = (_storageFlags & GL_MAP_PERSISTENT_BIT) != 0;
 			const bool isStorageCoherent   = (_storageFlags & GL_MAP_COHERENT_BIT) != 0;
-			const bool isClientStorage     = (_storageFlags & GL_MAP_COHERENT_BIT) != 0;
+			const bool isClientStorage     = (_storageFlags & GL_CLIENT_STORAGE_BIT) != 0;
 
 			const bool isAccessReadable   = (_accessFlags & GL_MAP_READ_BIT) != 0;
 			const bool isAccessWritable   = (_accessFlags & GL_MAP_WRITE_BIT) != 0;

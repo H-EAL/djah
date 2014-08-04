@@ -19,6 +19,9 @@
     <Filter Include="sources\_shaders">
       <UniqueIdentifier>{311caa16-1efe-41f4-bc63-712254313b18}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include\buffers">
+      <UniqueIdentifier>{593a2255-ea9c-45c8-8610-f35301f47529}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\djah\opengl\capabilities.hpp">
@@ -93,6 +96,36 @@
     <ClInclude Include="..\..\include\djah\opengl\uniform.hpp">
       <Filter>include\_shaders</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\djah\opengl\gl_enum.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\opengl\buffers\buffer.hpp">
+      <Filter>include\buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\opengl\buffers\buffer_policies.hpp">
+      <Filter>include\buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\opengl\buffers\enum_buffer_target.hpp">
+      <Filter>include\buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\opengl\buffers\enum_buffer_usage.hpp">
+      <Filter>include\buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\opengl\buffers\storage_policies.hpp">
+      <Filter>include\buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\opengl\buffers\buffer_storage.hpp">
+      <Filter>include\buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\opengl\buffers\interface_buffer.hpp">
+      <Filter>include\buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\opengl\buffers\buffer_view.hpp">
+      <Filter>include\buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\opengl\buffers\ring_buffer.hpp">
+      <Filter>include\buffers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\include\djah\opengl\buffer_base.inl">
@@ -103,6 +136,12 @@
     </None>
     <None Include="..\..\include\djah\opengl\shader_program.inl">
       <Filter>include\_shaders</Filter>
+    </None>
+    <None Include="..\..\include\djah\opengl\buffers\enum_buffer_target.inl">
+      <Filter>include\buffers</Filter>
+    </None>
+    <None Include="..\..\include\djah\opengl\buffers\enum_buffer_usage.inl">
+      <Filter>include\buffers</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

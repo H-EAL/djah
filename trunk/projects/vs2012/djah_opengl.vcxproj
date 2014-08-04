@@ -11,10 +11,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\include\djah\opengl\buffers\buffer.hpp" />
+    <ClInclude Include="..\..\include\djah\opengl\buffers\buffer_policies.hpp" />
+    <ClInclude Include="..\..\include\djah\opengl\buffers\buffer_storage.hpp" />
+    <ClInclude Include="..\..\include\djah\opengl\buffers\buffer_view.hpp" />
+    <ClInclude Include="..\..\include\djah\opengl\buffers\enum_buffer_target.hpp" />
+    <ClInclude Include="..\..\include\djah\opengl\buffers\enum_buffer_usage.hpp" />
+    <ClInclude Include="..\..\include\djah\opengl\buffers\interface_buffer.hpp" />
+    <ClInclude Include="..\..\include\djah\opengl\buffers\ring_buffer.hpp" />
+    <ClInclude Include="..\..\include\djah\opengl\buffers\storage_policies.hpp" />
     <ClInclude Include="..\..\include\djah\opengl\buffer_base.hpp" />
     <ClInclude Include="..\..\include\djah\opengl\capabilities.hpp" />
     <ClInclude Include="..\..\include\djah\opengl\frame_buffer.hpp" />
     <ClInclude Include="..\..\include\djah\opengl\geometry_shader.hpp" />
+    <ClInclude Include="..\..\include\djah\opengl\gl_enum.hpp" />
     <ClInclude Include="..\..\include\djah\opengl\gl_types.hpp" />
     <ClInclude Include="..\..\include\djah\opengl\index_buffer.hpp" />
     <ClInclude Include="..\..\include\djah\opengl\opengl_logger.hpp" />
@@ -37,6 +47,8 @@
     <ClInclude Include="..\..\include\djah\opengl\vertex_shader.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\include\djah\opengl\buffers\enum_buffer_target.inl" />
+    <None Include="..\..\include\djah\opengl\buffers\enum_buffer_usage.inl" />
     <None Include="..\..\include\djah\opengl\buffer_base.inl" />
     <None Include="..\..\include\djah\opengl\shader_base.inl" />
     <None Include="..\..\include\djah\opengl\shader_program.inl" />

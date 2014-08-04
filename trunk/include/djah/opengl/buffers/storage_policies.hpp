@@ -109,6 +109,15 @@ namespace djah { namespace opengl {
 
 			// Copy
 			glCopyBufferSubData(readTarget, writeTarget, readOffset, writeOffset, size);
+
+
+			void glNamedBufferDataEXT(uint buffer, sizeiptr size, const void *data, enum usage);
+			void glNamedBufferSubDataEXT(uint buffer, intptr offset, sizeiptr size, const void *data);
+			void*glMapNamedBufferEXT(u32 buffer, enum access);
+			bool glUnmapNamedBufferEXT(uint buffer);
+			void glGetNamedBufferParameterivEXT(u32 buffer, enum pname, int *params);
+			void glGetNamedBufferPointervEXT(u32 buffer, enum pname, void* *params);
+			void glGetNamedBufferSubDataEXT(u32 buffer, intptr offset, sizeiptr size, void *data);
 		}
 	};
 

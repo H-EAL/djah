@@ -18,6 +18,7 @@
 #	include "GL4/gl.h"
 #	include "GL4/glext.h"
 #	include "GL4/wglext.h"
+#	include "GL4/glcorearb.h"
 #endif
 
 #ifndef DJAH_COMPILE_IPHONEOS

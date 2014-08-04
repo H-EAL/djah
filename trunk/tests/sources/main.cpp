@@ -3,6 +3,7 @@
 
 #include <djah/core/randomizer.hpp>
 #include <djah/core/events.hpp>
+#include <djah/core/state_machine.hpp>
 
 #include <djah/debug/assertion.hpp>
 #include <djah/debug/xml_sink.hpp>
@@ -23,8 +24,10 @@
 #include <djah/resources/config_object.hpp>
 
 #include <djah/gameplay/game_object.hpp>
-#include <djah/gameplay/components.hpp>
-#include <djah/gameplay/services/actions_service.hpp>
+#include <djah/gameplay/component_serializer.hpp>
+
+#include <djah/game/components_registry.hpp>
+#include <djah/game/processes/actions_process.hpp>
 
 #include <djah/opengl.hpp>
 
@@ -35,7 +38,7 @@
 #include "resource_finder.hpp"
 
 using namespace djah;
-namespace gpc = djah::gameplay::components;
+namespace gpc = djah::game::components;
 
 const char* djahLogo()
 {
@@ -159,7 +162,7 @@ BEGIN_CONFIG(renderer)
 END_CONFIG()
 */
 
-typedef gameplay::game_object<gameplay::components::DefaultComponentTypes> game_object_t;
+typedef gameplay::game_object<game::components::DefaultComponentTypes> game_object_t;
 
 namespace djah { namespace opengl { template<typename T> class uniform {}; } }
 
@@ -497,58 +500,22 @@ void readInputs()
 	}
 }
 
-struct TestEvent1
-{
-
-};
-
-struct TestEvent2
-{
-
-};
-
-void test_events()
-{
-	typedef TYPELIST(TestEvent1, TestEvent2) EventTypes;
-
-	event_pipes<EventTypes> mgr;
-
-	mgr.subscribe<TestEvent1>([](const TestEvent1 &event)
-	{
-		DJAH_GLOBAL_NOTIFICATION()
-			<< "TestEvent1 handled"
-			<< DJAH_END_LOG();
-	});
-
-	mgr.subscribe<TestEvent2>([](const TestEvent2 &event)
-	{
-		DJAH_GLOBAL_NOTIFICATION()
-			<< "TestEvent2 handled"
-			<< DJAH_END_LOG();
-	});
-
-	TestEvent1 event1;
-	TestEvent2 event2;
-	mgr.broadcast(event1);
-
-	mgr.push(event1);
-	mgr.push(event2);
-	mgr.process();
-}
+#include "djah/opengl/buffers/enum_buffer_target.hpp"
 
 int main()
 {
+	std::cout << opengl::BufferTarget::Descriptors[opengl::BufferTarget::AtomicCounter].glEnumStr << std::endl;
 	initLoggers();
 
 	// 0 - Init system
 	filesystem::browser::get().addLoadingChannel(new filesystem::directory_source("./config"));
-	filesystem::browser::get().addLoadingChannel(new filesystem::directory_source("./assets"));
+	filesystem::browser::get().addLoadingChannel(new filesystem::directory_source("./save/assets", false, 0));
+	filesystem::browser::get().addLoadingChannel(new filesystem::directory_source("./assets", false, 1));
+	filesystem::browser::get().addSavingChannel(new filesystem::directory_source("./save/assets"));
 
 	resources::asset_finder<> assetFinder;
 	assetFinder.registerExtensions<resources::mesh>("mesh");
 	assetFinder.registerExtensions<resources::data_object<>>("config json");
-
-	test_events();
 
 
 	// 1 - Create device = create window
@@ -566,7 +533,7 @@ int main()
 
 
 	// 3 - Init renderer
-	glDebugMessageCallback(oglDebugProc, nullptr);
+	glDebugMessageCallback((GLDEBUGPROC)oglDebugProc, nullptr);
 	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 
 	auto testJsonConfig = assetFinder.get<resources::data_object<>>("configTest.json");
@@ -590,14 +557,15 @@ int main()
 	auto pMesh    = assetFinder.get<resources::mesh>("meshes/feisar.mesh");
 	//auto pTexture = assetFinder.get<resources::texture>("feisar-diffuse.png");
 	auto pTexture = d3d::texture_manager::get().find("feisar-diffuse.png");
+	auto pSpecular = d3d::texture_manager::get().find("feisar-specular.jpg");
 
 
-	gameplay::services::actions_service<gpc::DefaultComponentTypes> actionsService(mouse, kb, gp);
+	game::processes::actions_process<gpc::DefaultComponentTypes> actionsProcess(mouse, kb, gp);
 
 	// 3.6 - Camera
 	game_object_t camera("cameras/main.camera");
-	game_object_t::serializer_t::deserialize(camera);
-	actionsService.add(&camera);
+	gameplay::game_object_serializer<gpc::DefaultComponentTypes>::deserialize(camera);
+	actionsProcess.add(&camera);
 
 	gameplay::component<gpc::transform> cameraTransform = camera.get<gpc::transform>();
 	gameplay::component<gpc::fov>		cameraFOV		= camera.get<gpc::fov>();
@@ -640,11 +608,13 @@ int main()
 		eTU_Count
 	};
 
-	opengl::texture_unit<eTU_DiffuseMap>::activate_and_bind(pTexture, pLowQualitySampler);
+	opengl::texture_unit<eTU_DiffuseMap>::activate_and_bind(pTexture, pHighQualitySampler);
+	opengl::texture_unit<eTU_SpecularMap>::activate_and_bind(pSpecular, pHighQualitySampler);
 
 	simpleShader.program().begin();
 	simpleShader.program().sendUniform("in_World", math::matrix4f::identity);
 	simpleShader.program().sendUniform("in_DiffuseSampler", int(eTU_DiffuseMap));
+	simpleShader.program().sendUniform("in_SpecularSampler", int(eTU_SpecularMap));
 	simpleShader.program().end();
 	pMesh->init(simpleShader.program());
 
@@ -662,11 +632,14 @@ int main()
 	// 4 - Run app
 	while( pDevice->run() )
 	{
-		mouse.update();
-		kb.update();
-		gp.update();
+		if( pDevice->hasFocus() )
+		{
+			mouse.update();
+			kb.update();
+			gp.update();
+		}
 
-		actionsService.execute(0.0f);
+		actionsProcess.execute(0.0f);
 
 		if( kb.pressed(system::input::eKC_ESCAPE) )
 		{
@@ -682,7 +655,7 @@ int main()
 
 		if( kb.pressed(system::input::eKC_F5) )
 		{
-			game_object_t::serializer_t::deserialize(camera);
+			gameplay::game_object_serializer<gpc::DefaultComponentTypes>::deserialize(camera);
 
 			const math::vector3f &realDirection   = math::rotate(cameraTransform->orientation, neutralDirection);
 			const math::vector3f &realUpDirection = math::rotate(cameraTransform->orientation, upDirection);
@@ -726,17 +699,20 @@ int main()
 
 		if( kb.pressed(system::input::eKC_L) )
 		{
-			opengl::texture_unit<eTU_DiffuseMap>::bind(pTexture, pLowQualitySampler);
+			opengl::texture_unit<eTU_DiffuseMap>::activate_and_bind(pTexture, pLowQualitySampler);
+			opengl::texture_unit<eTU_SpecularMap>::activate_and_bind(pSpecular, pLowQualitySampler);
 		}
 
 		if( kb.pressed(system::input::eKC_H) )
 		{
-			opengl::texture_unit<eTU_DiffuseMap>::bind(pTexture, pHighQualitySampler);
+			opengl::texture_unit<eTU_DiffuseMap>::activate_and_bind(pTexture, pHighQualitySampler);
+			opengl::texture_unit<eTU_SpecularMap>::activate_and_bind(pSpecular, pHighQualitySampler);
 		}
 
 		if( kb.pressed(system::input::eKC_C) )
 		{
-			opengl::texture_unit<eTU_DiffuseMap>::bind(pTexture, pCustomSampler);
+			opengl::texture_unit<eTU_DiffuseMap>::activate_and_bind(pTexture, pCustomSampler);
+			opengl::texture_unit<eTU_SpecularMap>::activate_and_bind(pSpecular, pCustomSampler);
 		}
 
 		if( resolutionChanged )
@@ -788,7 +764,7 @@ int main()
 		// Move camera
 		{
 			const float camSpeed = 1.0f;
-			const math::vector3f disp = camSpeed * math::vector3f
+			const math::vector3f &disp = camSpeed * math::vector3f
 			(
 				cameraAM->states["MOVE_RIGHT"]	  - cameraAM->states["MOVE_LEFT"],
 				cameraAM->states["MOVE_UPWARD"]	  - cameraAM->states["MOVE_DOWNWARD"],
@@ -802,7 +778,7 @@ int main()
 			if( std::abs(horizontalTurn) > 0.0f )
 			{
 				const math::vector3f &realUpDirection = math::rotate(cameraTransform->orientation, upDirection);
-				const math::quatf &nrot = math::make_quaternion(math::radian<float>::from_degree(-horizontalTurn*turnSpeed), realUpDirection);
+				const math::quatf &nrot = math::make_quaternion(math::radian<float>::from_degree(-horizontalTurn*turnSpeed), upDirection);
 				cameraTransform->orientation = nrot * cameraTransform->orientation;
 				turned = true;
 			}
@@ -823,7 +799,7 @@ int main()
 				const math::vector3f &realDirection   = math::rotate(cameraTransform->orientation, neutralDirection);
 				const math::vector3f &realUpDirection = math::rotate(cameraTransform->orientation, upDirection);
 				const math::vector3f &cameraCenter    = cameraTransform->position + realDirection;
-				v = math::make_look_at(cameraTransform->position, cameraCenter, realUpDirection);
+				v = math::make_look_at(cameraTransform->position, cameraCenter, upDirection);
 				vp = v*p;
 			}
 		}
@@ -836,7 +812,8 @@ int main()
 
 		/**/
 		simpleShader.program().begin();
-		//simpleShader.program().sendUniform("in_World", w);
+		simpleShader.program().sendUniform("in_World", w);
+		simpleShader.program().sendUniform("in_EyeWorldPos", math::resize<3>(math::apply_transform(w, math::point3_to_point4(cameraTransform->position))));
 		simpleShader.program().sendUniform("in_WVP", wvp);
 		pMesh->draw();
 		simpleShader.program().end();
@@ -869,12 +846,28 @@ int main()
 		glVertex3fv(math::vector3f::null_vector.data);
 		glVertex3fv(math::vector3f::z_axis.data);
 		glEnd();
+
+// 		glEnable(GL_TEXTURE_2D);
+// 		glColor3f(1.0f, 1.0f, 1.0f);
+// 		//opengl::texture_unit<eTU_DiffuseMap>::activate_and_bind(pTexture, pHighQualitySampler);
+// 		glBegin(GL_QUADS);
+// 		glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0f,  0.0f,  0.0f);
+// 		glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0f,  10.0f,  0.0f);
+// 		glTexCoord2f(1.0f, 1.0f); glVertex3f(10.0f, 10.0f, 0.0f);
+// 		glTexCoord2f(1.0f, 0.0f); glVertex3f(10.0f, 0.0f, 0.0f);
+// 		glEnd();
+		
 		/**/
 		pDriver->endFrame();
 	}
 
+	gameplay::game_object_serializer<gpc::DefaultComponentTypes>::serialize(camera);
+
 	t1.detach();
+	opengl::texture_unit<eTU_DiffuseMap>::set_active();
 	opengl::texture_unit<eTU_DiffuseMap>::unbind();
+	opengl::texture_unit<eTU_SpecularMap>::set_active();
+	opengl::texture_unit<eTU_SpecularMap>::unbind();
 
 	return EXIT_SUCCESS;
 }

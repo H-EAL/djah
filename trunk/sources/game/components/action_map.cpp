@@ -1,6 +1,6 @@
-#include "djah/gameplay/components/action_map.hpp"
+#include "djah/game/components/action_map.hpp"
 
-namespace djah { namespace gameplay { namespace components {
+namespace djah { namespace game { namespace components {
 
 	//----------------------------------------------------------------------------------------------
 	action_map::action_map(const rapidjson::Value &node)
@@ -15,7 +15,8 @@ namespace djah { namespace gameplay { namespace components {
 	//----------------------------------------------------------------------------------------------
 	void action_map::serialize(rapidjson::Document &doc) const
 	{
+		save_attributes(actions);
 	}
 	//----------------------------------------------------------------------------------------------
 
-} /*components*/ } /*gameplay*/ } /*djah*/
+} /*components*/ } /*game*/ } /*djah*/

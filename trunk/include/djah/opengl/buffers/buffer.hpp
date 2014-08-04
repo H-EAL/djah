@@ -1,39 +1,14 @@
 #ifndef DJAH_OPENGL_BUFFER_HPP
 #define DJAH_OPENGL_BUFFER_HPP
 
+#include <memory>
+
+#include "djah/types.hpp"
 #include "djah/system/gl.hpp"
 
 namespace djah { namespace opengl {
 
-	template<BufferTarget::Type Target>
-	struct BufferSelector
-	{
-		typedef buffer
-			<
-				Immutable_StoragePolicy,
-				Synced_SynchronizationPolicy,
-				PermanentMapping_AccessPolicy,
-				std::conditional
-				<
-					gl_contex::is_debug,
-					Thorough_ValidationPolicy, 
-					Fast_ValidationPolicy
-				>::type
-			>
-			Type;
-	};
-
-	typedef BufferSelector<BufferTarget::Array>::Type vertex_buffer;
-
-	namespace interface {
-		class buffer
-		{
-		public:
-			virtual void read()  = 0;
-			virtual void write() = 0;
-		};
-	};
-
+	//////////////////////////////////////////////////////////////////////////
 	template<typename Policy>
 	bool check_policy_specs()
 	{
@@ -41,18 +16,20 @@ namespace djah { namespace opengl {
 			|| gl_context::get_current()->caps().hasExtensions(Policy::Extensions)
 	}
 	
-	class buffer_proxy
+	//////////////////////////////////////////////////////////////////////////
+	class buffer
+		: public interface::buffer
 	{
 	public:
-		buffer_proxy(u32 size)
+		buffer(u32 size)
 		{
 			if( check_policy_specs<Immutable_StoragePolicy>() )
 			{
-				pIBuffer_ = new buffer<GL4_Specs>(size);
+				pIBuffer_ = new buffer_storage<GL4_Specs>(size);
 			}
 			else if( check_policy_specs<Mutable_StoragePolicy>() )
 			{
-				pIBuffer_ = new buffer<GL3_Specs>(size);
+				pIBuffer_ = new buffer_storage<GL3_Specs>(size);
 			}
 			else
 			{
@@ -60,64 +37,71 @@ namespace djah { namespace opengl {
 			}
 		}
 
+		virtual u32 size()
+		{
+			return pIBuffer_->size();
+		}
+
+		virtual void read()
+		{
+			return pIBuffer_->read();
+		}
+
+		virtual void write()
+		{
+			return pIBuffer_->write();
+		}
+
+		template<typename T>
+		size_t read(T &data);
+		template<typename T, size_t N>
+		size_t read(T (&data_array)[N]);
+		template<typename T>
+		size_t read(T *data_ptr, size_t count);
+
+		template<typename T>
+		size_t write(const T &data);
+		template<typename T, size_t N>
+		size_t write(const T (&vData)[N]);
+		template<typename T>
+		size_t write(const T *pData, size_t count);
+
+		template<typename T>
+		buffer& operator >>(T &toRead);
+		template<typename T>
+		buffer& operator <<(const T &toWrite);
+
 	private:
 		interface::buffer *pIBuffer_;
 	};
 
-	// 1 - Allocate
-	// 2 - Use
-	//		a - read
-	//		b - write
-	// 3 - Destroy
-
 	template
 	<
-		typename StoragePolicy,
-		typename BufferingPolicy,
-		typename AccessPolicy,
-		typename ValidationPolicy
+		int BufferCount,
+		typename SyncronisationPolicy
 	>
-	class buffer
-		: public interface::buffer
-		, public resource
-		, public StoragePolicy
-		, public BufferingPolicy
-		, public AccessPolicy
-		, public ValidationPolicy
+	class ring_buffer
 	{
 	public:
-		// Use default target BufferTarget::CopyWrite
-		// Creates buffer of [_size] bytes
-		// Data is left uninitialized
-		buffer(u32 _size);
-
-		// Creates buffer of [sizeof(_array)] bytes
-		// Data is initialized with '_array'
-		template<typename T, int N>
-		buffer(const T (&_array)[N]);		
-
-		// Creates buffer of [_count * sizeof(T)] bytes
-		// Data is initialized with '_data'
-		template<typename T>
-		buffer(u32 _count, const T * const _data);
-
-	private:
-		virtual void aquire();
-		virtual void release();
-		virtual bool isValidResource() const;
-
-		void create(u32 _size)
+		void advance()
 		{
-			static const GLenum PreferredTarget = AccessPolicy::PreferredTarget;
-			static const bool isReadable = AccessPolicy::ReadAccess;
-			static const bool isWritable = AccessPolicy::WriteAccess;
+			// lock bufferViews_[currentBufferId_]
+			currentBufferId_ = (currentBufferId_ + 1) % N;
+			// wait for bufferViews_[currentBufferId_] lock
+		}
 
-			StoragePolicy::allocateStorage(id_, PreferredTarget, _size, isReadable, isWritable);
+		const buffer_view& currentView() const
+		{
+			return bufferViews_[currentBufferId_];
 		}
 
 	private:
-		u32 size_;
+		buffer_view bufferViews_[N];
+		u32 currentBufferId_;
 	};
+
+	typedef ring_buffer<2> double_buffer;
+	typedef ring_buffer<3> triple_buffer;
 
 } /*opengl*/ } /*djah*/
 

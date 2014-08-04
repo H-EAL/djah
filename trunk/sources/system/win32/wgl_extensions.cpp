@@ -3,7 +3,7 @@
 #include "djah/system/gl.hpp"
 
 #define DEFINE_EXTENSIONS_AS_LOCAL
-#	include "./wgl_extensions.hpp"
+#	include "wgl_extensions.hpp"
 #undef DEFINE_EXTENSIONS_AS_LOCAL
 
 namespace {

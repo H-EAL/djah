@@ -1,6 +1,6 @@
-#include "djah/gameplay/components/fov.hpp"
+#include "djah/game/components/fov.hpp"
 
-namespace djah { namespace gameplay { namespace components {
+namespace djah { namespace game { namespace components {
 
 	//----------------------------------------------------------------------------------------------
 	fov::fov(const rapidjson::Value &node)
@@ -28,4 +28,4 @@ namespace djah { namespace gameplay { namespace components {
 	}
 	//----------------------------------------------------------------------------------------------
 
-} /*components*/ } /*gameplay*/ } /*djah*/
+} /*components*/ } /*game*/ } /*djah*/

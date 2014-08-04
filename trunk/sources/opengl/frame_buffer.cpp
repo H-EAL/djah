@@ -3,7 +3,7 @@
 #include "djah/opengl/render_buffer.hpp"
 #include "djah/opengl/texture.hpp"
 
-#include "djah/debug/log.hpp"
+#include "djah/opengl/opengl_logger.hpp"
 
 namespace djah { namespace opengl {
 

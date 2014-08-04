@@ -48,7 +48,7 @@ namespace djah { namespace d3d {
 				if( img )
 				{
 					texture_sptr pNewTex( new opengl::texture(GL_RGB, img->width(), img->height(), true) );
-					GLenum pixelFormat = img->channels() == 1 ? GL_RED : GL_BGR;			
+					GLenum pixelFormat = img->channels() == 1 ? GL_RED : GL_RGB;			
 					pNewTex->setPixelBuffer(pixelFormat, GL_UNSIGNED_BYTE, img->pixels());
 
 					it = textures_.insert( texture_map_t::value_type(textureName, pNewTex) ).first;

@@ -1,6 +1,6 @@
-#include "djah/gameplay/components/visual_mesh.hpp"
+#include "djah/game/components/visual_mesh.hpp"
 
-namespace djah { namespace gameplay { namespace components {
+namespace djah { namespace game { namespace components {
 
 	//----------------------------------------------------------------------------------------------
 	visual_mesh::visual_mesh(const rapidjson::Value &node)
@@ -16,4 +16,4 @@ namespace djah { namespace gameplay { namespace components {
 	}
 	//----------------------------------------------------------------------------------------------
 
-} /*components*/ } /*gameplay*/ } /*djah*/
+} /*components*/ } /*game*/ } /*djah*/
