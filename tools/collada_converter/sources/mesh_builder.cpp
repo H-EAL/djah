@@ -48,7 +48,7 @@ math::matrix4f get_matrix(node *n)
 		for(unsigned int r = 0; r < n->transformations_[collada::library::transformation::ETT_ROTATE].size(); ++r)
 		{
 			const collada::library::transformation &rot = *n->transformations_[collada::library::transformation::ETT_ROTATE][r];
-			mat *= math::make_rotation(math::deg_to_rad(rot.values_[2]), rot.values_[0], rot.values_[1], rot.values_[2]);
+			mat *= math::make_rotation(math::degree(rot.values_[2]), rot.values_[0], rot.values_[1], rot.values_[2]);
 		}
 
 		for(unsigned int s = 0; s < n->transformations_[collada::library::transformation::ETT_SCALE].size(); ++s)
