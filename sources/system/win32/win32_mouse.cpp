@@ -40,7 +40,7 @@ namespace djah { namespace system { namespace input {
 		, middle_button_("MOUSE_BTN_MIDDLE", VK_MBUTTON)
 		, right_button_ ("MOUSE_BTN_RIGHT" , VK_RBUTTON)
 	{
-		update();
+		//update();
 	}
 	//----------------------------------------------------------------------------------------------
 

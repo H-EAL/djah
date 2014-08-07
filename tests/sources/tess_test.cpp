@@ -19,10 +19,10 @@ TesselationTest::TesselationTest(djah::system::device_sptr pDevice, djah::system
 	, shader_("tess_tri")
 	, pGO("main_camera")
 {
-	std::vector<game_object_t*> vgo;
+	std::vector<Entity*> vgo;
 	vgo.push_back(&pGO);
 
-	game_object_t::serializer_t::deserialize(vgo);
+	Entity::serializer_t::deserialize(vgo);
 
 	const float w = static_cast<float>(pDevice_->config().width);
 	const float h = static_cast<float>(pDevice_->config().height);

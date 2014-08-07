@@ -9,7 +9,7 @@
 #include "djah/gameplay/game_object.hpp"
 #include "djah/gameplay/components.hpp"
 
-typedef djah::gameplay::game_object<djah::gameplay::components::DefaultComponentTypes> game_object_t;
+typedef djah::gameplay::entity_t<djah::gameplay::components::DefaultComponentTypes> Entity;
 
 class Camera;
 
@@ -38,7 +38,7 @@ private:
 	djah::d3d::shader			shader_;
 	djah::d3d::texture_sptr		pTexture_;
 
-	game_object_t				pGO;
+	Entity pGO;
 };
 
 #endif /* DJAH_TESS_TEST_HPP */

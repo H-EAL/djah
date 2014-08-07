@@ -44,7 +44,7 @@ namespace djah { namespace d3d {
 
 			if( it == textures_.end() )
 			{
-				resources::image_sptr img = assetFinder_.get<resources::image>("textures/"+ textureName);
+				resources::image_sptr img = resources::default_asset_finder::get().load<resources::image>("textures/"+ textureName);
 				if( img )
 				{
 					texture_sptr pNewTex( new opengl::texture(GL_RGB, img->width(), img->height(), true) );
@@ -59,16 +59,12 @@ namespace djah { namespace d3d {
 		}
 
 	private:
-		texture_manager()
-		{
-			assetFinder_.registerExtensions<resources::image>("png jpg tga");
-		}
-		virtual ~texture_manager() {}
+		texture_manager() {}
+		~texture_manager() {}
 
 	private:
 		typedef std::map<std::string, texture_sptr> texture_map_t;
 		texture_map_t textures_;
-		resources::asset_finder<TYPELIST(resources::image), false> assetFinder_;
 	};
 }}
 

@@ -9,17 +9,17 @@
 
 namespace djah { namespace gameplay {
 
-	typedef u16 CID;
-	enum { INVALID_COMPONENT_ID = CID(-1) };
+	typedef u16 ComponentID;
+	enum { INVALID_COMPONENT_ID = ComponentID(-1) };
 
 	//==================================================================================================
 	template<typename ComponentType>
-	struct component_holder;
+	struct components_container;
 	//--------------------------------------------------------------------------------------------------
 	template<typename ComponentType>
 	class component
 	{
-		friend struct component_holder<ComponentType>;
+		friend struct components_container<ComponentType>;
 
 	public:
 		struct component_data
@@ -47,14 +47,14 @@ namespace djah { namespace gameplay {
 		inline const ComponentType* operator->() const 	{ return &data(); }
 
 	private:
-		component(CID cid, component_list_t &components)
+		component(ComponentID cid, component_list_t &components)
 			: cid_(cid)
 			, components_(components)
 			, handlerTimestamp_(components[cid].creationTimestamp)
 		{}
 
 	private:
-		CID cid_;
+		ComponentID cid_;
 		component_list_t &components_;
 		u32 handlerTimestamp_;
 	};
@@ -63,14 +63,14 @@ namespace djah { namespace gameplay {
 
 	//==================================================================================================
 	template<typename ComponentType>
-	struct component_holder
+	struct components_container
 	{
-		component_holder()
+		components_container()
 		{
 			components_.reserve(ComponentType::NB_COMP);
 		}
 
-		inline component<ComponentType> get(CID cid)
+		inline component<ComponentType> get(ComponentID cid)
 		{
 			check(cid < components_.size());
 			check(components_[cid].creationTimestamp != 0);
@@ -79,25 +79,30 @@ namespace djah { namespace gameplay {
 		}
 
 		typedef typename component<ComponentType>::component_list_t	component_list_t;
-		component_list_t	components_;
-		std::stack<CID>		freeSpots_;
+		component_list_t		components_;
+		std::stack<ComponentID>	freeSpots_;
 	};
+
 	//--------------------------------------------------------------------------------------------------
-	template<typename ComponentTypeList>
+	// Restrictions on ComponentsTypeList types are that they implement the functions and constructors
+	// defined in the MAKE_COMPONENT macro (cf. djah/gameplay/component.hpp) and that they expose at
+	// least copy semantics and at best move semantics.
+	//--------------------------------------------------------------------------------------------------
+	template<typename ComponentsTypeList>
 	class component_database
-		: public utils::gen_scatter_hierarchy<ComponentTypeList, component_holder>
+		: public utils::gen_scatter_hierarchy<ComponentsTypeList, components_container>
 	{
 	public:
 		template<typename ComponentType>
-		inline component<ComponentType> get(CID cid)
+		inline component<ComponentType> get(ComponentID cid)
 		{
-			return component_holder<ComponentType>::get(cid);
+			return components_container<ComponentType>::get(cid);
 		}
 
 		template<typename ComponentType>
-		inline CID add(const ComponentType &comp)
+		inline ComponentID add(const ComponentType &comp)
 		{
-			CID cid = INVALID_COMPONENT_ID;
+			ComponentID cid = INVALID_COMPONENT_ID;
 
 			typename component<ComponentType>::component_data compData =
 			{
@@ -105,29 +110,29 @@ namespace djah { namespace gameplay {
 				comp
 			};
 
-			if( component_holder<ComponentType>::freeSpots_.empty() )
+			if( components_container<ComponentType>::freeSpots_.empty() )
 			{
-				component_holder<ComponentType>::components_.push_back( compData );
-				cid = component_holder<ComponentType>::components_.size() - 1;
+				components_container<ComponentType>::components_.push_back( compData );
+				cid = components_container<ComponentType>::components_.size() - 1;
 			}
 			else
 			{
-				cid = component_holder<ComponentType>::freeSpots_.top();
-				component_holder<ComponentType>::freeSpots_.pop();
-				component_holder<ComponentType>::components_[cid] = compData;
+				cid = components_container<ComponentType>::freeSpots_.top();
+				components_container<ComponentType>::freeSpots_.pop();
+				components_container<ComponentType>::components_[cid] = compData;
 			}
 
 			return cid;
 		}
 
 		template<typename ComponentType>
-		inline void remove(CID cid)
+		inline void remove(ComponentID cid)
 		{
 			typename component<ComponentType>::component_data compData = { 0, ComponentType() };
 
-			check(cid < component_holder<ComponentType>::components_.size());
-			component_holder<ComponentType>::components_[cid] = compData;
-			component_holder<ComponentType>::freeSpots_.push(cid);
+			check(cid < components_container<ComponentType>::components_.size());
+			components_container<ComponentType>::components_[cid] = compData;
+			components_container<ComponentType>::freeSpots_.push(cid);
 		}
 	};
 

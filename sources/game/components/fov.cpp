@@ -15,7 +15,7 @@ namespace djah { namespace game { namespace components {
 		);
 	}
 	//----------------------------------------------------------------------------------------------
-	void fov::serialize(rapidjson::Document &doc) const
+	void fov::serialize(rapidjson::Document &document, rapidjson::Value &componentNode) const
 	{
 		save_attributes
 		(

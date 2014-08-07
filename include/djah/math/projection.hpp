@@ -10,7 +10,7 @@ namespace djah { namespace math {
 
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline const matrix<4,4,T> make_perspective_projection(radian<T> fovy, T aspect, T near_, T far_)
+	inline const matrix<4,4,T> make_perspective_projection(radian fovy, T aspect, T near_, T far_)
 	{
 		const T F = T(1) / tan( fovy/T(2) );
 		const T n_m_f = near_ - far_;

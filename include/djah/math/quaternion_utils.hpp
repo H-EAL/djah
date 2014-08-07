@@ -9,7 +9,7 @@ namespace djah { namespace math {
 	
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline quaternion<T> make_quaternion(radian<T> angle, vector<3,T> axis)
+	inline quaternion<T> make_quaternion(radian angle, vector<3,T> axis)
 	{
 		const T theta = angle / T(2);
 		if( axis != vector<3,T>::null_vector )
@@ -18,13 +18,13 @@ namespace djah { namespace math {
 	}
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline quaternion<T> make_quaternion(radian<T> angle, const vector<4,T> &axis)
+	inline quaternion<T> make_quaternion(radian angle, const vector<4,T> &axis)
 	{
 		return make_quaternion(angle, resize<3>(axis));
 	}
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	inline quaternion<T> make_quaternion(radian<T> angle, T u_x, T u_y, T u_z)
+	inline quaternion<T> make_quaternion(radian angle, T u_x, T u_y, T u_z)
 	{
 		return make_quaternion(angle, vector<3,T>(u_x, u_y, u_z));
 	}

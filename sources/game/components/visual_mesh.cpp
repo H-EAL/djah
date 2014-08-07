@@ -1,4 +1,5 @@
 #include "djah/game/components/visual_mesh.hpp"
+#include "djah/resources/asset_finder.hpp"
 
 namespace djah { namespace game { namespace components {
 
@@ -7,10 +8,10 @@ namespace djah { namespace game { namespace components {
 	{
 		load_attributes(file);
 
-		//spMesh = asset_finder::get<resources::mesh>(file)
+		spMesh = resources::default_asset_finder::get().load<resources::mesh>(file);
 	}
 	//----------------------------------------------------------------------------------------------
-	void visual_mesh::serialize(rapidjson::Document &doc) const
+	void visual_mesh::serialize(rapidjson::Document &document, rapidjson::Value &componentNode) const
 	{
 		save_attributes(file);
 	}

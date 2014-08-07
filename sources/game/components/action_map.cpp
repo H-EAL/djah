@@ -13,7 +13,7 @@ namespace djah { namespace game { namespace components {
 		});
 	}
 	//----------------------------------------------------------------------------------------------
-	void action_map::serialize(rapidjson::Document &doc) const
+	void action_map::serialize(rapidjson::Document &document, rapidjson::Value &componentNode) const
 	{
 		save_attributes(actions);
 	}

@@ -21,56 +21,61 @@
 namespace djah { namespace gameplay {
 
 	//----------------------------------------------------------------------------------------------
-	template<typename ComponentTypeList>
-	class game_object;
+	template<typename ComponentsTypeList>
+	class entity_t;
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	template<typename ComponentTypeList>
+	template<typename ComponentsTypeList>
 	struct component_data_aux
 	{
-		game_object<ComponentTypeList>	*pGO;
-		rapidjson::Value				*pValue;
+		entity_t<ComponentsTypeList>	*pGO;
+		rapidjson::Value			*pValue;
 	};
 	//----------------------------------------------------------------------------------------------
-	template<typename ComponentTypeList>
+	template<typename ComponentsTypeList>
 	struct component_data
 	{
-		std::vector< component_data_aux<ComponentTypeList> > data;
+		std::vector< component_data_aux<ComponentsTypeList> > data;
 	};
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	template<typename ComponentTypeList>
-	struct component_serializer;
+	template<typename ComponentsTypeList>
+	struct component_serializer_visitor;
 	//----------------------------------------------------------------------------------------------
 	template<>
-	struct component_serializer<utils::nulltype>
+	struct component_serializer_visitor<utils::nulltype>
 	{
-		template<typename ComponentTypeList>
-		static void serialize(rapidjson::Document&, const game_object<ComponentTypeList>&) {}
+		template<typename Entity>
+		static void serialize(rapidjson::Document&, const Entity&) {}
 
-		template<typename ComponentTypeList>
-		static void deserialize(const std::map< std::string, component_data<ComponentTypeList> >&) {}
+		template<typename ComponentsTypeList>
+		static void deserialize(const std::map< std::string, component_data<ComponentsTypeList> >&) {}
 	};
 	//----------------------------------------------------------------------------------------------
 	template<typename HeadComponent, typename TailComponents>
-	struct component_serializer< utils::typelist<HeadComponent,TailComponents> >
+	struct component_serializer_visitor< utils::typelist<HeadComponent,TailComponents> >
 	{
-		template<typename ComponentTypeList>
-		static void serialize(rapidjson::Document &document, const game_object<ComponentTypeList> &go)
+		template<typename Entity>
+		static void serialize(rapidjson::Document &document, const Entity &go)
 		{
 			if( go.isUsing<HeadComponent>() )
 			{
-				go.get<HeadComponent>()->serialize(document);
+				rapidjson::Value componentNode;
+				componentNode.SetObject();
+
+				go.get<HeadComponent>()->serialize(document, componentNode);
+
+				document.AddMember(HeadComponent::name(), componentNode, document.GetAllocator());
 			}
-			component_serializer<TailComponents>::serialize(document, go);
+			component_serializer_visitor<TailComponents>::serialize(document, go);
 		}
 
-		template<typename ComponentTypeList>
-		static void deserialize(const std::map< std::string, component_data<ComponentTypeList> > &compMap)
+		template<typename ComponentsTypeList>
+		static void deserialize(const std::map< std::string, component_data<ComponentsTypeList> > &compMap)
 		{
 			auto compData = compMap.find(HeadComponent::name());
 			if( compData != compMap.end() )
@@ -78,33 +83,42 @@ namespace djah { namespace gameplay {
 				auto itEnd = compData->second.data.end();
 				for(auto it = compData->second.data.begin(); it != itEnd; ++it)
 				{
-					game_object<ComponentTypeList> &go = *(it->pGO);
-					go.use( HeadComponent(*(it->pValue)) );
+					entity_t<ComponentsTypeList> &go = *(it->pGO);
+
+					if( go.isUsing<HeadComponent>() )
+					{
+						component<HeadComponent> &comp = go.get<HeadComponent>();
+						*comp = HeadComponent(*(it->pValue));
+					}
+					else
+					{
+						go.use( HeadComponent(*(it->pValue)) );
+					}
 				}
 			}
-			component_serializer<TailComponents>::deserialize(compMap);
+			component_serializer_visitor<TailComponents>::deserialize(compMap);
 		}
 	};
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	template<typename ComponentTypeList>
-	class game_object_serializer
+	template<typename ComponentsTypeList>
+	class component_serializer
 	{
 	public:
-		typedef game_object<ComponentTypeList> game_object_t;
-		typedef std::map< std::string, component_data<ComponentTypeList> > comp_map_t;
+		typedef entity_t<ComponentsTypeList> Entity;
+		typedef std::map< std::string, component_data<ComponentsTypeList> > comp_map_t;
 
-		static void serialize(const game_object_t &go)
+		static void serialize(const Entity &go)
 		{
-			const std::string &fileName = go.name() + ".json";
+			const std::string &fileName = go.name();
 			filesystem::stream_sptr strm = filesystem::browser::get().openWriteStream(fileName);
 			if( strm )
 			{
 				rapidjson::Document doc;
 				doc.SetObject();
-				component_serializer<ComponentTypeList>::serialize(doc, go);
+				component_serializer_visitor<ComponentsTypeList>::serialize(doc, go);
 
 				rapidjson::FileStream f(stdout);
 				struct JSON_Writer
@@ -118,7 +132,7 @@ namespace djah { namespace gameplay {
 			}
 		}
 
-		static void serialize(std::vector<game_object_t*> &goList)
+		static void serialize(std::vector<Entity*> &goList)
 		{
 			auto itEnd = goList.end();
 			for(auto it = goList.begin(); it != itEnd; ++it)
@@ -127,17 +141,17 @@ namespace djah { namespace gameplay {
 			}
 		}
 
-		static void deserialize(game_object_t &go)
+		static void deserialize(Entity &go)
 		{
 			comp_map_t compMap;
 
 			deserialize(go, compMap );
 
-			component_serializer<ComponentTypeList>::deserialize(compMap);
+			component_serializer_visitor<ComponentsTypeList>::deserialize(compMap);
 			clearDocStack();
 		}
 
-		static void deserialize(std::vector<game_object_t*> &goList)
+		static void deserialize(std::vector<Entity*> &goList)
 		{
 			comp_map_t compMap;
 
@@ -147,7 +161,17 @@ namespace djah { namespace gameplay {
 				deserialize( *(*it), compMap );
 			}
 
-			component_serializer<ComponentTypeList>::deserialize(compMap);
+			component_serializer_visitor<ComponentsTypeList>::deserialize(compMap);
+			clearDocStack();
+		}
+
+		static void deserialize(Entity &entity, rapidjson::Value &entityNode)
+		{
+			comp_map_t compMap;
+
+			deserialize(entity, entityNode, compMap);
+
+			component_serializer_visitor<ComponentsTypeList>::deserialize(compMap);
 			clearDocStack();
 		}
 
@@ -162,9 +186,9 @@ namespace djah { namespace gameplay {
 			}
 		}
 
-		static void deserialize(game_object_t &go, comp_map_t &compMap)
+		static void deserialize(Entity &entity, comp_map_t &compMap)
 		{
-			const std::string &fileName = go.name() + ".json";
+			const std::string &fileName = entity.name();
 			filesystem::stream_sptr strm = filesystem::browser::get().openReadStream(fileName);
 
 			check(strm && strm->size() > 0);
@@ -176,15 +200,20 @@ namespace djah { namespace gameplay {
 
 			if( ensure(!pDoc->HasParseError()) )
 			{
-				go.stopUsingAll();
+				//go.stopUsingAll();
 
-				auto itEnd = pDoc->MemberEnd();
-				for(auto it = pDoc->MemberBegin(); it != itEnd; ++it)
-				{
-					const std::string &compName = it->name.GetString();
-					component_data_aux<ComponentTypeList> compData = {&go, &(it->value)};
-					compMap[compName].data.push_back( compData );
-				}
+				deserialize(entity, *pDoc, compMap);
+			}
+		}
+
+		static void deserialize(Entity &entity, rapidjson::Value &entityNode, comp_map_t &compMap)
+		{
+			auto itEnd = entityNode.MemberEnd();
+			for(auto it = entityNode.MemberBegin(); it != itEnd; ++it)
+			{
+				const std::string &compName = it->name.GetString();
+				component_data_aux<ComponentsTypeList> compData = {&entity, &(it->value)};
+				compMap[compName].data.push_back( compData );
 			}
 		}
 
@@ -194,8 +223,8 @@ namespace djah { namespace gameplay {
 
 
 	//----------------------------------------------------------------------------------------------
-	template<typename ComponentTypeList>
-	std::stack<rapidjson::Document*> game_object_serializer<ComponentTypeList>::docStack_;
+	template<typename ComponentsTypeList>
+	std::stack<rapidjson::Document*> component_serializer<ComponentsTypeList>::docStack_;
 	//----------------------------------------------------------------------------------------------
 
 } /*gameplay*/ } /*djah*/
