@@ -1,0 +1,9 @@
+{
+	"spot_light": {
+		"parent": "point_light",
+		"components":
+		[
+			"cut_off"
+		]
+	}
+}

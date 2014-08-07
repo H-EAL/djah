@@ -1,0 +1,31 @@
+{
+	"transform": {
+		"position"		: 	[0.0, 0.0, 18.0],
+		"orientation"	: 	[0.0, 0.0, 0.0, 1.0],
+		"scale"			: 	[1.0, 1.0, 1.0]
+	},
+	
+	"fov": {
+		"horizontal"	: 	65.0,
+		"vertical"		: 	90.0,
+		"nearPlane"		:	0.1,
+		"farPlane"		:	1000.0,
+		"distortion"	:	1.0
+	},
+	
+	"action_map": {
+		"actions": {
+			  "MOVE_LEFT"		: 	[ ["X360_AXIS_LEFT_X-"]		,	["KEY_A"]	]
+			, "MOVE_RIGHT"		: 	[ ["X360_AXIS_LEFT_X+"]		,	["KEY_D"]	]
+			, "MOVE_FORWARD"	: 	[ ["X360_AXIS_LEFT_Y+"]		,	["KEY_W"]	]
+			, "MOVE_BACKWARD"	:	[ ["X360_AXIS_LEFT_Y-"]		, 	["KEY_S"]	]
+			, "MOVE_UPWARD"		: 	[ ["X360_BTN_RB"]			,	["KEY_E"]	]
+			, "MOVE_DOWNWARD"	: 	[ ["X360_BTN_LB"]			,	["KEY_Q"]	]
+			
+			, "LOOK_LEFT"		: 	[ ["MOUSE_BTN_LEFT", "MOUSE_AXIS_LEFT"]		, 	["KEY_LEFT"]	,	["X360_AXIS_RIGHT_X-"]	]
+			, "LOOK_RIGHT"		: 	[ ["MOUSE_BTN_LEFT", "MOUSE_AXIS_RIGHT"]	,	["KEY_RIGHT"]	,	["X360_AXIS_RIGHT_X+"]	]
+			, "LOOK_UP"			: 	[ ["MOUSE_BTN_LEFT", "MOUSE_AXIS_UP"]		,	["KEY_DOWN"]	,	["X360_AXIS_RIGHT_Y-"]	]
+			, "LOOK_DOWN"		: 	[ ["MOUSE_BTN_LEFT", "MOUSE_AXIS_DOWN"]		,	["KEY_UP"]		,	["X360_AXIS_RIGHT_Y+"]	]
+		}
+	}
+}

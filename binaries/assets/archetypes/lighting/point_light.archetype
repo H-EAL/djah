@@ -1,0 +1,10 @@
+{
+	"point_light": {
+		"components":
+		[
+			  "light"
+			, "transform"
+			, "attenuation"
+		]
+	}
+}

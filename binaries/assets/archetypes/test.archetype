@@ -1,0 +1,15 @@
+{
+	"transform": {
+		"position"		: 	[0.0, 0.0, 0.0],
+		"orientation"	: 	[0.0, 0.0, 0.0, 1.0],
+		"scale"			: 	[1.0, 1.0, 1.0]
+	},
+	
+	"visual_mesh": {
+		"file"			: 	"meshes/cow.mesh"
+	},
+	
+	"texture": {
+		"file"			:	"cow.jpg"
+	}
+}

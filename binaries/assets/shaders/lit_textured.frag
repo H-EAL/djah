@@ -1,7 +1,11 @@
 #version 400
 
-uniform bool      in_UsePointLight;
+uniform bool      in_UsePointLight = false;
 uniform sampler2D in_DiffuseSampler;
+uniform sampler2D in_SpecularSampler;
+uniform vec3      in_EyeWorldPos;
+uniform vec2	  in_UVScale = vec2(1,1);
+uniform vec2	  in_UVOffset = vec2(1,1);
 
 in vec3 vs_WorldPos;
 in vec3 vs_Normal;
@@ -48,6 +52,16 @@ vec4 calcLightInternal(BaseLight light, vec3 lightDirection, vec3 normal, float 
 	if( diffuseFactor > 0.0 )
 	{
 		diffuseColor = vec4(light.color, 1.0) * light.diffuseIntensity * diffuseFactor;
+		
+		vec3 VertexToEye = normalize(in_EyeWorldPos - vs_WorldPos);
+        vec3 LightReflect = normalize(reflect(lightDirection, normal));
+        float SpecularFactor = dot(VertexToEye, LightReflect);
+        SpecularFactor = pow(SpecularFactor, 2);
+        if (SpecularFactor > 0)
+		{
+			float SpecularIntensity = texture(in_SpecularSampler, in_UVOffset + vs_TexCoord * in_UVScale).x;
+            specularColor = vec4(light.color, 1.0f) * SpecularIntensity * SpecularFactor;
+        }
 	}
 	
 	return ambientColor + shadowFactor * (diffuseColor + specularColor);
@@ -78,18 +92,18 @@ void main()
 	light.base.color = vec3(1.0, 1.0, 1.0);
 	light.base.ambientIntensity = 0.2;
 	light.base.diffuseIntensity = 1.0;
-	light.direction = normalize( vec3(-1,-1,-1) );
+	light.direction = normalize( vec3(0,-1,0) );
 	
 	PointLight ptLight;
 	ptLight.base.color = vec3(1.0, 1.0, 0.8);
 	ptLight.base.ambientIntensity = 0.1;
 	ptLight.base.diffuseIntensity = 1.0;
-	ptLight.position = vec3(0,0,0);
+	ptLight.position = vec3(0,3,2);
 	ptLight.attenuation.constant = 0.1;
 	ptLight.attenuation.linear   = 0.2;
 	ptLight.attenuation.exponential = 0.0001;
 	
-	vec3 Color = texture(in_DiffuseSampler, vs_TexCoord).xyz;
+	vec3 Color = texture(in_DiffuseSampler, in_UVOffset + vs_TexCoord * in_UVScale).xyz;
 	vec4 LightColor = in_UsePointLight
 		? calcPointLight(ptLight, normalize(vs_Normal))
 		: calcDirectionalLight(light, normalize(vs_Normal));
