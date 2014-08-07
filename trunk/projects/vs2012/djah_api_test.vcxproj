@@ -26,6 +26,7 @@
     <ClInclude Include="..\..\include\djah\game\components\visual_mesh.hpp" />
     <ClInclude Include="..\..\include\djah\game\components_registry.hpp" />
     <ClInclude Include="..\..\include\djah\game\processes\actions_process.hpp" />
+    <ClInclude Include="..\..\include\djah\game\processes\rendering_process.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{73E0D0FA-C047-45B0-AC6F-35780607893C}</ProjectGuid>
@@ -80,7 +81,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\..\lib\win32\;..\..\..\extlibs\lib\win32\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>djah_system-d.lib;djah_filesystem-d.lib;djah_opengl-d.lib;djah_debug-d.lib;djah_resources-d.lib;djah_core-d.lib;djah_3d-d.lib;djah_gameplay-d.lib;opengl32.lib;SOIL.lib;freetype.lib;winmm.lib;dbghelp.lib;XInput.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>djah_system-d.lib;djah_filesystem-d.lib;djah_opengl-d.lib;djah_debug-d.lib;djah_resources-d.lib;djah_core-d.lib;djah_3d-d.lib;opengl32.lib;SOIL_d.lib;freetype.lib;winmm.lib;dbghelp.lib;XInput.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

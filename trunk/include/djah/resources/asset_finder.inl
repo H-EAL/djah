@@ -12,7 +12,7 @@ namespace djah { namespace resources {
 		for(auto it = extensions.begin(); it != itEnd; ++it)
 		{
 			const std::string &extension = string_utils::to_lower_case(*it);
-			loader_holder<T>::extensions_.insert( extension );
+			asset_extensions<T>::extensions_.insert( extension );
 		}
 	}
 	//----------------------------------------------------------------------------------------------
@@ -21,7 +21,7 @@ namespace djah { namespace resources {
 	//----------------------------------------------------------------------------------------------
 	template<typename ExtraAssetsTypes_, bool UseDefaultTypes_>
 	template<typename T>
-	std::shared_ptr<T> asset_finder<ExtraAssetsTypes_, UseDefaultTypes_>::get(const std::string &url, bool loadIfNotFound)
+	std::shared_ptr<T> asset_finder<ExtraAssetsTypes_, UseDefaultTypes_>::load(const std::string &url, bool loadIfNotFound)
 	{
 		// Get it from the warehouse
 		auto pAsset = asset_warehouse::get().find<T>(url);
@@ -117,8 +117,8 @@ namespace djah { namespace resources {
 		std::string extension = string_utils::get_file_extension(url);
 		extension = string_utils::to_lower_case(extension);
 
-		auto it = loader_holder<T>::extensions_.find(extension);
-		return it != loader_holder<T>::extensions_.end();
+		auto it = asset_extensions<T>::extensions_.find(extension);
+		return it != asset_extensions<T>::extensions_.end();
 	}
 	//----------------------------------------------------------------------------------------------
 

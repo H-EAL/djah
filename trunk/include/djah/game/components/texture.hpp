@@ -3,6 +3,7 @@
 
 #include "djah/gameplay/component.hpp"
 #include "djah/resources/image.hpp"
+#include "../../../tests/sources/resource_finder.hpp"
 
 namespace djah { namespace game { namespace components {
 
@@ -15,6 +16,20 @@ namespace djah { namespace game { namespace components {
 
 		// transient
 		resources::image_sptr spImage;
+		d3d::texture_sptr	  spTexture;
+	};
+
+	struct uv_modifier
+	{
+		MAKE_COMPONENT(uv_modifier);
+
+		// serializable
+		math::vector2f scale;
+		math::vector2f offset;
+		math::vector2f velocity;
+
+		// transient
+		math::vector2f position;
 	};
 
 } /*components*/ } /*game*/ } /*djah*/

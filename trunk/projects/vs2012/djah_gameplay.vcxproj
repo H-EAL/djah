@@ -79,10 +79,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\djah\gameplay\component.hpp" />
+    <ClInclude Include="..\..\include\djah\gameplay\components_punch_card.hpp" />
     <ClInclude Include="..\..\include\djah\gameplay\component_database.hpp" />
     <ClInclude Include="..\..\include\djah\gameplay\component_process.hpp" />
     <ClInclude Include="..\..\include\djah\gameplay\component_serializer.hpp" />
-    <ClInclude Include="..\..\include\djah\gameplay\game_object.hpp" />
+    <ClInclude Include="..\..\include\djah\gameplay\entity.hpp" />
     <ClInclude Include="..\..\include\djah\gameplay\json_serializer.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

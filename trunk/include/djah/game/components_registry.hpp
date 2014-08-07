@@ -17,6 +17,7 @@ namespace djah { namespace game { namespace components {
 		, fov
 		, visual_mesh
 		, texture
+		, uv_modifier
 		, action_map
 	)
 	DefaultComponentTypes;

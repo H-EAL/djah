@@ -124,7 +124,8 @@ namespace djah { namespace resources {
 			{
 				return true;
 			}
-		};//------------------------------------------------------------------------------------------
+		};
+		//------------------------------------------------------------------------------------------
 		template<typename H, typename T>
 		struct attribute_serializer< utils::typelist<H,T> >
 		{

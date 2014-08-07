@@ -5,7 +5,7 @@
 #include <vector>
 #include <memory>
 #include <type_traits>
-#include "djah/gameplay/game_object.hpp"
+#include "djah/gameplay/entity.hpp"
 
 namespace djah { namespace gameplay {
 
@@ -20,16 +20,16 @@ namespace djah { namespace gameplay {
 
 	template
 	<
-		typename ComponentTypeList,
+		typename ComponentsTypeList,
 		typename MandatoryComponents,
 		bool Ordered = false,
-		typename Compare = std::less< game_object<ComponentTypeList>* >
+		typename Compare = std::less< entity_t<ComponentsTypeList>* >
 	>
 	class component_process
 		: public interfaces::process
 	{
 	public:
-		typedef game_object<ComponentTypeList> game_object_t;
+		typedef entity_t<ComponentsTypeList> game_object_t;
 		typedef game_object_t *game_object_ptr;
 
 	public:
@@ -48,6 +48,11 @@ namespace djah { namespace gameplay {
 			}
 
 			return canAddGO;
+		}
+
+		virtual void remove(game_object_t *pEntity)
+		{
+			gameObjects_.remove(pEntity);
 		}
 
 		virtual void execute(float dt)
@@ -77,6 +82,11 @@ namespace djah { namespace gameplay {
 			{
 				impl_.insert(pGo);
 			}
+
+			void remove(game_object_ptr pEntity)
+			{
+				impl_.erase(pEntity);
+			}
 		};
 
 		struct unordered_container
@@ -92,6 +102,15 @@ namespace djah { namespace gameplay {
 			void add(game_object_ptr pGo)
 			{
 				impl_.push_back(pGo);
+			}
+
+			void remove(game_object_ptr pEntity)
+			{
+				auto it = std::find(impl_.begin(), impl_.end(), pEntity);
+				if( it != impl_.end() )
+				{
+					impl_.erase(it);
+				}
 			}
 		};
 

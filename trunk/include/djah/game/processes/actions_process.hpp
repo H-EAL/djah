@@ -193,6 +193,6 @@ namespace djah { namespace game { namespace processes {
 		std::map<std::string, system::input::eXbox360Buttons>	inputX360BtnDico;
 	};
 
-} /*services*/ } /*game*/ } /*djah*/
+} /*processes*/ } /*game*/ } /*djah*/
 
 #endif /* DJAH_GAME_PROCESSES_ACTIONS_PROCESS_HPP */

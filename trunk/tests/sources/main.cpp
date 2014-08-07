@@ -23,11 +23,12 @@
 #include <djah/resources/asset_finder.hpp>
 #include <djah/resources/config_object.hpp>
 
-#include <djah/gameplay/game_object.hpp>
+#include <djah/gameplay/entity.hpp>
 #include <djah/gameplay/component_serializer.hpp>
 
 #include <djah/game/components_registry.hpp>
 #include <djah/game/processes/actions_process.hpp>
+#include <djah/game/processes/rendering_process.hpp>
 
 #include <djah/opengl.hpp>
 
@@ -146,25 +147,8 @@ public:
 	}
 };
 
-/*
-#define BEGIN_CONFIG(ConfigName)\
-struct ConfigName ## _cfg : public resources::config_object<ConfigName ## _config>\
-{\
-	ConfigName ## _cfg(const std::string &url)\
-		: resources::config_object<ConfigName ## _config>(url)\
-	{\
-		list_config_vars(
 
-#define END_CONFIG() ); } }
-
-BEGIN_CONFIG(renderer)
-	maxAnisotropy
-END_CONFIG()
-*/
-
-typedef gameplay::game_object<game::components::DefaultComponentTypes> game_object_t;
-
-namespace djah { namespace opengl { template<typename T> class uniform {}; } }
+typedef gameplay::entity_t<game::components::DefaultComponentTypes> Entity;
 
 
 void APIENTRY oglDebugProc(GLenum source,
@@ -190,262 +174,6 @@ void APIENTRY oglDebugProc(GLenum source,
 		break;
 	}
 }
-
-
-
-class floret
-{
-public:
-
-	void build(float smallRadius)
-	{
-		const int nbPetals = 6;
-		const int nbTrianglesPerPetal = 16;
-		const int nbTriangles = nbPetals * nbTrianglesPerPetal;
-
-		const int nbIndices = nbTriangles * 3;
-		u16 indices[nbIndices];
-		for(int i = 0, j = 0; i < nbIndices-1; i+=nbTrianglesPerPetal*3, j+=6)
-		{
-			int k = i-1;
-			// bottom
-			indices[++k] = 0;
-			indices[++k] = j+2;
-			indices[++k] = j+4;
-			indices[++k] = 0;
-			indices[++k] = j+4;
-			indices[++k] = j+6;
-			indices[++k] = 0;
-			indices[++k] = j+6;
-			indices[++k] = j+8;
-			// top		 
-			indices[++k] = 1;
-			indices[++k] = j+3;
-			indices[++k] = j+5;
-			indices[++k] = 1;
-			indices[++k] = j+5;
-			indices[++k] = j+7;
-			indices[++k] = 1;
-			indices[++k] = j+7;
-			indices[++k] = j+9;
-			// 1st wall	 
-			indices[++k] = 0;
-			indices[++k] = j+2;
-			indices[++k] = 1;
-			indices[++k] = 1;
-			indices[++k] = j+2;
-			indices[++k] = j+3;
-			// 2nd wall
-			indices[++k] = j+2;
-			indices[++k] = j+4;
-			indices[++k] = j+3;
-			indices[++k] = j+3;
-			indices[++k] = j+4;
-			indices[++k] = j+5;
-			// 3rd wall
-			indices[++k] = j+4;
-			indices[++k] = j+6;
-			indices[++k] = j+5;
-			indices[++k] = j+5;
-			indices[++k] = j+6;
-			indices[++k] = j+7;
-			// 4th wall
-			indices[++k] = j+6;
-			indices[++k] = j+8;
-			indices[++k] = j+7;
-			indices[++k] = j+7;
-			indices[++k] = j+8;
-			indices[++k] = j+9;
-			// 5th wall
-			indices[++k] = j+8;
-			indices[++k] = 0;
-			indices[++k] = j+9;
-			indices[++k] = j+9;
-			indices[++k] = 0;
-			indices[++k] = 1;
-		}
-		//indices[nbIndices-4] = 2;
-		//indices[nbIndices-1] = 3;
-
-		const int nbVertices = (1 + nbPetals * 3) * 2 + 2;
-		math::vector3f vertices[nbVertices];
-		math::vector3f colors[nbVertices];
-		vertices[0] = math::vector3f(0.0f, 0.0f, 0.0f);
-		vertices[1] = math::vector3f(0.0f, 0.0f, 10.0f);
-		colors[0] = math::vector3f(1.0f, 1.0f, 1.0f);
-		colors[1] = math::vector3f(1.0f, 1.0f, 1.0f);
-
-		const float smallAngularStep = 0.3334731722518321153360907553516010700659003898479909f;
-		const float bigAngularStep   = 0.3802512066929335154820329503899654879339223534290533f;
-		float angleAccum = -0.190125603f;//
-		int useSmallRadius = 0;
-		int useSmallAngularStep = 1;
-		const float bigRadius = 1.32287565553f; //sqrt(7)/2
-		for(int i = 2; i < nbVertices; i+=2)
-		{
-			const float radius = useSmallRadius == 0 ? smallRadius : bigRadius;
-			useSmallRadius = (useSmallRadius+1) % 3;
-			vertices[i]   = math::vector3f(radius * cos(angleAccum), radius * sin(angleAccum), 0.0f);
-			vertices[i+1] = math::vector3f(vertices[i].x, vertices[i].y, 1.0f);
-			colors[i]   = vertices[i];
-			colors[i+1] = vertices[i+1];
-			const float angularStep = useSmallAngularStep == 2 ? bigAngularStep : smallAngularStep;
-			useSmallAngularStep = (useSmallAngularStep+1)%3;
-			angleAccum += angularStep;
-		}
-
-		pVB = new opengl::vertex_buffer(sizeof(vertices)+sizeof(colors), opengl::eBU_StaticDraw);
-		//pwVB = new opengl::vertex_buffer(sizeof(vertices), opengl::eBU_StaticDraw);
-		pIB = new opengl::index_buffer(sizeof(indices), opengl::eBU_StaticDraw);
-		//pwIB = new opengl::index_buffer(sizeof(windices), opengl::eBU_StaticDraw, opengl::EDM_LINE_STRIP);
-
-		auto offset = pVB->write(vertices);
-		pVB->write(colors, offset);
-		//pwVB->write(vertices);
-		pIB->write(indices);
-		//pwIB->write(windices);
-
-		opengl::vertex_format vertexFormat(opengl::vertex_format::ePT_Packed);
-		vertexFormat << opengl::format::position<3,float>() << opengl::format::color<3,float>();
-
-		pVA = new opengl::vertex_array;
-		pVA->setIndexBuffer(pIB);
-		pVA->addVertexBuffer(pVB, vertexFormat);
-		pVA->setVertexCount(nbVertices);
-
-		//pwVA = new opengl::vertex_array;
-		//pwVA->setIndexBuffer(pwIB);
-		//pwVA->addVertexBuffer(pwVB, vertexFormat);
-		//pwVA->setVertexCount(nbVertices);
-	}
-
-	void build()
-	{
-		const int nbPetals = 6;
-		const int nbTrianglesPerPetal = 16;
-		const int nbTriangles = nbPetals * nbTrianglesPerPetal;
-		const int nbVerticesPerPetal = nbTrianglesPerPetal * 3;
-
-		const int nbVertices = nbTriangles * 3 * 2;
-		math::vector3f vertices[nbVertices];
-
-		const int nbLinesPerPetal = 15;
-		const int nbLines = nbLinesPerPetal * nbPetals;
-		math::vector3f wireframe[nbLines*2];
-
-		const float smallAngularStep = 0.3334731722518321153360907553516010700659003898479909f;
-		const float bigAngularStep   = 0.3802512066929335154820329503899654879339223534290533f;
-		const float angleStep = smallAngularStep * 2.0f + bigAngularStep;
-		float angleAccum = -0.190125603f;
-		for(int i = 0, w = 0; i < nbVertices; i+=nbVerticesPerPetal*2, w+=nbLinesPerPetal*2)
-		{
-			buildPetal(vertices+i, wireframe+w, angleAccum);
-			angleAccum += angleStep;
-		}
-
-		pVB = new opengl::vertex_buffer(sizeof(vertices), opengl::eBU_StaticDraw);
-		pVB->write(vertices);
-
-		opengl::vertex_format vertexFormat;
-		vertexFormat
-			<< opengl::format::position<3,float>()
-			<< opengl::format::normal<3,float>();
-
-		pVA = new opengl::vertex_array;
-		pVA->addVertexBuffer(pVB, vertexFormat);
-		pVA->setVertexCount(nbTriangles * 3);
-
-		pwVB = new opengl::vertex_buffer(sizeof(wireframe), opengl::eBU_StaticDraw);
-		pwVB->write(wireframe);
-
-		opengl::vertex_format vertexFormatW;
-		vertexFormatW << opengl::format::position<3,float>();
-
-		pwVA = new opengl::vertex_array;
-		pwVA->addVertexBuffer(pwVB, vertexFormatW);
-		pwVA->setVertexCount(nbLines * 2);
-	}
-
-	void buildPetal(math::vector3f *vertices, math::vector3f *wireframe, float angle)
-	{
-		const float smallAngularStep = 0.3334731722518321153360907553516010700659003898479909f;
-		const float bigAngularStep   = 0.3802512066929335154820329503899654879339223534290533f;
-
-		const float smallRadius = 1.0f;
-		const float bigRadius = 1.32287565553f; //sqrt(7)/2
-
-		const float h = 0.25f;//utils::randomizer::random(-0.2f, 0.2f);
-
-		const math::vector3f p1b(smallRadius*cos(angle),										smallRadius*sin(angle),											0.0f*h);
-		const math::vector3f p2b(bigRadius*cos(angle+smallAngularStep),							bigRadius*sin(angle+smallAngularStep),							0.0f*h);
-		const math::vector3f p3b(bigRadius*cos(angle+smallAngularStep+bigAngularStep),			bigRadius*sin(angle+smallAngularStep+bigAngularStep),			0.0f*h);
-		const math::vector3f p4b(smallRadius*cos(angle+2.0f*smallAngularStep+bigAngularStep),	smallRadius*sin(angle+2.0f*smallAngularStep+bigAngularStep),	0.0f*h);
-
-		const math::vector3f p1t(p1b.x, p1b.y, 1.0f*h);
-		const math::vector3f p2t(p2b.x, p2b.y, 1.0f*h);
-		const math::vector3f p3t(p3b.x, p3b.y, 1.0f*h);
-		const math::vector3f p4t(p4b.x, p4b.y, 1.0f*h);
-
-		const math::vector3f b(0.0f, 0.0f, 0.0f*h);
-		const math::vector3f t(0.0f, 0.0f, 1.0f*h);
-		const math::vector3f up(0.0f, 0.0f, 1.0f);
-		const math::vector3f down(0.0f, 0.0f, -1.0f);
-
-		int i = -1;
-		int w = -1;
-		math::vector3f *normals = vertices;
-		// bottom
-		vertices[++i] = b;		normals[++i] = down;	vertices[++i] = p1b;	normals[++i] = down;	vertices[++i] = p2b;	normals[++i] = down;
-		vertices[++i] = b;		normals[++i] = down;	vertices[++i] = p2b;	normals[++i] = down;	vertices[++i] = p3b;	normals[++i] = down;
-		vertices[++i] = b;		normals[++i] = down;	vertices[++i] = p3b;	normals[++i] = down;	vertices[++i] = p4b;	normals[++i] = down;
-		// top
-		vertices[++i] = t;		normals[++i] = up;		vertices[++i] = p1t;	normals[++i] = up;		vertices[++i] = p2t;	 normals[++i] = up;
-		vertices[++i] = t;		normals[++i] = up;		vertices[++i] = p2t;	normals[++i] = up;		vertices[++i] = p3t;	 normals[++i] = up;
-		vertices[++i] = t;		normals[++i] = up;		vertices[++i] = p3t;	normals[++i] = up;		vertices[++i] = p4t;	 normals[++i] = up;
-		// 1st wall
-		vertices[++i] = t;		normals[++i] = up;		vertices[++i] = b;		normals[++i] = up;		vertices[++i] = p1b;	normals[++i] = up;
-		vertices[++i] = t;		normals[++i] = up;		vertices[++i] = p1b;	normals[++i] = up;		vertices[++i] = p1t;	normals[++i] = up;
-		// 2nd wall
-		vertices[++i] = p1t;	normals[++i] = up;		vertices[++i] = p1b;	normals[++i] = up;		vertices[++i] = p2b;	normals[++i] = up;
-		vertices[++i] = p1t;	normals[++i] = up;		vertices[++i] = p2b;	normals[++i] = up;		vertices[++i] = p2t;	normals[++i] = up;
-		// 3rd wall
-		vertices[++i] = p2t;	normals[++i] = up;		vertices[++i] = p2b;	normals[++i] = up;		vertices[++i] = p3b;	normals[++i] = up;
-		vertices[++i] = p2t;	normals[++i] = up;		vertices[++i] = p3b;	normals[++i] = up;		vertices[++i] = p3t;	normals[++i] = up;
-		// 4th wall
-		vertices[++i] = p3t;	normals[++i] = up;		vertices[++i] = p3b;	normals[++i] = up;		vertices[++i] = p4b;	normals[++i] = up;
-		vertices[++i] = p3t;	normals[++i] = up;		vertices[++i] = p4b;	normals[++i] = up;		vertices[++i] = p4t;	normals[++i] = up;
-		// 5th wall
-		vertices[++i] = p4t;	normals[++i] = up;		vertices[++i] = p4b;	normals[++i] = up;		vertices[++i] = b;		normals[++i] = up;
-		vertices[++i] = p4t;	normals[++i] = up;		vertices[++i] = b;		normals[++i] = up;		vertices[++i] = t;		normals[++i] = up;
-
-		//bottom
-		wireframe[++w] = b;			wireframe[++w] = p1b;
-		wireframe[++w] = p1b;		wireframe[++w] = p2b;
-		wireframe[++w] = p2b;		wireframe[++w] = p3b;
-		wireframe[++w] = p3b;		wireframe[++w] = p4b;
-		wireframe[++w] = p4b;		wireframe[++w] = b;
-		//top
-		wireframe[++w] = t;			wireframe[++w] = p1t;
-		wireframe[++w] = p1t;		wireframe[++w] = p2t;
-		wireframe[++w] = p2t;		wireframe[++w] = p3t;
-		wireframe[++w] = p3t;		wireframe[++w] = p4t;
-		wireframe[++w] = p4t;		wireframe[++w] = t;
-		//walls
-		wireframe[++w] = t;			wireframe[++w] = b;
-		wireframe[++w] = p1t;		wireframe[++w] = p1b;
-		wireframe[++w] = p2t;		wireframe[++w] = p2b;
-		wireframe[++w] = p3t;		wireframe[++w] = p3b;
-		wireframe[++w] = p4t;		wireframe[++w] = p4b;
-	}
-
-	opengl::vertex_array  *pVA;
-	opengl::vertex_buffer *pVB;
-	opengl::index_buffer  *pIB;
-
-	opengl::vertex_array  *pwVA;
-	opengl::vertex_buffer *pwVB;
-	opengl::index_buffer  *pwIB;
-};
 
 
 #include "djah/core/command.hpp"
@@ -500,11 +228,52 @@ void readInputs()
 	}
 }
 
-#include "djah/opengl/buffers/enum_buffer_target.hpp"
+template<typename Container, typename Process>
+void loadWorld(Container &entities, Process &process)
+{
+	size_t count = entities.size();
+	for(size_t i = 0; i < count; ++i)
+	{
+		process.remove(entities[i]);
+		delete entities[i];
+	}
+
+	entities.clear();
+
+	const std::string &fileName = "worlds/test.world";
+	filesystem::stream_sptr pStream = filesystem::browser::get().openReadStream(fileName);
+
+	if( pStream && pStream->size() > 0 )
+	{
+		filesystem::memory_stream memStrm(pStream.get());
+		const std::string &jsonStr = memStrm.toString();
+
+		rapidjson::Document doc;
+		doc.Parse<0>(jsonStr.c_str());
+
+		if( !doc.HasParseError() )
+		{
+			auto itEnd = doc.MemberEnd();
+			for(auto it = doc.MemberBegin(); it != itEnd; ++it)
+			{
+				if( ensure(it->value.IsObject()) )
+				{
+					const std::string &entityName = it->name.GetString();
+					Entity *newEntity = new Entity(entityName);
+
+					gameplay::component_serializer<gpc::DefaultComponentTypes>::deserialize(*newEntity, it->value);
+
+					process.add(newEntity);
+
+					entities.push_back(newEntity);
+				}
+			}
+		}
+	}
+}
 
 int main()
 {
-	std::cout << opengl::BufferTarget::Descriptors[opengl::BufferTarget::AtomicCounter].glEnumStr << std::endl;
 	initLoggers();
 
 	// 0 - Init system
@@ -513,9 +282,9 @@ int main()
 	filesystem::browser::get().addLoadingChannel(new filesystem::directory_source("./assets", false, 1));
 	filesystem::browser::get().addSavingChannel(new filesystem::directory_source("./save/assets"));
 
-	resources::asset_finder<> assetFinder;
-	assetFinder.registerExtensions<resources::mesh>("mesh");
-	assetFinder.registerExtensions<resources::data_object<>>("config json");
+	resources::default_asset_finder::get().registerExtensions<resources::mesh>("mesh");
+	resources::default_asset_finder::get().registerExtensions<resources::data_object<>>("config json");
+	resources::default_asset_finder::get().registerExtensions<resources::image>("png jpg tga");
 
 
 	// 1 - Create device = create window
@@ -536,7 +305,7 @@ int main()
 	glDebugMessageCallback((GLDEBUGPROC)oglDebugProc, nullptr);
 	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 
-	auto testJsonConfig = assetFinder.get<resources::data_object<>>("configTest.json");
+	auto testJsonConfig = resources::default_asset_finder::get().load<resources::data_object<>>("configTest.json");
 
 	auto pRendererConfig = resources::open_config<renderer_cfg>("renderer.config");
 	const math::vector3f &cc = pRendererConfig->clearColor;
@@ -549,22 +318,25 @@ int main()
 	bool fs = pDeviceConfig->fullscreen;
 	bool resolutionChanged = true;
 
+	game::processes::rendering_process<gpc::DefaultComponentTypes> renderingProcess;
+
 	// 3.5 - Load resources
-	floret fl;
-	fl.build();
-	d3d::shader simpleShader("lit_textured");
-	d3d::shader *uniformColorShader = nullptr;
-	auto pMesh    = assetFinder.get<resources::mesh>("meshes/feisar.mesh");
-	//auto pTexture = assetFinder.get<resources::texture>("feisar-diffuse.png");
-	auto pTexture = d3d::texture_manager::get().find("feisar-diffuse.png");
+	std::vector<Entity*> entities;
+	loadWorld(entities, renderingProcess);
+
+	auto pNormal   = d3d::texture_manager::get().find("houseN.jpg");
 	auto pSpecular = d3d::texture_manager::get().find("feisar-specular.jpg");
 
 
-	game::processes::actions_process<gpc::DefaultComponentTypes> actionsProcess(mouse, kb, gp);
 
 	// 3.6 - Camera
-	game_object_t camera("cameras/main.camera");
-	gameplay::game_object_serializer<gpc::DefaultComponentTypes>::deserialize(camera);
+	Entity camera("cameras/main.camera");
+	gameplay::component_serializer<gpc::DefaultComponentTypes>::deserialize(camera);
+
+	Entity entityTest("archetypes/test.archetype");
+	gameplay::component_serializer<gpc::DefaultComponentTypes>::deserialize(entityTest);
+
+	game::processes::actions_process<gpc::DefaultComponentTypes> actionsProcess(mouse, kb, gp);
 	actionsProcess.add(&camera);
 
 	gameplay::component<gpc::transform> cameraTransform = camera.get<gpc::transform>();
@@ -582,10 +354,6 @@ int main()
 	math::matrix4f p;
 	math::matrix4f vp;
 	math::matrix4f wvp;
-	
-	//opengl::uniform<math::matrix4f> in_World = simpleShader.getUniform<math::matrix4f>("in_World");
-	//in_World = math::matrix4f::identity;
-	//in_World.send();
 
 	// Low
 	std::shared_ptr<opengl::sampler> pLowQualitySampler = std::make_shared<opengl::sampler>();
@@ -598,6 +366,7 @@ int main()
 	pCustomSampler->setFiltering(opengl::sampler::eBilinearMode(pRendererConfig->bilinearMode), opengl::sampler::eMipmappingMode(pRendererConfig->mipmappingMode), pRendererConfig->maxAnisotropy);
 
 
+	renderingProcess.setSampler(pHighQualitySampler);
 
 	enum eTextureUnit
 	{
@@ -608,16 +377,18 @@ int main()
 		eTU_Count
 	};
 
-	opengl::texture_unit<eTU_DiffuseMap>::activate_and_bind(pTexture, pHighQualitySampler);
+	//opengl::texture_unit<eTU_DiffuseMap>::activate_and_bind(pTexture, pHighQualitySampler);
+	opengl::texture_unit<eTU_NormalMap>::activate_and_bind(pNormal, pHighQualitySampler);
 	opengl::texture_unit<eTU_SpecularMap>::activate_and_bind(pSpecular, pHighQualitySampler);
-
+	/*
 	simpleShader.program().begin();
 	simpleShader.program().sendUniform("in_World", math::matrix4f::identity);
 	simpleShader.program().sendUniform("in_DiffuseSampler", int(eTU_DiffuseMap));
+	simpleShader.program().sendUniform("in_NormalSampler", int(eTU_NormalMap));
 	simpleShader.program().sendUniform("in_SpecularSampler", int(eTU_SpecularMap));
 	simpleShader.program().end();
 	pMesh->init(simpleShader.program());
-
+	*/
 	float currentAngle = 0.0f;
 	float targetAngle = 0.0f;
 	float maxAngle = 30.0f;
@@ -632,204 +403,179 @@ int main()
 	// 4 - Run app
 	while( pDevice->run() )
 	{
-		if( pDevice->hasFocus() )
-		{
-			mouse.update();
-			kb.update();
-			gp.update();
-		}
+		mouse.update();
+		kb.update();
+		gp.update();
 
 		actionsProcess.execute(0.0f);
 
-		if( kb.pressed(system::input::eKC_ESCAPE) )
+		if( pDevice->hasFocus() )
 		{
-			pDevice->shutDown();
-		}
-
-		if( kb.pressed(system::input::eKC_F) )
-		{
-			fs = !fs;
-			pDevice->setResolution(fs);
-			resolutionChanged = true;
-		}
-
-		if( kb.pressed(system::input::eKC_F5) )
-		{
-			gameplay::game_object_serializer<gpc::DefaultComponentTypes>::deserialize(camera);
-
-			const math::vector3f &realDirection   = math::rotate(cameraTransform->orientation, neutralDirection);
-			const math::vector3f &realUpDirection = math::rotate(cameraTransform->orientation, upDirection);
-			const math::vector3f &cameraCenter    = cameraTransform->position + realDirection;
-			const float aspectRatio = float(std::max(pDeviceConfig->width, pDeviceConfig->height))
-									/ float(std::min(pDeviceConfig->width, pDeviceConfig->height));
-			v = math::make_look_at(cameraTransform->position, cameraCenter, realUpDirection);
-			p = math::make_perspective_projection
-			(
-				math::radian<float>::from_degree(cameraFOV->horizontal),
-				cameraFOV->distortion * aspectRatio,
-				cameraFOV->nearPlane, cameraFOV->farPlane
-			);
-			vp = v*p;
-
-			pRendererConfig = resources::open_config<renderer_cfg>("renderer.config");
-			const math::vector3f &cc = pRendererConfig->clearColor;
-			glClearColor(cc[0], cc[1], cc[2], 1.0f);
-		}
-
-		if( !uniformColorShader || kb.pressed(system::input::eKC_F5) )
-		{
-			if( uniformColorShader )
+			if( kb.pressed(system::input::eKC_ESCAPE) )
 			{
-				delete uniformColorShader;
+				pDevice->shutDown();
 			}
-			uniformColorShader = new d3d::shader("uniform_color");
-			fl.pVA->init(uniformColorShader->program());
-			fl.pwVA->init(uniformColorShader->program());
-			uniformColorShader->program().begin();
-			uniformColorShader->program().sendUniform("in_Color", math::vector3f(1.0f,1.0f,1.0f));
-			uniformColorShader->program().end();
-		}
 
-		if( kb.pressed(system::input::eKC_P) )
-		{
-			static bool wireframe = false;
-			wireframe = !wireframe;
-			glPolygonMode(GL_FRONT_AND_BACK , wireframe ? GL_LINE : GL_FILL);
-		}
-
-		if( kb.pressed(system::input::eKC_L) )
-		{
-			opengl::texture_unit<eTU_DiffuseMap>::activate_and_bind(pTexture, pLowQualitySampler);
-			opengl::texture_unit<eTU_SpecularMap>::activate_and_bind(pSpecular, pLowQualitySampler);
-		}
-
-		if( kb.pressed(system::input::eKC_H) )
-		{
-			opengl::texture_unit<eTU_DiffuseMap>::activate_and_bind(pTexture, pHighQualitySampler);
-			opengl::texture_unit<eTU_SpecularMap>::activate_and_bind(pSpecular, pHighQualitySampler);
-		}
-
-		if( kb.pressed(system::input::eKC_C) )
-		{
-			opengl::texture_unit<eTU_DiffuseMap>::activate_and_bind(pTexture, pCustomSampler);
-			opengl::texture_unit<eTU_SpecularMap>::activate_and_bind(pSpecular, pCustomSampler);
-		}
-
-		if( resolutionChanged )
-		{
-			const float aspectRatio = float(std::max(pDeviceConfig->width, pDeviceConfig->height))
-									/ float(std::min(pDeviceConfig->width, pDeviceConfig->height));
-
-			p = math::make_perspective_projection
-			(
-				math::radian<float>::from_degree(cameraFOV->horizontal),
-				cameraFOV->distortion * aspectRatio,
-				cameraFOV->nearPlane, cameraFOV->farPlane
-			);
-
-			//p = math::make_orthographic_projection(0.0f,float(pDeviceConfig->width),float(pDeviceConfig->width), 0.0f, -1.0f,100.0f);
-			vp = v*p;
-			glViewport(0,0,pDeviceConfig->width, pDeviceConfig->height);
-			resolutionChanged = false;
-		}
-
-		if( gp.isPlugged() )
-		{
-			const float leftEngine = gp.getTrigger(system::input::eX360_LeftTrigger).value();
-			const float rightEngine = gp.getTrigger(system::input::eX360_RightTrigger).value();
-			targetAngle = (rightEngine - leftEngine) * maxAngle;
-
-			//gp.vibrate(leftEngine, rightEngine);
-
-			if( targetAngle == 0.0f )
+			if( kb.pressed(system::input::eKC_F) )
 			{
-				currentAngle = math::rotate(currentAngle, 0.0f, 360.0f);
-				if( targetAngle > 180.0f )
+				fs = !fs;
+				pDevice->setResolution(fs);
+				resolutionChanged = true;
+			}
+
+			if( kb.pressed(system::input::eKC_F5) )
+			{
+				loadWorld(entities, renderingProcess);
+
+				/*
+				gameplay::component_serializer<gpc::DefaultComponentTypes>::deserialize(camera);
+
+				const math::vector3f &realDirection   = math::rotate(cameraTransform->orientation, neutralDirection);
+				const math::vector3f &realUpDirection = math::rotate(cameraTransform->orientation, upDirection);
+				const math::vector3f &cameraCenter    = cameraTransform->position + realDirection;
+				const float aspectRatio = float(std::max(pDeviceConfig->width, pDeviceConfig->height))
+										/ float(std::min(pDeviceConfig->width, pDeviceConfig->height));
+				v = math::make_look_at(cameraTransform->position, cameraCenter, realUpDirection);
+				p = math::make_perspective_projection
+				(
+					math::degree(cameraFOV->horizontal),
+					cameraFOV->distortion * aspectRatio,
+					cameraFOV->nearPlane, cameraFOV->farPlane
+				);
+				vp = v*p;
+
+				pRendererConfig = resources::open_config<renderer_cfg>("renderer.config");
+				const math::vector3f &cc = pRendererConfig->clearColor;
+				glClearColor(cc[0], cc[1], cc[2], 1.0f);
+				*/
+			}
+
+			if( kb.pressed(system::input::eKC_P) )
+			{
+				static bool wireframe = false;
+				wireframe = !wireframe;
+				glPolygonMode(GL_FRONT_AND_BACK , wireframe ? GL_LINE : GL_FILL);
+			}
+
+			if( kb.pressed(system::input::eKC_L) )
+			{
+				renderingProcess.setSampler(pLowQualitySampler);
+				opengl::texture_unit<eTU_SpecularMap>::activate_and_bind(pSpecular, pLowQualitySampler);
+			}
+
+			if( kb.pressed(system::input::eKC_H) )
+			{
+				renderingProcess.setSampler(pHighQualitySampler);
+				opengl::texture_unit<eTU_SpecularMap>::activate_and_bind(pSpecular, pHighQualitySampler);
+			}
+
+			if( kb.pressed(system::input::eKC_C) )
+			{
+				renderingProcess.setSampler(pCustomSampler);
+				opengl::texture_unit<eTU_SpecularMap>::activate_and_bind(pSpecular, pCustomSampler);
+			}
+
+			if( resolutionChanged )
+			{
+				const float aspectRatio = float(std::max(pDeviceConfig->width, pDeviceConfig->height))
+										/ float(std::min(pDeviceConfig->width, pDeviceConfig->height));
+
+				p = math::make_perspective_projection
+				(
+					//math::radian<float>::from_degree(cameraFOV->horizontal),
+					math::degree(cameraFOV->horizontal),
+					cameraFOV->distortion * aspectRatio,
+					cameraFOV->nearPlane, cameraFOV->farPlane
+				);
+
+				//p = math::make_orthographic_projection(0.0f,float(pDeviceConfig->width),float(pDeviceConfig->width), 0.0f, -1.0f,100.0f);
+				vp = v*p;
+				glViewport(0,0,pDeviceConfig->width, pDeviceConfig->height);
+				resolutionChanged = false;
+			}
+
+			if( gp.isPlugged() )
+			{
+				const float leftEngine = gp.getTrigger(system::input::eX360_LeftTrigger).value();
+				const float rightEngine = gp.getTrigger(system::input::eX360_RightTrigger).value();
+				targetAngle = (rightEngine - leftEngine) * maxAngle;
+
+				//gp.vibrate(leftEngine, rightEngine);
+
+				if( targetAngle == 0.0f )
 				{
-					targetAngle -= 180.0f;
+					currentAngle = math::rotate(currentAngle, 0.0f, 360.0f);
+					if( targetAngle > 180.0f )
+					{
+						targetAngle -= 180.0f;
+					}
+				}
+			}
+
+			static const float angleSpeed = 5.0f;
+			if( currentAngle < targetAngle )
+			{
+				currentAngle = math::clamp(currentAngle + angleSpeed, -maxAngle, targetAngle);
+			}
+			else if(currentAngle > targetAngle )
+			{
+				currentAngle = math::clamp(currentAngle - angleSpeed, targetAngle, maxAngle);
+			}
+
+			// Move camera
+			{
+				const float camSpeed = 0.5f;
+				const math::vector3f &disp = camSpeed * math::vector3f
+				(
+					cameraAM->states["MOVE_RIGHT"]	  - cameraAM->states["MOVE_LEFT"],
+					cameraAM->states["MOVE_UPWARD"]	  - cameraAM->states["MOVE_DOWNWARD"],
+					cameraAM->states["MOVE_BACKWARD"] - cameraAM->states["MOVE_FORWARD"]
+				);
+
+				bool turned = false;
+				const float turnSpeed = 2.7f;
+
+				const float horizontalTurn = cameraAM->states["LOOK_RIGHT"] - cameraAM->states["LOOK_LEFT"];
+				if( std::abs(horizontalTurn) > 0.0f )
+				{
+					const math::vector3f &realUpDirection = math::rotate(cameraTransform->orientation, upDirection);
+					const math::quatf &nrot = math::make_quaternion(math::degree(-horizontalTurn*turnSpeed), upDirection);
+					cameraTransform->orientation = nrot * cameraTransform->orientation;
+					turned = true;
+				}
+			
+				const float verticalTurn = cameraAM->states["LOOK_UP"] - cameraAM->states["LOOK_DOWN"];
+				if( std::abs(verticalTurn) > 0.0f )
+				{
+					const math::vector3f realRightDirection(-1.0f, 0.0f, 0.0f);
+					const math::quatf &nrot = math::make_quaternion(math::degree(verticalTurn*turnSpeed), realRightDirection);
+					cameraTransform->orientation = cameraTransform->orientation * nrot;
+					turned = true;
+				}
+
+				if( turned || disp != math::vector3f::null_vector )
+				{
+					const math::vector3f &realDisp		  = math::rotate(cameraTransform->orientation, disp);
+					cameraTransform->position += realDisp;
+					const math::vector3f &realDirection   = math::rotate(cameraTransform->orientation, neutralDirection);
+					const math::vector3f &realUpDirection = math::rotate(cameraTransform->orientation, upDirection);
+					const math::vector3f &cameraCenter    = cameraTransform->position + realDirection;
+					v = math::make_look_at(cameraTransform->position, cameraCenter, upDirection);
+					vp = v*p;
 				}
 			}
 		}
 
-		static const float angleSpeed = 5.0f;
-		if( currentAngle < targetAngle )
-		{
-			currentAngle = math::clamp(currentAngle + angleSpeed, -maxAngle, targetAngle);
-		}
-		else if(currentAngle > targetAngle )
-		{
-			currentAngle = math::clamp(currentAngle - angleSpeed, targetAngle, maxAngle);
-		}
-
-		// Move camera
-		{
-			const float camSpeed = 1.0f;
-			const math::vector3f &disp = camSpeed * math::vector3f
-			(
-				cameraAM->states["MOVE_RIGHT"]	  - cameraAM->states["MOVE_LEFT"],
-				cameraAM->states["MOVE_UPWARD"]	  - cameraAM->states["MOVE_DOWNWARD"],
-				cameraAM->states["MOVE_BACKWARD"] - cameraAM->states["MOVE_FORWARD"]
-			);
-
-			bool turned = false;
-			const float turnSpeed = 2.7f;
-
-			const float horizontalTurn = cameraAM->states["LOOK_RIGHT"] - cameraAM->states["LOOK_LEFT"];
-			if( std::abs(horizontalTurn) > 0.0f )
-			{
-				const math::vector3f &realUpDirection = math::rotate(cameraTransform->orientation, upDirection);
-				const math::quatf &nrot = math::make_quaternion(math::radian<float>::from_degree(-horizontalTurn*turnSpeed), upDirection);
-				cameraTransform->orientation = nrot * cameraTransform->orientation;
-				turned = true;
-			}
-			
-			const float verticalTurn = cameraAM->states["LOOK_UP"] - cameraAM->states["LOOK_DOWN"];
-			if( std::abs(verticalTurn) > 0.0f )
-			{
-				const math::vector3f realRightDirection(-1.0f, 0.0f, 0.0f);
-				const math::quatf &nrot = math::make_quaternion(math::radian<float>::from_degree(verticalTurn*turnSpeed), realRightDirection);
-				cameraTransform->orientation = cameraTransform->orientation * nrot;
-				turned = true;
-			}
-
-			if( turned || disp != math::vector3f::null_vector )
-			{
-				const math::vector3f &realDisp		  = math::rotate(cameraTransform->orientation, disp);
-				cameraTransform->position += realDisp;
-				const math::vector3f &realDirection   = math::rotate(cameraTransform->orientation, neutralDirection);
-				const math::vector3f &realUpDirection = math::rotate(cameraTransform->orientation, upDirection);
-				const math::vector3f &cameraCenter    = cameraTransform->position + realDirection;
-				v = math::make_look_at(cameraTransform->position, cameraCenter, upDirection);
-				vp = v*p;
-			}
-		}
-
-		w = math::make_rotation(math::radian<float>::from_degree(currentAngle), math::vector3f::z_axis);
+		w = math::make_rotation(math::degree(currentAngle), math::vector3f::z_axis);
 		wvp = w*vp;
 
 		pDriver->beginFrame();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		/**/
-		simpleShader.program().begin();
-		simpleShader.program().sendUniform("in_World", w);
-		simpleShader.program().sendUniform("in_EyeWorldPos", math::resize<3>(math::apply_transform(w, math::point3_to_point4(cameraTransform->position))));
-		simpleShader.program().sendUniform("in_WVP", wvp);
-		pMesh->draw();
-		simpleShader.program().end();
-		/**
-		uniformColorShader->program().begin();
-		uniformColorShader->program().sendUniform("in_WVP", wvp);
-		static const int nbRings = 50;
-		static const int nbFlorets = 3 * nbRings * (nbRings - 1) + 1;
-		uniformColorShader->program().sendUniform("in_Color", math::vector3f(1,1,1));
-		uniformColorShader->program().sendUniform("in_Wireframe", 0);
-		fl.pVA->drawInstanced(nbFlorets);
-		uniformColorShader->program().sendUniform("in_Color", math::vector3f(1,0,0));
-		uniformColorShader->program().sendUniform("in_Wireframe", 1);
-		fl.pwVA->drawInstanced(nbFlorets, GL_LINES);
-		uniformColorShader->program().end();
-		/**/
+		//cameraTransform->position.y = 1.8f;
+		renderingProcess.setMatrixInfos(vp, cameraTransform->position);
+		renderingProcess.execute(0.0f);
+
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 		glMultMatrixf(&wvp[0][0]);
@@ -846,26 +592,20 @@ int main()
 		glVertex3fv(math::vector3f::null_vector.data);
 		glVertex3fv(math::vector3f::z_axis.data);
 		glEnd();
-
-// 		glEnable(GL_TEXTURE_2D);
-// 		glColor3f(1.0f, 1.0f, 1.0f);
-// 		//opengl::texture_unit<eTU_DiffuseMap>::activate_and_bind(pTexture, pHighQualitySampler);
-// 		glBegin(GL_QUADS);
-// 		glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0f,  0.0f,  0.0f);
-// 		glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0f,  10.0f,  0.0f);
-// 		glTexCoord2f(1.0f, 1.0f); glVertex3f(10.0f, 10.0f, 0.0f);
-// 		glTexCoord2f(1.0f, 0.0f); glVertex3f(10.0f, 0.0f, 0.0f);
-// 		glEnd();
 		
 		/**/
 		pDriver->endFrame();
 	}
 
-	gameplay::game_object_serializer<gpc::DefaultComponentTypes>::serialize(camera);
+	gameplay::component_serializer<gpc::DefaultComponentTypes>::serialize(camera);
 
 	t1.detach();
 	opengl::texture_unit<eTU_DiffuseMap>::set_active();
 	opengl::texture_unit<eTU_DiffuseMap>::unbind();
+
+	opengl::texture_unit<eTU_NormalMap>::set_active();
+	opengl::texture_unit<eTU_NormalMap>::unbind();
+
 	opengl::texture_unit<eTU_SpecularMap>::set_active();
 	opengl::texture_unit<eTU_SpecularMap>::unbind();
 

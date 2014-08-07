@@ -113,10 +113,9 @@ namespace djah { namespace math {
 
 	//--------------------------------------------------------------------------
 	template<int N, typename T>
-	inline std::tuple< radian<T>, vector<N,T> >
-		oriented_angle(const vector<N,T> &from_vec, const vector<N,T> &to_vec)
+	std::tuple< radian, vector<N,T> > oriented_angle(const vector<N,T> &from_vec, const vector<N,T> &to_vec)
 	{
-		std::tuple< radian<T>, vector<N,T> > angle_axis;
+		std::tuple< radian, vector<N,T> > angle_axis;
 
 		if( from_vec != to_vec )
 		{
@@ -124,7 +123,7 @@ namespace djah { namespace math {
 			const vector<N,T> &orientation = to_vec.getNormalized();
 			const float dotResult = orientation * norm;
 
-			radian<T> &angle  = std::get<0>(angle_axis);
+			radian &angle  = std::get<0>(angle_axis);
 			vector<N,T> &axis = std::get<1>(angle_axis);
 			if(dotResult == -1.0f)
 			{

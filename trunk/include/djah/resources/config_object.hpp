@@ -35,15 +35,7 @@ namespace djah { namespace resources {
 		config_object(const std::string &url)
 			: successfullyLoaded_(true)
 		{
-			static asset_finder<TYPELIST(data_object<>), false> s_asset_finder;
-			static bool s_initialized = false;
-			if( !s_initialized )
-			{
-				s_asset_finder.registerExtensions<data_object<>>("config");
-				s_initialized = true;
-			}
-
-			pDataObject_ = s_asset_finder.get<data_object<>>(url);
+			pDataObject_ = resources::default_asset_finder::get().load<data_object<>>(url);
 
 			if( !pDataObject_ )
 			{

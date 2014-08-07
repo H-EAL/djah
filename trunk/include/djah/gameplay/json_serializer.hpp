@@ -26,7 +26,7 @@ namespace djah { namespace resources {
 	}
 	//----------------------------------------------------------------------------------------------
 	template<typename T>
-	void json_serialize(rapidjson::Document &document, rapidjson::Value &node, const std::string &name, const T &val)
+	void json_serialize(rapidjson::Document &document, rapidjson::Value &componentNode, const std::string &name, const T &val)
 	{
 		rapidjson::Value nameNode;
 		nameNode.SetString(name.c_str(), name.size(), document.GetAllocator());
@@ -34,7 +34,7 @@ namespace djah { namespace resources {
 		rapidjson::Value valueNode;
 		json_serializer<T>::serialize(document, valueNode, val);
 
-		node.AddMember(nameNode, valueNode, document.GetAllocator());
+		componentNode.AddMember(nameNode, valueNode, document.GetAllocator());
 	}
 	//----------------------------------------------------------------------------------------------
 

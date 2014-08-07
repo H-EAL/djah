@@ -17,6 +17,9 @@ namespace djah { namespace game { namespace components {
 		math::vector3f scale;
 
 		// transient
+
+		// Helper functions
+		math::matrix4f toMatrix4() const;
 	};
 
 } /*components*/ } /*game*/ } /*djah*/

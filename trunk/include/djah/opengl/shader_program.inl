@@ -46,6 +46,17 @@ namespace djah { namespace opengl {
 		};
 		//------------------------------------------------------------------------------------------
 		template<>
+		struct uniform_func<bool>
+		{
+			//typedef void (*PFNGLUNIFORMPROC) (GLint, GLsizei, const GLint*);
+			template<int N>
+			static PFNGLUNIFORM1IVPROC uniform() 
+			{
+				return uniform_func<int>::uniform<N>();
+			}
+		};
+		//------------------------------------------------------------------------------------------
+		template<>
 		struct uniform_func<unsigned int>
 		{
 			//typedef void (*PFNGLUNIFORMPROC) (GLint, GLsizei, const GLint*);
