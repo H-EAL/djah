@@ -9,7 +9,7 @@ namespace djah { namespace resources {
 	class mesh_loader
 	{
 	public:
-		static mesh_sptr loadFromStream(filesystem::stream &stream, const std::string &url = "");
+		static bool loadFromStream(filesystem::stream &stream, const std::string &url, mesh_sptr &spMesh);
 
 	private:
 		static submesh* loadSubMesh(filesystem::stream &stream);

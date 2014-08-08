@@ -9,7 +9,7 @@ namespace djah { namespace resources {
 	class image_loader
 	{
 	public:
-		static image_sptr loadFromStream(filesystem::stream &stream, const std::string &url = "");
+		static bool loadFromStream(filesystem::stream &stream, const std::string &url, image_sptr &spImage);
 	};
 
 } /*resources*/ } /*djah*/
