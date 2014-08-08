@@ -1,7 +1,7 @@
 {
 	"cow": {
 		"transform": {
-			"position"		: 	[10.0, 0.0, 13.0],
+			"position"		: 	[10.0, 13.0, 0.0],
 			"orientation"	: 	[0.0, 0.0, 0.0, 1.0],
 			"scale"			: 	[1.0, 1.0, 1.0]
 		},
@@ -17,7 +17,7 @@
 	
 	"feisar": {
 		"transform": {
-			"position"		: 	[13.0, 1.0, 0.0],
+			"position"		: 	[13.0, 0.0, 1.0],
 			"orientation"	: 	[0.0, 0.0, 0.0, 1.0],
 			"scale"			: 	[1.0, 1.0, 1.0]
 		},
@@ -35,7 +35,7 @@
 		"transform": {
 			"position"		: 	[0.0, 0.0, 0.0],
 			"orientation"	: 	[0.0, 0.0, 0.0, 1.0],
-			"scale"			: 	[0.2, 0.2, 0.2]
+			"scale"			: 	[1, 1, 1]
 		},
 		
 		"visual_mesh": {
@@ -49,9 +49,9 @@
 	
 	"cthulhu": {
 		"transform": {
-			"position"		: 	[0.0, 1.37, 0.0],
+			"position"		: 	[0.0, -10.0, 1.435],
 			"orientation"	: 	[0.0, 0.0, 0.0, 1.0],
-			"scale"			: 	[1.5, 1.5, 1.5]
+			"scale"			: 	[1, 1, 1]
 		},
 		
 		"visual_mesh": {
@@ -59,7 +59,87 @@
 		},
 		
 		"texture": {
-			"file"			:	"cow.jpg"
+			"file"			:	"cthulhu.jpg"
+		}
+	},
+	
+	"creature1": {
+		"transform": {
+			"position"		: 	[0.0, 5.0, 0.5],
+			"orientation"	: 	[0.0, 0.0, 0.0, 1.0],
+			"scale"			: 	[1, 1, 1]
+		},
+		
+		"visual_mesh": {
+			"file"			: 	"meshes/creature1.mesh"
+		},
+		
+		"texture": {
+			"file"			:	"creature1_body.jpg"
+		}
+	},
+	
+	"creature2": {
+		"transform": {
+			"position"		: 	[2.0, 5.0, 0.5],
+			"orientation"	: 	[0.0, 0.0, 0.0, 1.0],
+			"scale"			: 	[1, 1, 1]
+		},
+		
+		"visual_mesh": {
+			"file"			: 	"meshes/creature2.mesh"
+		},
+		
+		"texture": {
+			"file"			:	"creature2_body.jpg"
+		}
+	},
+	
+	"creature5": {
+		"transform": {
+			"position"		: 	[-2.0, 5.0, 0.5],
+			"orientation"	: 	[0.0, 0.0, 0.0, 1.0],
+			"scale"			: 	[1, 1, 1]
+		},
+		
+		"visual_mesh": {
+			"file"			: 	"meshes/creature5.mesh"
+		},
+		
+		"texture": {
+			"file"			:	"creature5_body.jpg"
+		}
+	},
+	
+	"scout": {
+		"transform": {
+			"position"		: 	[1.0, -3.0, 1.43],
+			"orientation"	: 	[0.0, 0.0, 0.0, 1.0],
+			"scale"			: 	[1, 1, 1]
+		},
+		
+		"visual_mesh": {
+			"file"			: 	"meshes/scout.mesh"
+		},
+		
+		"texture": {
+			"file"			:	"scout.jpg"
+		}
+	},
+	
+	"scout2": {
+		"transform": {
+			"position"		: 	[1.0, 7.0, 0.95],
+			"orientation"	: 	[0.0, 0.0, 0.0, 1.0],
+			"scale"			: 	[1, 1, 1]
+		},
+		
+		"visual_mesh": {
+			"file"			: 	"meshes/scout.mesh"
+		},
+		
+		"texture": {
+			"file"			:	"scout.jpg"
 		}
 	},
 	
@@ -67,7 +147,7 @@
 		"transform": {
 			"position"		: 	[0.0, 0.0, 0.0],
 			"orientation"	: 	[0.0, 0.0, 0.0, 1.0],
-			"scale"			: 	[6, 1.0, 8]
+			"scale"			: 	[2.95, 3.95, 0.48]
 		},
 		
 		"visual_mesh": {
@@ -81,7 +161,7 @@
 		"uv_modifier": {
 			"scale"			:	[20, 20],
 			"offset"		:	[0, 0],
-			"velocity"		:	[0.0, -0.05]
+			"velocity"		:	[0.0, -0.01]
 		}
 	},
 	
@@ -89,7 +169,7 @@
 		"transform": {
 			"position"		: 	[0.0, 0.0, 0.0],
 			"orientation"	: 	[0.0, 0.0, 0.0, 1.0],
-			"scale"			: 	[1000, 0.01, 1000]
+			"scale"			: 	[1000, 1000, 0.01]
 		},
 		
 		"visual_mesh": {
