@@ -72,7 +72,7 @@ namespace djah { namespace resources {
 		~asset_finder<ExtraAssetsTypes_,UseDefaultTypes_>() {}
 
 		template<typename T>
-		std::shared_ptr<T> loadFromUrl(const std::string &url);
+		bool loadFromUrl(const std::string &url, std::shared_ptr<T> &spAsset);
 
 		template<typename T>
 		void saveToUrl(const T &obj, const std::string &url);

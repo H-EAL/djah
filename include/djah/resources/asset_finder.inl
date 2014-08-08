@@ -24,34 +24,35 @@ namespace djah { namespace resources {
 	std::shared_ptr<T> asset_finder<ExtraAssetsTypes_, UseDefaultTypes_>::load(const std::string &url, bool loadIfNotFound)
 	{
 		// Get it from the warehouse
-		auto pAsset = asset_warehouse::get().find<T>(url);
+		auto spAsset = asset_warehouse::get().find<T>(url);
 
 		// If found check if there's a more up to date version
-		if( pAsset )
+		if( spAsset )
 		{
-			filesystem::stream_sptr pStream = filesystem::browser::get().openReadStream(url);
-			if( pStream )
+			filesystem::stream_sptr spStream = filesystem::browser::get().openReadStream(url);
+			if( spStream )
 			{
-				const u64 actualTimestamp = pStream->lastWrite();
-				const u64 currentTimestamp = pAsset->timestamp();
+				const u64 actualTimestamp = spStream->lastWrite();
+				const u64 currentTimestamp = spAsset->timestamp();
 				if( actualTimestamp != currentTimestamp )
 				{
-					std::shared_ptr<T> pReloadedAsset = loadFromUrl<T>(url);
-					if( pReloadedAsset )
+					const bool success = loadFromUrl<T>(url, spAsset);
+					if( !success )
 					{
-						*pAsset = *pReloadedAsset;
+						asset_warehouse::get().remove(spAsset);
+						spAsset.reset();
 					}
 				}
 			}
 		}
 
 		// If not found try to load it through the asset manager
-		else if( !pAsset && loadIfNotFound )
+		else if( !spAsset && loadIfNotFound )
 		{
-			pAsset = loadFromUrl<T>(url);
-			if( pAsset )
+			const bool success = loadFromUrl<T>(url, spAsset);
+			if( success )
 			{
-				asset_warehouse::get().add(url, pAsset);
+				asset_warehouse::get().add(url, spAsset);
 			}
 			else
 			{
@@ -62,7 +63,7 @@ namespace djah { namespace resources {
 			}
 		}
 
-		return pAsset;
+		return spAsset;
 	}
 	//----------------------------------------------------------------------------------------------
 
@@ -70,24 +71,24 @@ namespace djah { namespace resources {
 	//----------------------------------------------------------------------------------------------
 	template<typename ExtraAssetsTypes_, bool UseDefaultTypes_>
 	template<typename T>
-	std::shared_ptr<T> asset_finder<ExtraAssetsTypes_, UseDefaultTypes_>::loadFromUrl(const std::string &url)
+	bool asset_finder<ExtraAssetsTypes_, UseDefaultTypes_>::loadFromUrl(const std::string &url, std::shared_ptr<T> &spAsset)
 	{
-		std::shared_ptr<T> pAsset;
+		bool success = false;
 
 		if( hasLoader<T>(url) )
 		{
-			filesystem::stream_sptr pStream = filesystem::browser::get().openReadStream(url);
-			if(pStream)
+			filesystem::stream_sptr spStream = filesystem::browser::get().openReadStream(url);
+			if(spStream)
 			{
-				pAsset = loader<T>::loadFromStream(*pStream, url);
-				if( pAsset )
+				success = loader<T>::loadFromStream(*spStream, url, spAsset);
+				if( success )
 				{
-					pAsset->setTimestamp(pStream->lastWrite());
+					spAsset->setTimestamp(spStream->lastWrite());
 				}
 			}
 		}
 
-		return pAsset;
+		return success;
 	}
 	//----------------------------------------------------------------------------------------------
 

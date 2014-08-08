@@ -5,9 +5,9 @@
 namespace djah { namespace resources {
 
 	//----------------------------------------------------------------------------------------------
-	mesh_sptr mesh_loader::loadFromStream(filesystem::stream &strm, const std::string &fileName)
+	bool mesh_loader::loadFromStream(filesystem::stream &strm, const std::string &fileName, mesh_sptr &spMesh)
 	{
-		mesh_sptr pMesh;
+		bool success = false;
 
 		unsigned int version = 0;
 		strm >> version;
@@ -17,19 +17,23 @@ namespace djah { namespace resources {
 			unsigned int subMeshCount = 0;
 			strm >> subMeshCount;
 
-			check(subMeshCount > 0);
-			pMesh = std::make_shared<mesh>(subMeshCount);
-
-			for(unsigned int i = 0; i < subMeshCount; ++i)
+			if( ensure(subMeshCount > 0) )
 			{
-				submesh *pSubMesh = loadSubMesh(strm);
-				check(pSubMesh);
+				spMesh.reset( new mesh(subMeshCount) );
 
-				pMesh->addSubMesh(pSubMesh);
+				for(unsigned int i = 0; i < subMeshCount; ++i)
+				{
+					submesh *pSubMesh = loadSubMesh(strm);
+					check(pSubMesh);
+
+					spMesh->addSubMesh(pSubMesh);
+				}
+
+				success = true;
 			}
 		}
 
-		return pMesh;
+		return success;
 	}
 	//----------------------------------------------------------------------------------------------
 

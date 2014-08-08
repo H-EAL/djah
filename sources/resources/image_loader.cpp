@@ -6,13 +6,13 @@
 namespace djah { namespace resources {
 
 	//----------------------------------------------------------------------------------------------
-	image_sptr image_loader::loadFromStream(filesystem::stream &strm, const std::string &fileName)
+	bool image_loader::loadFromStream(filesystem::stream &strm, const std::string &fileName, image_sptr &spImage)
 	{
+		bool success = false;
+
 		size_t bufferSize = strm.size();
 		std::unique_ptr<byte[]> buffer(new byte[bufferSize]);
 		strm.read(buffer.get(), bufferSize);
-
-		image_sptr pImg;
 
 		int width = 0, height = 0, channels = 0;
 		byte *pImgData = SOIL_load_image_from_memory(buffer.get(), bufferSize, &width, &height, &channels, SOIL_LOAD_AUTO);
@@ -34,11 +34,12 @@ namespace djah { namespace resources {
 				}
 			}
 
-			pImg = std::make_shared<image>(width, height, channels, pImgData);
+			spImage.reset( new image(width, height, channels, pImgData) );
 			SOIL_free_image_data(pImgData);
+			success = true;
 		}
 
-		return pImg;
+		return success;
 	}
 	//----------------------------------------------------------------------------------------------
 

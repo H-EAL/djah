@@ -15,26 +15,23 @@ namespace djah { namespace resources {
 		typedef typename data_object<AttributeTypes>::data_object_sptr data_object_sptr;
 
 	public:
-		static data_object_sptr loadFromStream(filesystem::stream &stream, const std::string &url = "")
+		static bool loadFromStream(filesystem::stream &stream, const std::string &url, data_object_sptr &spDataObject)
 		{
-			data_object_sptr pDataObject = std::make_shared<data_object_t>(url);
-			data_object_sptr pLoadedDataObject = std::make_shared<data_object_t>(url);
+			if( !spDataObject )
+			{
+				spDataObject = std::make_shared<data_object_t>(url);
+			}
 
 			bool success = false;
+
 			const std::string &extension = string_utils::to_lower_case(string_utils::get_file_extension(url));
 			if( extension == "config" )
 			{
-				if( success = ini_serializer<AttributeTypes>::deserialize(stream, pLoadedDataObject) )
-				{
-					pDataObject = pLoadedDataObject;
-				}
+				success = ini_serializer<AttributeTypes>::deserialize(stream, spDataObject);
 			}
 			else if( extension == "json" )
 			{
-				if( success = ini_serializer<AttributeTypes>::deserialize2(stream, pLoadedDataObject) )
-				{
-					pDataObject = pLoadedDataObject;
-				}
+				success = ini_serializer<AttributeTypes>::deserialize2(stream, spDataObject);
 			}
 
 			if( !success )
@@ -46,7 +43,7 @@ namespace djah { namespace resources {
 					<< DJAH_END_LOG();
 			}
 
-			return pDataObject;
+			return success;
 		}
 	};
 

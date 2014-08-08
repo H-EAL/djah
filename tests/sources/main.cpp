@@ -228,49 +228,84 @@ void readInputs()
 	}
 }
 
-template<typename Container, typename Process>
-void loadWorld(Container &entities, Process &process)
+class World
 {
-	size_t count = entities.size();
-	for(size_t i = 0; i < count; ++i)
+public:
+	template<typename Process>
+	void load(const std::string &fileName, Process &process)
 	{
-		process.remove(entities[i]);
-		delete entities[i];
-	}
+		filesystem::stream_sptr pStream = filesystem::browser::get().openReadStream(fileName);
 
-	entities.clear();
+		if( pStream == nullptr )
+		{
+			return;
+		}
+		
+		if( pStream->size() == 0 )
+		{
+			return;
+		}
 
-	const std::string &fileName = "worlds/test.world";
-	filesystem::stream_sptr pStream = filesystem::browser::get().openReadStream(fileName);
-
-	if( pStream && pStream->size() > 0 )
-	{
 		filesystem::memory_stream memStrm(pStream.get());
 		const std::string &jsonStr = memStrm.toString();
 
 		rapidjson::Document doc;
 		doc.Parse<0>(jsonStr.c_str());
 
-		if( !doc.HasParseError() )
+		if( doc.HasParseError() )
 		{
-			auto itEnd = doc.MemberEnd();
-			for(auto it = doc.MemberBegin(); it != itEnd; ++it)
+			return;
+		}
+
+		std::set<std::string> worldEntities;
+
+		auto itEnd = doc.MemberEnd();
+		for(auto it = doc.MemberBegin(); it != itEnd; ++it)
+		{
+			if( ensure(it->value.IsObject()) )
 			{
-				if( ensure(it->value.IsObject()) )
+				const std::string &entityName = it->name.GetString();
+				
+				auto itEntity = entities_.find(entityName);
+				if( itEntity == entities_.end() )
 				{
-					const std::string &entityName = it->name.GetString();
-					Entity *newEntity = new Entity(entityName);
-
-					gameplay::component_serializer<gpc::DefaultComponentTypes>::deserialize(*newEntity, it->value);
-
-					process.add(newEntity);
-
-					entities.push_back(newEntity);
+					itEntity = entities_.insert( std::map<std::string, Entity>::value_type(entityName, Entity(entityName)) ).first;
 				}
+				else
+				{
+					process.remove(&(itEntity->second));
+				}
+
+				check(itEntity != entities_.end());
+
+				gameplay::component_serializer<gpc::DefaultComponentTypes>::deserialize(itEntity->second, it->value);
+
+				process.add(&(itEntity->second));
+				worldEntities.insert(entityName);
+			}
+		}
+
+		// Remove orphaned entities
+		const auto &entitiesItEnd = worldEntities.end();
+		auto it = entities_.begin();
+		while( it != entities_.end() )
+		{
+			auto itEntity = worldEntities.find(it->first);
+			if( itEntity == entitiesItEnd )
+			{
+				process.remove(&(it->second));
+				it = entities_.erase(it);
+			}
+			else
+			{
+				++it;
 			}
 		}
 	}
-}
+
+private:
+	std::map<std::string, Entity> entities_;
+};
 
 int main()
 {
@@ -321,8 +356,8 @@ int main()
 	game::processes::rendering_process<gpc::DefaultComponentTypes> renderingProcess;
 
 	// 3.5 - Load resources
-	std::vector<Entity*> entities;
-	loadWorld(entities, renderingProcess);
+	World world;
+	world.load("worlds/test.world", renderingProcess);
 
 	auto pNormal   = d3d::texture_manager::get().find("houseN.jpg");
 	auto pSpecular = d3d::texture_manager::get().find("feisar-specular.jpg");
@@ -343,8 +378,8 @@ int main()
 	gameplay::component<gpc::fov>		cameraFOV		= camera.get<gpc::fov>();
 	gameplay::component<gpc::action_map> cameraAM		= camera.get<gpc::action_map>();
 
-	const math::vector3f neutralDirection(0.0f,0.0f,-1.0f);
-	const math::vector3f upDirection(0.0f,1.0f,0.0f);
+	const math::vector3f neutralDirection(0.0f,-1.0f,0.0f);
+	const math::vector3f upDirection(0.0f,0.0f,1.0f);
 	const math::vector3f &realDirection   = math::rotate(cameraTransform->orientation, neutralDirection);
 	const math::vector3f &cameraCenter    = cameraTransform->position + realDirection;
 	const math::vector3f &realUpDirection = math::rotate(cameraTransform->orientation, upDirection);
@@ -425,7 +460,7 @@ int main()
 
 			if( kb.pressed(system::input::eKC_F5) )
 			{
-				loadWorld(entities, renderingProcess);
+				world.load("worlds/test.world", renderingProcess);
 
 				/*
 				gameplay::component_serializer<gpc::DefaultComponentTypes>::deserialize(camera);
@@ -527,9 +562,9 @@ int main()
 				const float camSpeed = 0.5f;
 				const math::vector3f &disp = camSpeed * math::vector3f
 				(
-					cameraAM->states["MOVE_RIGHT"]	  - cameraAM->states["MOVE_LEFT"],
-					cameraAM->states["MOVE_UPWARD"]	  - cameraAM->states["MOVE_DOWNWARD"],
-					cameraAM->states["MOVE_BACKWARD"] - cameraAM->states["MOVE_FORWARD"]
+					cameraAM->states["MOVE_LEFT"]	  - cameraAM->states["MOVE_RIGHT"],
+					cameraAM->states["MOVE_BACKWARD"] - cameraAM->states["MOVE_FORWARD"],
+					cameraAM->states["MOVE_UPWARD"]	  - cameraAM->states["MOVE_DOWNWARD"]
 				);
 
 				bool turned = false;
@@ -547,7 +582,7 @@ int main()
 				const float verticalTurn = cameraAM->states["LOOK_UP"] - cameraAM->states["LOOK_DOWN"];
 				if( std::abs(verticalTurn) > 0.0f )
 				{
-					const math::vector3f realRightDirection(-1.0f, 0.0f, 0.0f);
+					const math::vector3f realRightDirection(1.0f, 0.0f, 0.0f);
 					const math::quatf &nrot = math::make_quaternion(math::degree(verticalTurn*turnSpeed), realRightDirection);
 					cameraTransform->orientation = cameraTransform->orientation * nrot;
 					turned = true;
@@ -576,6 +611,7 @@ int main()
 		renderingProcess.setMatrixInfos(vp, cameraTransform->position);
 		renderingProcess.execute(0.0f);
 
+		glDisable(GL_DEPTH_TEST);
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 		glMultMatrixf(&wvp[0][0]);
@@ -592,6 +628,7 @@ int main()
 		glVertex3fv(math::vector3f::null_vector.data);
 		glVertex3fv(math::vector3f::z_axis.data);
 		glEnd();
+		glEnable(GL_DEPTH_TEST);
 		
 		/**/
 		pDriver->endFrame();
