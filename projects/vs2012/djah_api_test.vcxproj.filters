@@ -42,6 +42,9 @@
     <ClCompile Include="..\..\sources\game\components\transform.cpp">
       <Filter>Fichiers sources\game\components</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\include\djah\game\components\enum_test.cpp">
+      <Filter>Fichiers sources\game\components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\djah\game\components_registry.hpp">
@@ -68,5 +71,16 @@
     <ClInclude Include="..\..\include\djah\game\processes\rendering_process.hpp">
       <Filter>Fichiers sources\game\processes</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\djah\game\components\enum_test.hpp">
+      <Filter>Fichiers sources\game\components</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\include\djah\game\components\enum_test.enum">
+      <Filter>Fichiers sources\game\components</Filter>
+    </None>
+    <None Include="..\..\include\djah\game\components\enum_texture_filter.enum">
+      <Filter>Fichiers sources\game\components</Filter>
+    </None>
   </ItemGroup>
 </Project>

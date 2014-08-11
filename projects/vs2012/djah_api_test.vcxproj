@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\include\djah\game\components\enum_test.cpp" />
     <ClCompile Include="..\..\sources\game\components\action_map.cpp" />
     <ClCompile Include="..\..\sources\game\components\fov.cpp" />
     <ClCompile Include="..\..\sources\game\components\texture.cpp" />
@@ -20,6 +21,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\djah\game\components\action_map.hpp" />
+    <ClInclude Include="..\..\include\djah\game\components\enum_test.hpp" />
     <ClInclude Include="..\..\include\djah\game\components\fov.hpp" />
     <ClInclude Include="..\..\include\djah\game\components\texture.hpp" />
     <ClInclude Include="..\..\include\djah\game\components\transform.hpp" />
@@ -27,6 +29,10 @@
     <ClInclude Include="..\..\include\djah\game\components_registry.hpp" />
     <ClInclude Include="..\..\include\djah\game\processes\actions_process.hpp" />
     <ClInclude Include="..\..\include\djah\game\processes\rendering_process.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\include\djah\game\components\enum_test.enum" />
+    <None Include="..\..\include\djah\game\components\enum_texture_filter.enum" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{73E0D0FA-C047-45B0-AC6F-35780607893C}</ProjectGuid>

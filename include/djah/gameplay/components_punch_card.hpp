@@ -4,7 +4,7 @@
 #include "djah/debug/assertion.hpp"
 #include "djah/core/typelist.hpp"
 #include "djah/core/hierarchy_generation.hpp"
-#include "djah/gameplay/component_database.hpp"
+#include "djah/gameplay/components_database.hpp"
 
 namespace djah { namespace gameplay {
 
@@ -29,8 +29,8 @@ namespace djah { namespace gameplay {
         static void clone(const PunchCard &src, PunchCard &dst) {}
 
 		//----------------------------------------------------------------------------------------------
-		// Merge src container into dst punch card, i.e. dst will use every src component with the exact
-		// same data.
+		// Merge src punch card into dst punch card, i.e. dst will use every src component with the
+		// exact same data.
 		// Note that if the destination punch card already uses a given component, that component will
 		// be overwritten with the source punch card's component data.
 		//----------------------------------------------------------------------------------------------
@@ -147,7 +147,7 @@ namespace djah { namespace gameplay {
 	//--------------------------------------------------------------------------------------------------
 	// A component punch card, this class inherits from component_usage templated by each and every
 	// component type in ComponentsTypeList. Basically it acts as a list of typed ids indexing an actual
-	// container located in component_database.
+	// container located in components_database.
 	//
 	// Example:
 	//		components_punch_card< TYPELIST(Comp1, Comp2, ..., CompN) >
@@ -156,6 +156,14 @@ namespace djah { namespace gameplay {
 	//			- component_usage<Comp2>
 	//			- ...
 	//			- component_usage<CompN>
+	//
+	// Visually a punch card could look like this:
+	//		_______________________________________________________________
+	//		| ComponentsPunchCard | Comp1 | Comp2 | Comp3 | ..... | CompN |
+	//		---------------------------------------------------------------
+	//		| Usage Index         |  428  |  -1   |  33   | ..... |   9   |
+	//		---------------------------------------------------------------
+	//
 	//--------------------------------------------------------------------------------------------------
 	template<typename ComponentsTypeList>
 	class components_punch_card
@@ -234,11 +242,11 @@ namespace djah { namespace gameplay {
 		}
 
 	private:
-		static component_database<ComponentsTypeList> db_;
+		static components_database<ComponentsTypeList> db_;
 	};
 	//--------------------------------------------------------------------------------------------------
 	template<typename ComponentTypeList>
-	component_database<ComponentTypeList> components_punch_card<ComponentTypeList>::db_;
+	components_database<ComponentTypeList> components_punch_card<ComponentTypeList>::db_;
 	//==================================================================================================
 
 } /*gameplay*/ } /*djah*/

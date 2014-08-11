@@ -85,6 +85,7 @@
     <ClInclude Include="..\..\include\djah\core\detail\functor_handler.hpp" />
     <ClInclude Include="..\..\include\djah\core\detail\functor_impl.hpp" />
     <ClInclude Include="..\..\include\djah\core\detail\member_function_handler.hpp" />
+    <ClInclude Include="..\..\include\djah\core\enum.hpp" />
     <ClInclude Include="..\..\include\djah\core\events.hpp" />
     <ClInclude Include="..\..\include\djah\core\state_machine.hpp" />
     <ClInclude Include="..\..\include\djah\core\functor.hpp" />

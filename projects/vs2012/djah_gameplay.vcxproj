@@ -79,8 +79,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\djah\gameplay\component.hpp" />
+    <ClInclude Include="..\..\include\djah\gameplay\components_database.hpp" />
     <ClInclude Include="..\..\include\djah\gameplay\components_punch_card.hpp" />
-    <ClInclude Include="..\..\include\djah\gameplay\component_database.hpp" />
     <ClInclude Include="..\..\include\djah\gameplay\component_process.hpp" />
     <ClInclude Include="..\..\include\djah\gameplay\component_serializer.hpp" />
     <ClInclude Include="..\..\include\djah\gameplay\entity.hpp" />

@@ -11,9 +11,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\include\djah\gameplay\component_database.hpp">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\djah\gameplay\component_serializer.hpp">
       <Filter>include</Filter>
     </ClInclude>
@@ -30,6 +27,9 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\djah\gameplay\components_punch_card.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\djah\gameplay\components_database.hpp">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>

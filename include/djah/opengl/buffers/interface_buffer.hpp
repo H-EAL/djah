@@ -12,7 +12,7 @@ namespace djah { namespace opengl {
 			virtual ~buffer() {}
 
 			virtual size_t read(void *_pDst, size_t _size) = 0;
-			virtual size_t write(const void *_pSrc, size_t _size) = 0;
+			virtual size_t write(const void * const _pSrc, size_t _size) = 0;
 		};
 
 	} /*interface*/

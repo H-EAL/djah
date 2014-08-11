@@ -20,12 +20,12 @@ namespace djah { namespace game { namespace components {
 	//----------------------------------------------------------------------------------------------
 	uv_modifier::uv_modifier(const rapidjson::Value &node)
 	{
-		load_attributes(scale, offset, velocity);
+		load_attributes(scale, offset, velocity, textureFilter);
 	}
 	//----------------------------------------------------------------------------------------------
 	void uv_modifier::serialize(rapidjson::Document &document, rapidjson::Value &componentNode) const
 	{
-		save_attributes(scale, offset, velocity);
+		save_attributes(scale, offset, velocity, textureFilter);
 	}
 	//----------------------------------------------------------------------------------------------
 

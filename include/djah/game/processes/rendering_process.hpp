@@ -62,9 +62,10 @@ namespace djah { namespace game { namespace processes {
 			cameraPosition_ = cameraPosition;
 		}
 
-		void setSampler(const std::shared_ptr<opengl::sampler> &spSampler)
+		void setSamplers(const std::shared_ptr<opengl::sampler> &spSamplerLC, const std::shared_ptr<opengl::sampler> &spSamplerHC)
 		{
-			spSampler_ = spSampler;
+            spSamplerLC_ = spSamplerLC;
+            spSamplerHC_ = spSamplerHC;
 		}
 
 		virtual void execute(float dt)
@@ -88,16 +89,30 @@ namespace djah { namespace game { namespace processes {
 				uvModifierComp->position += uvModifierComp->velocity;
 				simpleShader.program().sendUniform("in_UVScale", uvModifierComp->scale);
 				simpleShader.program().sendUniform("in_UVOffset", uvModifierComp->offset + uvModifierComp->position);
+
+                TextureFilter::Type textureFilter = uvModifierComp->textureFilter;
+                switch(textureFilter)
+                {
+                case TextureFilter::Bilinear:
+                    opengl::texture_unit<0>::activate_and_bind(textureComp->spTexture, spSamplerLC_);
+                    break;
+                case TextureFilter::Trilinear:
+                    opengl::texture_unit<0>::activate_and_bind(textureComp->spTexture, spSamplerHC_);
+                    break;
+                case TextureFilter::Anisotropic:
+                    opengl::texture_unit<0>::activate_and_bind(textureComp->spTexture, spSamplerHC_);
+                    break;
+                }
 			}
 			else
-			{
+            {
+                opengl::texture_unit<0>::activate_and_bind(textureComp->spTexture, spSamplerHC_);
 				simpleShader.program().sendUniform("in_UVScale", math::vector2f(1.0f, 1.0f));
 				simpleShader.program().sendUniform("in_UVOffset", math::vector2f(0.0f, 0.0f));
 			}
 
 			const auto &in_World = transformComp->toMatrix4();
 
-			opengl::texture_unit<0>::activate_and_bind(textureComp->spTexture, spSampler_);
 			simpleShader.program().sendUniform("in_EyeWorldPos", math::resize<3>(math::apply_transform(in_World, math::point3_to_point4(cameraPosition_))));
 			simpleShader.program().sendUniform("in_World", in_World);
 			simpleShader.program().sendUniform("in_WVP", in_World * in_VP);
@@ -108,7 +123,8 @@ namespace djah { namespace game { namespace processes {
 		d3d::shader simpleShader;
 		math::matrix4f in_VP;
 		math::vector3f cameraPosition_;
-		std::shared_ptr<opengl::sampler> spSampler_;
+        std::shared_ptr<opengl::sampler> spSamplerLC_;
+        std::shared_ptr<opengl::sampler> spSamplerHC_;
 	};
 
 } /*services*/ } /*game*/ } /*djah*/
