@@ -1,23 +1,7 @@
 {
-	"cow": {
-		"transform": {
-			"position"		: 	[10.0, 13.0, 0.0],
-			"orientation"	: 	[0.0, 0.0, 0.0, 1.0],
-			"scale"			: 	[1.0, 1.0, 1.0]
-		},
-		
-		"visual_mesh": {
-			"file"			: 	"meshes/cow.mesh"
-		},
-		
-		"texture": {
-			"file"			:	"cow.jpg"
-		}
-	},
-	
 	"feisar": {
 		"transform": {
-			"position"		: 	[13.0, 0.0, 1.0],
+			"position"		: 	[0.0, 0.0, 1.0],
 			"orientation"	: 	[0.0, 0.0, 0.0, 1.0],
 			"scale"			: 	[1.0, 1.0, 1.0]
 		},
@@ -31,137 +15,19 @@
 		}
 	},
 	
-	"house": {
+	"astroboy": {
 		"transform": {
-			"position"		: 	[0.0, 0.0, 0.0],
+			"position"		: 	[-500.0, 0.0, 0.0],
 			"orientation"	: 	[0.0, 0.0, 0.0, 1.0],
-			"scale"			: 	[1, 1, 1]
+			"scale"			: 	[1.0, 1.0, 1.0]
 		},
 		
 		"visual_mesh": {
-			"file"			: 	"meshes/house.mesh"
+			"file"			: 	"meshes/astroboy.mesh"
 		},
 		
 		"texture": {
-			"file"			:	"house.jpg"
-		}
-	},
-	
-	"cthulhu": {
-		"transform": {
-			"position"		: 	[0.0, -10.0, 1.435],
-			"orientation"	: 	[0.0, 0.0, 0.0, 1.0],
-			"scale"			: 	[1, 1, 1]
-		},
-		
-		"visual_mesh": {
-			"file"			: 	"meshes/cthulhu.mesh"
-		},
-		
-		"texture": {
-			"file"			:	"cthulhu.jpg"
-		}
-	},
-	
-	"creature1": {
-		"transform": {
-			"position"		: 	[0.0, 5.0, 0.5],
-			"orientation"	: 	[0.0, 0.0, 0.0, 1.0],
-			"scale"			: 	[1, 1, 1]
-		},
-		
-		"visual_mesh": {
-			"file"			: 	"meshes/creature1.mesh"
-		},
-		
-		"texture": {
-			"file"			:	"creature1_body.jpg"
-		}
-	},
-	
-	"creature2": {
-		"transform": {
-			"position"		: 	[2.0, 5.0, 0.5],
-			"orientation"	: 	[0.0, 0.0, 0.0, 1.0],
-			"scale"			: 	[1, 1, 1]
-		},
-		
-		"visual_mesh": {
-			"file"			: 	"meshes/creature2.mesh"
-		},
-		
-		"texture": {
-			"file"			:	"creature2_body.jpg"
-		}
-	},
-	
-	"creature5": {
-		"transform": {
-			"position"		: 	[-2.0, 5.0, 0.5],
-			"orientation"	: 	[0.0, 0.0, 0.0, 1.0],
-			"scale"			: 	[1, 1, 1]
-		},
-		
-		"visual_mesh": {
-			"file"			: 	"meshes/creature5.mesh"
-		},
-		
-		"texture": {
-			"file"			:	"creature5_body.jpg"
-		}
-	},
-	
-	"scout": {
-		"transform": {
-			"position"		: 	[1.0, -3.0, 1.43],
-			"orientation"	: 	[0.0, 0.0, 0.0, 1.0],
-			"scale"			: 	[1, 1, 1]
-		},
-		
-		"visual_mesh": {
-			"file"			: 	"meshes/scout.mesh"
-		},
-		
-		"texture": {
-			"file"			:	"scout.jpg"
-		}
-	},
-	
-	"scout2": {
-		"transform": {
-			"position"		: 	[1.0, 7.0, 0.95],
-			"orientation"	: 	[0.0, 0.0, 0.0, 1.0],
-			"scale"			: 	[1, 1, 1]
-		},
-		
-		"visual_mesh": {
-			"file"			: 	"meshes/scout.mesh"
-		},
-		
-		"texture": {
-			"file"			:	"scout.jpg"
-		}
-	},
-	
-	"floor": {
-		"transform": {
-			"position"		: 	[0.0, 0.0, 0.0],
-			"orientation"	: 	[0.0, 0.0, 0.0, 1.0],
-			"scale"			: 	[2.95, 3.95, 0.48]
-		},
-		
-		"visual_mesh": {
-			"file"			: 	"meshes/cube.mesh"
-		},
-		
-		"texture": {
-			"file"			:	"wood.jpg"
-		},
-		
-		"uv_modifier": {
-			"scale"			:	[20, 20],
-			"offset"		:	[0, 0],
-			"velocity"		:	[0.0, -0.01]
+			"file"			:	"boy_10.jpg"
 		}
 	},
 	
@@ -183,7 +49,8 @@
 		"uv_modifier": {
 			"scale"			:	[1000, 1000],
 			"offset"		:	[0, 0],
-			"velocity"		:	[0.0, 0.0]
+			"velocity"		:	[-0.1, 0.0],
+			"textureFilter"	:	["TextureFilter_Trilinear"]
 		}
 	}
 }
