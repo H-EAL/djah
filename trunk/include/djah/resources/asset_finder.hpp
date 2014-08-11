@@ -21,6 +21,61 @@
 namespace djah { namespace resources {
 
 	//----------------------------------------------------------------------------------------------
+	template<typename AssetsTypeList>
+	struct assets_visitor;
+	//----------------------------------------------------------------------------------------------
+	template<>
+	struct assets_visitor<utils::nulltype>
+	{
+		template<typename AssetFinder>
+		static void refresh(AssetFinder &assetFinder);
+
+		template<typename AssetFinder>
+		static void refresh(AssetFinder &assetFinder, asset_warehouse::asset_map_t &assets) {}
+	};
+	//----------------------------------------------------------------------------------------------
+	template<typename HeadAssetType, typename TailList>
+	struct assets_visitor< utils::typelist<HeadAssetType, TailList> >
+	{
+		template<typename AssetFinder>
+		static void refresh(AssetFinder &assetFinder)
+		{
+			asset_warehouse::asset_map_t assets = asset_warehouse::get().assets();
+			assets_visitor< utils::typelist<HeadAssetType, TailList> >::refresh(assetFinder, assets);
+		}
+
+		template<typename AssetFinder>
+		static void refresh(AssetFinder &assetFinder, asset_warehouse::asset_map_t &assets)
+		{
+			auto it = assets.begin();
+			while( it != assets.end() )
+			{
+				if( !it->second.wpAsset_.expired() )
+				{
+					auto spAsset = std::shared_ptr<HeadAssetType>(std::dynamic_pointer_cast<HeadAssetType>(it->second.wpAsset_.lock()));
+					if( spAsset )
+					{
+						assetFinder.refresh<HeadAssetType>(it->first, spAsset);
+						it = assets.erase(it);
+					}
+					else
+					{
+						++it;
+					}
+				}
+				else
+				{
+					it = assets.erase(it);
+				}
+			}
+
+			assets_visitor<TailList>::refresh(assetFinder, assets);
+		}
+	};
+	//----------------------------------------------------------------------------------------------
+
+
+	//----------------------------------------------------------------------------------------------
 	template<typename AssetType>
 	struct asset_extensions
 	{
@@ -61,23 +116,31 @@ namespace djah { namespace resources {
 		>::type AssetsTypeList;
 
 	public:
-		template<typename T>
+		template<typename AssetType>
 		void registerExtensions(const std::string &extensions);
 
-		template<typename T>
-		std::shared_ptr<T> load(const std::string &url, bool loadIfNotFound = true);
+		template<typename AssetType>
+		std::shared_ptr<AssetType> load(const std::string &url, bool loadIfNotFound = true);
+
+		void refreshAll();
+
+		template<typename AssetType>
+		void refresh();
+
+		template<typename AssetType>
+		bool refresh(const std::string &url, std::shared_ptr<AssetType> &spAsset);
 
 	private:
 		asset_finder<ExtraAssetsTypes_,UseDefaultTypes_>() {}
 		~asset_finder<ExtraAssetsTypes_,UseDefaultTypes_>() {}
 
-		template<typename T>
-		bool loadFromUrl(const std::string &url, std::shared_ptr<T> &spAsset);
+		template<typename AssetType>
+		bool loadFromUrl(const std::string &url, std::shared_ptr<AssetType> &spAsset);
 
-		template<typename T>
-		void saveToUrl(const T &obj, const std::string &url);
+		template<typename AssetType>
+		void saveToUrl(const AssetType &obj, const std::string &url);
 
-		template<typename T>
+		template<typename AssetType>
 		bool hasLoader(const std::string &url);
 	};
 	//----------------------------------------------------------------------------------------------

@@ -1,0 +1,5 @@
+
+
+DJAH_ENUM_PROCESSOR(TextureFilter, Bilinear)
+DJAH_ENUM_PROCESSOR(TextureFilter, Trilinear)
+DJAH_ENUM_PROCESSOR(TextureFilter, Anisotropic)

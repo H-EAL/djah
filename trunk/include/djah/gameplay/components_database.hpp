@@ -1,5 +1,5 @@
-#ifndef DJAH_GAMEPLAY_COMPONENT_DATABASE_HPP
-#define DJAH_GAMEPLAY_COMPONENT_DATABASE_HPP
+#ifndef DJAH_GAMEPLAY_COMPONENTS_DATABASE_HPP
+#define DJAH_GAMEPLAY_COMPONENTS_DATABASE_HPP
 
 #include <stack>
 #include <vector>
@@ -89,7 +89,7 @@ namespace djah { namespace gameplay {
 	// least copy semantics and at best move semantics.
 	//--------------------------------------------------------------------------------------------------
 	template<typename ComponentsTypeList>
-	class component_database
+	class components_database
 		: public utils::gen_scatter_hierarchy<ComponentsTypeList, components_container>
 	{
 	public:
@@ -138,4 +138,4 @@ namespace djah { namespace gameplay {
 
 } /*gameplay*/ } /*djah*/
 
-#endif /* DJAH_GAMEPLAY_COMPONENT_DATABASE_HPP */
+#endif /* DJAH_GAMEPLAY_COMPONENTS_DATABASE_HPP */

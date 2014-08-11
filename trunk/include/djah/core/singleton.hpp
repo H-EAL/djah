@@ -12,12 +12,11 @@ namespace djah { namespace utils {
 	class singleton
 	{
 	public:
-
 		static void create()
 		{
-			if( instance_ == nullptr )
+			if( pInstance_ == nullptr )
 			{
-				instance_ = new T;
+				pInstance_ = new T;
 				std::atexit( destroy );
 			}
 		}
@@ -25,7 +24,7 @@ namespace djah { namespace utils {
 		static T& get()
 		{
 			create();
-			return *instance_;
+			return *pInstance_;
 		}
 
 		static T* get_ptr()
@@ -35,28 +34,26 @@ namespace djah { namespace utils {
 
 		static void destroy()
 		{
-			delete instance_;
-			instance_ = nullptr;
+			delete pInstance_;
+			pInstance_ = nullptr;
 		}
 
 	protected:
-
 		// Only derived classes can access ctor/dtor
-		singleton() {}
-		virtual ~singleton() {}
+		singleton()  {}
+		~singleton() {}
 
 	private:
-
 		// No copy
 		singleton(const singleton &);
 		void operator =(const singleton &);
 
 		// Unique instance
-		static T *instance_;
+		static T *pInstance_;
 	};
 
 	//----------------------------------------------------------------------------------------------
-	template<typename T> T *singleton<T>::instance_ = nullptr;
+	template<typename T> T *singleton<T>::pInstance_ = nullptr;
 	//----------------------------------------------------------------------------------------------
 
 } /*utils*/ } /*djah*/

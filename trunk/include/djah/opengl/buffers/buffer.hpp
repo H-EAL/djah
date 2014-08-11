@@ -5,103 +5,87 @@
 
 #include "djah/types.hpp"
 #include "djah/system/gl.hpp"
+#include "djah/opengl/buffers/interface_buffer.hpp"
 
 namespace djah { namespace opengl {
 
-	//////////////////////////////////////////////////////////////////////////
-	template<typename Policy>
-	bool check_policy_specs()
-	{
-		return gl_context::get_current()->caps().isMinVersion(Policy::MajorVersion, Policy::MinorVersion)
-			|| gl_context::get_current()->caps().hasExtensions(Policy::Extensions)
-	}
-	
-	//////////////////////////////////////////////////////////////////////////
-	class buffer
-		: public interface::buffer
-	{
-	public:
-		buffer(u32 size)
-		{
-			if( check_policy_specs<Immutable_StoragePolicy>() )
-			{
-				pIBuffer_ = new buffer_storage<GL4_Specs>(size);
-			}
-			else if( check_policy_specs<Mutable_StoragePolicy>() )
-			{
-				pIBuffer_ = new buffer_storage<GL3_Specs>(size);
-			}
-			else
-			{
-				assert(false);
-			}
-		}
+    //////////////////////////////////////////////////////////////////////////
+    template<typename Policy>
+    bool check_policy_specs()
+    {
+        return gl_context::get_current()->caps().isMinVersion(Policy::MajorVersion, Policy::MinorVersion)
+            || gl_context::get_current()->caps().hasExtensions(Policy::Extensions)
+    }
+    
+    //////////////////////////////////////////////////////////////////////////
+    class buffer
+        : public interface::buffer
+    {
+    public:
+        buffer(u32 _size)
+            : upIBuffer_( create_new_buffer(_size) )
+            , size_(_size)
+        {
+        }
 
-		virtual u32 size()
-		{
-			return pIBuffer_->size();
-		}
+        size_t size() const
+        {
+            return size_;
+        }
 
-		virtual void read()
-		{
-			return pIBuffer_->read();
-		}
+        template<typename T>
+        size_t read(T &_data);
+        template<typename T, size_t N>
+        size_t read(T (&_vData)[N]);
+        template<typename T>
+        size_t read(T *_pData, size_t _count);
 
-		virtual void write()
-		{
-			return pIBuffer_->write();
-		}
+        template<typename T>
+        size_t write(const T &_data);
+        template<typename T, size_t N>
+        size_t write(const T (&_vData)[N]);
+        template<typename T>
+        size_t write(const T * const _pData, size_t _count);
 
-		template<typename T>
-		size_t read(T &data);
-		template<typename T, size_t N>
-		size_t read(T (&data_array)[N]);
-		template<typename T>
-		size_t read(T *data_ptr, size_t count);
+        template<typename T>
+        buffer& operator >>(T &_toRead);
+        template<typename T>
+        buffer& operator <<(const T &_toWrite);
 
-		template<typename T>
-		size_t write(const T &data);
-		template<typename T, size_t N>
-		size_t write(const T (&vData)[N]);
-		template<typename T>
-		size_t write(const T *pData, size_t count);
+    private:
+        static interface::buffer* create_new_buffer(size_t _size)
+        {            
+            /*
+            if( check_policy_specs<Immutable_StoragePolicy>() )
+            {
+                upIBuffer_ = new buffer_storage<GL4_Specs>(size);
+            }
+            else if( check_policy_specs<Mutable_StoragePolicy>() )
+            {
+                upIBuffer_ = new buffer_storage<GL3_Specs>(size);
+            }
+            else
+            {
+                assert(false);
+            }
+            */
+        }
 
-		template<typename T>
-		buffer& operator >>(T &toRead);
-		template<typename T>
-		buffer& operator <<(const T &toWrite);
+    private:
+        inline virtual size_t read(void *_pDst, size_t _size) override
+        {
+            return upIBuffer_->read(_pDst, _size);
+        }
 
-	private:
-		interface::buffer *pIBuffer_;
-	};
+        inline virtual size_t write(const void * const _pDst, size_t _size) override
+        {
+            return upIBuffer_->write(_pDst, _size);
+        }
 
-	template
-	<
-		int BufferCount,
-		typename SyncronisationPolicy
-	>
-	class ring_buffer
-	{
-	public:
-		void advance()
-		{
-			// lock bufferViews_[currentBufferId_]
-			currentBufferId_ = (currentBufferId_ + 1) % N;
-			// wait for bufferViews_[currentBufferId_] lock
-		}
-
-		const buffer_view& currentView() const
-		{
-			return bufferViews_[currentBufferId_];
-		}
-
-	private:
-		buffer_view bufferViews_[N];
-		u32 currentBufferId_;
-	};
-
-	typedef ring_buffer<2> double_buffer;
-	typedef ring_buffer<3> triple_buffer;
+    private:
+        std::unique_ptr<interface::buffer> upIBuffer_;
+        size_t                             size_;
+    };
 
 } /*opengl*/ } /*djah*/
 
