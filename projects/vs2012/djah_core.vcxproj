@@ -146,6 +146,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\sources\core\randomizer.cpp" />
+    <ClCompile Include="..\..\sources\core\state_machine.cpp" />
     <ClCompile Include="..\..\sources\core\time\timer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

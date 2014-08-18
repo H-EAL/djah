@@ -45,6 +45,9 @@
     <ClCompile Include="..\..\include\djah\game\components\enum_test.cpp">
       <Filter>Fichiers sources\game\components</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\tests\sources\testFSM.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\djah\game\components_registry.hpp">
@@ -73,6 +76,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\djah\game\components\enum_test.hpp">
       <Filter>Fichiers sources\game\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\tests\sources\testFSM.hpp">
+      <Filter>Fichiers sources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

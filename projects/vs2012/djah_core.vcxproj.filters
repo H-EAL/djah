@@ -231,5 +231,8 @@
     <ClCompile Include="..\..\sources\core\time\timer.cpp">
       <Filter>sources\time</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\sources\core\state_machine.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

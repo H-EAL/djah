@@ -365,6 +365,117 @@ void WatchDirectory(std::vector<directory_changed_handler> &handlers)
     }
 }
 
+namespace TestFSM
+{
+    namespace States
+    {
+        enum Enum
+        {
+            Root,
+            StateA,
+            StateB,
+            StateX,
+            StateY,
+
+            Count
+        };
+    }
+
+    namespace Triggers
+    {
+        enum Enum
+        {
+            R2A,
+            R2B,
+            R2X,
+            R2Y
+        };
+    }
+}
+
+class Test_SC
+    : public state_machine
+{
+public:
+    Test_SC() : state_machine(TestFSM::States::Count) {}
+    fsmDeclare(TestFSM::States::Enum);
+    virtual void setup();
+};
+
+template<>
+bool Test_SC::test<TestFSM::States::Root, TestFSM::States::StateA>()
+{
+    return false;
+}
+
+template<>
+bool Test_SC::test<TestFSM::States::Root, TestFSM::States::StateB>()
+{
+    return false;
+}
+
+template<>
+bool Test_SC::test<TestFSM::States::Root, TestFSM::States::StateX>()
+{
+    return false;
+}
+
+template<>
+bool Test_SC::test<TestFSM::States::Root, TestFSM::States::StateY>()
+{
+    return false;
+}
+
+template<>
+void Test_SC::enter<TestFSM::States::StateA>()
+{
+    glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
+}
+
+template<>
+void Test_SC::enter<TestFSM::States::StateB>()
+{
+    glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+}
+
+template<>
+void Test_SC::enter<TestFSM::States::StateX>()
+{
+    glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
+}
+
+template<>
+void Test_SC::enter<TestFSM::States::StateY>()
+{
+    glClearColor(1.0f, 1.0f, 0.0f, 1.0f);
+}
+
+void Test_SC::setup()
+{
+    fsmBeginMachine(TestFSM::States::Root);
+        
+        fsmTransitionOnTrigger(TestFSM::Triggers::R2A, TestFSM::States::StateA);
+        fsmTransitionOnTrigger(TestFSM::Triggers::R2B, TestFSM::States::StateB);
+        fsmTransitionOnTrigger(TestFSM::Triggers::R2X, TestFSM::States::StateX);
+        fsmTransitionOnTrigger(TestFSM::Triggers::R2Y, TestFSM::States::StateY);
+    
+        fsmBeginState(TestFSM::States::StateA, initial);
+        fsmEndState();
+
+        fsmBeginState(TestFSM::States::StateB);
+        fsmEndState();
+
+        fsmBeginState(TestFSM::States::StateX);
+        fsmEndState();
+
+        fsmBeginState(TestFSM::States::StateY);
+        fsmEndState();
+
+    fsmEndMachine();
+
+    launch();
+}
+
 
 int main()
 {
@@ -421,7 +532,8 @@ int main()
     auto pNormal   = d3d::texture_manager::get().find("houseN.jpg");
     auto pSpecular = d3d::texture_manager::get().find("feisar-specular.jpg");
 
-
+    Test_SC sc;
+    sc.setup();
 
     // 3.6 - Camera
     Entity camera("cameras/main.camera");
@@ -633,6 +745,23 @@ int main()
                         targetAngle -= 180.0f;
                     }
                 }
+
+                if( gp.getButton(system::input::eX360_A).pressed() )
+                {
+                    sc.trigger(TestFSM::Triggers::R2A);
+                }
+                else if( gp.getButton(system::input::eX360_B).pressed() )
+                {
+                    sc.trigger(TestFSM::Triggers::R2B);
+                }
+                else if( gp.getButton(system::input::eX360_X).pressed() )
+                {
+                    sc.trigger(TestFSM::Triggers::R2X);
+                }
+                else if( gp.getButton(system::input::eX360_Y).pressed() )
+                {
+                    sc.trigger(TestFSM::Triggers::R2Y);
+                }
             }
 
             static const float angleSpeed = 5.0f;
@@ -691,6 +820,8 @@ int main()
 
         w = math::make_rotation(math::degree(currentAngle), math::vector3f::z_axis);
         wvp = w*vp;
+
+        sc.execute();
 
         pDriver->beginFrame();
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
