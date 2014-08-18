@@ -18,6 +18,7 @@
     <ClCompile Include="..\..\sources\game\components\transform.cpp" />
     <ClCompile Include="..\..\sources\game\components\visual_mesh.cpp" />
     <ClCompile Include="..\..\tests\sources\main.cpp" />
+    <ClCompile Include="..\..\tests\sources\testFSM.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\djah\game\components\action_map.hpp" />
@@ -29,6 +30,7 @@
     <ClInclude Include="..\..\include\djah\game\components_registry.hpp" />
     <ClInclude Include="..\..\include\djah\game\processes\actions_process.hpp" />
     <ClInclude Include="..\..\include\djah\game\processes\rendering_process.hpp" />
+    <ClInclude Include="..\..\tests\sources\testFSM.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\include\djah\game\components\enum_test.enum" />
