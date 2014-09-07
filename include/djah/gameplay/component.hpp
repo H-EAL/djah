@@ -6,7 +6,7 @@
 #include "djah/gameplay/json_serializer.hpp"
 
 //--------------------------------------------------------------------------------------------------
-#define DESERIALIZE_ATTRIBUTE(Attr)  resources::json_deserialize(#Attr, Attr, node)
+#define DESERIALIZE_ATTRIBUTE(Attr)  djah::resources::json_deserialize(#Attr, Attr, node)
 
 #define load_attributes_1(A1) DESERIALIZE_ATTRIBUTE(A1)
 #define load_attributes_2(A1,A2) DESERIALIZE_ATTRIBUTE(A1); load_attributes_1(A2)
@@ -22,7 +22,7 @@
 //--------------------------------------------------------------------------------------------------
 
 //--------------------------------------------------------------------------------------------------
-#define SERIALIZE_ATTRIBUTE(Attr) resources::json_serialize(document, componentNode, #Attr, Attr)
+#define SERIALIZE_ATTRIBUTE(Attr) djah::resources::json_serialize(document, componentNode, #Attr, Attr)
 
 #define save_attributes_1(A1) SERIALIZE_ATTRIBUTE(A1)
 #define save_attributes_2(A1,A2) SERIALIZE_ATTRIBUTE(A1); save_attributes_1(A2)
@@ -39,14 +39,14 @@
 
 
 //--------------------------------------------------------------------------------------------------
+#define MAKE_COMPONENT_1(COMP) MAKE_COMPONENT_2(COMP, 100)
+//--------------------------------------------------------------------------------------------------
 #define MAKE_COMPONENT_2(COMP, COUNT) \
 	static const unsigned int NB_COMP = COUNT;\
 	static const char* name() { return #COMP; }\
 	COMP() {}\
 	COMP(const rapidjson::Value &node);\
 	void serialize(rapidjson::Document &document, rapidjson::Value &componentNode) const
-//--------------------------------------------------------------------------------------------------
-#define MAKE_COMPONENT_1(COMP) MAKE_COMPONENT_2(COMP, 100)
 //--------------------------------------------------------------------------------------------------
 #define MAKE_COMPONENT(...) VA_ARGS_MACRO(MAKE_COMPONENT_, __VA_ARGS__)
 //--------------------------------------------------------------------------------------------------

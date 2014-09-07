@@ -1,9 +1,11 @@
 #include <iostream>
 #include <thread>
+#include <atomic>
 
 #include <djah/core/randomizer.hpp>
 #include <djah/core/events.hpp>
 #include <djah/core/state_machine.hpp>
+#include <djah/core/randomizer.hpp>
 
 #include <djah/debug/assertion.hpp>
 #include <djah/debug/xml_sink.hpp>
@@ -20,16 +22,15 @@
 #include <djah/filesystem/browser.hpp>
 #include <djah/filesystem/directory_source.hpp>
 
-#include <djah/resources/asset_finder.hpp>
-#include <djah/resources/config_object.hpp>
-
 #include <djah/gameplay/entity.hpp>
 #include <djah/gameplay/component_serializer.hpp>
 
-#include <djah/game/components_registry.hpp>
-#include <djah/game/processes/actions_process.hpp>
-#include <djah/game/processes/rendering_process.hpp>
-#include <djah/game/components/enum_test.hpp>
+#include "game/resources/config_object.hpp"
+#include "game/resources/default_asset_finder.hpp"
+#include "game/components_registry.hpp"
+#include "game/components/enum_test.hpp"
+#include "game/processes/actions_process.hpp"
+#include "game/processes/rendering_process.hpp"
 
 #include <djah/opengl.hpp>
 
@@ -40,7 +41,7 @@
 #include "resource_finder.hpp"
 
 using namespace djah;
-namespace gpc = djah::game::components;
+namespace gpc = game::components;
 
 const char* djahLogo()
 {
@@ -77,11 +78,11 @@ void initLoggers()
 }
 
 class device_cfg
-    : public resources::config_object<system::device_config>
+    : public game::resources::config_object<system::device_config>
 {
 public:
     device_cfg(const std::string &url)
-        : resources::config_object<system::device_config>(url)
+        : game::resources::config_object<system::device_config>(url)
     {
         list_config_vars
         (
@@ -97,11 +98,11 @@ public:
 };
 
 class driver_cfg
-    : public resources::config_object<system::driver_config>
+    : public game::resources::config_object<system::driver_config>
 {
 public:
     driver_cfg(const std::string &url)
-        : resources::config_object<system::driver_config>(url)
+        : game::resources::config_object<system::driver_config>(url)
     {
         list_config_vars
         (
@@ -132,11 +133,11 @@ struct renderer_config
 };
 
 class renderer_cfg
-    : public resources::config_object<renderer_config>
+    : public game::resources::config_object<renderer_config>
 {
 public:
     renderer_cfg(const std::string &url)
-        : resources::config_object<renderer_config>(url)
+        : game::resources::config_object<renderer_config>(url)
     {
         list_config_vars
         (
@@ -319,9 +320,9 @@ struct directory_changed_handler
     std::function<void()> callback_;
 };
 
-bool needToReloadWorld = false;
-bool needToRefreshMeshes = false;
-bool needToRefreshTextures = false;
+std::atomic<bool> needToReloadWorld = false;
+std::atomic<bool> needToRefreshMeshes = false;
+std::atomic<bool> needToRefreshTextures = false;
 
 void WatchDirectory(std::vector<directory_changed_handler> &handlers)
 {
@@ -477,6 +478,65 @@ void Test_SC::setup()
 }
 
 
+std::vector<Entity> spawn_ships(int count = 100)
+{
+    Entity ship("ship");
+
+    ship.use<transform>().use<visual_mesh>().use<texture>();
+    ship.get<transform>()->scale = math::vector3f(1.0f, 1.0f, 1.0f);
+
+    ship.get<visual_mesh>()->file = "meshes/feisar.mesh";
+    ship.get<visual_mesh>()->spMesh = game::resources::default_asset_finder::get().load<game::resources::mesh>("meshes/feisar.mesh");
+    ship.get<texture>()->file = "feisar-diffuse.png";
+    ship.get<texture>()->spTexture = djah::d3d::texture_manager::get().find("feisar-diffuse.png");
+
+    int i = 0;
+    std::vector<Entity> ships(count);
+    for (auto &s : ships)
+    {
+        s.name() = "ship_" + std::to_string(++i);
+        s.merge(ship);
+        s.get<transform>()->position = math::vector3f(djah::randomizer::random(-100.0f, 100.0f), djah::randomizer::random(-100.0f, 100.0f), djah::randomizer::random(5.0f, 30.0f));
+    }
+
+    return ships;
+}
+
+#define DEBUG_ACQUIRE_COMPONENT(C) if( e.template isUsing<game::components::C>() ) { C##_ = &(e.template get<game::components::C>().data()); } else { C##_ = nullptr; }
+
+class game_object_debugger
+{
+public:
+    game_object_debugger(const Entity &e)
+    {
+        DEBUG_ACQUIRE_COMPONENT(transform);
+        DEBUG_ACQUIRE_COMPONENT(visual_mesh);
+        DEBUG_ACQUIRE_COMPONENT(texture);
+        DEBUG_ACQUIRE_COMPONENT(fov);
+        DEBUG_ACQUIRE_COMPONENT(uv_modifier);
+        DEBUG_ACQUIRE_COMPONENT(action_map);
+    }
+
+private:
+    game::components::action_map	*action_map_;
+    game::components::texture		*texture_;
+    game::components::uv_modifier	*uv_modifier_;
+    game::components::fov		    *fov_;
+    game::components::visual_mesh	*visual_mesh_;
+    game::components::transform	    *transform_;
+};
+
+game_object_debugger god(const Entity &e)
+{
+    return game_object_debugger(e);
+}
+
+template<char... T>
+struct testChar
+{
+
+};
+
 int main()
 {
     initLoggers();
@@ -487,20 +547,20 @@ int main()
     filesystem::browser::get().addLoadingChannel(new filesystem::directory_source("./assets", false, 1));
     filesystem::browser::get().addSavingChannel(new filesystem::directory_source("./save/assets"));
 
-    resources::default_asset_finder::get().registerExtensions<resources::mesh>("mesh");
-    resources::default_asset_finder::get().registerExtensions<resources::data_object<>>("config json");
-    resources::default_asset_finder::get().registerExtensions<resources::image>("png jpg tga");
+    game::resources::default_asset_finder::get().registerExtensions<game::resources::mesh>("mesh");
+    game::resources::default_asset_finder::get().registerExtensions<game::resources::data_object>("config json");
+    game::resources::default_asset_finder::get().registerExtensions<game::resources::image>("png jpg tga");
 
 
     // 1 - Create device = create window
-    auto pDeviceConfig = resources::open_config<device_cfg>("device.config");
+    auto pDeviceConfig = game::resources::open_config<device_cfg>("device.config");
     DJAH_GLOBAL_NOTIFICATION() << "Device configuration:\n" << pDeviceConfig->toString() << DJAH_END_LOG();
     system::device_sptr pDevice = system::create_device(pDeviceConfig);
     check(pDevice);
 
 
     // 2 - Create a driver linked to the previously created device
-    auto pDriverConfig = resources::open_config<driver_cfg>("driver.config");
+    auto pDriverConfig = game::resources::open_config<driver_cfg>("driver.config");
     DJAH_GLOBAL_NOTIFICATION() << "Driver configuration:\n" << pDriverConfig->toString() << DJAH_END_LOG();
     system::driver_sptr pDriver = pDevice->createDriver(pDriverConfig);
     check(pDriver);
@@ -510,9 +570,9 @@ int main()
     glDebugMessageCallback((GLDEBUGPROC)oglDebugProc, nullptr);
     glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 
-    auto testJsonConfig = resources::default_asset_finder::get().load<resources::data_object<>>("configTest.json");
+    auto testJsonConfig = game::resources::default_asset_finder::get().load<game::resources::data_object>("configTest.json");
 
-    auto pRendererConfig = resources::open_config<renderer_cfg>("renderer.config");
+    auto pRendererConfig = game::resources::open_config<renderer_cfg>("renderer.config");
     const math::vector3f &cc = pRendererConfig->clearColor;
     glClearColor(cc[0], cc[1], cc[2], 1.0f);
     glEnable(GL_DEPTH_TEST);
@@ -525,9 +585,9 @@ int main()
 
     // 3.5 - Load resources
 
-    game::processes::rendering_process<gpc::DefaultComponentTypes> renderingProcess;
-    World world("worlds/test.world");
-    world.load(renderingProcess);
+    game::processes::rendering_process renderingProcess;
+    World world("worlds/test2.world");
+    //world.load(renderingProcess);
 
     auto pNormal   = d3d::texture_manager::get().find("houseN.jpg");
     auto pSpecular = d3d::texture_manager::get().find("feisar-specular.jpg");
@@ -586,15 +646,7 @@ int main()
     //opengl::texture_unit<eTU_DiffuseMap>::activate_and_bind(pTexture, pHighQualitySampler);
     opengl::texture_unit<eTU_NormalMap>::activate_and_bind(pNormal, pHighQualitySampler);
     opengl::texture_unit<eTU_SpecularMap>::activate_and_bind(pSpecular, pHighQualitySampler);
-    /*
-    simpleShader.program().begin();
-    simpleShader.program().sendUniform("in_World", math::matrix4f::identity);
-    simpleShader.program().sendUniform("in_DiffuseSampler", int(eTU_DiffuseMap));
-    simpleShader.program().sendUniform("in_NormalSampler", int(eTU_NormalMap));
-    simpleShader.program().sendUniform("in_SpecularSampler", int(eTU_SpecularMap));
-    simpleShader.program().end();
-    pMesh->init(simpleShader.program());
-    */
+
     float currentAngle = 0.0f;
     float targetAngle = 0.0f;
     float maxAngle = 30.0f;
@@ -618,6 +670,13 @@ int main()
 
     std::thread t2([&directoryListeners]() { WatchDirectory( directoryListeners ); });
 
+    auto ships = spawn_ships(10);
+
+    for (auto &ship : ships)
+    {
+        renderingProcess.add(&ship);
+    }
+
     // 4 - Run app
     while( pDevice->run() )
     {
@@ -629,14 +688,14 @@ int main()
 
         if( needToRefreshMeshes )
         {
-            resources::default_asset_finder::get().refresh<resources::mesh>();
+            game::resources::default_asset_finder::get().refresh<game::resources::mesh>();
             world.load(renderingProcess);
             needToRefreshMeshes = false;
         }
 
         if( needToRefreshTextures )
         {
-            resources::default_asset_finder::get().refresh<resources::image>();
+            game::resources::default_asset_finder::get().refresh<game::resources::image>();
             world.load(renderingProcess);
             needToRefreshTextures = false;
         }
@@ -680,7 +739,7 @@ int main()
                 );
                 vp = v*p;
 
-                pRendererConfig = resources::open_config<renderer_cfg>("renderer.config");
+                pRendererConfig = game::resources::open_config<renderer_cfg>("renderer.config");
                 const math::vector3f &cc = pRendererConfig->clearColor;
                 glClearColor(cc[0], cc[1], cc[2], 1.0f);
                 /**/

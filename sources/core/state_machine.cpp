@@ -1,4 +1,7 @@
 #include "djah/core/state_machine.hpp"
+
+#include <algorithm>
+
 #include "djah/debug/assertion.hpp"
 
 namespace djah {

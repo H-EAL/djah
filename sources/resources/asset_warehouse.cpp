@@ -12,6 +12,13 @@ namespace djah { namespace resources {
     }
     //----------------------------------------------------------------------------------------------
 
+    //----------------------------------------------------------------------------------------------
+    asset_warehouse::~asset_warehouse()
+    {
+        check(loadedAssetsTotalWeight_ == 0);
+    }
+    //----------------------------------------------------------------------------------------------
+
 
     //----------------------------------------------------------------------------------------------
     void asset_warehouse::add(const std::string &name, asset_sptr spAsset)
@@ -32,6 +39,7 @@ namespace djah { namespace resources {
     asset_warehouse::asset_map_t::iterator asset_warehouse::remove(asset_map_t::const_iterator &it)
     {
         check(it != assets_.end());
+        check(loadedAssetsTotalWeight_ >= it->second.size_);
         loadedAssetsTotalWeight_ -= it->second.size_;
         return assets_.erase(it);
     }
@@ -65,8 +73,7 @@ namespace djah { namespace resources {
     void asset_warehouse::cleanUp()
     {
         auto it    = assets_.begin();
-        auto itEnd = assets_.end();
-        while(it != itEnd)
+        while( it != assets_.end() )
         {
             if( it->second.wpAsset_.expired() )
             {

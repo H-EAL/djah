@@ -2,36 +2,15 @@
 #define RESOURCE_FINDER_HPP
 
 #include <memory>
-#include "djah/resources/image_loader.hpp"
-#include "djah/resources/mesh_loader.hpp"
-#include "djah/resources/asset_warehouse.hpp"
-#include "djah/resources/asset_finder.hpp"
-#include "djah/opengl/texture_unit.hpp"
-#include "djah/filesystem/browser.hpp"
-#include "djah/system/gl.hpp"
-#include "profiler.hpp"
 
+#include "djah/opengl/texture.hpp"
+#include "game/resources/default_asset_finder.hpp"
 
-//--------------------------------------------------------------------------------------------------
-template<typename T>
-inline std::shared_ptr<T> find_resource(const std::string &url)
-{
-	//DJAH_AUTO_PROFILE("Loading " + url);
-	static resources::default_asset_finder s_asset_finder;
-	static bool initialized = false;
-	if(!initialized)
-	{
-		s_asset_finder.registerExtensions(std::make_shared<resources::loader<resources::image>>(), "png tga jpg");
-		s_asset_finder.registerExtensions(std::make_shared<resources::loader<resources::mesh>>(), "mesh");
-		initialized = true;
-	}
-	return s_asset_finder.get<T>(url);
-}
-//--------------------------------------------------------------------------------------------------
 
 namespace djah { namespace d3d {
 
 	typedef std::shared_ptr<djah::opengl::texture> texture_sptr;
+
 	class texture_manager
 		: public utils::singleton<texture_manager>
 	{
@@ -44,7 +23,7 @@ namespace djah { namespace d3d {
 
 			if( it == textures_.end() )
 			{
-				resources::image_sptr img = resources::default_asset_finder::get().load<resources::image>("textures/"+ textureName);
+                game::resources::image_sptr img = game::resources::default_asset_finder::get().load<game::resources::image>("textures/" + textureName);
 				if( img )
 				{
 					texture_sptr pNewTex( new opengl::texture(GL_RGB, img->width(), img->height(), true) );

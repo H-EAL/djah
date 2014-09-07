@@ -1,9 +1,9 @@
-#ifndef DJAH_UTILS_HIERARCHY_GENERATOR_HPP
-#define DJAH_UTILS_HIERARCHY_GENERATOR_HPP
+#ifndef DJAH_CORE_HIERARCHY_GENERATOR_HPP
+#define DJAH_CORE_HIERARCHY_GENERATOR_HPP
 
 #include "typelist.hpp"
 
-namespace djah { namespace utils {
+namespace djah {
 
 	//----------------------------------------------------------------------------------------------
 	// Class definition
@@ -41,7 +41,6 @@ namespace djah { namespace utils {
 	};
 	//----------------------------------------------------------------------------------------------
 
+} /*djah*/
 
-} /*utils*/ } /*djah*/
-
-#endif /* DJAH_UTILS_HIERARCHY_GENERATOR_HPP */
+#endif /* DJAH_CORE_HIERARCHY_GENERATOR_HPP */

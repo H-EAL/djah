@@ -73,7 +73,7 @@ namespace djah { namespace opengl {
 
 	//----------------------------------------------------------------------------------------------
 	class capabilities
-		: public utils::gen_scatter_hierarchy<TYPELIST(int, float, std::string), caps_holder>
+		: public gen_scatter_hierarchy<TYPELIST(int, float, std::string), caps_holder>
 	{
 	public:
 		void init();

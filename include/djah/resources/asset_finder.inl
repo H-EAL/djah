@@ -1,9 +1,9 @@
 namespace djah { namespace resources {
 
 	//----------------------------------------------------------------------------------------------
-	template<typename ExtraAssetsTypes_, bool UseDefaultTypes_>
+	template<typename AssetTypes>
 	template<typename AssetType>
-	void asset_finder<ExtraAssetsTypes_, UseDefaultTypes_>::registerExtensions(const std::string &ext)
+    void asset_finder<AssetTypes>::registerExtensions(const std::string &ext)
 	{
 		string_utils::string_list_t extensions;
 		string_utils::split_string(ext, extensions, " /\\*.,;|-_\t\n'\"");
@@ -19,18 +19,18 @@ namespace djah { namespace resources {
 
 	
 	//----------------------------------------------------------------------------------------------
-	template<typename ExtraAssetsTypes_, bool UseDefaultTypes_>
-	void asset_finder<ExtraAssetsTypes_, UseDefaultTypes_>::refreshAll()
+    template<typename AssetTypes>
+    void asset_finder<AssetTypes>::refreshAll()
 	{
-		assets_visitor<AssetsTypeList>::refresh(*this);
+        assets_visitor<AssetTypes>::refresh(*this);
 	}
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	template<typename ExtraAssetsTypes_, bool UseDefaultTypes_>
+    template<typename AssetTypes>
 	template<typename AssetType>
-	void asset_finder<ExtraAssetsTypes_, UseDefaultTypes_>::refresh()
+    void asset_finder<AssetTypes>::refresh()
 	{
 		assets_visitor<TYPELIST(AssetType)>::refresh(*this);
 	}
@@ -38,9 +38,9 @@ namespace djah { namespace resources {
 
 
 	//----------------------------------------------------------------------------------------------
-	template<typename ExtraAssetsTypes_, bool UseDefaultTypes_>
+    template<typename AssetTypes>
 	template<typename AssetType>
-	std::shared_ptr<AssetType> asset_finder<ExtraAssetsTypes_, UseDefaultTypes_>::load(const std::string &url, bool loadIfNotFound)
+    std::shared_ptr<AssetType> asset_finder<AssetTypes>::load(const std::string &url, bool loadIfNotFound)
 	{
 		bool success = false;
 
@@ -83,9 +83,9 @@ namespace djah { namespace resources {
 
 
 	//----------------------------------------------------------------------------------------------
-	template<typename ExtraAssetsTypes_, bool UseDefaultTypes_>
+    template<typename AssetTypes>
 	template<typename AssetType>
-	bool asset_finder<ExtraAssetsTypes_, UseDefaultTypes_>::loadFromUrl(const std::string &url, std::shared_ptr<AssetType> &spAsset)
+    bool asset_finder<AssetTypes>::loadFromUrl(const std::string &url, std::shared_ptr<AssetType> &spAsset)
 	{
 		bool success = false;
 
@@ -108,9 +108,9 @@ namespace djah { namespace resources {
 
 
 	//----------------------------------------------------------------------------------------------
-	template<typename ExtraAssetsTypes_, bool UseDefaultTypes_>
+    template<typename AssetTypes>
 	template<typename AssetType>
-	bool asset_finder<ExtraAssetsTypes_, UseDefaultTypes_>::refresh(const std::string &url, std::shared_ptr<AssetType> &spAsset)
+    bool asset_finder<AssetTypes>::refresh(const std::string &url, std::shared_ptr<AssetType> &spAsset)
 	{
 		bool success = false;
 
@@ -135,16 +135,16 @@ namespace djah { namespace resources {
 
 
 	//----------------------------------------------------------------------------------------------
-	template<typename ExtraAssetsTypes_, bool UseDefaultTypes_>
+    template<typename AssetTypes>
 	template<typename AssetType>
-	void asset_finder<ExtraAssetsTypes_, UseDefaultTypes_>::saveToUrl(const AssetType &obj, const std::string &url)
+    void asset_finder<AssetTypes>::saveToUrl(const AssetType &obj, const std::string &url)
 	{
 		if( hasLoader<AssetType>(url) )
 		{
-			filesystem::stream_sptr pStream = filesystem::browser::get().openWriteStream(url);
-			if(pStream)
+			filesystem::stream_sptr spStream = filesystem::browser::get().openWriteStream(url);
+			if(spStream)
 			{
-				loader<AssetType>::saveToStream(obj, pStream, url);
+				loader<AssetType>::saveToStream(obj, spStream, url);
 			}
 		}
 	}
@@ -152,9 +152,9 @@ namespace djah { namespace resources {
 
 
 	//----------------------------------------------------------------------------------------------
-	template<typename ExtraAssetsTypes_, bool UseDefaultTypes_>
+    template<typename AssetTypes>
 	template<typename AssetType>
-	bool asset_finder<ExtraAssetsTypes_, UseDefaultTypes_>::hasLoader(const std::string &url)
+    bool asset_finder<AssetTypes>::hasLoader(const std::string &url)
 	{
 		std::string extension = string_utils::get_file_extension(url);
 		extension = string_utils::to_lower_case(extension);

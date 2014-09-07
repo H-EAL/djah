@@ -3,14 +3,17 @@
 
 #include <stack>
 #include <vector>
+
 #include "djah/types.hpp"
 #include "djah/math/transform.hpp"
 #include "djah/math/vector3.hpp"
 #include "djah/math/matrix4.hpp"
 #include "djah/3d/primitives/triangle.hpp"
 #include "djah/3d/shader.hpp"
-#include "djah/resources/mesh.hpp"
 #include "djah/opengl.hpp"
+
+//#include "game/resources/mesh.hpp"
+
 
 namespace djah { namespace d3d { namespace primitives {
 
@@ -30,7 +33,7 @@ namespace djah { namespace d3d { namespace primitives {
 		void clean();
 		void resetTransformationsBuffer();
 		void init(const std::vector<triangle> &triangles);
-		void init(const resources::mesh_sptr &pMesh);
+		//void init(const game::resources::mesh_sptr &pMesh);
 
 		//------------------------------------------------------------------------------------------
 		template<typename PrimType>
@@ -44,7 +47,7 @@ namespace djah { namespace d3d { namespace primitives {
 		opengl::shader_program& program() { return batchShader_.program(); }
 
 	private:
-		resources::mesh_sptr	   pMesh_;
+		//game::resources::mesh_sptr	   pMesh_;
 		opengl::vertex_buffer *pPrimitiveVertexBuffer_;
 		opengl::vertex_buffer *pTransformationsBuffer_;
 		opengl::vertex_format  vertexFormat_;

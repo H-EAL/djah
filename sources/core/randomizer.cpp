@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include <algorithm>
 
-namespace djah { namespace utils {
+namespace djah {
 
 	//----------------------------------------------------------------------------------------------
 	bool			randomizer::initialized_	= false;
@@ -74,4 +74,4 @@ namespace djah { namespace utils {
 	}
 	//----------------------------------------------------------------------------------------------
 
-} /*utils*/ } /*djah*/
+} /*djah*/

@@ -418,7 +418,7 @@ namespace djah { namespace resources {
             node.SetArray();
             node.Reserve(1, document.GetAllocator());
             rapidjson::Value valueNode;
-            //valueNode.SetString(val.toString().c_str());
+            valueNode.SetString(val.toString());
             node.PushBack(valueNode, document.GetAllocator());
         }
     };
