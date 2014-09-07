@@ -100,11 +100,13 @@ namespace djah { namespace d3d { namespace primitives {
 
 
 		//------------------------------------------------------------------------------------------
-		void batcher::init(const resources::mesh_sptr &pMesh)
+        /*
+        void batcher::init(const game::resources::mesh_sptr &pMesh)
 		{
 			clean();
 			pMesh_ = pMesh;
 		}
+        */
 		//------------------------------------------------------------------------------------------
 
 
@@ -133,6 +135,7 @@ namespace djah { namespace d3d { namespace primitives {
 		//------------------------------------------------------------------------------------------
 		void batcher::resetTransformationsBuffer()
 		{
+            /*
 			if( pTransformationsBuffer_ )
 			{
 				if( pMesh_ )
@@ -169,7 +172,8 @@ namespace djah { namespace d3d { namespace primitives {
 				vertexArray_.init(batchShader_.program());
 			}
 
-			dirtyFlag_ = false;
+            dirtyFlag_ = false;
+            */
 		}
 		//------------------------------------------------------------------------------------------
 
@@ -177,6 +181,7 @@ namespace djah { namespace d3d { namespace primitives {
 		//------------------------------------------------------------------------------------------
 		void batcher::draw()
 		{
+            /*
 			if( transformations_.empty() )
 				return;
 
@@ -187,6 +192,7 @@ namespace djah { namespace d3d { namespace primitives {
 				pMesh_->drawInstanced(transformations_.size());
 			else
 				vertexArray_.drawInstanced(transformations_.size());
+            */
 		}
 		//------------------------------------------------------------------------------------------
 

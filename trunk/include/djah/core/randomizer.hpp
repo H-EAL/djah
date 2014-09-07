@@ -1,7 +1,7 @@
-#ifndef DJAH_UTILS_RANDOMIZER_HPP
-#define DJAH_UTILS_RANDOMIZER_HPP
+#ifndef DJAH_CORE_RANDOMIZER_HPP
+#define DJAH_CORE_RANDOMIZER_HPP
 
-namespace djah { namespace utils {
+namespace djah {
 
 	class randomizer
 	{
@@ -23,6 +23,6 @@ namespace djah { namespace utils {
 		static void			init_seed();
 	};
 
-} /*utils*/ } /*djah*/
+} /*djah*/
 
-#endif /* DJAH_UTILS_RANDOMIZER_HPP */
+#endif /* DJAH_CORE_RANDOMIZER_HPP */

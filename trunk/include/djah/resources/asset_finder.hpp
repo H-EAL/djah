@@ -4,7 +4,6 @@
 #include <set>
 #include <string>
 #include <memory>
-#include <type_traits>
 
 #include "djah/core/hierarchy_generation.hpp"
 #include "djah/core/string_utils.hpp"
@@ -13,7 +12,6 @@
 #include "djah/filesystem/browser.hpp"
 
 #include "djah/resources/asset_warehouse.hpp"
-#include "djah/resources/loaders.hpp"
 
 #include "djah/debug/log.hpp"
 
@@ -25,7 +23,7 @@ namespace djah { namespace resources {
 	struct assets_visitor;
 	//----------------------------------------------------------------------------------------------
 	template<>
-	struct assets_visitor<utils::nulltype>
+	struct assets_visitor<nulltype>
 	{
 		template<typename AssetFinder>
 		static void refresh(AssetFinder &assetFinder);
@@ -35,13 +33,13 @@ namespace djah { namespace resources {
 	};
 	//----------------------------------------------------------------------------------------------
 	template<typename HeadAssetType, typename TailList>
-	struct assets_visitor< utils::typelist<HeadAssetType, TailList> >
+	struct assets_visitor< typelist<HeadAssetType, TailList> >
 	{
 		template<typename AssetFinder>
 		static void refresh(AssetFinder &assetFinder)
 		{
 			asset_warehouse::asset_map_t assets = asset_warehouse::get().assets();
-			assets_visitor< utils::typelist<HeadAssetType, TailList> >::refresh(assetFinder, assets);
+			assets_visitor< typelist<HeadAssetType, TailList> >::refresh(assetFinder, assets);
 		}
 
 		template<typename AssetFinder>
@@ -79,41 +77,19 @@ namespace djah { namespace resources {
 	template<typename AssetType>
 	struct asset_extensions
 	{
-		typedef std::set<std::string> extensions_map_t;
-		extensions_map_t extensions_;
+		typedef std::set<std::string> extensions_list_t;
+        extensions_list_t extensions_;
 	};
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
-	typedef TYPELIST(image, mesh, data_object<>) DefaultAssetsTypes;
-	//----------------------------------------------------------------------------------------------
-
-
-	//----------------------------------------------------------------------------------------------
-	template<typename ExtraAssetsTypes_ = utils::nulltype, bool UseDefaultTypes_ = true>
+	template<typename AssetTypes>
 	class asset_finder
-		: public utils::gen_scatter_hierarchy
-				 <
-					typename std::conditional
-					<
-						UseDefaultTypes_,
-						typename utils::tl::append<DefaultAssetsTypes,ExtraAssetsTypes_>::Result,
-						ExtraAssetsTypes_
-					>::type,
-					asset_extensions
-				 >
-		, public utils::singleton<asset_finder<ExtraAssetsTypes_, UseDefaultTypes_>>
+		: public gen_scatter_hierarchy<AssetTypes, asset_extensions>
+        , public utils::singleton<asset_finder<AssetTypes>>
 	{
-		friend class utils::singleton<asset_finder<ExtraAssetsTypes_, UseDefaultTypes_>>;
-
-	public:
-		typedef typename std::conditional
-		<
-			UseDefaultTypes_,
-			typename utils::tl::append<DefaultAssetsTypes,ExtraAssetsTypes_>::Result,
-			ExtraAssetsTypes_
-		>::type AssetsTypeList;
+        friend class utils::singleton<asset_finder<AssetTypes>>;
 
 	public:
 		template<typename AssetType>
@@ -131,8 +107,8 @@ namespace djah { namespace resources {
 		bool refresh(const std::string &url, std::shared_ptr<AssetType> &spAsset);
 
 	private:
-		asset_finder<ExtraAssetsTypes_,UseDefaultTypes_>() {}
-		~asset_finder<ExtraAssetsTypes_,UseDefaultTypes_>() {}
+		asset_finder() {}
+		~asset_finder() {}
 
 		template<typename AssetType>
 		bool loadFromUrl(const std::string &url, std::shared_ptr<AssetType> &spAsset);
@@ -143,11 +119,6 @@ namespace djah { namespace resources {
 		template<typename AssetType>
 		bool hasLoader(const std::string &url);
 	};
-	//----------------------------------------------------------------------------------------------
-
-
-	//----------------------------------------------------------------------------------------------
-	typedef asset_finder<> default_asset_finder;
 	//----------------------------------------------------------------------------------------------
 
 } /*resources*/ } /*djah*/

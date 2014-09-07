@@ -4,6 +4,7 @@
 #include <algorithm>
 #include "djah/debug/basic_sink.hpp"
 #include "djah/debug/assertion.hpp"
+#include "djah/debug/log.hpp"
 
 namespace djah { namespace debug {
 
@@ -75,6 +76,19 @@ namespace djah { namespace debug {
 	//----------------------------------------------------------------------------------------------
 	void core_logger::consume()
 	{
+        DJAH_LOG_TODO("Run this in a separate thread and turn records_ into a blocking FIFO queue");
+        /*
+        while( !done )
+        {
+            check(!records_.empty());
+            std::unique_lock lock(m);
+            {
+                const basic_record &record = records_.top();
+                records_.pop();
+                log(record);
+            }
+        }
+        */
 		auto itEnd = records_.end();
 		for( auto it = records_.begin(); it != itEnd; ++it )
 		{

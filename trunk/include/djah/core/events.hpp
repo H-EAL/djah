@@ -12,14 +12,14 @@ namespace djah {
 	struct events_visitor;
 
 	template<>
-	struct events_visitor<utils::nulltype>
+	struct events_visitor<nulltype>
 	{
 		template<typename EP>
 		static void process(EP &eventsPipe) {}
 	};
 
 	template<typename H, typename T>
-	struct events_visitor<utils::typelist<H,T>>
+	struct events_visitor<typelist<H,T>>
 	{
 		template<typename EP>
 		static void process(EP &eventPipes)
@@ -47,7 +47,7 @@ namespace djah {
 
 	template<typename EventsList>
 	struct event_pipes
-		: public utils::gen_scatter_hierarchy<EventsList, event_holder>
+		: public gen_scatter_hierarchy<EventsList, event_holder>
 	{
 		template<typename EventType>
 		void subscribe(const typename event_holder<EventType>::callback_t &callback)

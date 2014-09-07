@@ -37,6 +37,7 @@ namespace djah { namespace resources {
 
     private:
         asset_warehouse();
+        ~asset_warehouse();
 
     private:
         asset_map_t::iterator remove(asset_map_t::const_iterator &it);

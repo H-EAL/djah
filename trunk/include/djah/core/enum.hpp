@@ -5,30 +5,53 @@
 #include <cstring>
 #include <cassert>
 
-#define ENUM(ENUM_NS) enum_t<ENUM_NS::Type, ENUM_NS::Descriptors>
+//------------------------------------------------------------------------------------------------
+#define ENUM(ENUM_NS) djah::enum_t<ENUM_NS::Type, ENUM_NS::Descriptors>
+//------------------------------------------------------------------------------------------------
 
-#define DJAH_BUILD_ENUM(ENUM_NS, ENUM_VAL)                          \
+
+//------------------------------------------------------------------------------------------------
+#define DJAH_BEGIN_ENUM_DECLARATION(ENUM_NS)                                \
+    enum Type                                                               \
+    {                                                                       \
+        ENUM_NS##_Invalid = -1,
+
+#define DJAH_END_ENUM_DECLARATION(ENUM_NS)                                  \
+        ENUM_NS##_Count                                                     \
+    };                                                                      \
+                                                                            \
+    struct Descriptors                                                      \
+    {                                                                       \
+        static const unsigned int enum_size = ENUM_NS##_Count;              \
+        static const djah::enum_descriptor<Type> enum_values[enum_size];    \
+    };
+//------------------------------------------------------------------------------------------------
+
+
+//------------------------------------------------------------------------------------------------
+#define DJAH_BUILD_ENUM(ENUM_NS, ENUM_VAL)                                  \
     ENUM_VAL,
+//------------------------------------------------------------------------------------------------
 
-#define DJAH_BUILD_ENUM_RUNTIME_LOOK_UP(ENUM_NS, ENUM_VAL)          \
-{															        \
-    #ENUM_NS ##"_"#ENUM_VAL,								        \
-    ENUM_VAL,												        \
-},
 
-#define DJAH_DECLARE_ENUM_DESCRIPTORS(ENUM_NS)                      \
-struct Descriptors                                                  \
-{                                                                   \
-    static const unsigned int enum_size = ENUM_NS##_Count;          \
-    static const djah::enum_descriptor<Type> enum_values[enum_size];\
-}
+//------------------------------------------------------------------------------------------------
+#define DJAH_BUILD_ENUM_RUNTIME_LOOK_UP(ENUM_NS, ENUM_VAL)                  \
+    {															            \
+        #ENUM_NS ##"_"#ENUM_VAL,								            \
+        ENUM_VAL,												            \
+    },
+//------------------------------------------------------------------------------------------------
 
-#define DJAH_BEGIN_ENUM_DESCRIPTORS_DEFINITION()                    \
-const djah::enum_descriptor<Type> Descriptors::enum_values[] =      \
-{
 
-#define DJAH_END_ENUM_DESCRIPTORS_DEFINTION()                       \
-}
+//------------------------------------------------------------------------------------------------
+#define DJAH_BEGIN_ENUM_DESCRIPTORS_DEFINITION()                            \
+    const djah::enum_descriptor<Type> Descriptors::enum_values[] =          \
+    {
+
+#define DJAH_END_ENUM_DESCRIPTORS_DEFINTION()                               \
+    }
+//------------------------------------------------------------------------------------------------
+
 
 namespace djah {
 
@@ -46,7 +69,6 @@ namespace djah {
         enum_t(EnumType _value = EnumType(-1))
             : value_(_value)
         {
-
         }
 
         enum_t(const char *valueStr)
@@ -77,7 +99,7 @@ namespace djah {
             return it != itEnd;
         }
 
-        const char* toString() const
+        inline const char* toString() const
         {
             static const char * invalid_enum_value = "InvalidEnumValue";
 
@@ -86,9 +108,9 @@ namespace djah {
                 : invalid_enum_value;
         }
 
-        enum_t<EnumType, EnumDescriptorType>& operator =(const char *valueStr)
+        inline enum_t<EnumType, EnumDescriptorType>& operator =(const char *valueStr)
         {
-            const bool success = is_valid_value(valueStr, value_);
+            const bool success = set_value_if_valid(valueStr, value_);
             if( !success )
             {
                 value_ = EnumType(-1);
@@ -96,7 +118,7 @@ namespace djah {
             return (*this);
         }
 
-        operator EnumType()
+        inline operator EnumType()
         {
             return value_;
         }

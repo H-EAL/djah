@@ -90,7 +90,7 @@ namespace djah { namespace gameplay {
 	//--------------------------------------------------------------------------------------------------
 	template<typename ComponentsTypeList>
 	class components_database
-		: public utils::gen_scatter_hierarchy<ComponentsTypeList, components_container>
+		: public gen_scatter_hierarchy<ComponentsTypeList, components_container>
 	{
 	public:
 		template<typename ComponentType>
@@ -128,10 +128,9 @@ namespace djah { namespace gameplay {
 		template<typename ComponentType>
 		inline void remove(ComponentID cid)
 		{
-			typename component<ComponentType>::component_data compData = { 0, ComponentType() };
-
 			check(cid < components_container<ComponentType>::components_.size());
-			components_container<ComponentType>::components_[cid] = compData;
+            components_container<ComponentType>::components_[cid].creationTimestamp = 0;
+            components_container<ComponentType>::components_[cid].componentData.~ComponentType();
 			components_container<ComponentType>::freeSpots_.push(cid);
 		}
 	};
