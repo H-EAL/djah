@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="game">
+      <UniqueIdentifier>{433ea1f6-5b1a-4a2e-825a-d229e1fef420}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\components">
+      <UniqueIdentifier>{c08e77d9-cb71-44d9-9602-ab39d73b1d6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\processes">
+      <UniqueIdentifier>{8ef2c56f-3882-4abc-b633-304be495b846}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\resources">
+      <UniqueIdentifier>{e585541e-a6e7-4003-876b-2ae49f4e7e77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\resources\_assets">
+      <UniqueIdentifier>{aee8c4b2-2a43-4e2c-9958-c72ec9a245b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\resources\_loaders">
+      <UniqueIdentifier>{7856ad9e-8405-4add-b03b-5219f5a77e6b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\tests\sources\game\components\action_map.cpp">
+      <Filter>game\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\tests\sources\game\components\fov.cpp">
+      <Filter>game\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\tests\sources\game\components\texture.cpp">
+      <Filter>game\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\tests\sources\game\components\transform.cpp">
+      <Filter>game\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\tests\sources\game\components\visual_mesh.cpp">
+      <Filter>game\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\tests\sources\game\resources\image.cpp">
+      <Filter>game\resources\_assets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\tests\sources\game\resources\mesh.cpp">
+      <Filter>game\resources\_assets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\tests\sources\game\resources\image_loader.cpp">
+      <Filter>game\resources\_loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\tests\sources\game\resources\mesh_loader.cpp">
+      <Filter>game\resources\_loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\tests\sources\main.cpp" />
+    <ClCompile Include="..\..\tests\sources\game\components\enum_test.cpp">
+      <Filter>game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\tests\sources\game\components\scene_node.cpp">
+      <Filter>game\components</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\tests\sources\game\components\action_map.hpp">
+      <Filter>game\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\tests\sources\game\components\fov.hpp">
+      <Filter>game\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\tests\sources\game\components\texture.hpp">
+      <Filter>game\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\tests\sources\game\components\transform.hpp">
+      <Filter>game\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\tests\sources\game\components\visual_mesh.hpp">
+      <Filter>game\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\tests\sources\game\processes\actions_process.hpp">
+      <Filter>game\processes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\tests\sources\game\processes\rendering_process.hpp">
+      <Filter>game\processes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\tests\sources\game\resources\config_object.hpp">
+      <Filter>game\resources\_assets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\tests\sources\game\resources\default_data_object.hpp">
+      <Filter>game\resources\_assets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\tests\sources\game\resources\image.hpp">
+      <Filter>game\resources\_assets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\tests\sources\game\resources\mesh.hpp">
+      <Filter>game\resources\_assets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\tests\sources\game\resources\data_object_loader.hpp">
+      <Filter>game\resources\_loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\tests\sources\game\resources\image_loader.hpp">
+      <Filter>game\resources\_loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\tests\sources\game\resources\mesh_loader.hpp">
+      <Filter>game\resources\_loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\tests\sources\game\resources\default_asset_finder.hpp">
+      <Filter>game\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\tests\sources\game\resources\ini_serializer.hpp">
+      <Filter>game\resources\_loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\tests\sources\game\resources\serializer.hpp">
+      <Filter>game\resources\_loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\tests\sources\game\components_registry.hpp">
+      <Filter>game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\tests\sources\game\components\enum_test.hpp">
+      <Filter>game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\tests\sources\game\components\scene_node.hpp">
+      <Filter>game\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\tests\sources\game\processes\scene_graph_process.hpp">
+      <Filter>game\processes</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\tests\sources\game\components\enum_texture_filter.enum">
+      <Filter>game</Filter>
+    </None>
+    <None Include="..\..\tests\sources\game\components\enum_test.enum">
+      <Filter>game</Filter>
+    </None>
+    <None Include="..\..\tests\sources\game\components_registry.inl">
+      <Filter>game</Filter>
+    </None>
+  </ItemGroup>
+</Project>
