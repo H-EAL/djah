@@ -12,6 +12,7 @@ using game::components::transform;
 using game::components::visual_mesh;
 using game::components::texture;
 using game::components::uv_modifier;
+using game::components::scene_node;
 using djah::gameplay::component;
 
 namespace game { namespace processes {
@@ -53,10 +54,11 @@ namespace game { namespace processes {
             visualMeshComp->spMesh->init(simpleShader.program());
         }
 
-        void setMatrixInfos(const djah::math::matrix4f &vp, const djah::math::vector3f &cameraPosition)
+        void setMatrixInfos(const djah::math::matrix4f &vp, const game_object_t &camera)
         {
             in_VP = vp;
-            cameraPosition_ = cameraPosition;
+            cameraPosition_ = camera.get<transform>()->position;
+            cameraSight_ = djah::math::rotate(camera.get<transform>()->orientation, -djah::math::vector3f::y_axis);
         }
 
         void setSamplers(const std::shared_ptr<djah::opengl::sampler> &spSamplerLC, const std::shared_ptr<djah::opengl::sampler> &spSamplerHC)
@@ -76,7 +78,16 @@ namespace game { namespace processes {
     protected:
         virtual void executeFor(game_object_t &entity, float dt)
         {
-            const component<transform>   &transformComp	 = entity.get<transform>();
+//             const component<scene_node>  &sceneNodeComp  = entity.get<scene_node>();
+// 
+//             const djah::math::vector3f &entityPos = djah::math::resize<3>(sceneNodeComp->in_World.row(3));
+//             const djah::math::vector3f &entityToCamera = entityPos - cameraPosition_;
+//             if (entityToCamera.dot(cameraSight_) <= 0.0f)
+//             {
+//                 return;
+//             }
+
+            const component<transform>   &transformComp  = entity.get<transform>();
             const component<visual_mesh> &visualMeshComp = entity.get<visual_mesh>();
             const component<texture>	 &textureComp	 = entity.get<texture>();
 
@@ -108,7 +119,7 @@ namespace game { namespace processes {
                 simpleShader.program().sendUniform("in_UVOffset", djah::math::vector2f(0.0f, 0.0f));
             }
 
-            const auto &in_World = transformComp->toMatrix4();
+            const auto &in_World = transformComp->toMatrix4();//sceneNodeComp->in_World;
 
             simpleShader.program().sendUniform("in_EyeWorldPos", djah::math::resize<3>(djah::math::apply_transform(in_World, djah::math::point3_to_point4(cameraPosition_))));
             simpleShader.program().sendUniform("in_World", in_World);
@@ -120,6 +131,7 @@ namespace game { namespace processes {
         djah::d3d::shader simpleShader;
         djah::math::matrix4f in_VP;
         djah::math::vector3f cameraPosition_;
+        djah::math::vector3f cameraSight_;
         std::shared_ptr<djah::opengl::sampler> spSamplerLC_;
         std::shared_ptr<djah::opengl::sampler> spSamplerHC_;
     };

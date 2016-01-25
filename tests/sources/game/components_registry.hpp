@@ -8,6 +8,7 @@
 #include "game/components/visual_mesh.hpp"
 #include "game/components/texture.hpp"
 #include "game/components/action_map.hpp"
+#include "game/components/scene_node.hpp"
 
 namespace game { namespace components {
 
@@ -19,6 +20,7 @@ namespace game { namespace components {
 		, texture
 		, uv_modifier
 		, action_map
+        , scene_node
 	)
 	DefaultComponentTypes;
 

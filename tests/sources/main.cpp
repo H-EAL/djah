@@ -31,6 +31,7 @@
 #include "game/components/enum_test.hpp"
 #include "game/processes/actions_process.hpp"
 #include "game/processes/rendering_process.hpp"
+#include "game/processes/scene_graph_process.hpp"
 
 #include <djah/opengl.hpp>
 
@@ -82,7 +83,7 @@ class device_cfg
 {
 public:
     device_cfg(const std::string &url)
-        : game::resources::config_object<system::device_config>(url)
+        : game::resources::config_object_t<game::resources::DefaultAttributeTypes, system::device_config>(url)
     {
         list_config_vars
         (
@@ -102,7 +103,7 @@ class driver_cfg
 {
 public:
     driver_cfg(const std::string &url)
-        : game::resources::config_object<system::driver_config>(url)
+        : game::resources::config_object_t<game::resources::DefaultAttributeTypes, system::driver_config>(url)
     {
         list_config_vars
         (
@@ -118,35 +119,20 @@ public:
 
 
 struct renderer_config
+    : public game::resources::config_object<djah::nulltype>
 {
-    renderer_config()
-        : maxAnisotropy(1.0f)
-        , clearColor(0.0f,0.0f,0.0f)
-        , bilinearMode(opengl::sampler::eBM_None)
-        , mipmappingMode(opengl::sampler::eMM_None)
+    renderer_config(const std::string &url = "")
+        : game::resources::config_object_t<game::resources::DefaultAttributeTypes, djah::nulltype>(url)
+        , DESERIALIZE(maxAnisotropy, 1.0f)
+        , DESERIALIZE(clearColor, math::vector3f(0.0f, 0.0f, 0.0f))
+        , DESERIALIZE(bilinearMode, opengl::sampler::eBM_None)
+        , DESERIALIZE(mipmappingMode, opengl::sampler::eMM_None)
     {}
 
-    float			maxAnisotropy;
-    math::vector3f	clearColor;
-    int				bilinearMode;
-    int				mipmappingMode;
-};
-
-class renderer_cfg
-    : public game::resources::config_object<renderer_config>
-{
-public:
-    renderer_cfg(const std::string &url)
-        : game::resources::config_object<renderer_config>(url)
-    {
-        list_config_vars
-        (
-            maxAnisotropy,
-            clearColor,
-            bilinearMode,
-            mipmappingMode
-        );
-    }
+    serializable<float>             maxAnisotropy;
+    serializable<math::vector3f>    clearColor;
+    serializable<int>				bilinearMode;
+    serializable<int>               mipmappingMode;
 };
 
 
@@ -482,21 +468,41 @@ std::vector<Entity> spawn_ships(int count = 100)
 {
     Entity ship("ship");
 
-    ship.use<transform>().use<visual_mesh>().use<texture>();
+    ship.use<transform>().use<visual_mesh>().use<texture>().use<scene_node>();
+
     ship.get<transform>()->scale = math::vector3f(1.0f, 1.0f, 1.0f);
 
     ship.get<visual_mesh>()->file = "meshes/feisar.mesh";
     ship.get<visual_mesh>()->spMesh = game::resources::default_asset_finder::get().load<game::resources::mesh>("meshes/feisar.mesh");
+
     ship.get<texture>()->file = "feisar-diffuse.png";
     ship.get<texture>()->spTexture = djah::d3d::texture_manager::get().find("feisar-diffuse.png");
 
+    ship.get<scene_node>()->in_World.toIdentity();
+
+//     int i = 0;
+//     std::vector<Entity> ships(count);
+//     for (auto &s : ships)
+//     {
+//         s.name() = "ship_" + std::to_string(++i);
+//         s.merge(ship);
+//         s.get<transform>()->position = math::vector3f(djah::randomizer::random(-100.0f, 100.0f), djah::randomizer::random(-100.0f, 100.0f), djah::randomizer::random(5.0f, 30.0f));
+//     }
+    int w = 5, h = 5, d = 5;
+    std::vector<Entity> ships(w*h*d);
     int i = 0;
-    std::vector<Entity> ships(count);
-    for (auto &s : ships)
+    for (int x = 0; x < w; ++x)
     {
-        s.name() = "ship_" + std::to_string(++i);
-        s.merge(ship);
-        s.get<transform>()->position = math::vector3f(djah::randomizer::random(-100.0f, 100.0f), djah::randomizer::random(-100.0f, 100.0f), djah::randomizer::random(5.0f, 30.0f));
+        for (int y = 0; y < h; ++y)
+        {
+            for (int z = 0; z < d; ++z)
+            {
+                auto &s = ships[i++];
+                s.name() = "ship_" + std::to_string(x) + "_" + std::to_string(y) + "_" + std::to_string(z);
+                s.merge(ship);
+                s.get<transform>()->position = math::vector3f(float(x), float(y), float(z)) * 20.0f;
+            }
+        }
     }
 
     return ships;
@@ -531,11 +537,22 @@ game_object_debugger god(const Entity &e)
     return game_object_debugger(e);
 }
 
-template<char... T>
-struct testChar
+template<typename Input, typename Output, typename Process>
+std::vector<std::thread> kernel(int count, const Input &in, Output &out, Process p)
 {
+    std::vector<std::thread> threads;
+    int begin = 0;
+    int nbTasks = count / 4;
+    int end = nbTasks;
+    for (int i = 0; i < 4; ++i)
+    {
+        threads.push_back(std::thread([&](){ p(begin, nbTasks, in, out);  }));
+        begin += nbTasks;
+        nbTasks = count - (i * nbTasks);
+    }
 
-};
+    return threads;
+}
 
 int main()
 {
@@ -572,7 +589,7 @@ int main()
 
     auto testJsonConfig = game::resources::default_asset_finder::get().load<game::resources::data_object>("configTest.json");
 
-    auto pRendererConfig = game::resources::open_config<renderer_cfg>("renderer.config");
+    auto pRendererConfig = game::resources::open_config<renderer_config>("renderer.config");
     const math::vector3f &cc = pRendererConfig->clearColor;
     glClearColor(cc[0], cc[1], cc[2], 1.0f);
     glEnable(GL_DEPTH_TEST);
@@ -585,9 +602,10 @@ int main()
 
     // 3.5 - Load resources
 
-    game::processes::rendering_process renderingProcess;
+    game::processes::scene_graph_process sceneGraphProcess;
+    game::processes::rendering_process   renderingProcess;
     World world("worlds/test2.world");
-    //world.load(renderingProcess);
+    world.load(renderingProcess);
 
     auto pNormal   = d3d::texture_manager::get().find("houseN.jpg");
     auto pSpecular = d3d::texture_manager::get().find("feisar-specular.jpg");
@@ -598,6 +616,7 @@ int main()
     // 3.6 - Camera
     Entity camera("cameras/main.camera");
     gameplay::component_serializer<gpc::DefaultComponentTypes>::deserialize(camera);
+    //camera.use<scene_node>();
 
     Entity entityTest("archetypes/test.archetype");
     gameplay::component_serializer<gpc::DefaultComponentTypes>::deserialize(entityTest);
@@ -629,7 +648,7 @@ int main()
     pHighQualitySampler->setFiltering(opengl::sampler::eBM_NearFar, opengl::sampler::eMM_Trilinear, opengl::capabilities::value_of<float>(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT));
     // Custom
     std::shared_ptr<opengl::sampler> pCustomSampler = std::make_shared<opengl::sampler>();
-    pCustomSampler->setFiltering(opengl::sampler::eBilinearMode(pRendererConfig->bilinearMode), opengl::sampler::eMipmappingMode(pRendererConfig->mipmappingMode), pRendererConfig->maxAnisotropy);
+    pCustomSampler->setFiltering(opengl::sampler::eBilinearMode(int(pRendererConfig->bilinearMode)), opengl::sampler::eMipmappingMode(int(pRendererConfig->mipmappingMode)), pRendererConfig->maxAnisotropy);
 
 
     renderingProcess.setSamplers(pLowQualitySampler, pHighQualitySampler);
@@ -670,12 +689,18 @@ int main()
 
     std::thread t2([&directoryListeners]() { WatchDirectory( directoryListeners ); });
 
-    auto ships = spawn_ships(10);
-
-    for (auto &ship : ships)
-    {
-        renderingProcess.add(&ship);
-    }
+//     auto ships = spawn_ships(1000);
+// 
+//     ships[0].get<scene_node>()->parentIndex = 0;
+//     ships[0].get<scene_node>()->depth = 1;
+//     ships[0].get<transform>()->position = math::vector3f(0.0f, 10.0f, -6.0f);
+//     sceneGraphProcess.add(&camera);
+// 
+//     for (auto &ship : ships)
+//     {
+//         sceneGraphProcess.add(&ship);
+//         renderingProcess.add(&ship);
+//     }
 
     // 4 - Run app
     while( pDevice->run() )
@@ -739,7 +764,7 @@ int main()
                 );
                 vp = v*p;
 
-                pRendererConfig = game::resources::open_config<renderer_cfg>("renderer.config");
+                pRendererConfig = game::resources::open_config<renderer_config>("renderer.config");
                 const math::vector3f &cc = pRendererConfig->clearColor;
                 glClearColor(cc[0], cc[1], cc[2], 1.0f);
                 /**/
@@ -877,7 +902,8 @@ int main()
             }
         }
 
-        w = math::make_rotation(math::degree(currentAngle), math::vector3f::z_axis);
+        w = math::make_rotation(math::degree(currentAngle), math::vector3f::y_axis);
+        //ships[0].get<transform>()->orientation = math::make_quaternion(math::degree(currentAngle), math::vector3f::y_axis);
         wvp = w*vp;
 
         sc.execute();
@@ -885,8 +911,9 @@ int main()
         pDriver->beginFrame();
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+        sceneGraphProcess.execute(0.0f);
         //cameraTransform->position.y = 1.8f;
-        renderingProcess.setMatrixInfos(vp, cameraTransform->position);
+        renderingProcess.setMatrixInfos(vp, camera);
         renderingProcess.execute(0.0f);
 
         glDisable(GL_DEPTH_TEST);
