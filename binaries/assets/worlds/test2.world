@@ -215,7 +215,7 @@
 		},
 		
 		"visual_mesh": {
-			"file"			: 	"meshes/cube.mesh"
+			"file"			: 	"meshes/cow.mesh"
 		},
 		
 		"texture": {
@@ -238,7 +238,7 @@
 		},
 		
 		"visual_mesh": {
-			"file"			: 	"meshes/cube.mesh"
+			"file"			: 	"meshes/cow.mesh"
 		},
 		
 		"texture": {
