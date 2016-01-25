@@ -53,12 +53,11 @@ namespace djah { namespace opengl {
 	//----------------------------------------------------------------------------------------------
 	void sampler::unbindFromAll() const
 	{
-		std::for_each(boundTextureUnits_.begin(), boundTextureUnits_.end(),
-			[&](unsigned int textureUnit)
-		{
-			unbindFromUnit(textureUnit);
-		});
-
+        for (auto textureUnit : boundTextureUnits_)
+        {
+            unbindFromUnit(textureUnit);
+        }
+        
 		check( boundTextureUnits_.empty() );
 	}
 	//----------------------------------------------------------------------------------------------

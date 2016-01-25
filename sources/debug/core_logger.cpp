@@ -9,13 +9,14 @@
 namespace djah { namespace debug {
 
 	//----------------------------------------------------------------------------------------------
-	eLogSeverity basic_record::currentSeverity = notification;
+    eLogSeverity basic_record::sCurrentSeverity_ = notification;
 	//----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------
 	core_logger::core_logger()
-	{
+    {
+        DJAH_LOG_TODO("Launch new thread running consume() function");
 		records_.reserve(20);
 	}
 	//----------------------------------------------------------------------------------------------
@@ -30,7 +31,9 @@ namespace djah { namespace debug {
 
 	//----------------------------------------------------------------------------------------------
 	void core_logger::addSink(const sink_ptr &pSink)
-	{
+    {
+        DJAH_LOG_TODO("Lock sinks");
+        // std::unique_lock lock(sinkLock);
 		sinks_.push_back(pSink);
 	}
 	//----------------------------------------------------------------------------------------------
@@ -38,7 +41,9 @@ namespace djah { namespace debug {
 
 	//----------------------------------------------------------------------------------------------
 	void core_logger::removeSink(const sink_ptr &pSink)
-	{
+    {
+        DJAH_LOG_TODO("Lock sinks");
+        // std::unique_lock lock(sinkLock);
 		auto it = std::find(sinks_.begin(), sinks_.end(), pSink);
 		if( it != sinks_.end() )
 		{
@@ -50,7 +55,9 @@ namespace djah { namespace debug {
 
 	//----------------------------------------------------------------------------------------------
 	basic_record& core_logger::openRecord(const std::string &channels, eLogSeverity severity, int line, const char *file)
-	{
+    {
+        DJAH_LOG_TODO("Notify condition variable");
+        // cv.notify_all();
 		basic_record rec( channels, severity, line, file, stack_trace(), static_cast<unsigned int>(::time(nullptr)) );
 		records_.push_back(rec);
 		return records_.back();
@@ -60,13 +67,13 @@ namespace djah { namespace debug {
 
 	//----------------------------------------------------------------------------------------------
 	void core_logger::log(const basic_record &rec)
-	{
-		auto itEnd = sinks_.end();
-		for( auto it = sinks_.begin(); it != itEnd; ++it )
+    {
+        DJAH_LOG_TODO("Lock sinks");
+		for( auto upSink : sinks_ )
 		{
-			if( (*it)->passFilter(rec) )
+            if (upSink->passFilter(rec))
 			{
-				(*it)->consume(rec);
+                upSink->consume(rec);
 			}
 		}
 	}
@@ -76,11 +83,16 @@ namespace djah { namespace debug {
 	//----------------------------------------------------------------------------------------------
 	void core_logger::consume()
 	{
-        DJAH_LOG_TODO("Run this in a separate thread and turn records_ into a blocking FIFO queue");
+        DJAH_LOG_TODO("Run this in a separate thread and turn records_ into a concurrent FIFO queue");
         /*
         while( !done )
         {
-            check(!records_.empty());
+            // Wait until something is logged in
+            while(records.empty())
+            {
+                cv.wait();
+            }
+
             std::unique_lock lock(m);
             {
                 const basic_record &record = records_.top();
@@ -89,10 +101,10 @@ namespace djah { namespace debug {
             }
         }
         */
-		auto itEnd = records_.end();
-		for( auto it = records_.begin(); it != itEnd; ++it )
+
+		for( const auto &rec : records_ )
 		{
-			log(*it);
+			log(rec);
 		}
 		records_.clear();
 	}
