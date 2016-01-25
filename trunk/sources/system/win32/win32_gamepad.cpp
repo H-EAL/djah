@@ -38,7 +38,7 @@ namespace djah { namespace system { namespace input {
 		if( !plugged_ )
 			return;
 
-		name_ = "X360_Controller_0";
+		name_ = "X360_Controller_" + std::to_string(id_);
 
 		// Buttons
 		buttons_.reserve(eX360_ButtonsCount);

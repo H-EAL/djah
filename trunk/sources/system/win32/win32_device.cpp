@@ -204,16 +204,16 @@ namespace djah { namespace system {
 			return false;
 
 		// Take into account borders
-		int real_width  = width  + (GetSystemMetrics(SM_CXFIXEDFRAME) * 2);
-		int real_height = height + GetSystemMetrics(SM_CYCAPTION) + (GetSystemMetrics(SM_CYFIXEDFRAME) * 2);
+		int realWidth  = width  + (GetSystemMetrics(SM_CXFIXEDFRAME) * 2);
+		int realHeight = height + GetSystemMetrics(SM_CYCAPTION) + (GetSystemMetrics(SM_CYFIXEDFRAME) * 2);
 
 		// Center on the screen
-		int pos_x = (GetSystemMetrics(SM_CXSCREEN) - real_width)  / 2;
-		int pos_y = (GetSystemMetrics(SM_CYSCREEN) - real_height) / 2;
+		int posX = (GetSystemMetrics(SM_CXSCREEN) - realWidth)  / 2;
+		int posY = (GetSystemMetrics(SM_CYSCREEN) - realHeight) / 2;
 
 		SetWindowLongPtr(hWindow_, GWL_STYLE,
 			WS_VISIBLE | WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX);
-		MoveWindow(hWindow_, pos_x, pos_y, real_width, real_height, TRUE);
+		MoveWindow(hWindow_, posX, posY, realWidth, realHeight, TRUE);
 
 		return true;
 	}

@@ -98,7 +98,7 @@ namespace djah { namespace system {
 
 
 	//----------------------------------------------------------------------------------------------
-	gl_context::gl_context(device *pDevice, const  driver_config_sptr &_pConfig, gl_context *pSharedContext)
+	gl_context::gl_context(device *pDevice, const driver_config_sptr &_pConfig, gl_context *pSharedContext)
 		: successfullyCreated_(false)
 		, pConfig_(_pConfig)
 		, pImpl_( new context_impl )
@@ -154,13 +154,13 @@ namespace djah { namespace system {
 	//----------------------------------------------------------------------------------------------
 
 
-	//-------------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
 	void gl_context::setVSync(bool enabled)
 	{
 		DJAH_SYSTEM_NOTIFICATION() << (enabled ? "Enabling" : "Disabling") << " VSync" << DJAH_END_LOG();
 		wglSwapIntervalEXT(enabled ? 1 : 0);
-	}
-	//-------------------------------------------------------------------------------------------------
+    }
+    //----------------------------------------------------------------------------------------------
 
 
 	//----------------------------------------------------------------------------------------------

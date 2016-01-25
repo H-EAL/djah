@@ -116,9 +116,8 @@ namespace djah { namespace debug {
 
 
 	//----------------------------------------------------------------------------------------------
-	bool assert_and_return_false(const char *file, int line, const char *expression)
+    bool assert_and_return_false(eAssertResult assertResult)
 	{
-		const eAssertResult assertResult = assert_function(file, line, expression);
 		if( assertResult == djah::debug::eAR_Retry )
 		{
 			debugger_break();
