@@ -42,19 +42,20 @@ namespace djah { namespace debug {
 		(
 			const std::string &_channels = "any",
 			eLogSeverity _severity = notification,
-			unsigned int _line = 0, const std::string &_file = "",
+			unsigned int _line = 0,
+            const std::string &_file = "",
 			const std::string &_stackTrace = "",
 			unsigned int _timestamp = 0
 		)
 		: channels_(_channels)
-		, severity_(_severity == use_last ? currentSeverity : _severity)
+        , severity_(_severity == use_last ? sCurrentSeverity_ : _severity)
 		, line_(_line)
 		, file_(_file)
 		, stackTrace_(_stackTrace)
 		, timestamp_(_timestamp)
 		, message_("")
 		{
-			currentSeverity = severity_;
+            sCurrentSeverity_ = severity_;
 		}
 
 
@@ -76,7 +77,7 @@ namespace djah { namespace debug {
 		unsigned int timestamp_;
 		std::string	 message_;
 
-		static eLogSeverity currentSeverity;
+		static eLogSeverity sCurrentSeverity_;
 	};
 
 	template<typename T>

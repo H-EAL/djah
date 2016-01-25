@@ -181,7 +181,7 @@ namespace djah { namespace gameplay {
     //		---------------------------------------------------------------
     //
     //--------------------------------------------------------------------------------------------------
-    template<typename ComponentsTypeList>
+    template<template<typename> class DataBase, typename ComponentsTypeList>
     class components_punch_card
         : public gen_scatter_hierarchy<ComponentsTypeList, component_index>
     {
@@ -190,19 +190,19 @@ namespace djah { namespace gameplay {
         components_punch_card() = default;
 
         //----------------------------------------------------------------------------------------------
-        components_punch_card(const components_punch_card &src) = delete;
+        components_punch_card(const components_punch_card<DataBase, ComponentsTypeList> &src) = delete;
 
         //----------------------------------------------------------------------------------------------
-        components_punch_card<ComponentsTypeList>& operator =(const components_punch_card<ComponentsTypeList> &rhs) = delete;
+        components_punch_card<DataBase, ComponentsTypeList>& operator =(const components_punch_card<DataBase, ComponentsTypeList> &rhs) = delete;
 
         //----------------------------------------------------------------------------------------------
-        components_punch_card(components_punch_card &&src)
+        components_punch_card(components_punch_card<DataBase, ComponentsTypeList> &&src)
         {
             components_punch_card_visitor<ComponentsTypeList>::move(src, *this);
         }
 
         //----------------------------------------------------------------------------------------------
-        components_punch_card<ComponentsTypeList>& operator =(components_punch_card<ComponentsTypeList> &&rhs)
+        components_punch_card<DataBase, ComponentsTypeList>& operator =(components_punch_card<DataBase, ComponentsTypeList> &&rhs)
         {
             if (this != &rhs)
             {
@@ -218,13 +218,13 @@ namespace djah { namespace gameplay {
         }
 
         //----------------------------------------------------------------------------------------------
-        void clone(components_punch_card<ComponentsTypeList> &dst) const
+        void clone(components_punch_card<DataBase, ComponentsTypeList> &dst) const
         {
             components_punch_card_visitor<ComponentsTypeList>::clone(*this, dst);
         }
         
         //----------------------------------------------------------------------------------------------
-        void merge(const components_punch_card<ComponentsTypeList> &src)
+        void merge(const components_punch_card<DataBase, ComponentsTypeList> &src)
         {
             components_punch_card_visitor<ComponentsTypeList>::merge(src, *this);
         }
@@ -245,7 +245,7 @@ namespace djah { namespace gameplay {
 
         //----------------------------------------------------------------------------------------------
         template<typename UseComponents>
-        components_punch_card<ComponentsTypeList>& useList()
+        components_punch_card<DataBase, ComponentsTypeList>& useList()
         {
             components_punch_card_visitor<UseComponents>::use(*this);
             return (*this);
@@ -253,7 +253,7 @@ namespace djah { namespace gameplay {
 
         //----------------------------------------------------------------------------------------------
         template<typename ComponentType>
-        components_punch_card<ComponentsTypeList>& use(const ComponentType &comp = ComponentType())
+        components_punch_card<DataBase, ComponentsTypeList>& use(const ComponentType &comp = ComponentType())
         {
             check( !isUsing<ComponentType>() );
             component_index<ComponentType>::cid_ = db().add<ComponentType>(comp);
@@ -264,7 +264,7 @@ namespace djah { namespace gameplay {
 
         //----------------------------------------------------------------------------------------------
         template<typename ComponentType>
-        components_punch_card<ComponentsTypeList>& stopUsing()
+        components_punch_card<DataBase, ComponentsTypeList>& stopUsing()
         {
             check( isUsing<ComponentType>() );
 
@@ -290,17 +290,24 @@ namespace djah { namespace gameplay {
 
         //----------------------------------------------------------------------------------------------
         template<typename ComponentType>
-        void moveTo(components_punch_card<ComponentsTypeList> &dst)
+        void moveTo(components_punch_card<DataBase, ComponentsTypeList> &dst)
         {
             dst.component_index<ComponentType>::cid_ = component_index<ComponentType>::cid_;
             component_index<ComponentType>::cid_ = INVALID_COMPONENT_ID;
+        }
+
+        //----------------------------------------------------------------------------------------------
+        template<typename ComponentType>
+        inline ComponentID getID() const
+        {
+            return component_index<ComponentType>::cid_;
         }
 
     private:
         //----------------------------------------------------------------------------------------------
         static inline components_database<ComponentsTypeList>& db()
         {
-            static components_database<ComponentsTypeList> sDB;
+            static DataBase<ComponentsTypeList> sDB;
             return sDB;
             //return components_database<ComponentsTypeList>::get();
         }

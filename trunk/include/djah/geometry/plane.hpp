@@ -9,7 +9,6 @@ namespace djah { namespace geometry {
 	class plane
 	{
 	public:
-
 		// Init with a normal and a distance from the origin
 		plane(const math::vector3<T> &normal, T distance);
 		// Init with the plane equation ax + by + cz + d = 0
@@ -48,7 +47,6 @@ namespace djah { namespace geometry {
 
 
 	private:
-
 		math::vector<3,T>	normal_;
 		T					distance_;
 	};

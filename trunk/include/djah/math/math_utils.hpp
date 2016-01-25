@@ -26,7 +26,7 @@ namespace djah { namespace math {
 	template<typename T>
 	inline T rotate(T toRotate, T _min, T _max)
 	{
-		return (toRotate > _max) ? (toRotate - _max) : toRotate;
+		return (toRotate > _max) ? _min + (toRotate - _max) : toRotate;
 	}
 	//----------------------------------------------------------------------------------------------
 

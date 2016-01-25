@@ -40,13 +40,13 @@ namespace djah { namespace utils {
 
 	protected:
 		// Only derived classes can access ctor/dtor
-		singleton()  {}
-		~singleton() {}
+        singleton() = default;
+        ~singleton() = default;
 
 	private:
 		// No copy
-		singleton(const singleton &);
-		void operator =(const singleton &);
+        singleton(const singleton &) = delete;
+        void operator =(const singleton &) = delete;
 
 		// Unique instance
 		static T *pInstance_;

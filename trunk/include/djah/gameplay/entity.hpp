@@ -3,13 +3,14 @@
 
 #include <string>
 #include <iostream>
+#include "djah/gameplay/components_database.hpp"
 #include "djah/gameplay/components_punch_card.hpp"
 
 namespace djah { namespace gameplay {
 
     template<typename ComponentsTypeList>
     class entity_t
-        : public components_punch_card<ComponentsTypeList>
+        : public components_punch_card<components_database, ComponentsTypeList>
     {
     public:
         //----------------------------------------------------------------------------------------------
@@ -17,13 +18,6 @@ namespace djah { namespace gameplay {
             : name_(goName)
             , enabled_(true)
         {
-            std::cout << "Constructor " << name_ << std::endl;
-        }
-
-        //----------------------------------------------------------------------------------------------
-        ~entity_t()
-        {
-            std::cout << "Destructor " << name_ << std::endl;
         }
 
         //----------------------------------------------------------------------------------------------
@@ -34,11 +28,10 @@ namespace djah { namespace gameplay {
 
         //----------------------------------------------------------------------------------------------
         entity_t(entity_t<ComponentsTypeList> &&rhs)
-            : components_punch_card<ComponentsTypeList>(std::move(rhs))
+            : components_punch_card<components_database, ComponentsTypeList>(std::move(rhs))
             , name_(rhs.name_)
             , enabled_(rhs.enabled_)
         {
-            std::cout << "Move Constructor " << name_ << std::endl;
         }
 
         //----------------------------------------------------------------------------------------------
@@ -46,8 +39,6 @@ namespace djah { namespace gameplay {
         {
             if (this != &rhs)
             {
-                std::cout << "Move Assignment Operator " << name_ << " = " << rhs.name_ << std::endl;
-
                 name_ = rhs.name_;
                 enabled_ = rhs.enabled_;
                 components_punch_card_visitor<ComponentsTypeList>::move(rhs, *this);
@@ -59,7 +50,7 @@ namespace djah { namespace gameplay {
         entity_t clone(const std::string &cloneName = "")
         {
             entity_t _clone(cloneName.empty() ? name_ + "_clone" : cloneName);
-            components_punch_card<ComponentsTypeList>::clone(_clone);
+            components_punch_card<components_database, ComponentsTypeList>::clone(_clone);
             return _clone;
         }
 
