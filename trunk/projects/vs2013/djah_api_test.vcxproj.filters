@@ -52,6 +52,9 @@
     <ClCompile Include="..\..\tests\sources\game\components\enum_test.cpp">
       <Filter>game</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\tests\sources\game\components\scene_node.cpp">
+      <Filter>game\components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\tests\sources\game\components\action_map.hpp">
@@ -111,12 +114,21 @@
     <ClInclude Include="..\..\tests\sources\game\components\enum_test.hpp">
       <Filter>game</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\tests\sources\game\components\scene_node.hpp">
+      <Filter>game\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\tests\sources\game\processes\scene_graph_process.hpp">
+      <Filter>game\processes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\tests\sources\game\components\enum_texture_filter.enum">
       <Filter>game</Filter>
     </None>
     <None Include="..\..\tests\sources\game\components\enum_test.enum">
+      <Filter>game</Filter>
+    </None>
+    <None Include="..\..\tests\sources\game\components_registry.inl">
       <Filter>game</Filter>
     </None>
   </ItemGroup>

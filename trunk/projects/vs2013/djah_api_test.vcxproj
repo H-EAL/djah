@@ -14,6 +14,7 @@
     <ClCompile Include="..\..\tests\sources\game\components\action_map.cpp" />
     <ClCompile Include="..\..\tests\sources\game\components\enum_test.cpp" />
     <ClCompile Include="..\..\tests\sources\game\components\fov.cpp" />
+    <ClCompile Include="..\..\tests\sources\game\components\scene_node.cpp" />
     <ClCompile Include="..\..\tests\sources\game\components\texture.cpp" />
     <ClCompile Include="..\..\tests\sources\game\components\transform.cpp" />
     <ClCompile Include="..\..\tests\sources\game\components\visual_mesh.cpp" />
@@ -27,12 +28,14 @@
     <ClInclude Include="..\..\tests\sources\game\components\action_map.hpp" />
     <ClInclude Include="..\..\tests\sources\game\components\enum_test.hpp" />
     <ClInclude Include="..\..\tests\sources\game\components\fov.hpp" />
+    <ClInclude Include="..\..\tests\sources\game\components\scene_node.hpp" />
     <ClInclude Include="..\..\tests\sources\game\components\texture.hpp" />
     <ClInclude Include="..\..\tests\sources\game\components\transform.hpp" />
     <ClInclude Include="..\..\tests\sources\game\components\visual_mesh.hpp" />
     <ClInclude Include="..\..\tests\sources\game\components_registry.hpp" />
     <ClInclude Include="..\..\tests\sources\game\processes\actions_process.hpp" />
     <ClInclude Include="..\..\tests\sources\game\processes\rendering_process.hpp" />
+    <ClInclude Include="..\..\tests\sources\game\processes\scene_graph_process.hpp" />
     <ClInclude Include="..\..\tests\sources\game\resources\config_object.hpp" />
     <ClInclude Include="..\..\tests\sources\game\resources\data_object_loader.hpp" />
     <ClInclude Include="..\..\tests\sources\game\resources\default_asset_finder.hpp" />
@@ -47,6 +50,7 @@
   <ItemGroup>
     <None Include="..\..\tests\sources\game\components\enum_test.enum" />
     <None Include="..\..\tests\sources\game\components\enum_texture_filter.enum" />
+    <None Include="..\..\tests\sources\game\components_registry.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{73E0D0FA-C047-45B0-AC6F-35780607893C}</ProjectGuid>
@@ -100,7 +104,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\..\lib\win32\;..\..\..\extlibs\lib\win32\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\lib\win32\;..\..\..\extlibs\lib\win32\vs2013\</AdditionalLibraryDirectories>
       <AdditionalDependencies>djah_system-d.lib;djah_filesystem-d.lib;djah_opengl-d.lib;djah_debug-d.lib;djah_resources-d.lib;djah_core-d.lib;djah_3d-d.lib;opengl32.lib;SOIL_d.lib;freetype.lib;winmm.lib;dbghelp.lib;XInput.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -120,8 +124,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>..\..\lib\win32\;..\..\..\extlibs\lib\win32\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>djah_system.lib;djah_filesystem.lib;djah_opengl.lib;djah_debug.lib;djah_resources.lib;djah_core.lib;djah_3d.lib;djah_gameplay.lib;opengl32.lib;SOIL.lib;freetype.lib;winmm.lib;dbghelp.lib;XInput.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\lib\win32\;..\..\..\extlibs\lib\win32\vs2013\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>djah_system.lib;djah_filesystem.lib;djah_opengl.lib;djah_debug.lib;djah_resources.lib;djah_core.lib;djah_3d.lib;opengl32.lib;SOIL.lib;freetype.lib;winmm.lib;dbghelp.lib;XInput.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
