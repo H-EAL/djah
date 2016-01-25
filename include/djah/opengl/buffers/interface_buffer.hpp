@@ -7,7 +7,7 @@ namespace djah { namespace opengl {
 
 		class buffer
 		{
-		public:
+		protected:
 			buffer() {}
 			virtual ~buffer() {}
 

@@ -16,6 +16,15 @@ namespace djah { namespace opengl {
         return gl_context::get_current()->caps().isMinVersion(Policy::MajorVersion, Policy::MinorVersion)
             || gl_context::get_current()->caps().hasExtensions(Policy::Extensions)
     }
+
+    class buffer_allocator
+    {
+    public:
+        std::unique_ptr<interface::buffer> create()
+        {
+            
+        }
+    };
     
     //////////////////////////////////////////////////////////////////////////
     class buffer

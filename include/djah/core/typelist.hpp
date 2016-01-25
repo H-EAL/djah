@@ -103,6 +103,61 @@ namespace djah {
 		//------------------------------------------------------------------------------------------
 
 
+        //------------------------------------------------------------------------------------------
+        // Returns the index of the specified type
+        //------------------------------------------------------------------------------------------
+        template<typename TL, typename Type> struct index_of_type;
+        //------------------------------------------------------------------------------------------
+        template<typename Head, typename Tail>
+        struct index_of_type<typelist<Head, Tail>, Head>
+        {
+            enum { result = 0 };
+        };
+        //------------------------------------------------------------------------------------------
+        template<typename Head, typename Tail, typename Type>
+        struct index_of_type<typelist<Head, Tail>, Type>
+        {
+            enum { result = 1 + index_of_type<Tail, Type>::result };
+        };
+        //------------------------------------------------------------------------------------------
+
+
+        //------------------------------------------------------------------------------------------
+        // Returns the index of the specified type
+        //------------------------------------------------------------------------------------------
+        template<typename TL, typename Type> struct index_of_type_non_strict;
+        //------------------------------------------------------------------------------------------
+        template<typename Type>
+        struct index_of_type_non_strict<nulltype, Type>
+        {
+            enum { result = -1 };
+        };
+        //------------------------------------------------------------------------------------------
+        template<typename Head, typename Tail>
+        struct index_of_type_non_strict<typelist<Head, Tail>, Head>
+        {
+            enum { result = 0 };
+        };
+        //------------------------------------------------------------------------------------------
+        template<typename Head, typename Tail, typename Type>
+        struct index_of_type_non_strict<typelist<Head, Tail>, Type>
+        {
+        private:
+            template<int i>
+            struct tmp { enum { value = 1 + i }; };
+
+            template<>
+            struct tmp<-1> { enum { value = -1}; };
+
+        public:
+            enum
+            {
+                result = tmp<index_of_type_non_strict<Tail, Type>::result>::value
+            };
+        };
+        //------------------------------------------------------------------------------------------
+
+
 		//------------------------------------------------------------------------------------------
 		// Append a typelist to an other
 		//------------------------------------------------------------------------------------------

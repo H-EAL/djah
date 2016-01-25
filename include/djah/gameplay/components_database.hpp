@@ -128,9 +128,10 @@ namespace djah { namespace gameplay {
 		template<typename ComponentType>
 		inline void remove(ComponentID cid)
 		{
+			typename component<ComponentType>::component_data compData = { 0, ComponentType() };
+
 			check(cid < components_container<ComponentType>::components_.size());
-            components_container<ComponentType>::components_[cid].creationTimestamp = 0;
-            components_container<ComponentType>::components_[cid].componentData.~ComponentType();
+            components_container<ComponentType>::components_[cid] = compData;
 			components_container<ComponentType>::freeSpots_.push(cid);
 		}
 	};
