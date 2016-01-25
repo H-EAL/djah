@@ -225,7 +225,8 @@
 		"uv_modifier": {
 			"scale"			:	[20, 20],
 			"offset"		:	[0, 0],
-			"velocity"		:	[0.0, -0.01]
+			"velocity"		:	[0.0, -0.01],
+			"textureFilter" :	["TextureFilter_Trilinear"]
 		}
 	},
 	
@@ -247,7 +248,8 @@
 		"uv_modifier": {
 			"scale"			:	[1000, 1000],
 			"offset"		:	[0, 0],
-			"velocity"		:	[0.0, 0.0]
+			"velocity"		:	[0.0, 0.0],
+			"textureFilter" :	["TextureFilter_Trilinear"]
 		}
 	}
 }
