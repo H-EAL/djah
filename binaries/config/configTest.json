@@ -1,0 +1,14 @@
+{
+	"majorVersion"					: 4,
+	"minorVersion"					: 0,
+	
+	"enableDebug"					: false,
+	
+	"vsync"							: false,
+	
+	"enableCompatibilityProfile"	: true,
+	
+	"color"							: [1.0, 0.0, 9.9],
+	
+	"textureFilter"					: ["TextureFilter_Bilinear"]
+}
